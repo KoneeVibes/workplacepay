@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+
 export const H1 = styled.h1(() =>{
     return `
     font-family: Avenir-next;
@@ -44,7 +45,7 @@ export const H2 = styled.h3(() =>{
 
 export const A = styled.a(() =>{
     return `
-    font-family: Work-sans;
+    font-family: Work sans;
     font-weight: 800;
     font-size: 12px;
     overflow: hidden;
