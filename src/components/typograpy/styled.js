@@ -1,18 +1,18 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 
-export const H1 = styled.h1(() =>{
+export const H1 = styled.h1(() => {
     return `
     font-family: Avenir-next;
     font-weight: 700;
     font-size: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
-    ` 
+    `
 })
 
-export const P = styled.p(() =>{
-    return`
+export const P = styled.p(() => {
+    return `
     font-family: Avenir-next;
     font-weight: 700;
     font-size: 40px;
@@ -22,8 +22,8 @@ export const P = styled.p(() =>{
     `
 })
 
-export const H3 = styled.h3(() =>{
-    return`
+export const H3 = styled.h3(() => {
+    return `
     font-family: Work sans;
     font-weight: 700;
     font-size: 18px;
@@ -33,7 +33,7 @@ export const H3 = styled.h3(() =>{
     `
 })
 
-export const H2 = styled.h3(() =>{
+export const H2 = styled.h3(() => {
     return `
     font-family: Aventir-next;
     font-weight: 700;
@@ -43,7 +43,18 @@ export const H2 = styled.h3(() =>{
     `
 })
 
-export const A = styled.a(() =>{
+export const Span = styled.span(() => {
+    return `
+        font-family: Poppins;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    `
+})
+
+export const A = styled.a(() => {
     return `
     font-family: Work sans;
     font-weight: 800;
@@ -53,17 +64,16 @@ export const A = styled.a(() =>{
     `
 })
 
-export const L1 = styled.l1(() =>{
+export const Li = styled.li(() => {
     return `
     font-family: Work sans;
     font-weight: 400;
     font-size: 16px;
-
-        `
+`
 })
 
-export const Label = styled.label(() =>{
-    return`
+export const Label = styled.label(() => {
+    return `
     font-family: Work sans;
     font-weight: 600;
     font-size: 16px;
@@ -74,8 +84,8 @@ export const Label = styled.label(() =>{
     `
 })
 
-export const Td = styled.td(() =>{
-    return`
+export const Td = styled.td(() => {
+    return `
     font-family: Work sans;
     font-size: 14px;
     font-weight: 500;
@@ -84,7 +94,7 @@ export const Td = styled.td(() =>{
     `
 })
 
-export const Th = styled.th(() =>{
+export const Th = styled.th(() => {
     return `
     font-family: Work sans;
     font-size: 14px;
