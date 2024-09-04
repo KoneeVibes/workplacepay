@@ -4,16 +4,19 @@ import styled from "styled-components";
 export const HeroWrapper = styled("div")(() => {
   return {
     // Newton, your CSS styling should begin below this line
-    ".container": {
+    ".container":{
+      margin: "calc(var(--sectionMargin)) var(--pagePadding)",
+    },
+    ".hero": {
       textAlign: "center",
-      width: "95%",
+      width: "68%",
       margin: "auto",
     },
 
     p: {
       maxWidth: "77%",
       margin: "auto",
-      marginBottom: "var(--sectionMargin)",
+      marginBottom: "2rem",
     },
 
     ".hero-button": {

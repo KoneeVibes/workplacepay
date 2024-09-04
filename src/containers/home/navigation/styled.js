@@ -6,7 +6,7 @@ export const NavbarWrapper = styled(BaseFlex)(() => {
         // ofofon you css styling should begin below this line
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "calc(var(--cardPadding)) var(--pagePadding)",
+        margin: "calc(var(--sectionMargin)) var(--pagePadding)",
         "& .hamburger-icon": {
             overflow: "hidden",
         },

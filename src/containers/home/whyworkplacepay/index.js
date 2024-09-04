@@ -6,6 +6,7 @@ export const WhyWorkPlacePay = () => {
   return (
     <WhyWorkPlacePayWrapper>
       {/* Ibukun your html code should begin below this line */}
+      <div className="container">
       <div className="second-hero">
         <img src={heroImage} alt="diplomatic agreement" />
         <div className="second-hero-text-section">
@@ -23,6 +24,7 @@ export const WhyWorkPlacePay = () => {
           </p>
           <BaseButton>Get Started</BaseButton>
         </div>
+      </div>
       </div>
     </WhyWorkPlacePayWrapper>
   );
