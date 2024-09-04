@@ -1,26 +1,26 @@
 import styled from "styled-components";
-import { BaseButton } from "../../../components/buttons";
+
 
 export const HeroWrapper = styled("div")(() => {
   return {
     // Newton, your CSS styling should begin below this line
     ".container": {
       textAlign: "center",
-      width: "68%",
+      width: "95%",
       margin: "auto",
     },
 
     p: {
       maxWidth: "77%",
       margin: "auto",
-      marginBottom: "2rem",
+      marginBottom: "var(--sectionMargin)",
     },
 
     ".hero-button": {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
-      gap: "2rem",
+      gap: "var(--flexGap)",
       justifyContent: "center",
       alignItems: "center",
     },
