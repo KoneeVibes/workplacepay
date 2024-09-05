@@ -1,46 +1,24 @@
 import styled from "styled-components";
+import { Row } from "../../../components/flex/styled";
 
-export const WhyWorkPlacePayWrapper = styled("div")(() => {
+export const WhyWorkPlacePayWrapper = styled(Row)(() => {
   return {
     // Ibukun, your CSS styling should begin below this line
-    ".container":{
-      margin:"calc(var(--sectionMargin)) var(--pagePadding)",
+    margin: "calc(var(--sectionMargin) * 3) 0",
+    padding: "0 var(--pagePadding)",
+    gap: "calc(var(--flexGap) * 2)",
+    ".hero-img, .hero-text": {
+      flex: 1,
     },
-    ".second-hero": {
-      textAlign: "left",
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-      alignItems: "center",
-      width: "60%",
-      margin: "0 auto",
-      marginTop: "calc(var(--sectionMargin)*2)",
+    ".hero-img>img": {
+      width: "100%",
     },
-    ".second-hero-text-section": {
-      width: "40%",
+    ".hero-text>h2, .hero-text>h3, .hero-text>p ": {
+      marginBlock: 0,
     },
-    h4: {
-      fontSize: "2rem",
-      fontWeight: "800",
-      margin: "0",
-      padding: "0",
-    },
-    ".hero-paragraph": {
-      color: "grey",
-      fontSize: "1.5rem",
-      fontWeight: "400",
-      padding: "0",
-      marginTop: "var(--sectionMargin)",
-      marginBottom: "calc(var(--sectionMargin)/3)",
-    },
-    ".second-hero-paragraph": {
-      fontSize: ".9rem",
-      padding: "0",
-      marginTop: "0",
-      marginBottom: "calc(var(--sectionMargin)/3)",
-    },
-    img: {
-      width: "52%",
+    ".hero-text": {
+      gap: "calc(var(--flexGap)/2)",
+      overflow: "hidden",
     },
   };
 });
