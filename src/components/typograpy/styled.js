@@ -54,7 +54,7 @@ export const Span = styled.span(() => {
 
 export const A = styled.a(() => {
     return `
-    font-family: Work sans;
+    font-family: Poppins;
     font-weight: 800;
     font-size: 12px;
     overflow: hidden;
@@ -64,7 +64,7 @@ export const A = styled.a(() => {
 
 export const Li = styled.li(() => {
     return `
-    font-family: Work sans;
+    font-family: Poppins;
     font-weight: 400;
     font-size: 16px;
 `
@@ -72,11 +72,10 @@ export const Li = styled.li(() => {
 
 export const Label = styled.label(() => {
     return `
-    font-family: Work sans;
+    font-family: Poppins;
     font-weight: 600;
     font-size: 16px;
     line-hieght: 16.42px;
-    text-alighn: left;
     overflow: hidden;
     text-overflow: ellipsis;
     `
@@ -84,7 +83,7 @@ export const Label = styled.label(() => {
 
 export const Td = styled.td(() => {
     return `
-    font-family: Work sans;
+    font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
     overflow: hidden;
@@ -94,7 +93,7 @@ export const Td = styled.td(() => {
 
 export const Th = styled.th(() => {
     return `
-    font-family: Work sans;
+    font-family: Poppins;
     font-size: 14px;
     font-weight: 600;
     overflow: Hidden;
