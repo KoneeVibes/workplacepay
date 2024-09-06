@@ -4,7 +4,7 @@ import { Row } from "../../../components/flex/styled";
 export const WhyWorkPlacePayWrapper = styled(Row)(() => {
   return {
     // Ibukun, your CSS styling should begin below this line
-    margin: "calc(var(--sectionMargin) * 3) 0",
+    margin: "calc(var(--sectionMargin) * 2) 0",
     padding: "0 var(--pagePadding)",
     gap: "calc(var(--flexGap) * 2)",
     ".hero-img, .hero-text": {
@@ -20,5 +20,8 @@ export const WhyWorkPlacePayWrapper = styled(Row)(() => {
       gap: "calc(var(--flexGap)/2)",
       overflow: "hidden",
     },
+    "@media screen and (min-width: 1024px)": {
+      margin: "calc(var(--sectionMargin) * 3) 0",
+    }
   };
 });

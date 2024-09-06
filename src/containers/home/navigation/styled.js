@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { BaseFlex } from "../../../components/flex/styled";
+import { useContext } from "react";
+import { Context } from "../../../context";
 
 export const NavbarWrapper = styled(BaseFlex)(() => {
     return {
@@ -26,7 +28,8 @@ export const NavbarWrapper = styled(BaseFlex)(() => {
     }
 });
 
-export const NavLinksWrapper = styled(BaseFlex)(({ isMenuOpen }) => {
+export const NavLinksWrapper = styled(BaseFlex)(() => {
+    const { isMenuOpen } = useContext(Context);
     return {
         justifyContent: "space-between",
         "& a": {

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { Context } from "../../../context/index";
 import { HashLink } from "react-router-hash-link";
 import { Logo } from "../../../assets";
 import { navLinks } from "../../../config/navlinks/home";
@@ -8,7 +9,7 @@ import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Span } from "../../../components/typograpy/styled";
 
 export const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isMenuOpen, setIsMenuOpen } = useContext(Context);
     const handleHamburgerClick = () => {
         setIsMenuOpen(!isMenuOpen);
     }
@@ -18,7 +19,7 @@ export const Navbar = () => {
             <div className="logo-box-area">
                 <Logo />
             </div>
-            <NavLinksWrapper isMenuOpen={isMenuOpen}>
+            <NavLinksWrapper>
                 {navLinks.map((navLink, index) => {
                     return (
                         <HashLink

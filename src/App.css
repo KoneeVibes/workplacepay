@@ -9,6 +9,7 @@
         --flexGap: 2rem;
         --cardPadding: 2rem;
         --navHeight: 5.8125rem;
+        --mobileNavLinks: 12rem;
     }
 
     * {

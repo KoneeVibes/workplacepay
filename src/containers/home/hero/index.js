@@ -14,7 +14,7 @@ export const Hero = () => {
         management forever.
       </P>
       <HeroButtonRow>
-        <BaseButton backgroundColor={"#4E57BB"}>Get Started</BaseButton>
+        <BaseButton backgroundcolor={"#4E57BB"}>Get Started</BaseButton>
         <BaseButton>Login</BaseButton>
       </HeroButtonRow>
     </HeroWrapper>
