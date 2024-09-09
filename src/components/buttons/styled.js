@@ -8,9 +8,12 @@ export const BaseButton = styled.button(({ width, backgroundcolor }) => {
     border: "none",
     color: "white",
     borderRadius: "7px",
-    width: "9rem",
-    padding: "1rem",
+    width: width || "-webkit-fill-available",
+    padding: "calc(var(--cardPadding)/2) var(--cardPadding)",
     fontSize: "1rem",
     cursor: "pointer",
+    "@media screen and (max-width: 425px)": {
+      width: "-webkit-fill-available",
+    },
   };
 });
