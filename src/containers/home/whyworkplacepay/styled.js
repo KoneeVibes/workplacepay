@@ -12,6 +12,9 @@ export const WhyWorkPlacePayWrapper = styled(Row)(() => {
     },
     ".hero-img>img": {
       width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      borderRadius: "1rem",
     },
     ".hero-text>h2, .hero-text>h3, .hero-text>p ": {
       marginBlock: 0,

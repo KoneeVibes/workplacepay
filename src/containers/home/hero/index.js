@@ -1,5 +1,5 @@
 import { BaseButton } from "../../../components/buttons";
-import { H1, P } from "../../../components/typograpy/styled";
+import { H1, P } from "../../../components/typography/styled";
 import { HeroButtonRow, HeroWrapper } from "./styled";
 
 export const Hero = () => {

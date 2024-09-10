@@ -6,7 +6,7 @@ import { navLinks } from "../../../config/navlinks/home";
 import { NavbarWrapper, NavLinksWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Span } from "../../../components/typograpy/styled";
+import { Span } from "../../../components/typography/styled";
 
 export const Navbar = () => {
     const { isMenuOpen, setIsMenuOpen } = useContext(Context);

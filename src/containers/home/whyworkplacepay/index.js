@@ -1,7 +1,7 @@
 import { WhyWorkPlacePayWrapper } from "./styled";
 import { BaseButton } from "../../../components/buttons";
 import heroImage from "../../../assets/images/Managed-payroll-services .png";
-import { H2, H3, P } from "../../../components/typograpy/styled";
+import { H2, H3, P } from "../../../components/typography/styled";
 import { Column } from "../../../components/flex/styled";
 
 export const WhyWorkPlacePay = () => {

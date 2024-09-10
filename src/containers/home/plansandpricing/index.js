@@ -1,4 +1,4 @@
-import { H2, H3, } from "../../../components/typograpy/styled";
+import { H2, H3, } from "../../../components/typography/styled";
 import { PlansAndPricingRow, PlansAndPricingWrapper } from "./styled";
 
 export const PlansAndPricing = () => {

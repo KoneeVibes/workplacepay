@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const H1 = styled.h1(() => {
-  return `
+    return `
         font-family: Poppins;
         font-weight: 800;
         font-size: 40px;
@@ -12,7 +12,7 @@ export const H1 = styled.h1(() => {
 });
 
 export const H2 = styled.h2(() => {
-  return `
+    return `
         font-family: Poppins;
         font-weight: 700;
         font-size: 40px;
@@ -23,7 +23,7 @@ export const H2 = styled.h2(() => {
 });
 
 export const H3 = styled.h3(() => {
-  return `
+    return `
         font-family: Poppins;
         font-weight: 500;
         font-size: 32px;
@@ -34,7 +34,7 @@ export const H3 = styled.h3(() => {
 });
 
 export const P = styled.p(() => {
-  return `
+    return `
         font-family: Poppins;
         font-weight: 400;
         font-size: 24px;
@@ -45,7 +45,7 @@ export const P = styled.p(() => {
 });
 
 export const Span = styled.span(() => {
-  return `
+    return `
         font-family: Poppins;
         font-weight: 400;
         font-size: 16px;
@@ -56,7 +56,7 @@ export const Span = styled.span(() => {
 });
 
 export const A = styled.a(() => {
-  return `
+    return `
     font-family: Poppins;
     font-weight: 800;
     font-size: 12px;
@@ -67,7 +67,7 @@ export const A = styled.a(() => {
 });
 
 export const Li = styled.li(() => {
-  return `
+    return `
     font-family: Poppins;
     font-weight: 400;
     font-size: 16px;
@@ -78,7 +78,7 @@ export const Li = styled.li(() => {
 });
 
 export const Label = styled.label(() => {
-  return `
+    return `
     font-family: Inter;
     font-weight: 400;
     font-size: 24px;
@@ -90,7 +90,7 @@ export const Label = styled.label(() => {
 });
 
 export const Td = styled.td(() => {
-  return `
+    return `
     font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
@@ -101,7 +101,7 @@ export const Td = styled.td(() => {
 });
 
 export const Th = styled.th(() => {
-  return `
+    return `
     font-family: Poppins;
     font-size: 14px;
     font-weight: 600;
