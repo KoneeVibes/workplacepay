@@ -18,15 +18,35 @@ export const HowWouldYouLikeToUseWrapper = styled(Row)(() => {
 
     ".image-page>svg": {
       width: "100%",
+      height: "auto",
     },
 
     ".basebutton-page": {
       padding: "calc(var(--cardPadding) * 2) calc(var(--cardPadding) * 4)",
       margintop: "calc(var(--sectionMargin) ) ",
-    }, 
+    },
 
     ".basebutton": {
       gap: "calc(var(--flexGap) * 4)",
+      overflow: "hidden",
+    },
+
+    "@media screen and (max-width: 1280px)": {
+      ".image-page, .basebutton-page": {
+        padding: "calc(var(--cardPadding) * 2)",
+      },
+    },
+
+    "@media screen and (max-width: 768px)": {
+      ".image-page, .basebutton-page": {
+        padding: "calc(var(--cardPadding) * 1.5)",
+      },
+    },
+
+    "@media screen and (max-width: 425px)": {
+      ".image-page, .basebutton-page": {
+        padding: "calc(var(--cardPadding))",
+      },
     },
   };
 });
