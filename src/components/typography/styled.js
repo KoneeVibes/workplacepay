@@ -85,7 +85,7 @@ export const Label = styled.label(() => {
     line-height: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #CCCCCC;
+    // color: #CCCCCC;
     `;
 });
 
