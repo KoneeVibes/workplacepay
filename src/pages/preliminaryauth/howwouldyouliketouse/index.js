@@ -21,10 +21,9 @@ export const HowWouldYouLikeToUse = () => {
           you're an employee.
         </P>
         <Column className="basebutton">
-        <BaseButton>I am an Employer</BaseButton>
-
+          <BaseButton>I am an Employer</BaseButton>
           <BaseButton>I want to refer my Employer</BaseButton>
-          </Column>
+        </Column>
       </Column>
     </HowWouldYouLikeToUseWrapper>
   );
