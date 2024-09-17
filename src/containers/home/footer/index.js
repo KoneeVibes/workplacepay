@@ -1,7 +1,7 @@
 import { FooterWrapper } from "./styled";
 import { P, H2, Label } from "../../../components/typography/styled";
 import { Column } from "../../../components/flex/styled";
-import { BaseButton } from "../../../components/buttons";
+import { BaseButton } from "../../../components/button/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 
 export const Footer = () => {
