@@ -1,9 +1,10 @@
 import { Prelim } from "../../../assets";
 import { Column } from "../../../components/flex/styled";
 import { BaseButton } from "../../../components/button/styled";
-import { H1, H3, P } from "../../../components/typography/styled";
-import { GetStartedWrapper } from "./styled";
-import { useNavigate } from "react-router-dom";
+import { H1, H3, P, Label } from "../../../components/typography/styled";
+import { GetStartedWrapper, GetStartedWrapperRow } from "./styled";
+import { BaseFieldSet } from "../../../components/form/fieldset/styled";
+import { BaseInput } from "../../../components/form/input/styled";
 
 export const GetStarted = () => {
   return (
@@ -21,23 +22,20 @@ export const GetStarted = () => {
           Please provide the following details to set up your company with
           workPlacePAY
         </P>
-        <ReferYourEmployerRow>
-          <BaseFieldSet>
-            <Label>Email Address:</Label>
-            <BaseInput
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              required
-            />
-             
-          </BaseFieldSet>
-        </ReferYourEmployerRow>
-        <Column className="basebutton">
-          <BaseButton onClick={() => navigate("/login")}>
-            Get Started
-          </BaseButton>
-        </Column>
+        <form>
+          <GetStartedWrapperRow>
+            <BaseFieldSet>
+              <Label>Email Address:</Label>
+              <BaseInput
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+              />
+            </BaseFieldSet>
+          </GetStartedWrapperRow>
+          <BaseButton>Get Started</BaseButton>
+        </form>
       </Column>
     </GetStartedWrapper>
   );
