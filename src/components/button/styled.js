@@ -7,7 +7,7 @@ export const BaseButton = styled.button(({ width, backgroundcolor }) => {
     backgroundColor: backgroundcolor || "#8A90DC",
     border: "none",
     color: "white",
-    borderRadius: "7px",
+    borderRadius: "8px",
     width: width || "-webkit-fill-available",
     padding: "calc(var(--cardPadding)/2) var(--cardPadding)",
     fontSize: "1rem",

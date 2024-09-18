@@ -8,7 +8,7 @@ export const H1 = styled.h1(() => {
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const H2 = styled.h2(() => {
@@ -19,7 +19,7 @@ export const H2 = styled.h2(() => {
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const H3 = styled.h3(() => {
@@ -30,7 +30,7 @@ export const H3 = styled.h3(() => {
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const P = styled.p(() => {
@@ -41,7 +41,7 @@ export const P = styled.p(() => {
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const Span = styled.span(() => {
@@ -52,7 +52,7 @@ export const Span = styled.span(() => {
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const A = styled.a(() => {
@@ -63,7 +63,7 @@ export const A = styled.a(() => {
     line-height: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const Li = styled.li(() => {
@@ -74,7 +74,7 @@ export const Li = styled.li(() => {
     line-height: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-`;
+    `
 });
 
 export const Label = styled.label(() => {
@@ -85,8 +85,8 @@ export const Label = styled.label(() => {
     line-height: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    // color: #CCCCCC;
-    `;
+    color: #CCCCCC;
+    `
 });
 
 export const Td = styled.td(() => {
@@ -97,7 +97,7 @@ export const Td = styled.td(() => {
     line-height: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    `;
+    `
 });
 
 export const Th = styled.th(() => {
@@ -108,5 +108,5 @@ export const Th = styled.th(() => {
     line-height: normal;
     overflow: Hidden;
     text-overflow: ellipsis;
-    `;
+    `
 });

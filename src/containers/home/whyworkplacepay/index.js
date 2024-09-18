@@ -1,5 +1,5 @@
 import { WhyWorkPlacePayWrapper } from "./styled";
-import { BaseButton } from "../../../components/buttons";
+import { BaseButton } from "../../../components/button/styled";
 import heroImage from "../../../assets/images/Managed-payroll-services .png";
 import { H2, H3, P } from "../../../components/typography/styled";
 import { Column } from "../../../components/flex/styled";

@@ -1,8 +1,10 @@
-import { BaseButton } from "../../../components/buttons";
+import { useNavigate } from "react-router-dom";
+import { BaseButton } from "../../../components/button/styled";
 import { H1, P } from "../../../components/typography/styled";
 import { HeroButtonRow, HeroWrapper } from "./styled";
 
 export const Hero = () => {
+  const navigate = useNavigate();
   return (
     <HeroWrapper>
       {/* Newton your html should begin below this line */}
@@ -14,7 +16,11 @@ export const Hero = () => {
         management forever.
       </P>
       <HeroButtonRow>
-        <BaseButton backgroundcolor={"#4E57BB"} width={"fit-content"}>
+        <BaseButton
+          backgroundcolor={"#4E57BB"}
+          width={"fit-content"}
+          onClick={() => navigate("/how")}
+        >
           Get Started
         </BaseButton>
         <BaseButton width={"fit-content"}>Login</BaseButton>
