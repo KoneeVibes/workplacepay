@@ -16,13 +16,14 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
             flex: 1,
             backgroundColor: "#ffffff",
             padding: "calc(var(--cardPadding) * 2)",
-
+            overflow: "hidden",
         },
         "& form": {
             display: "flex",
             flexDirection: "column",
             gap: "calc(var(--flexGap) * 2)",
             marginBlock: "calc(var(--sectionMargin) * 2)",
+            overflow: "hidden",
         },
         "& .refer-text>svg": {
             width: "100%",
@@ -41,7 +42,7 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
             fontWeight: 500,
             color: "#000000"
         },
-        "& .refer-form input, & .form-container select": {
+        "& .refer-form input": {
             padding: "calc(var(--cardPadding) / 2) var(--cardPadding)",
             outline: "none",
             border: "none",
