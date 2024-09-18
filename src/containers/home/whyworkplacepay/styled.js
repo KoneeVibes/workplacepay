@@ -25,6 +25,6 @@ export const WhyWorkPlacePayWrapper = styled(Row)(() => {
     },
     "@media screen and (min-width: 1024px)": {
       margin: "calc(var(--sectionMargin) * 3) 0",
-    }
+    },
   };
 });
