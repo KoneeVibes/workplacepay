@@ -20,6 +20,7 @@ export const SetUpYourCompanyWrapper = styled(Row)(() => {
             flexDirection: "column",
             gap: "calc(var(--flexGap) * 2)",
             marginBlock: "calc(var(--sectionMargin) * 2)",
+            overflow: "hidden",
         },
         "& .form-container": {
             flex: 1,
