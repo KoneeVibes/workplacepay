@@ -56,6 +56,21 @@ export const GetStartedWrapper = styled(Row)(() => {
         padding: "calc(var(--cardPadding))",
       },
     },
+    "@media screen and (max-width: 768px)": {
+      "& form": {
+        alignItems: "stretch",
+      },
+      "& .emailAddress-page input": {
+        width: "100%",
+      },
+      "& .emailAddress-page button": {
+        width: "100%",
+      },
+      "& .emailAddress-page": {
+        display: "flex",
+        flexDirection: "column", // Ensure vertical stacking
+      },
+    },
     "@media screen and (max-width: 1024px)": {
       "& h2": {
         marginBlock: 0,
