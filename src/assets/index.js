@@ -4,3 +4,4 @@ export { ReactComponent as PrelimSetup } from "./images/prelim-setup.svg";
 export { ReactComponent as PaystackLogo } from "./images/paystack.svg";
 export { ReactComponent as CreditCards } from "./images/creditcard.svg";
 export { ReactComponent as GreenTick } from "./images/successtick.svg";
+export { ReactComponent as Login } from "./images/login.svg";
