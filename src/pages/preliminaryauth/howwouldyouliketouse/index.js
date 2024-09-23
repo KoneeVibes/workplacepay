@@ -28,7 +28,7 @@ export const HowWouldYouLikeToUse = () => {
             I am an Employer
           </BaseButton>
           <BaseButton
-            onClick={() => navigate("/getstarted")}
+            onClick={() => navigate("/refer")}
           >
             I want to refer my Employer
           </BaseButton>
