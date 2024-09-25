@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Login } from "../../assets";
 import { Row } from "../../components/flex/styled";
 import { BaseInput } from "../../components/form/input/styled";
-import { H1, Label } from "../../components/typography/styled";
+import { H1, Label, Span } from "../../components/typography/styled";
 import { AuthWrapper } from "./styled";
 import { BaseButton } from "../../components/button/styled";
 import { BaseFieldSet } from "../../components/form/fieldset/styled";
@@ -66,7 +66,9 @@ export const Auth = () => {
                         type="submit"
                         backgroundcolor={"#4E57BB"}
                     >
-                        Login
+                        <Span>
+                            Login
+                        </Span>
                     </BaseButton>
                 </form>
             </Row>

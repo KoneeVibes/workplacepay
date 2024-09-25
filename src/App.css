@@ -9,6 +9,8 @@
         --flexGap: 2rem;
         --cardPadding: 2rem;
         --navHeight: 5.8125rem;
+        --sideNavWidth: 18.375rem;
+        --topNavHeight: 7.75rem;
         --mobileNavLinks: 12rem;
     }
 
@@ -25,6 +27,6 @@
 
 @media screen and (min-width: 1024px) {
     html {
-        --pagePadding: 4rem
+        --pagePadding: 4rem;
     }
 }
