@@ -5,3 +5,4 @@ export { ReactComponent as PaystackLogo } from "./images/paystack.svg";
 export { ReactComponent as CreditCards } from "./images/creditcard.svg";
 export { ReactComponent as GreenTick } from "./images/successtick.svg";
 export { ReactComponent as Login } from "./images/login.svg";
+export { ReactComponent as Avatar } from "./images/avatar.svg";
