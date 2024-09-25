@@ -1,9 +1,16 @@
 import styled from "styled-components";
 import { Row } from "../../../components/flex/styled";
+import { useContext } from "react";
+import { Context } from "../../../context";
 
-export const SetUpYourCompanyWrapper = styled(Row)(() => {
+export const SetUpYourCompanyWrapper = styled("div")(() => {
+    const { isPaymentFormModalOpen } = useContext(Context);
     return {
-        gap: 0,
+        "& .setup-main-area": {
+            gap: 0,
+            opacity: isPaymentFormModalOpen ? 0.1 : 1,
+            pointerEvents: isPaymentFormModalOpen ? "none" : "auto",
+        },
         "& .image-container": {
             flex: 1,
             overflow: "hidden",
@@ -15,11 +22,12 @@ export const SetUpYourCompanyWrapper = styled(Row)(() => {
             width: "100%",
             height: "auto",
         },
-        "& form": {
+        "& .set-up-form": {
             display: "flex",
             flexDirection: "column",
             gap: "calc(var(--flexGap) * 2)",
             marginBlock: "calc(var(--sectionMargin) * 2)",
+            overflow: "hidden",
         },
         "& .form-container": {
             flex: 1,
@@ -47,12 +55,29 @@ export const SetUpYourCompanyWrapper = styled(Row)(() => {
             backgroundColor: "#F2F2F8",
             borderRadius: "8px",
         },
+        "& .payment-modal": {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            padding: "calc(var(--cardPadding) * 2)",
+            borderRadius: "1rem",
+            boxShadow: "0px 20px 24px -4px #10182814",
+        },
         "@media screen and (max-width: 425px)": {
             "& .image-container": {
                 padding: "calc(var(--cardPadding))",
             },
             "& .form-container": {
                 padding: "calc(var(--cardPadding))",
+            },
+            "& .payment-modal": {
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                transform: "unset",
             },
         },
         "@media screen and (max-width: 1024px)": {
