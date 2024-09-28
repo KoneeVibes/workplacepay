@@ -6,6 +6,7 @@ import { P } from "../../typography/styled";
 import { SideNavigationWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Avatar } from "../../../assets";
 
 export const SideNavigation = () => {
     const { setIsSideNavigationOpen } = useContext(Context);
@@ -29,6 +30,11 @@ export const SideNavigation = () => {
                         <P key={index}>{navLink.name}</P>
                     )
                 })}
+            </div>
+            <div
+                className="nav-avatar"
+            >
+                <Avatar />
             </div>
         </SideNavigationWrapper>
     )

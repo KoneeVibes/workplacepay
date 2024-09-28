@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Context } from "../../../context";
+import { Column } from "../../flex/styled";
 
-export const SideNavigationWrapper = styled("div")(() => {
+export const SideNavigationWrapper = styled(Column)(() => {
     const { isSideNavigationOpen, setIsSideNavigationOpen } = useContext(Context);
     const [matches, setMatches] = useState(false);
     useEffect(() => {
@@ -17,7 +18,6 @@ export const SideNavigationWrapper = styled("div")(() => {
         };
     }, [matches, setIsSideNavigationOpen]);
 
-    useEffect(() => console.log(matches));
     return {
         backgroundColor: "#4E57BB",
         color: "#FFFFFF",
@@ -27,7 +27,7 @@ export const SideNavigationWrapper = styled("div")(() => {
         right: 0,
         bottom: 0,
         overflowY: "auto",
-        display: isSideNavigationOpen ? "block" : "none",
+        display: isSideNavigationOpen ? "flex" : "none",
         "& .nav-logo": {
             padding: "var(--cardPadding)",
             borderBottom: "1px solid #FFFFFF",
@@ -67,6 +67,10 @@ export const SideNavigationWrapper = styled("div")(() => {
             "& p": {
                 cursor: "pointer",
             }
+        },
+        "& .nav-avatar": {
+            padding: "var(--cardPadding)",
+            marginTop: "auto",
         },
         "@media screen and (min-width: 1024px)": {
             left: "auto",
