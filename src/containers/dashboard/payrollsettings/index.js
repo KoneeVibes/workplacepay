@@ -10,66 +10,61 @@ export const PayrollSettings = () => {
           <h1>Payroll Variables</h1>
           <h2>Select the applicable variables for the user</h2>
 
-          <div style={{ marginTop: "20px" }}>
-            <h3>Earnings</h3>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "10px",
-              }}
-            >
-              <label htmlFor="earnings" style={{ marginRight: "10px" }}>
-                Earnings:
-              </label>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <select
-                  id="earnings"
-                  style={{ border: "none", outline: "none", padding: "5px" }}
-                >
-                  <option value="0">0</option>
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  {/* Add more options as needed */}
-                </select>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            <h2 style={{ color: "blue" }}>Earning</h2>
+            <form style={{ display: "flex", alignItems: "center" }}>
+              <label htmlFor="amount">Amount:</label>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <span
-                  style={{
-                    padding: "0 10px",
-                    borderLeft: "1px solid #ccc",
-                    whiteSpace: "nowrap",
-                  }}
+                  style={{ borderRight: "1px solid black", padding: "0 5px" }}
                 >
                   %
                 </span>
+                <input
+                  type="number"
+                  id="amount"
+                  defaultValue="20"
+                  style={{
+                    border: "1px solid black",
+                    padding: "5px",
+                    width: "50px",
+                  }}
+                />
               </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                type="radio"
-                id="radio1"
-                name="earningsOption"
-                value="option1"
-              />
-              <label htmlFor="radio1" style={{ marginLeft: "10px" }}>
-                Option 1
-              </label>
-              <input
-                type="radio"
-                id="radio2"
-                name="earningsOption"
-                value="option2"
-                style={{ marginLeft: "20px" }}
-              />
-              <label htmlFor="radio2">Option 2</label>
-            </div>
+              <div style={{ marginLeft: "10px" }}>
+                <input
+                  type="radio"
+                  id="option1"
+                  name="option"
+                  value="option1"
+                />
+                <label htmlFor="option1">Option 1</label>
+              </div>
+              <div style={{ marginLeft: "10px" }}>
+                <input
+                  type="radio"
+                  id="option2"
+                  name="option"
+                  value="option2"
+                />
+                <label htmlFor="option2">Option 2</label>
+              </div>
+              <div style={{ marginLeft: "10px" }}>
+                <input
+                  type="radio"
+                  id="option3"
+                  name="option"
+                  value="option3"
+                />
+                <label htmlFor="option3">Option 3</label>
+              </div>
+            </form>
           </div>
         </div>
       </PayrollSettingsWrapper>

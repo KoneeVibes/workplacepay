@@ -14,6 +14,7 @@ export const MainAreaWrapper = styled("div")(() => {
             top: "var(--topNavHeight)",
             right: 0,
             bottom: 0,
+            height: "max-content",
         },
         padding: "var(--cardPadding)",
         backgroundColor: "#CCCCCC",
