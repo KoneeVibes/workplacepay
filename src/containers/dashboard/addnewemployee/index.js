@@ -52,7 +52,7 @@ export const AddNewEmployee = () => {
             <AddNewEmployeeWrapper>
                 {/* IBK your HTML should go in below this line */}
                 <Column className="employeeForm">
-                    <div>
+                    <div className="formText">
                         <H1>Personal Details</H1>
                         <P>Add user by capturing all the details</P>
                     </div>
@@ -250,7 +250,7 @@ export const AddNewEmployee = () => {
                             <BaseInput
                                 type="text"
                                 name="pensionacc"
-                                value={AddNewEmployee.pension}
+                                value={AddNewEmployee.pensionacc}
                                 onChange={(e) => handleChange(e)}
                                 required
                                 />

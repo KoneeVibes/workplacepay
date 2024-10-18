@@ -4,14 +4,16 @@ import { Row } from "../../../components/flex/styled";
 export const AddNewEmployeeWrapper = styled("div")(() => {
     return {
         // IBK your CSS should go in below this line
-        gap: "calc(var(--flex-gap)/2)",
+        backgroundColor: "#ffffff",
+        
        "& .employeeForm": {
             overflow: "hidden",
-            padding: "calc(var(--basic-padding)) 0 calc(var(--basic-padding) * 2) calc(var(--basic-padding) * 2)",
+            padding: "calc(var(--cardPadding) * 1.5) calc(var(--cardPadding) * 4)",
+
             "& form": {
                 display: "flex",
                 flexDirection: "column",
-                gap: "calc(var(--flex-gap)/2)",
+                gap: "calc(var(--flexGap) * 1.5)",
             },
         },
         "& .employeeForm input, & .employeeForm select": {
@@ -49,7 +51,7 @@ export const AddNewEmployeeRow = styled(Row)(() => {
     return {
         justifyContent: "space-between",
         "@media screen and (max-width: 1280px)": {
-            gap: "calc(var(--flex-gap)/1)",
+            gap: "calc(var(--flexGap)*1.5)",
             flexDirection: "column",
         },
     };
