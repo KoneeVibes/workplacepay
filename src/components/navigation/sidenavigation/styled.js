@@ -28,6 +28,10 @@ export const SideNavigationWrapper = styled(Column)(() => {
         bottom: 0,
         overflowY: "auto",
         display: isSideNavigationOpen ? "flex" : "none",
+        "& a": {
+            textDecoration: "none",
+            color: "#FFFFFF",
+        },
         "& .nav-logo": {
             padding: "var(--cardPadding)",
             borderBottom: "1px solid #FFFFFF",
@@ -40,6 +44,7 @@ export const SideNavigationWrapper = styled(Column)(() => {
                 fontWeight: 700,
                 fontSize: "24px",
                 marginBlock: 0,
+                cursor: "pointer",
             },
             "& button": {
                 width: "fit-content",
@@ -66,6 +71,7 @@ export const SideNavigationWrapper = styled(Column)(() => {
             padding: "var(--cardPadding)",
             "& p": {
                 cursor: "pointer",
+                marginBlock: 0,
             }
         },
         "& .nav-avatar": {

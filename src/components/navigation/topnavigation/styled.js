@@ -3,13 +3,14 @@ import { Row } from "../../flex/styled";
 
 export const TopNavigationWrapper = styled(Row)(({ location }) => {
     return {
+        alignItems: "center",
         justifyContent: "space-between",
         padding: "var(--cardPadding)",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         zIndex: 1,
         "& h2": {
             marginBlock: 0,
             fontSize: "32px",
+            flex: 1,
         },
         "& .call-to-action-buttons": {
             justifyContent: "space-between",

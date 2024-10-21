@@ -81,7 +81,7 @@ export const Label = styled.label(() => {
     return `
     font-family: Inter;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 18px;
     line-height: normal;
     overflow: hidden;
     text-overflow: ellipsis;

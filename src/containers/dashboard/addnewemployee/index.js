@@ -1,6 +1,6 @@
 import { Layout } from "../layout";
 import { AddNewEmployeeWrapper } from "./styled";
-import { H1,P,Label } from "../../../components/typography/styled";
+import { H2,P,Label } from "../../../components/typography/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { AddNewEmployeeRow } from "./styled";
@@ -11,7 +11,6 @@ import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 
 export const AddNewEmployee = () => {
-    
     const [AddNewEmployee, setAddNewEmployee] = useState({
         username:"",
         firstname:"",
@@ -30,8 +29,6 @@ export const AddNewEmployee = () => {
         pension:"",
         pensionacc:"",
         taxnum:"",
-        
-        
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,7 +37,6 @@ export const AddNewEmployee = () => {
             [name]: value
         }));
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(AddNewEmployee);
@@ -50,10 +46,9 @@ export const AddNewEmployee = () => {
             title={"Add new employee"}
         >
             <AddNewEmployeeWrapper>
-                {/* IBK your HTML should go in below this line */}
                 <Column className="employeeForm">
                     <div className="formText">
-                        <H1>Personal Details</H1>
+                        <H2>Personal Details</H2>
                         <P>Add user by capturing all the details</P>
                     </div>
                     <form onSubmit={handleSubmit}>
@@ -162,7 +157,7 @@ export const AddNewEmployee = () => {
                                 />
                         </BaseFieldSet>
                         </AddNewEmployeeRow>
-                        <H1>Corporate Details</H1>
+                        <H2>Corporate Details</H2>
                         <AddNewEmployeeRow>
                         <BaseFieldSet>
                             <Label>DEPARTMENT *</Label>
@@ -197,7 +192,7 @@ export const AddNewEmployee = () => {
                                 required
                                 />
                         </BaseFieldSet>
-                        <H1>Payroll Setup</H1>
+                        <H2>Payroll Setup</H2>
                         <AddNewEmployeeRow>
                             <BaseFieldSet>
                                 <Label>Annual GROSS PAY*</Label>
