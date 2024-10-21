@@ -7,30 +7,42 @@ import { SideNavigationWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "../../../assets";
+import { Column } from "../../flex/styled";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SideNavigation = () => {
+    const navigate = useNavigate();
     const { setIsSideNavigationOpen } = useContext(Context);
+    const navigateToDashboard = (e) => {
+        e.preventDefault();
+        return navigate("/dashboard")
+    }
     return (
         <SideNavigationWrapper>
             <div
                 className="nav-logo"
             >
-                <P>workPlacePAY</P>
+                <P onClick={navigateToDashboard}>workPlacePAY</P>
                 <BaseButton
                     onClick={() => setIsSideNavigationOpen(false)}
                 >
                     <FontAwesomeIcon icon={faXmark} color="#FFFFFF" />
                 </BaseButton>
             </div>
-            <div
+            <Column
                 className="nav-links"
             >
                 {navLinks.map((navLink, index) => {
                     return (
-                        <P key={index}>{navLink.name}</P>
+                        <Link
+                            key={index}
+                            to={navLink.url}
+                        >
+                            <P>{navLink.name}</P>
+                        </Link>
                     )
                 })}
-            </div>
+            </Column>
             <div
                 className="nav-avatar"
             >

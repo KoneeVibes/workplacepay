@@ -1,7 +1,7 @@
 export const navLinks = [
     {
         name: "Dashboard",
-        url: ""
+        url: "/dashboard"
     },
     {
         name: "Employees",
