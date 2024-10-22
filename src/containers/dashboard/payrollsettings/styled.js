@@ -13,6 +13,10 @@ export const PayrollSettingsWrapper = styled("div")(() => {
       gap: "1rem",
       overflow: "hidden",
     },
+    "& button": {
+      marginTop: "var(--sectionMargin)",
+      marginLeft: "auto",
+    },
     "& h2": {
       marginBlock: 0,
       fontSize: "24px",

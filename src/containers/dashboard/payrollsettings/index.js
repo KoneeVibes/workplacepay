@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Layout } from "../layout";
 import { InputRow, PayrollSettingsWrapper } from "./styled";
 import { BaseButton } from "../../../components/button/styled";
@@ -7,12 +8,28 @@ import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseFlex, Row } from "../../../components/flex/styled";
 
 export const PayrollSettings = () => {
+  const [formDetails, setFormDetails] = useState({
+    basic: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormDetails((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formDetails);
+  };
   return (
     <Layout title={"Payroll Settings"}>
       <PayrollSettingsWrapper>
         <H2>Payroll Variables</H2>
         <P>Select the applicable variables for the user</P>
-        <form>
+        <form
+          onSubmit={handleSubmit}
+        >
           <H3>Earning</H3>
           <BaseFlex
             className="field-row"
@@ -25,7 +42,10 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseInput
+                  name="basic"
                   maxLength={3}
+                  value={formDetails.basic}
+                  onChange={handleChange}
                 />
                 <Span>%</Span>
               </InputRow>
