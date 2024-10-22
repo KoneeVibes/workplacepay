@@ -15,7 +15,7 @@ export const H2 = styled.h2(() => {
     return `
         font-family: Poppins;
         font-weight: 700;
-        font-size: 40px;
+        font-size: 24px;
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -26,7 +26,7 @@ export const H3 = styled.h3(() => {
     return `
         font-family: Poppins;
         font-weight: 500;
-        font-size: 32px;
+        font-size: 20px;
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -37,7 +37,7 @@ export const P = styled.p(() => {
     return `
         font-family: Poppins;
         font-weight: 400;
-        font-size: 24px;
+        font-size: 16px;
         line-height: normal;
         overflow: hidden;
         text-overflow: ellipsis;

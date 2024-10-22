@@ -8,6 +8,9 @@ export const LayoutWrapper = styled("div")(() => {
 
 export const MainAreaWrapper = styled("div")(() => {
     return {
+        padding: "var(--cardPadding)",
+        backgroundColor: "#CCCCCC",
+        overflow: "hidden",
         "@media screen and (min-width: 1024px)": {
             position: "absolute",
             left: "var(--sideNavWidth)",
@@ -16,7 +19,5 @@ export const MainAreaWrapper = styled("div")(() => {
             bottom: 0,
             height: "max-content",
         },
-        padding: "var(--cardPadding)",
-        backgroundColor: "#CCCCCC",
     }
 })
