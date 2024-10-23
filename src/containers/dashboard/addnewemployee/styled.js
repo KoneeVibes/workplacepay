@@ -42,6 +42,12 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             flexDirection: "column",
             justifyContent: "space-between",
         },
+        "& .employeeForm address":{
+            padding: "calc(var(--cardPadding)*3)",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            width: "-webkit-fill-available",
+        },
         "@media screen and (min-width: 768px)": {
             "& .employeeForm": {
                 padding: "calc(var(--cardPadding) * 2)",
