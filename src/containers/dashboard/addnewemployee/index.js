@@ -293,7 +293,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>TAX IDENTIFICATION NUMBER</Label>
+                                        <Label>Tax Identification Number</Label>
                                         <BaseInput
                                             type="text"
                                             name="taxNumber"
@@ -306,6 +306,9 @@ export const AddNewEmployee = () => {
                                     backgroundcolor={"#4E57BB"}
                                     width={"fit-content"}
                                     onClick={(e) => handleClickNext(e, step)}
+                                    style={{
+                                        marginLeft: "auto"
+                                    }}
                                 >
                                     Next
                                 </BaseButton>
@@ -349,7 +352,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>Phone NUMBER</Label>
+                                        <Label>Phone Number</Label>
                                         <BaseInput
                                             type="tel"
                                             name="nextOfKinNumber"
