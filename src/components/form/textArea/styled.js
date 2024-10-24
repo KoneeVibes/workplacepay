@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const BaseArea = styled("textArea")(() => {
+export const BaseTextArea = styled("textarea")(() => {
   return {
     fontFamily: "Poppins",
     fontWeight: 100,

@@ -42,22 +42,24 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             flexDirection: "column",
             justifyContent: "space-between",
         },
-        "& .employeeForm address":{
+        "& .employeeForm address": {
             padding: "calc(var(--cardPadding)*3)",
             overflow: "hidden",
             textOverflow: "ellipsis",
             width: "-webkit-fill-available",
         },
         "@media screen and (min-width: 768px)": {
+            "& .submit-column": {
+                flexDirection: "row",
+                justifyContent: "space-between"
+            },
             "& .employeeForm": {
                 padding: "calc(var(--cardPadding) * 2)",
             },
         },
         "@media screen and (min-width: 1280px)": {
             "& .employeeForm button": {
-                marginLeft: "auto",
                 marginTop: "calc(var(--sectionMargin))",
-                width: "fit-content",
             }
         },
     }

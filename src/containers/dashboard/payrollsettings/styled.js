@@ -62,7 +62,7 @@ export const InputRow = styled(Row)(() => {
     border: "1px solid #000000",
     borderRadius: "1rem",
     "& input, & select": {
-      width: "4rem",
+      width: "6rem",
       boxSizing: "border-box",
       outline: "none",
       border: "none",

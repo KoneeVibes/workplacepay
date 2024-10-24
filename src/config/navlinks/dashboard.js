@@ -17,7 +17,7 @@ export const navLinks = [
     },
     {
         name: "Setup",
-        url: ""
+        url: "/payrollsettings"
     },
     {
         name: "Logout",

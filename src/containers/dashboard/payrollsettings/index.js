@@ -8,24 +8,57 @@ import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseFlex, Row } from "../../../components/flex/styled";
 
 export const PayrollSettings = () => {
+  const pensionPercentage = "10";
+  const contributionPercentage = "8";
   const [formDetails, setFormDetails] = useState({
     basic: "",
     housing: "",
     transport: "",
+    overtime: false,
+    bonus: false,
+    other: false,
     pension: "",
+    isPension: false,
     contribution: "",
+    isContribution: false,
+    PAYE: false,
+    others: false,
   });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormDetails((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    if (name === "isPension") {
+      setFormDetails((prev) => ({
+        ...prev,
+        pension: checked ? pensionPercentage : "",
+        isPension: checked,
+      }));
+    } else if (name === "isContribution") {
+      setFormDetails((prev) => ({
+        ...prev,
+        contribution: checked ? contributionPercentage : "",
+        isContribution: checked,
+      }));
+    } else {
+      setFormDetails((prev) => ({ ...prev, [name]: checked }));
+    }
   };
+
+  const handleChange = (e) => {
+    const { name, value, type } = e.target;
+    if (type === "checkbox") {
+      handleCheckboxChange(e);
+    } else {
+      console.log(value);
+      setFormDetails((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formDetails);
   };
+
   return (
     <Layout title={"Payroll Settings"}>
       <PayrollSettingsWrapper>
@@ -34,7 +67,7 @@ export const PayrollSettings = () => {
         <form onSubmit={handleSubmit}>
           <H3>Earning</H3>
           <BaseFlex className="field-row">
-            <Label>Basic</Label>
+            <Label htmlFor="basic">Basic</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -42,24 +75,24 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseInput
+                  id="basic"
+                  type="number"
                   name="basic"
-                  maxLength={3}
+                  max={100}
                   value={formDetails.basic}
                   onChange={handleChange}
                 />
                 <Span>%</Span>
               </InputRow>
               <BaseInput
-                type="radio"
-                id="option1"
-                name="option"
-                value="option1"
+                type="checkbox"
                 checked
+                readOnly
               />
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row">
-            <Label>Housing</Label>
+            <Label htmlFor="housing">Housing</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -67,23 +100,28 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseSelect
+                  id="housing"
                   name="housing"
                   required
                   value={formDetails.housing}
                   onChange={handleChange}
                 >
                   <option value="" hidden></option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  <option value="10%">10%</option>
+                  <option value="20%">20%</option>
+                  <option value="30%">30%</option>
                 </BaseSelect>
                 <Span>%</Span>
               </InputRow>
-              <BaseInput type="radio" name="option" value="option1" checked />
+              <BaseInput
+                type="checkbox"
+                checked
+                readOnly
+              />
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row">
-            <Label>Transport</Label>
+            <Label htmlFor="transport">Transport</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -91,37 +129,59 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseSelect
+                  id="transport"
                   name="transport"
                   required
                   value={formDetails.transport}
                   onChange={handleChange}
                 >
                   <option value="" hidden></option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  <option value="10%">10%</option>
+                  <option value="20%">20%</option>
+                  <option value="30%">30%</option>
                 </BaseSelect>
                 <Span>%</Span>
               </InputRow>
-              <BaseInput type="radio" name="option" value="option1" checked />
+              <BaseInput
+                type="checkbox"
+                checked
+                readOnly
+              />
             </Row>
           </BaseFlex>
-
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label>Overtime</Label>
-            <BaseInput type="radio" name="option" value="option1" checked />
+            <Label htmlFor="overtime">Overtime</Label>
+            <BaseInput
+              id="overtime"
+              type="checkbox"
+              name="overtime"
+              checked={formDetails.overtime}
+              onChange={handleChange}
+            />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label>Bonus</Label>
-            <BaseInput type="radio" name="option" value="option1" checked />
+            <Label htmlFor="bonus">Bonus</Label>
+            <BaseInput
+              id="bonus"
+              type="checkbox"
+              name="bonus"
+              checked={formDetails.bonus}
+              onChange={handleChange}
+            />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label>Other</Label>
-            <BaseInput type="radio" name="option" value="option1" checked />
+            <Label htmlFor="other">Other</Label>
+            <BaseInput
+              id="other"
+              type="checkbox"
+              name="other"
+              checked={formDetails.other}
+              onChange={handleChange}
+            />
           </BaseFlex>
           <H3>Deductions</H3>
           <BaseFlex className="field-row">
-            <Label>Employer Pension Contribution</Label>
+            <Label htmlFor="pension">Employer Pension Contribution</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -129,18 +189,24 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseInput
+                  type="number"
                   name="pension"
-                  placeholder="10"
-                  value={formDetails.pension}
-                  onChange={handleChange}
+                  value={pensionPercentage}
+                  readOnly
                 />
                 <Span>%</Span>
               </InputRow>
-              <BaseInput type="radio" name="option" value="option1" checked />
+              <BaseInput
+                id="pension"
+                type="checkbox"
+                name="isPension"
+                onChange={handleChange}
+                checked={formDetails.isPension}
+              />
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row">
-            <Label>Employee Pension Contribution</Label>
+            <Label htmlFor="contribution">Employee Pension Contribution</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -148,23 +214,41 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseInput
-                  placeholder="8"
+                  type="number"
                   name="contribution"
-                  value={formDetails.contribution}
-                  onChange={handleChange}
+                  value={contributionPercentage}
+                  readOnly
                 />
                 <Span>%</Span>
               </InputRow>
-              <BaseInput type="radio" name="option" value="option1" checked />
+              <BaseInput
+                id="contribution"
+                type="checkbox"
+                name="isContribution"
+                onChange={handleChange}
+                checked={formDetails.isContribution}
+              />
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label>PAYE</Label>
-            <BaseInput type="radio" name="option" value="option1" checked />
+            <Label htmlFor="PAYE">PAYE</Label>
+            <BaseInput
+              id="PAYE"
+              type="checkbox"
+              name="PAYE"
+              onChange={handleChange}
+              checked={formDetails.PAYE}
+            />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label>Others</Label>
-            <BaseInput type="radio" name="option" value="option1" checked />
+            <Label htmlFor="others">Others</Label>
+            <BaseInput
+              id="others"
+              type="checkbox"
+              name="others"
+              onChange={handleChange}
+              checked={formDetails.others}
+            />
           </BaseFlex>
           <BaseButton
             type="submit"
