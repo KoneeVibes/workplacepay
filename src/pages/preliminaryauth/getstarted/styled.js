@@ -43,6 +43,16 @@ export const GetStartedWrapper = styled(Row)(() => {
       backgroundColor: "#F2F2F8",
       borderRadius: "8px",
     },
+    "& .get-started-modal": {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            padding: "calc(var(--cardPadding) * 2)",
+            borderRadius: "1rem",
+            boxShadow: "0px 20px 24px -4px #10182814",
+        },
     "@media screen and (max-width: 425px)": {
       "& .first-section": {
         padding: "calc(var(--cardPadding))",

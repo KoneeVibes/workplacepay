@@ -36,6 +36,7 @@ export const GetStarted = () => {
     e.preventDefault();
     if (step === 1) {
       // logic to open modal here
+      setStep(2);
       return handleOTPModal();
     }
     setError(null);
@@ -118,6 +119,7 @@ export const GetStarted = () => {
           </BaseFieldSet>
         </form>
       </div>
+      <GetStarted />
     </GetStartedWrapper >
   );
 };

@@ -1,13 +1,13 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import { BaseModal } from "../../../components/modal";
-import { H2, H3, Label, P, Span } from "../../../components/typography/styled";
+import { BaseModal } from "../../../../components/modal";
+import { H2, H3, Label, P, Span } from "../../../../components/typography/styled";
 import { PaymentModalWrapper } from "./styled";
-import { Context } from "../../../context";
-import { Column, Row } from "../../../components/flex/styled";
-import { BaseInput } from "../../../components/form/input/styled";
-import { CreditCards, GreenTick, PaystackLogo } from "../../../assets";
-import { BaseFieldSet } from "../../../components/form/fieldset/styled";
-import { BaseButton } from "../../../components/button/styled";
+import { Context } from "../../../../context";
+import { Column, Row } from "../../../../components/flex/styled";
+import { BaseInput } from "../../../../components/form/input/styled";
+import { CreditCards, GreenTick, PaystackLogo } from "../../../../assets";
+import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
+import { BaseButton } from "../../../../components/button/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -201,7 +201,7 @@ export const PaymentModal = () => {
                         <Column
                             className="receipt-title"
                         >
-                            <H2>Payment Information</H2>
+                            <H2>Payment  Successfull!</H2>
                             <GreenTick />
                         </Column>
                         <Row
