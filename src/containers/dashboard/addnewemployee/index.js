@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
-//import { useNavigate } from "react-router-dom";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { Context } from "../../../context";
 import { Layout } from "../layout";
 import { AddNewEmployeeWrapper } from "./styled";
 import { H2, P, Label } from "../../../components/typography/styled";
@@ -10,9 +10,10 @@ import { BaseButton } from "../../../components/button/styled";
 import { Column } from "../../../components/flex/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseTextArea } from "../../../components/form/textarea/styled";
+import { AddEmployeeSuccessModal } from "../addemployeesuccessmodal";
 
 export const AddNewEmployee = () => {
-    // const navigate = useNavigate();
+    const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
     const [step, setStep] = useState(1);
     const [matches, setMatches] = useState(false);
     const [formDetails, setFormDetails] = useState({
@@ -71,9 +72,21 @@ export const AddNewEmployee = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formDetails);
+        // logic to submit form
+        // try {
+        //     const response = await addNewEmployee(formDetails);
+        //     if (response.status) {
+        //         setIsAddEmployeeSuccessModalOpen(true);
+        //     }else{
+                
+        //     }
+        // } catch (error) {
+
+        // }
+        setIsAddEmployeeSuccessModalOpen(true);
     };
 
     useEffect(() => {
@@ -293,7 +306,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>Tax Identification Number</Label>
+                                        <Label>TAX IDENTIFICATION NUMBER</Label>
                                         <BaseInput
                                             type="text"
                                             name="taxNumber"
@@ -306,9 +319,6 @@ export const AddNewEmployee = () => {
                                     backgroundcolor={"#4E57BB"}
                                     width={"fit-content"}
                                     onClick={(e) => handleClickNext(e, step)}
-                                    style={{
-                                        marginLeft: "auto"
-                                    }}
                                 >
                                     Next
                                 </BaseButton>
@@ -352,7 +362,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>Phone Number</Label>
+                                        <Label>Phone NUMBER</Label>
                                         <BaseInput
                                             type="tel"
                                             name="nextOfKinNumber"
@@ -453,6 +463,7 @@ export const AddNewEmployee = () => {
                         )}
                     </form>
                 </Column>
+                <AddEmployeeSuccessModal />
             </AddNewEmployeeWrapper>
         </Layout>
     )

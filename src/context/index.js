@@ -6,6 +6,7 @@ export const ContextProvider = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPaymentFormModalOpen, setIsPaymentFormModalOpen] = useState(false);
     const [isSideNavigationOpen, setIsSideNavigationOpen] = useState(false);
+    const [isAddEmployeeSuccessModalOpen, setIsAddEmployeeSuccessModalOpen] = useState(false);
 
     return (
         <Context.Provider value={{
@@ -14,7 +15,9 @@ export const ContextProvider = ({ children }) => {
             isPaymentFormModalOpen,
             setIsPaymentFormModalOpen,
             isSideNavigationOpen,
-            setIsSideNavigationOpen
+            setIsSideNavigationOpen,
+            isAddEmployeeSuccessModalOpen,
+            setIsAddEmployeeSuccessModalOpen
         }}>
             {children}
         </Context.Provider>
