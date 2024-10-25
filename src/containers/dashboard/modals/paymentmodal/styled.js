@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Column } from "../../../components/flex/styled";
+import { Column } from "../../../../components/flex/styled";
 
 export const PaymentModalWrapper = styled(Column)(() => {
     return {
