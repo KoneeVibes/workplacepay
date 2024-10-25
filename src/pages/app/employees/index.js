@@ -1,4 +1,4 @@
-import { Layout } from "../layout";
+import { Layout } from "../../../containers/dashboard/layout";
 import { EmployeesWrapper } from "./styled";
 
 export const Employees = () => {
