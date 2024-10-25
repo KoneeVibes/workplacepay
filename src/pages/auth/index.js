@@ -1,13 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Login } from "../../assets";
 import { Row } from "../../components/flex/styled";
 import { BaseInput } from "../../components/form/input/styled";
-import { H1, Label, Span } from "../../components/typography/styled";
+import { H1, Label, P, Span } from "../../components/typography/styled";
 import { AuthWrapper } from "./styled";
 import { BaseButton } from "../../components/button/styled";
 import { BaseFieldSet } from "../../components/form/fieldset/styled";
+import { authenticateUser } from "../../utils/apis/authentication";
+import { DotLoader } from "react-spinners";
 
 export const Auth = () => {
+    const navigate = useNavigate();
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [formDetails, setFormDetails] = useState({
         id: "",
         password: ""
@@ -21,10 +27,32 @@ export const Auth = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
+        setIsLoading(true);
         console.log(formDetails);
-        // form submission logic goes under here
+        try {
+            const response = await authenticateUser("sign-in", formDetails);
+            if (response.status) {
+                console.log(response.status)
+                setIsLoading(false);
+                navigate("/dashboard");
+                // cookies.set("token", response.data, {
+                //     path: "/",
+                //     maxAge: 1000000,
+                // })
+            } else {
+                setIsLoading(false);
+                setError('Authentication failed. Please check your credentials and try again.');
+                console.error("Authentication failed. Please check your credentials and try again.");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`Login failed. ${error.message}`);
+            console.error('Login failed:', error);
+        }
     };
 
     return (
@@ -66,10 +94,18 @@ export const Auth = () => {
                         type="submit"
                         backgroundcolor={"#4E57BB"}
                     >
-                        <Span>
-                            Login
-                        </Span>
+                        {isLoading ?
+                            (<DotLoader
+                                size={20}
+                                color="white"
+                                className='dotLoader'
+                            />) : (
+                                <Span>
+                                    Login
+                                </Span>
+                            )}
                     </BaseButton>
+                    {error && <P style={{ color: 'red' }}>{error}</P>}
                 </form>
             </Row>
         </AuthWrapper>
