@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SalaryAmount, SalaryDate } from "../../assets";
-import { Card } from "../../components/card";
-import { Row } from "../../components/flex/styled";
-import { H3, Label, P } from "../../components/typography/styled";
-import { Layout } from "../../containers/dashboard/layout";
+import { SalaryAmount, SalaryDate } from "../../../assets";
+import { Card } from "../../../components/card";
+import { Row } from "../../../components/flex/styled";
+import { H3, Label, P } from "../../../components/typography/styled";
+import { Layout } from "../../../containers/dashboard/layout";
 import { DashboardWrapper } from "./styled";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
-import { Chart } from "../../components/chart";
-import { BaseInput } from "../../components/form/input/styled";
-import { BaseSelect } from "../../components/form/select/styled";
-import { BaseFieldSet } from "../../components/form/fieldset/styled";
-import { Table } from "../../components/table";
+import { Chart } from "../../../components/chart";
+import { BaseInput } from "../../../components/form/input/styled";
+import { BaseSelect } from "../../../components/form/select/styled";
+import { BaseFieldSet } from "../../../components/form/fieldset/styled";
+import { Table } from "../../../components/table";
 
 export const Dashboard = () => {
     return (

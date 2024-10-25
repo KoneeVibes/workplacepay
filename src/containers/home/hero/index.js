@@ -23,7 +23,12 @@ export const Hero = () => {
         >
           Get Started
         </BaseButton>
-        <BaseButton width={"fit-content"}>Login</BaseButton>
+        <BaseButton
+          width={"fit-content"}
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </BaseButton>
       </HeroButtonRow>
     </HeroWrapper>
   );

@@ -6,9 +6,10 @@ import { HowWouldYouLikeToUse } from "./pages/preliminaryauth/howwouldyouliketou
 import { ReferYourEmployer } from "./pages/preliminaryauth/referyouremployer";
 import { SetUpYourCompany } from "./pages/preliminaryauth/setupyourcompany";
 import { Auth } from "./pages/auth";
-import { Dashboard } from "./pages/dashboard";
-import { AddNewEmployee } from "./containers/dashboard/addnewemployee";
-import { PayrollSettings } from "./containers/dashboard/payrollsettings";
+import { Dashboard } from "./pages/app/dashboard";
+import { AddNewEmployee } from "./pages/app/addnewemployee";
+import { PayrollSettings } from "./pages/app/payrollsettings";
+import { Payroll } from "./pages/app/payroll";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/addnewemployee" element={<AddNewEmployee />} />
         <Route path="/payrollsettings" element={<PayrollSettings />} />
+        <Route path="/payroll" element={<Payroll />} />
       </Routes>
     </BrowserRouter>
   );

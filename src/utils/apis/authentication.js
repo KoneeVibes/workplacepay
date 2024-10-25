@@ -1,8 +1,8 @@
 import { BASE_ENDPOINT } from "../endpoint";
 
-export const authenticateUser = async (authDetails) => {
+export const authenticateUser = async (action, authDetails) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/auth/sign-in`, {
+        const response = await fetch(`${BASE_ENDPOINT}/auth/${action}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
