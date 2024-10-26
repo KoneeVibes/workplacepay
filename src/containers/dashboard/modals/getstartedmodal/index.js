@@ -1,35 +1,26 @@
-import { Fragment, useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Context } from "../../../context";
-import { BaseModal } from "../../../components/modal"
+import { useState, useContext, useEffect } from "react";
+import { Context } from "../../../../context";
+import { BaseModal } from "../../../../components/modal"
 import { GetStartedModalWrapper } from "./styled"
-import { H2, P, Span } from "../../../components/typography/styled";
+import { H2, P, Span } from "../../../../components/typography/styled";
 import { GreenTick } from "../../../../assets";
-import { Row } from "../../../components/flex/styled";
-import { BaseButton } from "../../../components/button/styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { BaseButton } from "../../../../components/button/styled";
+import { Column } from "../../../../components/flex/styled";
 
-export const GetStartedSuccessModal = () => {
-    const navigate = useNavigate();
+export const GetStartedSuccessModal = ({ setIsOTPEntered }) => {
     const [matches, setMatches] = useState(false);
     const { isGetStartedModalOpen, setIsGetStartedModalOpen } = useContext(Context);
 
     const handleCloseModal = () => {
-        setIsGetStartedModalOpen(false);
+        setIsGetStartedModalOpen(true);
     }
 
-    // const handleNavigateToDashboard = () => {
-    //     setIsGetStartedModalOpen(false);
-    //     navigate("/dashboard");
-    // }
+    const handleOTPSubmit = () => {
+        // OTP submission logic should go in here
+        setIsGetStartedModalOpen(false);
+        setIsOTPEntered(true);
+    }
 
-    // const handleNavigateToAddEmployee = () => {
-    //     setIsGetStartedModalOpen(false);
-    //     navigate("/addnewemployee");
-    // }
-
-    
     useEffect(() => {
         const handleResize = () => {
             setMatches(window.screen.availWidth < 425);
@@ -50,48 +41,35 @@ export const GetStartedSuccessModal = () => {
             width={matches ? "auto" : "50%"}
         >
             <GetStartedModalWrapper>
-                <Fragment>
-                    <Column
-                        className="receipt-title"
-                        >
-                        <H2>Payment  Successfull!</H2>
-                        <GreenTick />
-                    </Column>
-                    <div>
-                        <P>
-                            Please check your email.
-                            We have sent an OTP to ibukunoladiporaji@gmail.com
-                        </P>
-                    </div>
-                    <div>
-                        <P>
-                            What would you like to do next?
-                        </P>
-                    </div>
-                    <Row
-                        className="form-action-row"
+                <Column
+                    className="receipt-title"
+                >
+                    <H2>Payment  Successfull!</H2>
+                    <GreenTick />
+                </Column>
+                <div>
+                    <P>
+                        Please check your email.
+                        We have sent an OTP to ibukunoladiporaji@gmail.com
+                    </P>
+                </div>
+                <div>
+                    <P>
+                        What would you like to do next?
+                    </P>
+                </div>
+                <div>
+                    <BaseButton
+                        type="submit"
+                        backgroundcolor={"#D9D9D9"}
+                        onClick={handleOTPSubmit}
                     >
-                        <BaseButton
-                            type="button"
-                            backgroundcolor={"#D9D9D9"}
-                            onClick={handleNavigateToDashboard}
-                        >
-                            <Span>
-                                Go to Dashboard
-                            </Span>
-                        </BaseButton>
-                        <BaseButton
-                            type="button"
-                            backgroundcolor={"#D9D9D9"}
-                            onClick={handleNavigateToAddEmployee}
-                        >
-                            <Span>
-                                Add another Employee
-                            </Span>
-                        </BaseButton>
-                    </Row>
-                </Fragment>
+                        <Span>
+                            Go to Dashboard
+                        </Span>
+                    </BaseButton>
+                </div>
             </GetStartedModalWrapper>
-        </BaseModal>
+        </BaseModal >
     )
 }

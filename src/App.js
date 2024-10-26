@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/home";
-import { GetStarted } from "./pages/preliminaryauth/getstarted";
 import { HowWouldYouLikeToUse } from "./pages/preliminaryauth/howwouldyouliketouse";
 import { ReferYourEmployer } from "./pages/preliminaryauth/referyouremployer";
 import { SetUpYourCompany } from "./pages/preliminaryauth/setupyourcompany";
@@ -10,6 +9,7 @@ import { Dashboard } from "./pages/app/dashboard";
 import { AddNewEmployee } from "./pages/app/addnewemployee";
 import { PayrollSettings } from "./pages/app/payrollsettings";
 import { Payroll } from "./pages/app/payroll";
+import { GetStarted } from "./pages/preliminaryauth/getstarted";
 
 function App() {
   return (

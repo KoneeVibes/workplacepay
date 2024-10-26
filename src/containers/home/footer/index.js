@@ -7,17 +7,16 @@ import { BaseInput } from "../../../components/form/input/styled";
 export const Footer = () => {
   return (
     <FooterWrapper>
-      {/* Mirabel, your html code should go in below this line */}
       <Column className="footer-form">
         <H2>Contact Us</H2>
-        <Label for="email" className="emailLabel">
+        <Label htmlFor="email" className="emailLabel">
           Email
         </Label>
-        <BaseInput type="string" className="emailInput" />
-        <Label for="message" className="messageLabel">
+        <BaseInput id="email" type="string" className="emailInput" />
+        <Label htmlFor="message" className="messageLabel">
           Message
         </Label>
-        <BaseInput type="string" className="messageInput" />
+        <BaseInput id="message" type="string" className="messageInput" />
         <BaseButton type="button" className="button" width={"fit-content"}>
           Send
         </BaseButton>

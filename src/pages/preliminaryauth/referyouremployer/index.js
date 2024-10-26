@@ -12,7 +12,6 @@ export const ReferYourEmployer = () => {
         lastName: "",
         companyName: "",
         companyEmail: "",
-
     });
 
     const handleChange = (e) => {
@@ -32,7 +31,7 @@ export const ReferYourEmployer = () => {
             {/* IBK, your HTML should go under here */}
             <div className="refer-text">
                 <H2>workPlacePAY</H2>
-                <H3>The #1 Employee 
+                <H3>The #1 Employee
                     Payroll Solution for
                     Small and medium Businesses
                 </H3>
@@ -42,59 +41,57 @@ export const ReferYourEmployer = () => {
             <div className="refer-form">
                 <H1>Refer your Employer </H1>
                 <P>Please  provide the following details to refer your employer to workPlacePAY</P>
-                <form onSubmit={handleSubmit}> 
-                <ReferYourEmployerRow>
-                     <BaseFieldSet>
-                        <Label>Firstname</Label>
-                        <BaseInput
-                        type="text"
-                        name="firstname"
-                        placeholder="Enter First Name"
-                        value={referForm.firstName}
-                        onChange={(e) => handleChange(e)}
-                        required
-                        />
-                     </BaseFieldSet>
-                     <BaseFieldSet>
-                        <Label>Lastname</Label>
-                        <BaseInput
-                        type="text"
-                        name="lastname"
-                        placeholder="Enter Last Name"
-                        value={referForm.lastName}
-                        onChange={(e) => handleChange(e)}
-                        required
-                        />
-                    </BaseFieldSet>
-                </ReferYourEmployerRow>
-                <ReferYourEmployerRow>
-                    <BaseFieldSet>
-                        <Label color="">Company name*</Label>
-                        <BaseInput
-                        type="text"
-                        name="companyname"
-                        placeholder="Company Name"
-                        value={referForm.companyName}
-                        onChange={(e) => handleChange(e)}
-                        required
-                        />
-                    </BaseFieldSet>
-                    <BaseFieldSet>
-                        <Label>Company Email</Label>
-                        <BaseInput
-                        type="email"
-                        name="companyemail"
-                        placeholder="Company Email"
-                        value={referForm.companyEmail}
-                        onChange={(e) => handleChange(e)}
-                        required
-                        />
-                    </BaseFieldSet>
-                </ReferYourEmployerRow>
-                <BaseButton backgroundcolor={"#4E57BB"} width={"fit-content"} className="submit-button">
-                   Submit
-                </BaseButton>
-            </form>    
+                <form onSubmit={handleSubmit}>
+                    <ReferYourEmployerRow>
+                        <BaseFieldSet>
+                            <Label>Firstname</Label>
+                            <BaseInput
+                                name="firstName"
+                                placeholder="Enter First Name"
+                                value={referForm.firstName}
+                                onChange={(e) => handleChange(e)}
+                                required
+                            />
+                        </BaseFieldSet>
+                        <BaseFieldSet>
+                            <Label>Lastname</Label>
+                            <BaseInput
+                                name="lastName"
+                                placeholder="Enter Last Name"
+                                value={referForm.lastName}
+                                onChange={(e) => handleChange(e)}
+                                required
+                            />
+                        </BaseFieldSet>
+                    </ReferYourEmployerRow>
+                    <ReferYourEmployerRow>
+                        <BaseFieldSet>
+                            <Label color="">Company name*</Label>
+                            <BaseInput
+                                name="companyName"
+                                placeholder="Company Name"
+                                value={referForm.companyName}
+                                onChange={(e) => handleChange(e)}
+                                required
+                            />
+                        </BaseFieldSet>
+                        <BaseFieldSet>
+                            <Label>Company Email</Label>
+                            <BaseInput
+                                name="companyEmail"
+                                placeholder="Company Email"
+                                value={referForm.companyEmail}
+                                onChange={(e) => handleChange(e)}
+                                required
+                            />
+                        </BaseFieldSet>
+                    </ReferYourEmployerRow>
+                    <BaseButton
+                        backgroundcolor={"#4E57BB"}
+                        width={"fit-content"}>
+                        Submit
+                    </BaseButton>
+                </form>
             </div>
         </ReferYourEmployerWrapper>
     )
