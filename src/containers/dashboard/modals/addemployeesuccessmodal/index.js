@@ -1,11 +1,11 @@
 import { Fragment, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../../../context";
-import { BaseModal } from "../../../components/modal"
+import { Context } from "../../../../context";
+import { BaseModal } from "../../../../components/modal"
 import { AddEmployeeSuccessModalWrapper } from "./styled"
-import { H2, P, Span } from "../../../components/typography/styled";
-import { Row } from "../../../components/flex/styled";
-import { BaseButton } from "../../../components/button/styled";
+import { H2, P, Span } from "../../../../components/typography/styled";
+import { Row } from "../../../../components/flex/styled";
+import { BaseButton } from "../../../../components/button/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -28,7 +28,7 @@ export const AddEmployeeSuccessModal = () => {
         navigate("/addnewemployee");
     }
 
-    
+
     useEffect(() => {
         const handleResize = () => {
             setMatches(window.screen.availWidth < 425);

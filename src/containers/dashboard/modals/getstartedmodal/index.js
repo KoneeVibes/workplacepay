@@ -65,7 +65,7 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered }) => {
                         onClick={handleOTPSubmit}
                     >
                         <Span>
-                            Go to Dashboard
+                            Next
                         </Span>
                     </BaseButton>
                 </div>

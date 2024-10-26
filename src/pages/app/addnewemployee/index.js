@@ -11,6 +11,7 @@ import { BaseButton } from "../../../components/button/styled";
 import { Column } from "../../../components/flex/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseTextArea } from "../../../components/form/textarea/styled";
+import { AddEmployeeSuccessModal } from "../../../containers/dashboard/modals/addemployeesuccessmodal";
 
 export const AddNewEmployee = () => {
     const [step, setStep] = useState(1);
@@ -455,6 +456,7 @@ export const AddNewEmployee = () => {
                         )}
                     </form>
                 </Column>
+                <AddEmployeeSuccessModal />
             </AddNewEmployeeWrapper>
         </Layout>
     )
