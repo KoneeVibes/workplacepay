@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { Context } from "../../../context";
 //import { useNavigate } from "react-router-dom";
 import { Layout } from "../../../containers/dashboard/layout";
 import { AddNewEmployeeWrapper } from "./styled";
@@ -12,9 +13,9 @@ import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseTextArea } from "../../../components/form/textarea/styled";
 
 export const AddNewEmployee = () => {
-    // const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [matches, setMatches] = useState(false);
+    const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
     const [formDetails, setFormDetails] = useState({
         userName: "",
         firstName: "",
@@ -74,6 +75,7 @@ export const AddNewEmployee = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formDetails);
+        setIsAddEmployeeSuccessModalOpen(true);
     };
 
     useEffect(() => {
