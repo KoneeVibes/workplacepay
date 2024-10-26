@@ -15,6 +15,7 @@ import { Table } from "../../../components/table";
 export const Dashboard = () => {
     return (
         <Layout
+            id={"dashboard"}
             title={"Dashboard"}
             location={"dashboard"}
         >

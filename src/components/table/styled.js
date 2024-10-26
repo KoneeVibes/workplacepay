@@ -15,6 +15,7 @@ export const TableWrapper = styled("table")(() => {
             fontSize: "24px",
             fontWeight: 600,
             color: "#CCCCCC",
+            userSelect: "none",
         },
         "& td": {
             textAlign: "left",
@@ -26,11 +27,5 @@ export const TableWrapper = styled("table")(() => {
         "& tbody tr td:nth-child(1)": {
             textAlign: "left",
         },
-        "tr th:nth-child(1)": {
-            paddingLeft: 0,
-        },
-        "tr td:nth-child(1)": {
-            paddingLeft: 0,
-        }
     }
 })

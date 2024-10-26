@@ -72,6 +72,9 @@ export const SideNavigationWrapper = styled(Column)(() => {
             "& p": {
                 cursor: "pointer",
                 marginBlock: 0,
+                "&:hover": {
+                    color: "rgba(255, 255, 255, 0.57)",
+                }
             }
         },
         "& .nav-avatar": {
