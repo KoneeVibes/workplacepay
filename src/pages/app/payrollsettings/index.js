@@ -60,7 +60,10 @@ export const PayrollSettings = () => {
   };
 
   return (
-    <Layout title={"Payroll Settings"}>
+    <Layout
+      id={"setup"}
+      title={"Payroll Settings"}
+    >
       <PayrollSettingsWrapper>
         <H2>Payroll Variables</H2>
         <P>Select the applicable variables for the user</P>

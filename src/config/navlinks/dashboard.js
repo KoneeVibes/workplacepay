@@ -5,11 +5,11 @@ export const navLinks = [
     },
     {
         name: "Employees",
-        url: ""
+        url: "/employees"
     },
     {
         name: "Payroll",
-        url: ""
+        url: "/payroll"
     },
     {
         name: "Report Summary",

@@ -2,9 +2,11 @@ import { SideNavigation } from "../../../components/navigation/sidenavigation";
 import { TopNavigation } from "../../../components/navigation/topnavigation";
 import { LayoutWrapper, MainAreaWrapper } from "./styled";
 
-export const Layout = ({ children, title, location }) => {
+export const Layout = ({ id, children, title, location }) => {
     return (
-        <LayoutWrapper>
+        <LayoutWrapper
+            id={id}
+        >
             <SideNavigation />
             <TopNavigation
                 title={title}

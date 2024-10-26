@@ -11,13 +11,14 @@ export const MainAreaWrapper = styled("div")(() => {
         padding: "var(--cardPadding)",
         backgroundColor: "#CCCCCC",
         overflow: "hidden",
+        minHeight: "100vh",
         "@media screen and (min-width: 1024px)": {
             position: "absolute",
             left: "var(--sideNavWidth)",
             top: "var(--topNavHeight)",
             right: 0,
             bottom: 0,
-            minHeight: "100vh",
+            height: "max-content",
         },
     }
 })
