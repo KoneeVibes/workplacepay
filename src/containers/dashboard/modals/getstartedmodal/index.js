@@ -6,20 +6,37 @@ import { H2, P, Span } from "../../../../components/typography/styled";
 import { GreenTick } from "../../../../assets";
 import { BaseButton } from "../../../../components/button/styled";
 import { Column } from "../../../../components/flex/styled";
+import { BaseInput } from "../../../../components/form/input/styled";
+import React from 'react';
 
 export const GetStartedSuccessModal = ({ setIsOTPEntered }) => {
     const [matches, setMatches] = useState(false);
     const { isGetStartedModalOpen, setIsGetStartedModalOpen } = useContext(Context);
+    const [otp, setOtp] = useState(new Array(4).fill(""));
 
     const handleCloseModal = () => {
-        setIsGetStartedModalOpen(true);
-    }
+        setIsGetStartedModalOpen(false);
+    };
 
     const handleOTPSubmit = () => {
         // OTP submission logic should go in here
         setIsGetStartedModalOpen(false);
         setIsOTPEntered(true);
-    }
+        alert(`OTP Entered: ${otp.join('')}`);
+    };
+
+    const handleChange = (element, index) => {
+        if (isNaN(element.value)) return;
+
+        const newOtp = [...otp];
+        newOtp[index] = element.value;
+        setOtp(newOtp);
+
+        // Move to the next input field
+        if (element.nextSibling && element.value !== "") {
+            element.nextSibling.focus();
+        }
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -44,7 +61,7 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered }) => {
                 <Column
                     className="receipt-title"
                 >
-                    <H2>Payment  Successfull!</H2>
+                    <H2>Email Verified!</H2>
                     <GreenTick />
                 </Column>
                 <div>
@@ -53,11 +70,17 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered }) => {
                         We have sent an OTP to ibukunoladiporaji@gmail.com
                     </P>
                 </div>
-                <div>
-                    <P>
-                        What would you like to do next?
-                    </P>
-                </div>
+            <div className="otp-container">
+                {otp.map((data, index) => (
+                    <BaseInput
+                        key={index}
+                        type="text"
+                        maxLength="1"
+                        value={data}
+                        onChange={(e) => handleChange(e.target, index)}
+                    />
+                ))}
+            </div>
                 <div>
                     <BaseButton
                         type="submit"
