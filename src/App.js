@@ -10,6 +10,7 @@ import { Dashboard } from "./pages/app/dashboard";
 import { AddNewEmployee } from "./pages/app/addnewemployee";
 import { PayrollSettings } from "./pages/app/payrollsettings";
 import { Payroll } from "./pages/app/payroll";
+import { Employees } from "./pages/app/employees";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/addnewemployee" element={<AddNewEmployee />} />
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
+        <Route path="/employees" element={<Employees />} />
       </Routes>
     </BrowserRouter>
   );
