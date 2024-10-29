@@ -6,7 +6,7 @@ import { BaseInput } from "../../../components/form/input/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { H1, H2, H3, Label, P } from "../../../components/typography/styled";
 import { FieldSetRow, SetUpYourCompanyWrapper } from "./styled";
-import { PaymentModal } from "../../../containers/dashboard/modals/paymentmodal";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../context";
 import { Row } from "../../../components/flex/styled";
 

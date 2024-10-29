@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Layout } from "../../../containers/dashboard/layout";
+import { Layout } from "../../../containers/app/layout";
 import { InputRow, PayrollSettingsWrapper } from "./styled";
 import { BaseButton } from "../../../components/button/styled";
 import { BaseInput } from "../../../components/form/input/styled";

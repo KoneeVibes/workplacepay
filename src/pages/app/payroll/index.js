@@ -4,7 +4,7 @@ import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { Label } from "../../../components/typography/styled";
-import { Layout } from "../../../containers/dashboard/layout";
+import { Layout } from "../../../containers/app/layout";
 import { PayrollWrapper } from "./styled";
 import { Table } from "../../../components/table";
 

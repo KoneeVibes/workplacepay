@@ -3,7 +3,7 @@ import { SalaryAmount, SalaryDate } from "../../../assets";
 import { Card } from "../../../components/card";
 import { Row } from "../../../components/flex/styled";
 import { H3, Label, P } from "../../../components/typography/styled";
-import { Layout } from "../../../containers/dashboard/layout";
+import { Layout } from "../../../containers/app/layout";
 import { DashboardWrapper } from "./styled";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 import { Chart } from "../../../components/chart";
