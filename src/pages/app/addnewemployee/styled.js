@@ -48,6 +48,16 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             textOverflow: "ellipsis",
             width: "-webkit-fill-available",
         },
+        "& .add-new-employee-modal": {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            padding: "var(--cardPadding)",
+            borderRadius: "1rem",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+        },
         "@media screen and (min-width: 768px)": {
             "& .submit-column": {
                 flexDirection: "row",

@@ -1,6 +1,5 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Context } from "../../../context";
-//import { useNavigate } from "react-router-dom";
 import { Layout } from "../../../containers/dashboard/layout";
 import { AddNewEmployeeWrapper } from "./styled";
 import { H2, P, Label } from "../../../components/typography/styled";
@@ -11,12 +10,10 @@ import { BaseButton } from "../../../components/button/styled";
 import { Column } from "../../../components/flex/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseTextArea } from "../../../components/form/textarea/styled";
+import { AddEmployeeSuccessModal } from "../../../containers/dashboard/modals/addemployeesuccessmodal";
 
 export const AddNewEmployee = () => {
-    const [step, setStep] = useState(1);
-    const [matches, setMatches] = useState(false);
-    const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
-    const [formDetails, setFormDetails] = useState({
+    const initialFormDetails = useMemo(() => ({
         userName: "",
         firstName: "",
         lastName: "",
@@ -45,7 +42,14 @@ export const AddNewEmployee = () => {
         emergencyContactRelationship: "",
         emergencyContactNumber: "",
         emergencyContactAddress: "",
-    });
+    }), []);
+
+    const [step, setStep] = useState(1);
+    const [matches, setMatches] = useState(false);
+    const [isFormReset, setIsFormReset] = useState(false);
+
+    const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
+    const [formDetails, setFormDetails] = useState(initialFormDetails);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,7 +69,7 @@ export const AddNewEmployee = () => {
         if (step === 2) {
             return await handleSubmit(e);
         };
-        // perform form validation here to ensure that all the field
+        // perform form validation here to ensure that all the fields
         // in step one have been entered
         setStep((prev) => {
             return prev + 1;
@@ -77,6 +81,18 @@ export const AddNewEmployee = () => {
         console.log(formDetails);
         setIsAddEmployeeSuccessModalOpen(true);
     };
+
+    const resetForm = useCallback(() => {
+        setStep(1);
+        setFormDetails(initialFormDetails);
+    }, [initialFormDetails]);
+
+    useEffect(() => {
+        if (isFormReset) {
+            resetForm();
+            setIsFormReset(false);
+        }
+    }, [isFormReset, resetForm]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -110,7 +126,7 @@ export const AddNewEmployee = () => {
                         {step === 1 && (
                             <Fragment>
                                 <BaseFieldSet>
-                                    <Label>USERNAME (System generated)</Label>
+                                    <Label>User Name (System generated)</Label>
                                     <BaseInput
                                         type="text"
                                         name="userName"
@@ -120,7 +136,7 @@ export const AddNewEmployee = () => {
                                 </BaseFieldSet>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>FIRST NAME *</Label>
+                                        <Label>First Name</Label>
                                         <BaseInput
                                             type="text"
                                             name="firstName"
@@ -130,7 +146,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>LAST NAME *</Label>
+                                        <Label>Last Name</Label>
                                         <BaseInput
                                             type="text"
                                             name="lastName"
@@ -142,7 +158,7 @@ export const AddNewEmployee = () => {
                                 </AddNewEmployeeRow>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>MIDDLE NAME </Label>
+                                        <Label>Middle Name</Label>
                                         <BaseInput
                                             type="text"
                                             name="middleName"
@@ -152,7 +168,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>DATE OF BIRTH *</Label>
+                                        <Label>Date Of Birth</Label>
                                         <BaseInput
                                             type="date"
                                             name="dob"
@@ -163,7 +179,7 @@ export const AddNewEmployee = () => {
                                 </AddNewEmployeeRow>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>EMAIL *</Label>
+                                        <Label>Email</Label>
                                         <BaseInput
                                             type="email"
                                             name="email"
@@ -173,7 +189,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>PHONE NUMBER *</Label>
+                                        <Label>Phone Number</Label>
                                         <BaseInput
                                             type="tel"
                                             name="phoneNumber"
@@ -185,7 +201,7 @@ export const AddNewEmployee = () => {
                                 </AddNewEmployeeRow>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>NATIONAL ID NO (NIN) *</Label>
+                                        <Label>National Id No (NIN)</Label>
                                         <BaseInput
                                             type="text"
                                             name="nin"
@@ -195,7 +211,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>ADDRESS *</Label>
+                                        <Label>Address</Label>
                                         <BaseInput
                                             type="text"
                                             name="address"
@@ -208,7 +224,7 @@ export const AddNewEmployee = () => {
                                 <H2>Corporate Details</H2>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>DEPARTMENT *</Label>
+                                        <Label>Department</Label>
                                         <BaseInput
                                             type="text"
                                             name="department"
@@ -218,7 +234,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>HIRE DATE *</Label>
+                                        <Label>Hire Date</Label>
                                         <BaseInput
                                             type="date"
                                             name="hireDate"
@@ -228,7 +244,7 @@ export const AddNewEmployee = () => {
                                     </BaseFieldSet>
                                 </AddNewEmployeeRow>
                                 <BaseFieldSet>
-                                    <Label>JOB POSITION*</Label>
+                                    <Label>Job Position*</Label>
                                     <BaseInput
                                         type="text"
                                         name="jobPosition"
@@ -240,7 +256,7 @@ export const AddNewEmployee = () => {
                                 <H2>Payroll Setup</H2>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>Annual GROSS PAY*</Label>
+                                        <Label>Annual Gross Pay</Label>
                                         <BaseInput
                                             type="text"
                                             name="grossPay"
@@ -249,7 +265,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>SALARY BANK NAME</Label>
+                                        <Label>Salary Bank Name</Label>
                                         <BaseSelect
                                             name="bankName"
                                             value={formDetails.bankName}
@@ -263,7 +279,7 @@ export const AddNewEmployee = () => {
                                 </AddNewEmployeeRow>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>SALARY BANK ACCOUNT</Label>
+                                        <Label>Salary Bank Account</Label>
                                         <BaseInput
                                             type="text"
                                             name="bankAccount"
@@ -272,7 +288,7 @@ export const AddNewEmployee = () => {
                                             required />
                                     </BaseFieldSet>
                                     <BaseFieldSet>
-                                        <Label>PENSION FIRM</Label>
+                                        <Label>Pension Firm</Label>
                                         <BaseSelect
                                             name="pensionFirm"
                                             value={formDetails.pensionFirm}
@@ -286,7 +302,7 @@ export const AddNewEmployee = () => {
                                 </AddNewEmployeeRow>
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
-                                        <Label>PENSION ACCOUNT</Label>
+                                        <Label>Pension Account</Label>
                                         <BaseInput
                                             type="text"
                                             name="pensionAccount"
@@ -455,6 +471,10 @@ export const AddNewEmployee = () => {
                         )}
                     </form>
                 </Column>
+                <AddEmployeeSuccessModal
+                    width={"40%"}
+                    setIsFormReset={setIsFormReset}
+                />
             </AddNewEmployeeWrapper>
         </Layout>
     )

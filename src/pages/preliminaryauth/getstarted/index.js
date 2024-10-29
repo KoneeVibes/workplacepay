@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Prelim } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
@@ -8,9 +8,13 @@ import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { authenticateUser } from "../../../utils/apis/authentication";
 import { DotLoader } from "react-spinners";
+import { GetStartedSuccessModal } from "../../../containers/dashboard/modals/getstartedmodal";
+import { Context } from "../../../context";
 
 export const GetStarted = () => {
   const navigate = useNavigate();
+  const [isOTPEntered, setIsOTPEntered] = useState(false);
+  const { setIsGetStartedModalOpen } = useContext(Context);
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +22,12 @@ export const GetStarted = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isOTPEntered) {
+      setStep(2);
+    }
+  }, [isOTPEntered]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +39,7 @@ export const GetStarted = () => {
 
   const handleOTPModal = () => {
     // update modal to open below
-
+    setIsGetStartedModalOpen(true);
   }
 
   const handleSubmit = async (e) => {
@@ -119,6 +129,11 @@ export const GetStarted = () => {
           </BaseFieldSet>
         </form>
       </div>
+      <GetStartedSuccessModal
+        width={"40%"}
+        height={"40%"}
+        setIsOTPEntered={setIsOTPEntered}
+      />
     </GetStartedWrapper >
   );
 };

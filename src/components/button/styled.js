@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const BaseButton = styled.button(({ width, backgroundcolor }) => {
+export const BaseButton = styled.button(({ width, backgroundcolor, color }) => {
   return {
     //styles for button should begin below this line.
     textAlign: "center",
     backgroundColor: backgroundcolor || "#8A90DC",
     border: "none",
-    color: "white",
+    color: color || "white",
     borderRadius: "8px",
     width: width || "-webkit-fill-available",
     padding: "calc(var(--cardPadding)/2) var(--cardPadding)",
