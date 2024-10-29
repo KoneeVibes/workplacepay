@@ -9,11 +9,6 @@ import { Span } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
 
 export const Employees = () => {
-  const [employees, setEmployees] = useState({
-    year: "",
-    month: "",
-  });
-
   const [filter, setFilter] = useState({
     username: "",
     department: "",
@@ -21,34 +16,34 @@ export const Employees = () => {
     status: "",
   });
 
-  const handleChange = (e, target) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    if (target === "employees") {
-      setEmployees((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    } else {
-      setFilter((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    setFilter((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
-    <Layout title={"Employees"} location={"employees"}>
-      <EmployeesWrapper className="employeesWrapper">
-        <Row className="row" justifycontent={"space-between"}>
-          <Span className="employeesList">Employee List</Span>
-          <Span className="employeesList">See all</Span>
+    <Layout
+      id={"employees"}
+      title={"Employees"}
+      location={"employees"}
+    >
+      <EmployeesWrapper>
+        <Row
+          className="heading-row"
+          justifycontent={"space-between"}
+        >
+          <Span>Employee List</Span>
+          <Span>See all</Span>
         </Row>
         <Row className="filter">
           <BaseFieldSet>
             <Label>Username</Label>
             <BaseSelect
               name="username"
-              onChange={(e) => handleChange(e, "filter")}
+              onChange={handleChange}
               value={filter.username}
             >
               <option value="" hidden></option>
@@ -60,7 +55,7 @@ export const Employees = () => {
             <Label>Department</Label>
             <BaseSelect
               name="department"
-              onChange={(e) => handleChange(e, "filter")}
+              onChange={handleChange}
               value={filter.department}
             >
               <option value="" hidden></option>
@@ -72,7 +67,7 @@ export const Employees = () => {
             <Label>Job Title</Label>
             <BaseSelect
               name="jobTitle"
-              onChange={(e) => handleChange(e, "filter")}
+              onChange={handleChange}
               value={filter.jobTitle}
             >
               <option value="" hidden></option>
@@ -84,7 +79,7 @@ export const Employees = () => {
             <Label>Status</Label>
             <BaseSelect
               name="status"
-              onChange={(e) => handleChange(e, "filter")}
+              onChange={handleChange}
               value={filter.status}
             >
               <option value="" hidden></option>

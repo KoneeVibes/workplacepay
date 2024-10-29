@@ -2,51 +2,36 @@ import styled from "styled-components";
 
 export const EmployeesWrapper = styled("div")(() => {
   return {
+    borderRadius: "1rem",
+    backgroundColor: "#FFFFFF",
     "& select": {
-      padding: "calc(var(--cardPadding)/2.7)",
+      padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
     },
     "& fieldset": {
       flex: 1,
       overflow: "hidden",
     },
-    "& .employeesWrapper": {
-      backgroundColor: "#FFFFFF",
-    },
-
-    "& .employees-button-box": {
-      overflow: "hidden",
-    },
-    "@media screen and (max-width: 500px)": {
-      alignItems: "stretch",
-      flexDirection: "column",
-    },
     "& label": {
       fontFamily: "Poppins",
-      fontWeight: "600",
-      fontSize: "20",
+      fontWeight: 600,
+      fontSize: 20,
       color: "#000000",
     },
-    "& .row": {
-      marginBottom: "3rem",
-    },
-    "& .employeesList": {
-      fontFamily: "Poppins",
-      fontWeight: "600",
-      fontSize: "20",
-      color: "#000000",
+    "& .heading-row": {
+      padding: "var(--cardPadding)",
+      marginBlockEnd: "var(--sectionMargin)",
+      "& span": {
+        fontFamily: "Poppins",
+        fontWeight: 500,
+        fontSize: 18,
+        color: "#000000",
+      },
     },
     "& .filter": {
+      padding: "0 var(--cardPadding)",
       justifyContent: "space-between",
       marginBlockEnd: "var(--sectionMargin)",
-      "& select": {
-        padding: "calc(var(--cardPadding)/2)",
-        borderRadius: "10px",
-      },
-      "& fieldset": {
-        flex: 1,
-        overflow: "hidden",
-      },
       "@media screen and (max-width: 768px)": {
         flexDirection: "column",
       },
@@ -55,7 +40,8 @@ export const EmployeesWrapper = styled("div")(() => {
       overflow: "auto",
     },
     "& th": {
-      color: "#000000",
+      color: "#FFFFFF",
+      background: "#4E57BB",
       minWidth: "200px",
     },
     "& td": {
