@@ -10,7 +10,7 @@ import { BaseButton } from "../../../components/button/styled";
 import { Column } from "../../../components/flex/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseTextArea } from "../../../components/form/textarea/styled";
-import { AddEmployeeSuccessModal } from "../../../containers/dashboard/modals/addemployeesuccessmodal";
+import { AddEmployeeSuccessModal } from "../../../containers/app/modals/addemployeesuccessmodal";
 
 export const AddNewEmployee = () => {
     const initialFormDetails = useMemo(() => ({
