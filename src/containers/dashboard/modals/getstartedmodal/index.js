@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useContext, useEffect } from "react";
 import { Context } from "../../../../context";
 import { BaseModal } from "../../../../components/modal"
@@ -7,7 +8,6 @@ import { GreenTick } from "../../../../assets";
 import { BaseButton } from "../../../../components/button/styled";
 import { Column, Row } from "../../../../components/flex/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
-import React from 'react';
 
 export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
     const [matches, setMatches] = useState(false);
