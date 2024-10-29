@@ -6,16 +6,14 @@ import { AddEmployeeSuccessModalWrapper } from "./styled"
 import { H2, P, Span } from "../../../../components/typography/styled";
 import { Row } from "../../../../components/flex/styled";
 import { BaseButton } from "../../../../components/button/styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-export const AddEmployeeSuccessModal = () => {
+export const AddEmployeeSuccessModal = ({ height, width, setIsFormReset }) => {
     const navigate = useNavigate();
     const [matches, setMatches] = useState(false);
     const { isAddEmployeeSuccessModalOpen, setIsAddEmployeeSuccessModalOpen } = useContext(Context);
 
     const handleCloseModal = () => {
-        setIsAddEmployeeSuccessModalOpen(false);
+        setIsAddEmployeeSuccessModalOpen(true);
     }
 
     const handleNavigateToDashboard = () => {
@@ -25,9 +23,8 @@ export const AddEmployeeSuccessModal = () => {
 
     const handleNavigateToAddEmployee = () => {
         setIsAddEmployeeSuccessModalOpen(false);
-        navigate("/addnewemployee");
+        setIsFormReset(true);
     }
-
 
     useEffect(() => {
         const handleResize = () => {
@@ -45,20 +42,14 @@ export const AddEmployeeSuccessModal = () => {
             open={isAddEmployeeSuccessModalOpen}
             onClose={handleCloseModal}
             className={"add-new-employee-modal"}
-            height={matches ? "auto" : "50%"}
-            width={matches ? "auto" : "50%"}
+            height={matches ? "auto" : height || "auto"}
+            width={matches ? "60%" : width || "50%"}
         >
             <AddEmployeeSuccessModalWrapper>
                 <Fragment>
-                    <Row className="payment-modal-title">
+                    <div className="confirmation-modal-title">
                         <H2>Congratulations</H2>
-                        <BaseButton
-                            onClick={handleCloseModal}
-                            backgroundcolor={"#800000"}
-                        >
-                            <FontAwesomeIcon icon={faXmark} color="#FFFFFF" />
-                        </BaseButton>
-                    </Row>
+                    </div>
                     <div>
                         <P>
                             You have added a new Employee.
@@ -72,10 +63,12 @@ export const AddEmployeeSuccessModal = () => {
                         </P>
                     </div>
                     <Row
-                        className="form-action-row"
+                        tocolumn={true}
+                        className="form-cta-row"
                     >
                         <BaseButton
                             type="button"
+                            color="#000000"
                             backgroundcolor={"#D9D9D9"}
                             onClick={handleNavigateToDashboard}
                         >
@@ -85,6 +78,7 @@ export const AddEmployeeSuccessModal = () => {
                         </BaseButton>
                         <BaseButton
                             type="button"
+                            color="#000000"
                             backgroundcolor={"#D9D9D9"}
                             onClick={handleNavigateToAddEmployee}
                         >

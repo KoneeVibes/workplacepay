@@ -129,7 +129,11 @@ export const GetStarted = () => {
           </BaseFieldSet>
         </form>
       </div>
-      <GetStartedSuccessModal setIsOTPEntered={setIsOTPEntered} />
+      <GetStartedSuccessModal
+        width={"40%"}
+        height={"40%"}
+        setIsOTPEntered={setIsOTPEntered}
+      />
     </GetStartedWrapper >
   );
 };

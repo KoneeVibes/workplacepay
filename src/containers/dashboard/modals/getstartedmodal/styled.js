@@ -1,46 +1,41 @@
 import styled from "styled-components";
+import { Column } from "../../../../components/flex/styled";
 
-export const GetStartedModalWrapper = styled("div")(() => {
+export const GetStartedModalWrapper = styled(Column)(() => {
     return {
+        gap: 0,
         overflow: "hidden",
-        ".payment-modal-title": {
-            alignItems: "center",
-            justifyContent: "space-between",
-            overflow: "hidden",
-            "& h2": {
-                fontFamily: "Inter",
-                fontWeight: 800,
-                fontSize: "32px",
-                marginBlock: 0,
-            },
-            "button": {
-                width: "auto",
-                padding: "1rem",
-            },
+        "& .receipt-title>svg": {
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
         },
-        "& .receipt-title>svg":{
-            display:"block",
-            marginLeft:"auto",
-            marginRight:"auto",
+        "& .receipt-title>h2": {
+            marginBlockStart: 0,
+            textAlign: "center",
         },
-        "& .receipt-title>h2":{
-            textAlign:"center",
+        "& p": {
+            textAlign: "center",
         },
-        "p":{
-            textAlign:"center",
+        "& .otp-container": {
+            gap: "calc(var(--flexGap)/2)",
+            marginBlock: 'var(--sectionMargin)',
+            overflow: "auto",
+            width: "100%",
         },
-        ".otp-container":{
-            display: 'flex',
-            gap: 'calc(var(--cardPadding) * 2)',
-            marginTop: 'var(--sectionMargin)',
-            marginBottom:'var(--sectionMargin)',
-            justifyContent: 'center',
-        },
-        ".otp-container>input":{
-            width: '50px',
-            height: '50px',
+        "& .otp-container>input": {
+            width: '25%',
+            height: '30px',
             fontSize: '24px',
             textAlign: 'center',
+        },
+        "& .submit-button-box": {
+            "& button": {
+                width: "auto",
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+            },
         }
     }
 })

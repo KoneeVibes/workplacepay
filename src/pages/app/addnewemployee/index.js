@@ -1,6 +1,5 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Context } from "../../../context";
-//import { useNavigate } from "react-router-dom";
 import { Layout } from "../../../containers/dashboard/layout";
 import { AddNewEmployeeWrapper } from "./styled";
 import { H2, P, Label } from "../../../components/typography/styled";
@@ -14,10 +13,7 @@ import { BaseTextArea } from "../../../components/form/textarea/styled";
 import { AddEmployeeSuccessModal } from "../../../containers/dashboard/modals/addemployeesuccessmodal";
 
 export const AddNewEmployee = () => {
-    const [step, setStep] = useState(1);
-    const [matches, setMatches] = useState(false);
-    const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
-    const [formDetails, setFormDetails] = useState({
+    const initialFormDetails = useMemo(() => ({
         userName: "",
         firstName: "",
         lastName: "",
@@ -46,7 +42,14 @@ export const AddNewEmployee = () => {
         emergencyContactRelationship: "",
         emergencyContactNumber: "",
         emergencyContactAddress: "",
-    });
+    }), []);
+
+    const [step, setStep] = useState(1);
+    const [matches, setMatches] = useState(false);
+    const [isFormReset, setIsFormReset] = useState(false);
+
+    const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
+    const [formDetails, setFormDetails] = useState(initialFormDetails);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,7 +69,7 @@ export const AddNewEmployee = () => {
         if (step === 2) {
             return await handleSubmit(e);
         };
-        // perform form validation here to ensure that all the field
+        // perform form validation here to ensure that all the fields
         // in step one have been entered
         setStep((prev) => {
             return prev + 1;
@@ -78,6 +81,18 @@ export const AddNewEmployee = () => {
         console.log(formDetails);
         setIsAddEmployeeSuccessModalOpen(true);
     };
+
+    const resetForm = useCallback(() => {
+        setStep(1);
+        setFormDetails(initialFormDetails);
+    }, [initialFormDetails]);
+
+    useEffect(() => {
+        if (isFormReset) {
+            resetForm();
+            setIsFormReset(false);
+        }
+    }, [isFormReset, resetForm]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -456,7 +471,10 @@ export const AddNewEmployee = () => {
                         )}
                     </form>
                 </Column>
-                <AddEmployeeSuccessModal />
+                <AddEmployeeSuccessModal
+                    width={"40%"}
+                    setIsFormReset={setIsFormReset}
+                />
             </AddNewEmployeeWrapper>
         </Layout>
     )

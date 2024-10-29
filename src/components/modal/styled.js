@@ -7,5 +7,6 @@ export const BaseModalWrapper = styled("div")(({ open, height, width }) => {
         overflowY: "auto",
         height: height || "50%",
         width: width || "50%",
+        pointerEvents: "auto",
     }
 })

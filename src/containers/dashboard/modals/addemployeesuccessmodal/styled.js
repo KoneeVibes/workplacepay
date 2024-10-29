@@ -3,20 +3,20 @@ import styled from "styled-components";
 export const AddEmployeeSuccessModalWrapper = styled("div")(() => {
     return {
         overflow: "hidden",
-        ".payment-modal-title": {
-            alignItems: "center",
-            justifyContent: "space-between",
+        "& .confirmation-modal-title": {
             overflow: "hidden",
             "& h2": {
-                fontFamily: "Inter",
-                fontWeight: 800,
+                fontFamily: "Poppins",
+                fontWeight: 700,
                 fontSize: "32px",
+                textAlign: "center",
                 marginBlock: 0,
             },
-            "button": {
-                width: "auto",
-                padding: "1rem",
-            },
+        },
+        "@media screen and (max-width: 1024px)": {
+            "& .form-cta-row": {
+                gap: "calc(var(--flexGap)/2) !important",
+            }
         }
     }
 })

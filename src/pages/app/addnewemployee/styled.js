@@ -54,9 +54,9 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             backgroundColor: "#FFFFFF",
-            padding: "calc(var(--cardPadding) * 2)",
+            padding: "var(--cardPadding)",
             borderRadius: "1rem",
-            boxShadow: "0px 20px 24px -4px #10182814",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
         },
         "@media screen and (min-width: 768px)": {
             "& .submit-column": {
