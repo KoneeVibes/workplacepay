@@ -1,6 +1,6 @@
-import { Layout } from "../../../containers/dashboard/layout";
-import { EmployeesWrapper } from "./styled";
 import { useState } from "react";
+import { Layout } from "../../../containers/app/layout";
+import { EmployeesWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";

@@ -1,7 +1,6 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../context";
-//import { useNavigate } from "react-router-dom";
-import { Layout } from "../../../containers/dashboard/layout";
+import { Layout } from "../../../containers/app/layout";
 import { AddNewEmployeeWrapper } from "./styled";
 import { H2, P, Label } from "../../../components/typography/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
