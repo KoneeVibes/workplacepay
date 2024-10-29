@@ -6,8 +6,10 @@ export const BaseModal = ({ children, open, onClose, height, width, className })
     useEffect(() => {
         if (open) {
             document.body.style.overflow = "hidden";
+            document.body.style.pointerEvents = "none";
         } else {
             document.body.style.overflow = "auto";
+            document.body.style.pointerEvents = "auto";
         }
         const handleClickOutside = (e) => {
             if (open && modalRef.current && !modalRef.current.contains(e.target)) {

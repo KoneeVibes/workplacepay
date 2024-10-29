@@ -3,7 +3,6 @@ import { Row } from "../../../components/flex/styled";
 
 export const ReferYourEmployerWrapper = styled(Row)(() => {
     return {
-        // IBK, your CSS should go under here
         gap: 0,
         "& .refer-text": {
             flex: 1,

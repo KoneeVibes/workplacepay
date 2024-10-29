@@ -201,7 +201,7 @@ export const PaymentModal = () => {
                         <Column
                             className="receipt-title"
                         >
-                            <H2>Payment Information</H2>
+                            <H2>Payment  Successfull!</H2>
                             <GreenTick />
                         </Column>
                         <Row
