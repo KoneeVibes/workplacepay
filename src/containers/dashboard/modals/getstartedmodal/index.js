@@ -54,7 +54,7 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
             open={isGetStartedModalOpen}
             onClose={handleCloseModal}
             className={"get-started-modal"}
-            height={matches ? "auto" : height || "50%"}
+            height={"auto"}
             width={matches ? "75%" : width || "50%"}
         >
             <GetStartedModalWrapper>

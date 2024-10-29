@@ -131,7 +131,6 @@ export const GetStarted = () => {
       </div>
       <GetStartedSuccessModal
         width={"40%"}
-        height={"40%"}
         setIsOTPEntered={setIsOTPEntered}
       />
     </GetStartedWrapper >
