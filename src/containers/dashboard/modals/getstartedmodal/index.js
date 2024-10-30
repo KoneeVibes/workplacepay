@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../../../context";
-import { BaseModal } from "../../../../components/modal"
-import { GetStartedModalWrapper } from "./styled"
+import { BaseModal } from "../../../../components/modal";
+import { GetStartedModalWrapper } from "./styled";
 import { H2, P, Span } from "../../../../components/typography/styled";
 import { GreenTick } from "../../../../assets";
 import { BaseButton } from "../../../../components/button/styled";
@@ -13,13 +12,21 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
     const [matches, setMatches] = useState(false);
     const { isGetStartedModalOpen, setIsGetStartedModalOpen } = useContext(Context);
     const [otp, setOtp] = useState(new Array(4).fill(""));
+    const [error, setError] = useState("");
 
     const handleCloseModal = () => {
         setIsGetStartedModalOpen(true);
     };
 
     const handleOTPSubmit = () => {
-        // OTP submission logic should go in here
+        // Check if OTP is complete
+        if (otp.includes("")) {
+            setError("Please enter the complete OTP.");
+            return;
+        }
+
+        // OTP submission logic if OTP is complete
+        setError(""); // Clear any previous errors
         setIsGetStartedModalOpen(false);
         setIsOTPEntered(true);
         alert(`OTP Entered: ${otp.join('')}`);
@@ -32,9 +39,24 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
         newOtp[index] = element.value;
         setOtp(newOtp);
 
-        // Move to the next input field
+        // Move to the next input field if the current one is filled
         if (element.nextSibling && element.value !== "") {
             element.nextSibling.focus();
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace") {
+            if (otp[index] === "") {
+                // Move to the previous input if current input is empty
+                if (index > 0) {
+                    e.target.previousSibling.focus();
+                }
+            } else {
+                const newOtp = [...otp];
+                newOtp[index] = "";
+                setOtp(newOtp);
+            }
         }
     };
 
@@ -58,10 +80,7 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
             width={matches ? "75%" : width || "50%"}
         >
             <GetStartedModalWrapper>
-                <Column
-                    gap={"0"}
-                    className="receipt-title"
-                >
+                <Column gap={"0"} className="receipt-title">
                     <H2>Email Verification</H2>
                     <GreenTick />
                 </Column>
@@ -80,9 +99,11 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
                             value={data}
                             width={"25%"}
                             onChange={(e) => handleChange(e.target, index)}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
                         />
                     ))}
                 </Row>
+                {error && <P style={{ color: "red", marginTop: "10px" }}>{error}</P>}
                 <div className="submit-button-box">
                     <BaseButton
                         type="submit"
@@ -90,12 +111,10 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
                         backgroundcolor={"#D9D9D9"}
                         onClick={handleOTPSubmit}
                     >
-                        <Span>
-                            Next
-                        </Span>
+                        <Span>Next</Span>
                     </BaseButton>
                 </div>
             </GetStartedModalWrapper>
-        </BaseModal >
-    )
-}
+        </BaseModal>
+    );
+};
