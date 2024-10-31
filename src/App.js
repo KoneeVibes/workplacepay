@@ -11,6 +11,8 @@ import { PayrollSettings } from "./pages/app/payrollsettings";
 import { Payroll } from "./pages/app/payroll";
 import { Employees } from "./pages/app/employees";
 import { GetStarted } from "./pages/preliminaryauth/getstarted";
+import { Variance } from "./pages/app/Variance Report";
+import { GeneralReport } from "./pages/app/General Report";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/employees" element={<Employees />} />
+        <Route path="/variance" element={<Variance />} />
+        <Route path="/generalreport" element={<GeneralReport />} />
       </Routes>
     </BrowserRouter>
   );
