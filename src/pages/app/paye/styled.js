@@ -1,22 +1,16 @@
 import styled from "styled-components";
 
-export const EmployeesWrapper = styled("div")(() => {
+export const PayeWrapper = styled("div")(() => {
   return {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
     "& select": {
-      padding: "calc(var(--cardPadding)/2)",
+      padding: "calc(var(--cardPadding)/5)",
       borderRadius: "10px",
     },
     "& fieldset": {
-      flex: 1,
+      //   flex: 1,
       overflow: "hidden",
-    },
-    "& label": {
-      fontFamily: "Poppins",
-      fontWeight: 600,
-      fontSize: 20,
-      color: "#000000",
     },
     "& .heading-row": {
       padding: "var(--cardPadding)",
