@@ -27,6 +27,7 @@ function App() {
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/employees" element={<Employees />} />
+        <Route path="/paye" element={<Paye />} />
       </Routes>
     </BrowserRouter>
   );
