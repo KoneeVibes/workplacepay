@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../../../../context";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { BaseModal } from "../../../../components/modal";
 import { GetStartedModalWrapper } from "./styled";
 import { H2, P, Span } from "../../../../components/typography/styled";
@@ -8,12 +7,19 @@ import { BaseButton } from "../../../../components/button/styled";
 import { Column, Row } from "../../../../components/flex/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
 
-export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
+export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, ref) => {
     const [matches, setMatches] = useState(false);
-    const { isGetStartedModalOpen, setIsGetStartedModalOpen } = useContext(Context);
+    const [isGetStartedModalOpen, setIsGetStartedModalOpen] = useState(false);
     const [otp, setOtp] = useState(new Array(4).fill(""));
     const [error, setError] = useState("");
 
+    useImperativeHandle(ref, () => ({
+        getOtp: () => otp.join(''),
+        clearOtp: () => setOtp(new Array(4).fill("")),
+        openOtpModal: () => setIsGetStartedModalOpen(true),
+    }));
+
+    // Persist open on click out
     const handleCloseModal = () => {
         setIsGetStartedModalOpen(true);
     };
@@ -24,12 +30,10 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
             setError("Please enter the complete OTP.");
             return;
         }
-
         // OTP submission logic if OTP is complete
         setError(""); // Clear any previous errors
         setIsGetStartedModalOpen(false);
         setIsOTPEntered(true);
-        alert(`OTP Entered: ${otp.join('')}`);
     };
 
     const handleChange = (element, index) => {
@@ -117,4 +121,4 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
             </GetStartedModalWrapper>
         </BaseModal>
     );
-};
+});
