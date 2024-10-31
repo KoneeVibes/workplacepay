@@ -9,7 +9,7 @@ export const PayeWrapper = styled("div")(() => {
       borderRadius: "10px",
     },
     "& fieldset": {
-      //   flex: 1,
+      flex: 1,
       overflow: "hidden",
     },
     "& .heading-row": {
