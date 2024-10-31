@@ -30,7 +30,7 @@ export const PayeWrapper = styled("div")(() => {
         flexDirection: "column",
       },
     },
-    "& .employees-table": {
+    "& .paye-table": {
       overflow: "auto",
     },
     "& th": {

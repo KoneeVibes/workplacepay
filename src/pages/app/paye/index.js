@@ -43,7 +43,7 @@ export const Paye = () => {
             </BaseSelect>
           </BaseFieldSet>
         </Row>
-        <div className="employees-table">
+        <div className="paye-table">
           <Table
             columnTitles={[
               " Employee",
