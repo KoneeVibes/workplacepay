@@ -23,7 +23,7 @@ export const PayeWrapper = styled("div")(() => {
       },
     },
     "& .filter": {
-      padding: "0 var(--cardPadding)",
+      padding: " var(--cardPadding)",
       justifyContent: "space-between",
       marginBlockEnd: "var(--sectionMargin)",
       "@media screen and (max-width: 768px)": {
