@@ -8,7 +8,7 @@ import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { authenticateUser } from "../../../utils/apis/authentication";
 import { DotLoader } from "react-spinners";
-import { GetStartedSuccessModal } from "../../../containers/dashboard/modals/getstartedmodal";
+import { GetStartedSuccessModal } from "../../../containers/app/modals/getstartedmodal";
 import { Context } from "../../../context";
 
 export const GetStarted = () => {

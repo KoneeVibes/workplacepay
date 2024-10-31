@@ -28,6 +28,7 @@ export const GetStartedModalWrapper = styled(Column)(() => {
             height: '30px',
             fontSize: '24px',
             textAlign: 'center',
+            padding: "calc(var(--cardPadding)/8)"
         },
         "& .submit-button-box": {
             "& button": {

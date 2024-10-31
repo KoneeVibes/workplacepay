@@ -48,7 +48,7 @@ export const GetStartedSuccessModal = ({ setIsOTPEntered, height, width }) => {
     const handleKeyDown = (e, index) => {
         if (e.key === "Backspace") {
             if (otp[index] === "") {
-                // Move to the previous input if current input is empty
+                // Move to the previous input on click of backspace
                 if (index > 0) {
                     e.target.previousSibling.focus();
                 }
