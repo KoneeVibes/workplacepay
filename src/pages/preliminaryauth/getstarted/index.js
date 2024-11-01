@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Prelim } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
@@ -9,12 +9,14 @@ import { BaseInput } from "../../../components/form/input/styled";
 import { authenticateUser } from "../../../utils/apis/authentication";
 import { DotLoader } from "react-spinners";
 import { GetStartedSuccessModal } from "../../../containers/app/modals/getstartedmodal";
-import { Context } from "../../../context";
+import Cookies from "universal-cookie";
 
 export const GetStarted = () => {
+  const cookies = new Cookies();
+  const otpModalRef = useRef();
   const navigate = useNavigate();
+
   const [isOTPEntered, setIsOTPEntered] = useState(false);
-  const { setIsGetStartedModalOpen } = useContext(Context);
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +28,7 @@ export const GetStarted = () => {
   useEffect(() => {
     if (isOTPEntered) {
       setStep(2);
-    }
+    };
   }, [isOTPEntered]);
 
   const handleChange = (e) => {
@@ -39,8 +41,8 @@ export const GetStarted = () => {
 
   const handleOTPModal = () => {
     // update modal to open below
-    setIsGetStartedModalOpen(true);
-  }
+    otpModalRef.current.openOtpModal();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +58,10 @@ export const GetStarted = () => {
       const response = await authenticateUser("sign-up", formDetails);
       if (response.status) {
         setIsLoading(false);
+        cookies.set("token", response.token, {
+          path: "/",
+          maxAge: 1000000,
+        });
         navigate("/login");
       } else {
         setIsLoading(false);
@@ -130,6 +136,7 @@ export const GetStarted = () => {
         </form>
       </div>
       <GetStartedSuccessModal
+        ref={otpModalRef}
         width={"40%"}
         setIsOTPEntered={setIsOTPEntered}
       />

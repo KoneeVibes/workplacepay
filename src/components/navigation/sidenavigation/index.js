@@ -1,28 +1,40 @@
-import { useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Context } from "../../../context";
 import { navLinks } from "../../../config/navlinks/dashboard";
 import { BaseButton } from "../../button/styled";
 import { P } from "../../typography/styled";
 import { SideNavigationWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "../../../assets";
-import { Column } from "../../flex/styled";
+import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
 
 export const SideNavigation = () => {
     const navigate = useNavigate();
     const { setIsSideNavigationOpen } = useContext(Context);
-    const navigateToDashboard = (e) => {
+
+    const [isSubItemsOpen, setIsSubItemsOpen] = useState(true);
+
+    const handleLogoClick = (e) => {
         e.preventDefault();
         return navigate("/dashboard")
     }
+
+    const handleSideNavItemClick = (e, destination) => {
+        e.preventDefault();
+        if (destination === "/reportsummary") {
+            return setIsSubItemsOpen(!isSubItemsOpen);
+        }
+        return navigate(destination);
+    }
+
     return (
         <SideNavigationWrapper>
             <div
                 className="nav-logo"
             >
-                <P onClick={navigateToDashboard}>workPlacePAY</P>
+                <P onClick={handleLogoClick}>workPlacePAY</P>
                 <BaseButton
                     onClick={() => setIsSideNavigationOpen(false)}
                 >
@@ -34,12 +46,41 @@ export const SideNavigation = () => {
             >
                 {navLinks.map((navLink, index) => {
                     return (
-                        <Link
+                        <Fragment
                             key={index}
-                            to={navLink.url}
                         >
-                            <P>{navLink.name}</P>
-                        </Link>
+                            <Link
+                                onClick={(e) => handleSideNavItemClick(e, navLink.url)}
+                            >
+                                {(navLink.name === "Report Summary") ?
+                                    <Row
+                                        alignitems={"center"}
+                                        justifycontent={"space-between"}
+                                    >
+                                        <P>{navLink.name}</P>
+                                        <FontAwesomeIcon icon={isSubItemsOpen ? faCaretDown : faCaretRight} />
+                                    </Row> :
+                                    <P>{navLink.name}</P>
+                                }
+                            </Link>
+                            {(navLink.name === "Report Summary" && isSubItemsOpen) && (
+                                <ul>
+                                    {navLink.subItems.map((subItem, index) => {
+                                        return (
+                                            <li
+                                                key={index}
+                                            >
+                                                <Link
+                                                    to={subItem.url}
+                                                >
+                                                    <P>{subItem.name}</P>
+                                                </Link>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                            )}
+                        </Fragment>
                     )
                 })}
             </Column>

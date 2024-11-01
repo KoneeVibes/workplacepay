@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 import { Login } from "../../assets";
 import { Row } from "../../components/flex/styled";
 import { BaseInput } from "../../components/form/input/styled";
@@ -11,6 +12,7 @@ import { authenticateUser } from "../../utils/apis/authentication";
 import { DotLoader } from "react-spinners";
 
 export const Auth = () => {
+    const cookies = new Cookies();
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +29,6 @@ export const Auth = () => {
         }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -36,13 +37,12 @@ export const Auth = () => {
         try {
             const response = await authenticateUser("sign-in", formDetails);
             if (response.status) {
-                console.log(response.status)
                 setIsLoading(false);
+                cookies.set("token", response.token, {
+                    path: "/",
+                    maxAge: 1000000,
+                });
                 navigate("/dashboard");
-                // cookies.set("token", response.data, {
-                //     path: "/",
-                //     maxAge: 1000000,
-                // })
             } else {
                 setIsLoading(false);
                 setError('Authentication failed. Please check your credentials and try again.');

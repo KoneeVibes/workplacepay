@@ -13,7 +13,29 @@ export const navLinks = [
     },
     {
         name: "Report Summary",
-        url: ""
+        url: "/reportsummary",
+        subItems: [
+            {
+                name: "Summary",
+                url: "/"
+            },
+            {
+                name: "Variance",
+                url: "/reportsummary/variance"
+            },
+            {
+                name: "General",
+                url: "/reportsummary/general"
+            },
+            {
+                name: "Paye Output",
+                url: "/reportsummary/payeoutput"
+            },
+            {
+                name: "Pension Output",
+                url: "/reportsummary/pensionoutput"
+            },
+        ]
     },
     {
         name: "Setup",

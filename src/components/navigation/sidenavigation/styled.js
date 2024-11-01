@@ -69,13 +69,22 @@ export const SideNavigationWrapper = styled(Column)(() => {
         },
         "& .nav-links": {
             padding: "var(--cardPadding)",
+            gap: "calc(var(--flexGap)/1)",
             "& p": {
                 cursor: "pointer",
                 marginBlock: 0,
                 "&:hover": {
                     color: "rgba(255, 255, 255, 0.57)",
                 }
-            }
+            },
+            "& ul": {
+                marginBlock: 0,
+                listStyleType: "none",
+                display: "flex",
+                flexDirection: "column",
+                gap: "calc(var(--flexGap)/3)",
+                paddingInlineStart: "calc(var(--cardPadding))",
+            },
         },
         "& .nav-avatar": {
             padding: "var(--cardPadding)",
