@@ -11,6 +11,7 @@ import { PayrollSettings } from "./pages/app/payrollsettings";
 import { Payroll } from "./pages/app/payroll";
 import { Employees } from "./pages/app/employees";
 import { GetStarted } from "./pages/preliminaryauth/getstarted";
+import { Paye } from "./pages/app/paye";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/employees" element={<Employees />} />
+        <Route path="/paye" element={<Paye />} />
       </Routes>
     </BrowserRouter>
   );
