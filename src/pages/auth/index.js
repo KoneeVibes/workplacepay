@@ -38,7 +38,7 @@ export const Auth = () => {
             const response = await authenticateUser("sign-in", formDetails);
             if (response.status) {
                 setIsLoading(false);
-                cookies.set("token", response.token, {
+                cookies.set("TOKEN", response.token, {
                     path: "/",
                     maxAge: 1000000,
                 });

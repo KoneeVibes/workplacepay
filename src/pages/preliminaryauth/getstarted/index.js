@@ -28,6 +28,7 @@ export const GetStarted = () => {
   useEffect(() => {
     if (isOTPEntered) {
       setStep(2);
+      otpModalRef.current.clearOtp();
     };
   }, [isOTPEntered]);
 

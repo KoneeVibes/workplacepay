@@ -11,9 +11,11 @@ import { PayrollSettings } from "./pages/app/payrollsettings";
 import { Payroll } from "./pages/app/payroll";
 import { Employees } from "./pages/app/employees";
 import { GetStarted } from "./pages/preliminaryauth/getstarted";
-import { Variance } from "./pages/app/Variance Report";
-import { GeneralReport } from "./pages/app/General Report";
+import { Variance } from "./pages/app/variancereport";
+import { GeneralReport } from "./pages/app/generalreport";
 import { Paye } from "./pages/app/paye";
+import { Summary } from "./pages/app/summary";
+import { UserSummary } from "./pages/app/usersummary";
 
 function App() {
   return (
@@ -30,9 +32,11 @@ function App() {
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/employees" element={<Employees />} />
-        <Route path="/variance" element={<Variance />} />
-        <Route path="/generalreport" element={<GeneralReport />} />
-        <Route path="/paye" element={<Paye />} />
+        <Route path="/reportsummary/variance" element={<Variance />} />
+        <Route path="/reportsummary/general" element={<GeneralReport />} />
+        <Route path="/reportsummary/payeoutput" element={<Paye />} />
+        <Route path="/reportsummary/summary" element={<Summary />} />
+        <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
       </Routes>
     </BrowserRouter>
   );

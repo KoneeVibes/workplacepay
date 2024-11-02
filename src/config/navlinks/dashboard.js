@@ -17,7 +17,7 @@ export const navLinks = [
         subItems: [
             {
                 name: "Summary",
-                url: "/"
+                url: "/reportsummary/summary"
             },
             {
                 name: "Variance",

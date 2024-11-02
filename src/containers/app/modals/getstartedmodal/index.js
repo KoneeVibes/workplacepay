@@ -1,4 +1,6 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import Cookies from "universal-cookie";
+import { DotLoader } from "react-spinners";
 import { BaseModal } from "../../../../components/modal";
 import { GetStartedModalWrapper } from "./styled";
 import { H2, P, Span } from "../../../../components/typography/styled";
@@ -6,9 +8,14 @@ import { GreenTick } from "../../../../assets";
 import { BaseButton } from "../../../../components/button/styled";
 import { Column, Row } from "../../../../components/flex/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
+import { submitGetStartedOtp } from "../../../../utils/apis/otp/getstarted";
 
 export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, ref) => {
+    const cookies = new Cookies();
+    const TOKEN = cookies.getAll().TOKEN;
+
     const [matches, setMatches] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isGetStartedModalOpen, setIsGetStartedModalOpen] = useState(false);
     const [otp, setOtp] = useState(new Array(4).fill(""));
     const [error, setError] = useState("");
@@ -24,16 +31,34 @@ export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, re
         setIsGetStartedModalOpen(true);
     };
 
-    const handleOTPSubmit = () => {
-        // Check if OTP is complete
+    const handleOTPSubmit = async () => {
         if (otp.includes("")) {
             setError("Please enter the complete OTP.");
             return;
         }
-        // OTP submission logic if OTP is complete
-        setError(""); // Clear any previous errors
-        setIsGetStartedModalOpen(false);
-        setIsOTPEntered(true);
+        setError(null);
+        setIsLoading(true);
+        console.log(otp.join(''));
+        try {
+            const response = await submitGetStartedOtp(otp.join(''), TOKEN);
+            if (response.status) {
+                setIsLoading(false);
+                cookies.set("GET_STARTED_OTP", response.token, {
+                    path: "/",
+                    maxAge: 1000000,
+                });
+                setIsOTPEntered(true);
+                setIsGetStartedModalOpen(false);
+            } else {
+                setIsLoading(false);
+                setError('OTP verification failed. Please try again.');
+                console.error("OTP verification failed. Please try again.");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`OTP verification failed. ${error.message}`);
+            console.error('OTP verification failed:', error);
+        }
     };
 
     const handleChange = (element, index) => {
@@ -115,7 +140,14 @@ export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, re
                         backgroundcolor={"#D9D9D9"}
                         onClick={handleOTPSubmit}
                     >
-                        <Span>Next</Span>
+                        {isLoading ?
+                            (<DotLoader
+                                size={20}
+                                color="white"
+                                className='dotLoader'
+                            />) : (
+                                <Span>Next</Span>
+                            )}
                     </BaseButton>
                 </div>
             </GetStartedModalWrapper>
