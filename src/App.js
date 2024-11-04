@@ -16,6 +16,7 @@ import { GeneralReport } from "./pages/app/generalreport";
 import { Paye } from "./pages/app/paye";
 import { Summary } from "./pages/app/summary";
 import { UserSummary } from "./pages/app/usersummary";
+import { Profile } from "./pages/app/profile";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/reportsummary/payeoutput" element={<Paye />} />
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
