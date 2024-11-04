@@ -51,12 +51,12 @@ export const Paye = () => {
         <div className="paye-table">
           <Table
             columnTitles={[
-              " USERNAME",
-              "TAX ID",
-              "MONTH",
-              "YEAR",
-              "GROSS PAY",
-              "PAYE",
+              "Username",
+              "Tax ID",
+              "Month",
+              "Year",
+              "Gross Pay",
+              "PAYE"
             ]}
             rowItems={[]}
           />

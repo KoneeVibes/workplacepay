@@ -5,27 +5,16 @@ export const PensionWrapper = styled("div")(() => {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
     "& select": {
-      padding: "calc(var(--cardPadding)/5)",
+      padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
     },
     "& fieldset": {
       flex: 1,
       overflow: "hidden",
     },
-    "& .heading-row": {
-      padding: "var(--cardPadding)",
-      marginBlockEnd: "var(--sectionMargin)",
-      "& span": {
-        fontFamily: "Poppins",
-        fontWeight: 500,
-        fontSize: 18,
-        color: "#000000",
-      },
-    },
     "& .filter": {
       padding: " var(--cardPadding)",
       justifyContent: "space-between",
-      marginBlockEnd: "var(--sectionMargin)",
       "@media screen and (max-width: 768px)": {
         flexDirection: "column",
       },

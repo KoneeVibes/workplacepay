@@ -58,7 +58,7 @@ export const SideNavigationWrapper = styled(Column)(() => {
                 }
             },
             "@media screen and (min-width: 1024px)": {
-                height: "var(--topNavHeight)",
+                minHeight: "var(--topNavHeight)",
                 boxSizing: "border-box",
                 display: "flex",
                 alignItems: "center",

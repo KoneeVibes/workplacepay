@@ -7,10 +7,12 @@ export const Summary = () => {
     return (
         <Layout
             id={"summary"}
-            title={"SUMMARY"}
+            title={"Summary"}
         >
             <SummaryWrapper>
-                <div>
+                <div
+                    className="heading-row"
+                >
                     <H3>Report for January, 2024</H3>
                 </div>
                 <div

@@ -4,14 +4,12 @@ import { GeneralReportWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
-//import { H3 } from "../../../components/typography/styled";
-//import { Span } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
 
 export const GeneralReport = () => {
   const [filter, setFilter] = useState({
     year: "",
-    month:"",
+    month: "",
     department: "",
   });
 
@@ -25,8 +23,8 @@ export const GeneralReport = () => {
 
   return (
     <Layout
-      id={"Variance"}
-      title={"GENERAL REPORT"}
+      id={"generalreport"}
+      title={"General Report"}
     >
       <GeneralReportWrapper>
         <Row className="filter">
@@ -67,25 +65,25 @@ export const GeneralReport = () => {
         <div className="general-report-table">
           <Table
             columnTitles={[
-              "NAME",
-              "DEPARTMENT",
-              "MONTH",
-              "YEAR",
-              "BANK",
-              "BANK ACCOUNT",
+              "Name",
+              "Department",
+              "Month",
+              "Year",
+              "Bank",
+              "Bank Account",
               "PFA",
-              "PFA ACCOUNT",
-              "BASIC",
-              "HOUSING",
-              "TRANSPORT",
-              "OVERTIME",
-              "BONUS",
+              "PFA Account",
+              "Basic",
+              "Housing",
+              "Transport",
+              "Overtime",
+              "Bonus",
               "PAYE",
-              "PENSION",
-              "OTHER ADDITION",
-              "OTHER DEDUCTION",
-              "GROSS",
-              "NET PAY",
+              "Pension",
+              "Other Addition",
+              "Other Deduction",
+              "Gross",
+              "Net Pay"
             ]}
             rowItems={[]}
           />

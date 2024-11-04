@@ -14,8 +14,11 @@ export const VarianceWrapper = styled("div")(() => {
     },
     "& .heading": {
       padding: "var(--cardPadding)",
-      paddingBottom:"0",
+      paddingBottom: "0",
       marginBlockEnd: "var(--sectionMargin)",
+      "& h3": {
+        marginBlock: 0,
+      },
     },
     "& .filter": {
       padding: "0 var(--cardPadding)",

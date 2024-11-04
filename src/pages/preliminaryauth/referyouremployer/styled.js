@@ -64,13 +64,6 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
                 gap: "var(--flexGap)",
             },
         },
-        "@media screen and (min-width: 1440px)": {
-            "& .refer-form button": {
-                marginLeft: "auto",
-                marginTop: "calc(var(--sectionMargin))",
-                width: "fit-content",
-            }
-        }
     }
 })
 

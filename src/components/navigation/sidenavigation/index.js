@@ -64,7 +64,9 @@ export const SideNavigation = () => {
                                 }
                             </Link>
                             {(navLink.name === "Report Summary" && isSubItemsOpen) && (
-                                <ul>
+                                <ul
+                                    className="sub-item"
+                                >
                                     {navLink.subItems.map((subItem, index) => {
                                         return (
                                             <li

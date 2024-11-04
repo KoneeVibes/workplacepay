@@ -24,14 +24,14 @@ export const Variance = () => {
 
   return (
     <Layout
-      id={"Variance"}
-      title={"VARIANCE REPORT"}
+      id={"variance"}
+      title={"Variance Report"}
     >
       <VarianceWrapper>
         <div
           className="heading"
         >
-          <H3>The difference between Net Salary of Two distinct months</H3>
+          <H3>The difference between Net Salary of two distinct months</H3>
         </div>
         <Row className="filter">
           <BaseFieldSet>

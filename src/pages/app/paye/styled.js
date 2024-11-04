@@ -5,7 +5,7 @@ export const PayeWrapper = styled("div")(() => {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
     "& select": {
-      padding: "calc(var(--cardPadding)/5)",
+      padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
     },
     "& fieldset": {
@@ -23,9 +23,8 @@ export const PayeWrapper = styled("div")(() => {
       },
     },
     "& .filter": {
-      padding: " var(--cardPadding)",
+      padding: "var(--cardPadding)",
       justifyContent: "space-between",
-      marginBlockEnd: "var(--sectionMargin)",
       "@media screen and (max-width: 768px)": {
         flexDirection: "column",
       },

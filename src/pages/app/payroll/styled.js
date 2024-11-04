@@ -2,12 +2,15 @@ import styled from "styled-components";
 
 export const PayrollWrapper = styled("div")(() => {
     return {
+        borderRadius: "1rem",
+        backgroundColor: "#FFFFFF",
         "& form": {
             display: "flex",
             alignItems: "flex-end",
             gap: "var(--flexGap)",
             justifyContent: "space-between",
-            marginBlockEnd: "calc(var(--sectionMargin) * 3)",
+            padding: "var(--cardPadding)",
+            // marginBlockEnd: "calc(var(--sectionMargin) * 3)",
             "& select": {
                 padding: "calc(var(--cardPadding)/2.7)",
                 borderRadius: "10px",
@@ -31,8 +34,9 @@ export const PayrollWrapper = styled("div")(() => {
             color: "#000000",
         },
         "& .filter": {
+            padding: "var(--cardPadding)",
             justifyContent: "space-between",
-            marginBlockEnd: "var(--sectionMargin)",
+            // marginBlockEnd: "var(--sectionMargin)",
             "& select": {
                 padding: "calc(var(--cardPadding)/2)",
                 borderRadius: "10px",

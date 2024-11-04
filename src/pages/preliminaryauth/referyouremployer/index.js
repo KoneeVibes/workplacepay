@@ -52,14 +52,13 @@ export const ReferYourEmployer = () => {
 
     return (
         <ReferYourEmployerWrapper tocolumn={true}>
-            {/* IBK, your HTML should go under here */}
             <div className="refer-text">
                 <H2>workPlacePAY</H2>
                 <H3>The #1 Employee
                     Payroll Solution for
                     Small and medium Businesses
                 </H3>
-                <P>Seamless Payroll management for your buisnessall in one place!</P>
+                <P>Seamless Payroll management for your buisness all in one place!</P>
                 <PrelimSetup />
             </div>
             <div className="refer-form">
@@ -110,18 +109,20 @@ export const ReferYourEmployer = () => {
                             />
                         </BaseFieldSet>
                     </ReferYourEmployerRow>
-                    <BaseButton
-                        backgroundcolor={"#4E57BB"}
-                        width={"fit-content"}>
-                        {isLoading ?
-                            (<DotLoader
-                                size={48}
-                                color="white"
-                                className='dotLoader'
-                            />) : (<Span>Submit</Span>)
-                        }
-                    </BaseButton>
-                    {error && <P style={{ color: 'red' }}>{error}</P>}
+                    <div>
+                        {error && <P style={{ color: 'red', marginBlockStart: 0 }}>{error}</P>}
+                        <BaseButton
+                            backgroundcolor={"#4E57BB"}
+                            width={"fit-content"}>
+                            {isLoading ?
+                                (<DotLoader
+                                    size={20}
+                                    color="white"
+                                    className='dotLoader'
+                                />) : (<Span>Submit</Span>)
+                            }
+                        </BaseButton>
+                    </div>
                 </form>
             </div>
         </ReferYourEmployerWrapper>
