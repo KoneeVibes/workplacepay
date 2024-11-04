@@ -1,18 +1,25 @@
 import { useState } from "react";
-import { H1, H2, H3, P, Label } from "../../../components/typography/styled";
+import { H1, H2, H3, P, Label, Span } from "../../../components/typography/styled";
 import { ReferYourEmployerWrapper, ReferYourEmployerRow } from "./styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
+import { referEmployer } from "../../../utils/apis/refer";
+import { DotLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 export const ReferYourEmployer = () => {
+    const navigate = useNavigate();
+
     const [referForm, setReferForm] = useState({
-        firstName: "",
-        lastName: "",
+        refererFullName: "",
+        employerFullName: "",
         companyName: "",
         companyEmail: "",
     });
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,10 +29,27 @@ export const ReferYourEmployer = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(referForm);
+        setError(null);
+        setIsLoading(true);
+        try {
+            const response = await referEmployer(referForm);
+            if (response.status === "Success") {
+                setIsLoading(false);
+                navigate("/");
+            } else {
+                setIsLoading(false);
+                setError('Authentication failed. Please check your credentials and try again.');
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`Login failed. ${error.message}`);
+            console.error('Login failed:', error);
+        }
     }
+
     return (
         <ReferYourEmployerWrapper tocolumn={true}>
             {/* IBK, your HTML should go under here */}
@@ -44,21 +68,21 @@ export const ReferYourEmployer = () => {
                 <form onSubmit={handleSubmit}>
                     <ReferYourEmployerRow>
                         <BaseFieldSet>
-                            <Label>Firstname</Label>
+                            <Label>Name</Label>
                             <BaseInput
-                                name="firstName"
-                                placeholder="Enter First Name"
-                                value={referForm.firstName}
+                                name="refererFullName"
+                                placeholder="Enter Name"
+                                value={referForm.refererFullName}
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
                         </BaseFieldSet>
                         <BaseFieldSet>
-                            <Label>Lastname</Label>
+                            <Label>Employer Name</Label>
                             <BaseInput
-                                name="lastName"
-                                placeholder="Enter Last Name"
-                                value={referForm.lastName}
+                                name="employerFullName"
+                                placeholder="Enter Employer Name"
+                                value={referForm.employerFullName}
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
@@ -66,7 +90,7 @@ export const ReferYourEmployer = () => {
                     </ReferYourEmployerRow>
                     <ReferYourEmployerRow>
                         <BaseFieldSet>
-                            <Label color="">Company name*</Label>
+                            <Label>Company Name*</Label>
                             <BaseInput
                                 name="companyName"
                                 placeholder="Company Name"
@@ -89,8 +113,15 @@ export const ReferYourEmployer = () => {
                     <BaseButton
                         backgroundcolor={"#4E57BB"}
                         width={"fit-content"}>
-                        Submit
+                        {isLoading ?
+                            (<DotLoader
+                                size={48}
+                                color="white"
+                                className='dotLoader'
+                            />) : (<Span>Submit</Span>)
+                        }
                     </BaseButton>
+                    {error && <P style={{ color: 'red' }}>{error}</P>}
                 </form>
             </div>
         </ReferYourEmployerWrapper>
