@@ -50,6 +50,7 @@ export const SideNavigation = () => {
                             key={index}
                         >
                             <Link
+                                className={(navLink.name === "Setup") && "setup"}
                                 onClick={(e) => handleSideNavItemClick(e, navLink.url)}
                             >
                                 {(navLink.name === "Report Summary") ?
@@ -91,6 +92,6 @@ export const SideNavigation = () => {
             >
                 <Avatar />
             </div>
-        </SideNavigationWrapper>
+        </SideNavigationWrapper >
     )
 }
