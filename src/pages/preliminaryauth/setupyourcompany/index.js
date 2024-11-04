@@ -1,17 +1,24 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
-import { H1, H2, H3, Label, P } from "../../../components/typography/styled";
+import { H1, H2, H3, Label, P, Span } from "../../../components/typography/styled";
 import { FieldSetRow, SetUpYourCompanyWrapper } from "./styled";
 import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../context";
 import { Row } from "../../../components/flex/styled";
+import { setupCompanyService } from "../../../utils/apis/setup";
+import { DotLoader } from "react-spinners";
+import { getPayrollPlans } from "../../../utils/apis/getpayrollplans";
 
 export const SetUpYourCompany = () => {
     const { setIsPaymentFormModalOpen } = useContext(Context);
+
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [payrollPlans, setPayrollPlans] = useState([]);
     const [formDetails, setFormDetails] = useState({
         firstName: "",
         lastName: "",
@@ -21,6 +28,14 @@ export const SetUpYourCompany = () => {
         plan: ""
     });
 
+    useEffect(() => {
+        getPayrollPlans()
+            .then((data) => setPayrollPlans(data))
+            .catch((err) => {
+                console.error("Failed to fetch payroll plans:", err);
+            });
+    }, [])
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormDetails((prev) => ({
@@ -28,16 +43,31 @@ export const SetUpYourCompany = () => {
             [name]: value
         }));
     };
+
     const handleOpenModal = () => {
         setIsPaymentFormModalOpen(true);
     };
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formDetails);
-        // form submission logic goes under here
-
-        // open payment modal based only when the form is successfully submitted
-        handleOpenModal();
+        setError(null);
+        setIsLoading(true);
+        try {
+            const response = await setupCompanyService(formDetails);
+            if (response.status) {
+                setIsLoading(false);
+                handleOpenModal();
+            } else {
+                setIsLoading(false);
+                setError('Setup failed. Please check your credentials and try again.');
+                console.error("Setup failed. Please check your credentials and try again.");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`Setup failed. ${error.message}`);
+            console.error('Setup failed:', error);
+        }
     };
 
     return (
@@ -130,17 +160,38 @@ export const SetUpYourCompany = () => {
                                     value={formDetails.plan}
                                     onChange={(e) => handleChange(e)}
                                 >
-                                    <option value="A">Payroll A</option>
-                                    <option value="B">Payroll B</option>
+                                    <option value="">Select a Plan</option>
+                                    {payrollPlans.map((plan, index) => {
+                                        return (
+                                            <option
+                                                key={index}
+                                                value={plan.title}
+                                            >
+                                                {plan.title}
+                                            </option>
+                                        )
+                                    })}
                                 </BaseSelect>
                             </BaseFieldSet>
                         </FieldSetRow>
-                        <BaseButton
-                            type="submit"
-                            backgroundcolor={"#4E57BB"}
-                        >
-                            Submit
-                        </BaseButton>
+                        <div>
+                            {error && <P style={{ color: 'red', marginBlockStart: 0 }}>{error}</P>}
+                            <BaseButton
+                                type="submit"
+                                backgroundcolor={"#4E57BB"}
+                            >
+                                {isLoading ?
+                                    (<DotLoader
+                                        size={20}
+                                        color="white"
+                                        className='dotLoader'
+                                    />) : (
+                                        <Span>
+                                            Submit
+                                        </Span>
+                                    )}
+                            </BaseButton>
+                        </div>
                     </form>
                 </div>
             </Row>
