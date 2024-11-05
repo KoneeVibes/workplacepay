@@ -1,10 +1,11 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { AdmincompaniesWrapper } from "./styled";
+import { Span } from "../../../components/typography/styled";
 import { Row } from "../../../components/flex/styled";
 import { H2, H3 } from "../../../components/typography/styled";
 
-export const Pension = () => {
+export const Admincompanies = () => {
   //   const [filter, setFilter] = useState({
   //     year: "",
   //     month: "",
@@ -34,7 +35,7 @@ export const Pension = () => {
             <Span>30 Credits</Span>
           </Row>
           <Row className="heading-row">
-            <H3>Available Credits</H3>
+            <Span>Available Credits</Span>
             <Span>30 Credits</Span>
           </Row>
         </div>
@@ -42,11 +43,11 @@ export const Pension = () => {
         <div>
           <H2>Company Information</H2>
           <Row className="heading-row">
-            <H3>Available Credits</H3>
+            <Span>Available Credits</Span>
             <Span>Employer@rajiventures</Span>
           </Row>
           <Row className="heading-row">
-            <H3>Available Credits</H3>
+            <Span>Available Credits</Span>
             <Span>30 Credits</Span>
           </Row>
         </div>
