@@ -1,29 +1,16 @@
 import styled from "styled-components";
+import { Column } from "../../../components/flex/styled";
 
-export const AdmincompaniesWrapper = styled("div")(() => {
+export const AdmincompaniesWrapper = styled(Column)(() => {
   return {
     "& .heading-row": {
       padding: "calc(var(--cardPadding)/2)",
-      //   marginBlockEnd: "var(--sectionMargin)",
+      "& span:nth-child(2)": {
+        color: "#808080",
+      },
     },
     "& span": {
-      fontFamily: "inter",
-      fontSize: "1.5rem",
-      fontWeight: "400",
-      lineHeight: "30px",
-      textAlign: "left",
-    },
-    "& H2": {
-      fontSize: "2rem",
-      fontWeight: "600",
-      lineHeight: "30px",
-      textAlign: "left",
-    },
-    "& .section2": {
-      marginTop: "5rem",
-    },
-    "& .span2": {
-      color: "#808080",
+      flex: 1,
     },
   };
 });
