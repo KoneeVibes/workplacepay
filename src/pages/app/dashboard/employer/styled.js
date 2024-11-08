@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const DashboardWrapper = styled("div")(() => {
+export const EmployerDashboardWrapper = styled("div")(() => {
     return {
         overflow: "hidden",
         "& h3": {

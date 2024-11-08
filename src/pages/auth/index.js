@@ -41,7 +41,17 @@ export const Auth = () => {
                     path: "/",
                     maxAge: 1000000,
                 });
-                navigate("/dashboard");
+                cookies.set("ROLE", response.role, {
+                    path: "/",
+                    maxAge: 1000000,
+                });
+                if (response.role === "employer") {
+                    navigate("/dashboard/admin");
+                } else if (response.role === "employee") {
+                    navigate("/dashboard/employee");
+                } else {
+                    navigate("/dashboard/admin");
+                }
             } else {
                 setIsLoading(false);
                 setError('Authentication failed. Please check your credentials and try again.');

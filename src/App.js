@@ -29,7 +29,7 @@ function App() {
         <Route path="/refer" element={<ReferYourEmployer />} />
         <Route path="/setup" element={<SetUpYourCompany />} />
         <Route path="/login" element={<Auth />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/addnewemployee" element={<AddNewEmployee />} />
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
