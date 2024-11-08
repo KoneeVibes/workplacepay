@@ -9,8 +9,12 @@ import { faCaretDown, faCaretRight, faXmark } from "@fortawesome/free-solid-svg-
 import { Avatar } from "../../../assets";
 import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
+// import Cookies from "universal-cookie";
 
 export const SideNavigation = () => {
+    // const cookie = new Cookies();
+    // const { ROLE } = cookie.getAll() ?? {};
+
     const navigate = useNavigate();
     const { setIsSideNavigationOpen } = useContext(Context);
 
@@ -18,7 +22,7 @@ export const SideNavigation = () => {
 
     const handleLogoClick = (e) => {
         e.preventDefault();
-        return navigate("/dashboard")
+        return navigate("/dashboard");
     }
 
     const handleSideNavItemClick = (e, destination) => {
@@ -44,7 +48,7 @@ export const SideNavigation = () => {
             <Column
                 className="nav-links"
             >
-                {navLinks.map((navLink, index) => {
+                {navLinks["admin"].map((navLink, index) => {
                     return (
                         <Fragment
                             key={index}

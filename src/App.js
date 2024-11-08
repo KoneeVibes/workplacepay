@@ -18,6 +18,7 @@ import { Pension } from "./pages/app/pension";
 import { Summary } from "./pages/app/summary";
 import { UserSummary } from "./pages/app/usersummary";
 import { Admincompanies } from "./pages/app/admincompanies";
+import { Profile } from "./pages/app/profile";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         <Route path="/refer" element={<ReferYourEmployer />} />
         <Route path="/setup" element={<SetUpYourCompany />} />
         <Route path="/login" element={<Auth />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/addnewemployee" element={<AddNewEmployee />} />
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
@@ -41,6 +42,7 @@ function App() {
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
         <Route path="/admin/companies/" element={<Admincompanies />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

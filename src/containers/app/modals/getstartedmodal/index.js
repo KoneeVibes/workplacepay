@@ -28,7 +28,7 @@ export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, re
 
     // Persist open on click out
     const handleCloseModal = () => {
-        setIsGetStartedModalOpen(true);
+        setIsGetStartedModalOpen(false);
     };
 
     const handleOTPSubmit = async () => {

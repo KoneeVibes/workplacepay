@@ -17,7 +17,7 @@ export const Auth = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [formDetails, setFormDetails] = useState({
-        id: "",
+        email: "",
         password: ""
     });
 
@@ -33,7 +33,6 @@ export const Auth = () => {
         e.preventDefault();
         setError(null);
         setIsLoading(true);
-        console.log(formDetails);
         try {
             const response = await authenticateUser("sign-in", formDetails);
             if (response.status) {
@@ -42,7 +41,17 @@ export const Auth = () => {
                     path: "/",
                     maxAge: 1000000,
                 });
-                navigate("/dashboard");
+                cookies.set("ROLE", response.role, {
+                    path: "/",
+                    maxAge: 1000000,
+                });
+                if (response.role === "employer") {
+                    navigate("/dashboard/admin");
+                } else if (response.role === "employee") {
+                    navigate("/dashboard/employee");
+                } else {
+                    navigate("/dashboard/admin");
+                }
             } else {
                 setIsLoading(false);
                 setError('Authentication failed. Please check your credentials and try again.');
@@ -75,9 +84,9 @@ export const Auth = () => {
                     <BaseFieldSet>
                         <Label>Email/Phone*</Label>
                         <BaseInput
-                            name="id"
+                            name="email"
                             placeholder="Enter Email/Phone"
-                            value={formDetails.id}
+                            value={formDetails.email}
                             onChange={(e) => handleChange(e)}
                         />
                     </BaseFieldSet>

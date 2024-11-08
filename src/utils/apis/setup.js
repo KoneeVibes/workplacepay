@@ -2,7 +2,7 @@ import { BASE_ENDPOINT } from "../endpoint";
 
 export const setupCompanyService = async (payload) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/companies/setup`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/companies/setup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
