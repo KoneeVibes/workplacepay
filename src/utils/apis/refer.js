@@ -2,7 +2,7 @@ import { BASE_ENDPOINT } from "../endpoint";
 
 export const referEmployer = async (referer) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/companies/refer`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/companies/refer`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

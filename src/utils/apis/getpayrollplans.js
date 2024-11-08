@@ -2,7 +2,7 @@ import { BASE_ENDPOINT } from "../endpoint";
 
 export const getPayrollPlans = async () => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/payrolls/plans`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/payrolls/plans`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

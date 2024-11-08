@@ -17,7 +17,7 @@ export const Auth = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [formDetails, setFormDetails] = useState({
-        id: "",
+        email: "",
         password: ""
     });
 
@@ -33,7 +33,6 @@ export const Auth = () => {
         e.preventDefault();
         setError(null);
         setIsLoading(true);
-        console.log(formDetails);
         try {
             const response = await authenticateUser("sign-in", formDetails);
             if (response.status) {
@@ -75,9 +74,9 @@ export const Auth = () => {
                     <BaseFieldSet>
                         <Label>Email/Phone*</Label>
                         <BaseInput
-                            name="id"
+                            name="email"
                             placeholder="Enter Email/Phone"
-                            value={formDetails.id}
+                            value={formDetails.email}
                             onChange={(e) => handleChange(e)}
                         />
                     </BaseFieldSet>

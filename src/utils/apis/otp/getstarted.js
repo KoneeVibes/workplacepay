@@ -2,7 +2,7 @@ import { BASE_ENDPOINT } from "../../endpoint";
 
 export const submitGetStartedOtp = async (otp, token) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/auth/otp/verify`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/auth/otp/verify`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
