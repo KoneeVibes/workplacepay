@@ -48,7 +48,7 @@ export const SideNavigation = () => {
             <Column
                 className="nav-links"
             >
-                {navLinks["admin"].map((navLink, index) => {
+                {navLinks["employee"].map((navLink, index) => {
                     return (
                         <Fragment
                             key={index}
