@@ -17,6 +17,7 @@ import { Paye } from "./pages/app/paye";
 import { Pension } from "./pages/app/pension";
 import { Summary } from "./pages/app/summary";
 import { UserSummary } from "./pages/app/usersummary";
+import { Admincompanies } from "./pages/app/admincompanies";
 import { Profile } from "./pages/app/profile";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/reportsummary/pensionoutput" element={<Pension />} />
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
+        <Route path="/admin/companies/" element={<Admincompanies />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
