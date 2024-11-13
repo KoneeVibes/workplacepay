@@ -1,12 +1,12 @@
 import { AdminDashboardWrapper } from "./styled";
 import { useState } from "react";
-import { Layout } from "../../../containers/app/layout";
-import { Row } from "../../../components/flex/styled";
-import { BaseFieldSet } from "../../../components/form/fieldset/styled";
-import { BaseSelect } from "../../../components/form/select/styled";
-import { Label } from "../../../components/typography/styled";
-import { Span } from "../../../components/typography/styled";
-import { Table } from "../../../components/table";
+import { Layout } from "../../../../containers/app/layout";
+import { Row } from "../../../../components/flex/styled";
+import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
+import { BaseSelect } from "../../../../components/form/select/styled";
+import { Label } from "../../../../components/typography/styled";
+import { Span } from "../../../../components/typography/styled";
+import { Table } from "../../../../components/table";
 
 export const AdminDashboard = () => {
   const [filter, setFilter] = useState({
