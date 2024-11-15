@@ -22,65 +22,66 @@ export const AdminDashboard = () => {
       [name]: value,
     }));
   };
+
   return (
-    <Layout id={"admin"} title={"Welcome Admin"} location={"admin"}>
-      <AdminDashboardWrapper>
-        {/* Newton, your code goes in here */}
-        <Row className="heading-row" justifycontent={"space-between"}>
-          <Span>Company List</Span>
-          <Span>See all</Span>
-        </Row>
-        <Row className="filter">
-          <BaseFieldSet>
-            <Label>Company Name</Label>
-            <BaseSelect
-              name="companyName"
-              onChange={handleChange}
-              value={filter.username}
-            >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
-            </BaseSelect>
-          </BaseFieldSet>
-          <BaseFieldSet>
-            <Label>Plan Type</Label>
-            <BaseSelect
-              name="planType"
-              onChange={handleChange}
-              value={filter.department}
-            >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
-            </BaseSelect>
-          </BaseFieldSet>
-          <BaseFieldSet>
-            <Label>Usage</Label>
-            <BaseSelect
-              name="usage"
-              onChange={handleChange}
-              value={filter.jobTitle}
-            >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
-            </BaseSelect>
-          </BaseFieldSet>
-        </Row>
-        <div className="admin-table">
-          <Table
-            columnTitles={[
-              "Company Name",
-              "Employer's Name",
-              "Plan Type",
-              "Credits Left",
-              "Last Used",
-            ]}
-            rowItems={[]}
-          />
-        </div>
-      </AdminDashboardWrapper>
-    </Layout>
+    <AdminDashboardWrapper>
+      <Row
+        className="heading-row"
+        justifycontent={"space-between"}
+      >
+        <Span>Company List</Span>
+        <Span>See all</Span>
+      </Row>
+      <Row className="filter">
+        <BaseFieldSet>
+          <Label>Company Name</Label>
+          <BaseSelect
+            name="companyName"
+            onChange={handleChange}
+            value={filter.username}
+          >
+            <option value="" hidden></option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+          </BaseSelect>
+        </BaseFieldSet>
+        <BaseFieldSet>
+          <Label>Plan Type</Label>
+          <BaseSelect
+            name="planType"
+            onChange={handleChange}
+            value={filter.department}
+          >
+            <option value="" hidden></option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+          </BaseSelect>
+        </BaseFieldSet>
+        <BaseFieldSet>
+          <Label>Usage</Label>
+          <BaseSelect
+            name="usage"
+            onChange={handleChange}
+            value={filter.jobTitle}
+          >
+            <option value="" hidden></option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+          </BaseSelect>
+        </BaseFieldSet>
+      </Row>
+      <div className="admin-table">
+        <Table
+          columnTitles={[
+            "Company Name",
+            "Employer's Name",
+            "Plan Type",
+            "Credits Left",
+            "Last Used",
+          ]}
+          rowItems={[]}
+        />
+      </div>
+    </AdminDashboardWrapper>
   );
 };
