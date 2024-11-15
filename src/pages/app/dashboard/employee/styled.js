@@ -1,16 +1,19 @@
 import styled from "styled-components";
 
 export const EmployeeDashboardWrapper = styled("div")(() => {
-    return {
-        borderRadius: "1rem",
-        backgroundColor: "#FFFFFF",
-        "h1": {
-            padding: "calc(var(--cardPadding)/2)",
-        },
-        "h2": {
-            padding: "calc(var(--cardPadding)/2)",
-        },
-        "& select": {
+  return {
+    borderRadius: "1rem",
+    backgroundColor: "#FFFFFF",
+    "& .title-heading": {
+      padding: "calc(var(--cardPadding)) calc(var(--cardPadding)) 0",
+      "& h1": {
+        marginBlock: 0,
+      },
+      "& h2": {
+        marginBlock: "2rem"
+      }
+    },
+    "& select": {
       padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
     },
@@ -19,16 +22,14 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
       overflow: "hidden",
     },
     "& label": {
-        fontFamily: "Poppins",
-        fontWeight: 600,
-        fontSize: 20,
-        color: "#000000",
+      fontFamily: "Poppins",
+      fontWeight: 600,
+      fontSize: 20,
+      color: "#000000",
     },
     "& .filter": {
       padding: "var(--cardPadding)",
-      paddingBottom:"0",
       justifyContent: "space-between",
-      marginBlockEnd: "var(--sectionMargin)",
       "@media screen and (max-width: 768px)": {
         flexDirection: "column",
       },
@@ -44,5 +45,5 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
     "& td": {
       minWidth: "200px",
     },
-    };
+  };
 });
