@@ -45,5 +45,15 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
     "& td": {
       minWidth: "200px",
     },
+    "& .reset-password-modal": {
+      padding: "var(--cardPadding)",
+      background: "#FFFFFF",
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      borderRadius: "1rem",
+      boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+    }
   };
 });

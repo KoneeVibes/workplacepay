@@ -19,6 +19,7 @@ import { Summary } from "./pages/app/summary";
 import { UserSummary } from "./pages/app/usersummary";
 import { Admincompanies } from "./pages/app/admincompanies";
 import { Profile } from "./pages/app/profile";
+import { Analytics } from "./pages/app/analytics";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
         <Route path="/admin/companies/" element={<Admincompanies />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </BrowserRouter>
   );

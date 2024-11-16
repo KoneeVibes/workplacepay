@@ -14,10 +14,9 @@ export const Dashboard = () => {
             title={"Dashboard"}
             location={(ROLE === "employer") ? "dashboard" : null}
         >
-            {(!ROLE === "employer") && <EmployerDashboard />}
-            {(ROLE === "employer") && <AdminDashboard />}
-            {(ROLE === "employer") && <EmployeeDashboard />}
-            {/* IBK Below here, you will follow the format above to initialize your respective dashboard */}
+            {(ROLE === "employer") && <EmployerDashboard />}
+            {(ROLE === "admin") && <AdminDashboard />}
+            {(ROLE === "employee") && <EmployeeDashboard />}
         </Layout >
     )
 }

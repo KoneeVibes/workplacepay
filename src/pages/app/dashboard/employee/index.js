@@ -5,6 +5,7 @@ import { Row } from "../../../../components/flex/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { Table } from "../../../../components/table";
+import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
 
 export const EmployeeDashboard = () => {
   const [filter, setFilter] = useState({
@@ -62,6 +63,10 @@ export const EmployeeDashboard = () => {
           rowItems={[]}
         />
       </div>
+      <ResetPasswordModal
+        width={"40%"}
+        height={"60%"}
+      />
     </EmployeeDashboardWrapper>
   )
 }

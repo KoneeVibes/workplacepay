@@ -2,6 +2,7 @@ import { Layout } from "../../../containers/app/layout";
 import { ProfileWrapper } from "./styled";
 import { H2, P } from "../../../components/typography/styled";
 import { Row } from "../../../components/flex/styled";
+import { ResetPasswordModal } from "../../../containers/app/modals/resetpasswordmodal";
 
 export const Profile = () => {
     return (
@@ -100,6 +101,9 @@ export const Profile = () => {
                         <P>135TL</P>
                     </Row>
                 </div>
+                <ResetPasswordModal
+                    width={"40%"}
+                />
             </ProfileWrapper>
         </Layout>
     );

@@ -57,8 +57,8 @@ export const navLinks = {
             url: "/profile"
         },
         {
-            name: "Settings",
-            url: "/settings"
+            name: "Password Reset",
+            url: "/resetpassword"
         },
     ],
     admin: [

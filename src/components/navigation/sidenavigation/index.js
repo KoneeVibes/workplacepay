@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../context";
 import { navLinks } from "../../../config/navlinks/dashboard";
 import { BaseButton } from "../../button/styled";
@@ -9,15 +9,16 @@ import { faCaretDown, faCaretRight, faXmark } from "@fortawesome/free-solid-svg-
 import { Avatar } from "../../../assets";
 import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
-// import Cookies from "universal-cookie";
+import Cookies from "universal-cookie";
 
 export const SideNavigation = () => {
-    // const cookie = new Cookies();
-    // const { ROLE } = cookie.getAll() ?? {};
+    const cookie = new Cookies();
+    const { ROLE } = cookie.getAll() ?? {};
 
     const navigate = useNavigate();
-    const { setIsSideNavigationOpen } = useContext(Context);
+    const { setIsSideNavigationOpen, setIsResetPasswordModalOpen } = useContext(Context);
 
+    const [matches, setMatches] = useState(false);
     const [isSubItemsOpen, setIsSubItemsOpen] = useState(true);
 
     const handleLogoClick = (e) => {
@@ -27,11 +28,27 @@ export const SideNavigation = () => {
 
     const handleSideNavItemClick = (e, destination) => {
         e.preventDefault();
+        e.stopPropagation();
         if (destination === "/reportsummary") {
             return setIsSubItemsOpen(!isSubItemsOpen);
+        };
+        if (destination === "/resetpassword") {
+            matches && setIsSideNavigationOpen(false);
+            return setIsResetPasswordModalOpen(true);
         }
         return navigate(destination);
-    }
+    };
+
+    useEffect(() => {
+        const handleResize = () => {
+            setMatches(window.screen.availWidth < 1024);
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <SideNavigationWrapper>
@@ -48,13 +65,13 @@ export const SideNavigation = () => {
             <Column
                 className="nav-links"
             >
-                {navLinks["employee"].map((navLink, index) => {
+                {navLinks[ROLE].map((navLink, index) => {
                     return (
                         <Fragment
                             key={index}
                         >
                             <Link
-                                className={(navLink.name === "Setup") && "setup"}
+                                className={(navLink.name === "Setup") ? "setup" : null}
                                 onClick={(e) => handleSideNavItemClick(e, navLink.url)}
                             >
                                 {(navLink.name === "Report Summary") ?

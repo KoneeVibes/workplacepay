@@ -63,6 +63,10 @@
         color: rgba(255, 255, 255, 0.57) !important;
     }
 
+    #analytics .nav-links>:nth-child(2) p {
+        color: rgba(255, 255, 255, 0.57) !important;
+    }
+
     * {
         /* outline: 1px red solid; */
     }
