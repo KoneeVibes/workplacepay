@@ -1,14 +1,14 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const submitGetStartedOtp = async (otp, token) => {
+export const signInUser = async (authDetails) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/auth/otp/verify`, {
+        console.log(authDetails);
+        const response = await fetch(`${BASE_ENDPOINT}/api/auth/sign-in`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(otp)
+            body: JSON.stringify(authDetails)
         });
         const res = await response.json();
         if (!response.ok) {

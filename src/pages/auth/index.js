@@ -8,8 +8,8 @@ import { H1, Label, P, Span } from "../../components/typography/styled";
 import { AuthWrapper } from "./styled";
 import { BaseButton } from "../../components/button/styled";
 import { BaseFieldSet } from "../../components/form/fieldset/styled";
-import { authenticateUser } from "../../utils/apis/authentication";
 import { DotLoader } from "react-spinners";
+import { signInUser } from "../../utils/apis/authentication/signin";
 
 export const Auth = () => {
     const cookies = new Cookies();
@@ -34,7 +34,7 @@ export const Auth = () => {
         setError(null);
         setIsLoading(true);
         try {
-            const response = await authenticateUser("sign-in", formDetails);
+            const response = await signInUser(formDetails);
             if (response.status) {
                 setIsLoading(false);
                 cookies.set("TOKEN", response.token, {

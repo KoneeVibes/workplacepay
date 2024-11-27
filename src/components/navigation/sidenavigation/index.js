@@ -65,7 +65,7 @@ export const SideNavigation = () => {
             <Column
                 className="nav-links"
             >
-                {navLinks[ROLE].map((navLink, index) => {
+                {navLinks[ROLE]?.map((navLink, index) => {
                     return (
                         <Fragment
                             key={index}

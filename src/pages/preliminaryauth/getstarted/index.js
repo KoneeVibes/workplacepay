@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Prelim } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
@@ -6,10 +6,11 @@ import { H1, H3, P, Label, H2, Span } from "../../../components/typography/style
 import { GetStartedWrapper, GetStartedWrapperRow } from "./styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
-import { authenticateUser } from "../../../utils/apis/authentication";
 import { DotLoader } from "react-spinners";
 import { GetStartedSuccessModal } from "../../../containers/app/modals/getstartedmodal";
 import Cookies from "universal-cookie";
+import { verifyUserEmail } from "../../../utils/apis/authentication/employer/verifyEmail";
+import { setUserPassword } from "../../../utils/apis/authentication/employer/setPassword";
 
 export const GetStarted = () => {
   const cookies = new Cookies();
@@ -19,11 +20,17 @@ export const GetStarted = () => {
   const [isOTPEntered, setIsOTPEntered] = useState(false);
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
+  const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [formDetails, setFormDetails] = useState({
-    email: "",
-    password: "",
-  });
+  const [formDetails, setFormDetails] = useState({});
+
+  useEffect(() => {
+    if (step === 1) {
+      setFormDetails({ email: "" });
+    } else if (step === 2) {
+      setFormDetails({ password: "", confirmPassword: "" });
+    }
+  }, [step]);
 
   useEffect(() => {
     if (isOTPEntered) {
@@ -45,35 +52,61 @@ export const GetStarted = () => {
     otpModalRef.current.openOtpModal();
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (step === 1) {
-      // logic to open modal here
-      setStep(2)
-      return handleOTPModal();
-    }
+  const handleVerifyEmail = async () => {
     setError(null);
     setIsLoading(true);
     try {
-      console.log(formDetails)
-      const response = await authenticateUser("sign-up", formDetails);
-      if (response.status) {
+      const response = await verifyUserEmail(formDetails);
+      if (response.status === "Success") {
+        setToken(response.token);
+        setIsLoading(false);
+        setStep(2);
+        handleOTPModal();
+      } else {
+        setIsLoading(false);
+        setError('Email verification failed. Please check your credentials and try again.');
+        console.error("Email verification failed. Please check your credentials and try again.");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setError(`Email verification failed. ${error.message}`);
+      console.error('Email verification failed:', error);
+    }
+  };
+
+  const handleSetPassword = async () => {
+    try {
+      const response = await setUserPassword(otpModalRef.current.retrieveGetStartedToken(), formDetails);
+      if (response.status === "Success") {
         setIsLoading(false);
         cookies.set("token", response.token, {
           path: "/",
           maxAge: 1000000,
         });
-        navigate("/login");
+        if (response.status === "Success") {
+          navigate("/login");
+        }
       } else {
         setIsLoading(false);
-        setError('Authentication failed. Please check your credentials and try again.');
-        console.error("Authentication failed. Please check your credentials and try again.");
+        setError('Set password failed. Please check your credentials and try again.');
+        console.error("Set password failed. Please check your credentials and try again.");
       }
     } catch (error) {
       setIsLoading(false);
-      setError(`Login failed. ${error.message}`);
-      console.error('Login failed:', error);
+      setError(`Set password failed. ${error.message}`);
+      console.error('Set password failed:', error);
     }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (step === 1) {
+      return await handleVerifyEmail()
+    }
+    setError(null);
+    setIsLoading(true);
+    await handleSetPassword();
+    return;
   };
 
   return (
@@ -110,14 +143,24 @@ export const GetStarted = () => {
                   onChange={(e) => handleChange(e)}
                 />
               ) : (
-                <BaseInput
-                  type="password"
-                  name="password"
-                  placeholder="Enter Password"
-                  required
-                  value={formDetails.password}
-                  onChange={(e) => handleChange(e)}
-                />
+                <Fragment>
+                  <BaseInput
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required
+                    value={formDetails.password}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <BaseInput
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                    value={formDetails.confirmPassword}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Fragment>
               )}
               <BaseButton
                 type="submit"
@@ -139,6 +182,7 @@ export const GetStarted = () => {
       <GetStartedSuccessModal
         ref={otpModalRef}
         width={"40%"}
+        TOKEN={token}
         setIsOTPEntered={setIsOTPEntered}
       />
     </GetStartedWrapper >

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-import Cookies from "universal-cookie";
 import { DotLoader } from "react-spinners";
 import { BaseModal } from "../../../../components/modal";
 import { GetStartedModalWrapper } from "./styled";
@@ -8,27 +7,26 @@ import { GreenTick } from "../../../../assets";
 import { BaseButton } from "../../../../components/button/styled";
 import { Column, Row } from "../../../../components/flex/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
-import { submitGetStartedOtp } from "../../../../utils/apis/otp/getstarted";
+import { verifyUserOtp } from "../../../../utils/apis/authentication/employer/verifyOTP";
 
-export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, ref) => {
-    const cookies = new Cookies();
-    const TOKEN = cookies.getAll().TOKEN;
-
+export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width, TOKEN }, ref) => {
     const [matches, setMatches] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isGetStartedModalOpen, setIsGetStartedModalOpen] = useState(false);
     const [otp, setOtp] = useState(new Array(4).fill(""));
+    const [getStartedToken, setGetStartedToken] = useState("");
     const [error, setError] = useState("");
 
     useImperativeHandle(ref, () => ({
         getOtp: () => otp.join(''),
+        retrieveGetStartedToken: () => getStartedToken,
         clearOtp: () => setOtp(new Array(4).fill("")),
         openOtpModal: () => setIsGetStartedModalOpen(true),
     }));
 
     // Persist open on click out
     const handleCloseModal = () => {
-        setIsGetStartedModalOpen(false);
+        setIsGetStartedModalOpen(true);
     };
 
     const handleOTPSubmit = async () => {
@@ -38,15 +36,12 @@ export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width }, re
         }
         setError(null);
         setIsLoading(true);
-        console.log(otp.join(''));
         try {
-            const response = await submitGetStartedOtp(otp.join(''), TOKEN);
-            if (response.status) {
+            const payload = { otp: otp.join('') };
+            const response = await verifyUserOtp(payload, TOKEN);
+            if (response.status === "Success") {
                 setIsLoading(false);
-                cookies.set("GET_STARTED_OTP", response.token, {
-                    path: "/",
-                    maxAge: 1000000,
-                });
+                setGetStartedToken(response.token);
                 setIsOTPEntered(true);
                 setIsGetStartedModalOpen(false);
             } else {

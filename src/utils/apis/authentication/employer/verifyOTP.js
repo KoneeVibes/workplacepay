@@ -1,13 +1,14 @@
-import { BASE_ENDPOINT } from "../endpoint";
+import { BASE_ENDPOINT } from "../../../endpoint";
 
-export const authenticateUser = async (action, authDetails) => {
+export const verifyUserOtp = async (otp, token) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/auth/${action}`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/auth/otp/verify`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(authDetails)
+            body: JSON.stringify(otp)
         });
         const res = await response.json();
         if (!response.ok) {
