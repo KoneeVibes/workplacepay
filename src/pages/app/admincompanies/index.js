@@ -6,12 +6,9 @@ import { H2 } from "../../../components/typography/styled";
 
 export const Admincompanies = () => {
   return (
-    <Layout
-      id={"adminCompany"}
-      title={"Raji Ventures"}
-    >
+    <Layout id={"adminCompany"} title={"Raji Ventures"}>
       <AdmincompaniesWrapper>
-        <div className="scredit-information">
+        <div className="credit-information">
           <H2>Credit Information</H2>
           <Row className="heading-row" gap={"5rem"}>
             <Span>Available Credits</Span>
