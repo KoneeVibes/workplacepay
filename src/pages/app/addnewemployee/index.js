@@ -31,23 +31,19 @@ export const AddNewEmployee = () => {
         email: "",
         dateOfBirth: "",
       },
-
       jobInfo: {
-        jobPosition: "",
         jobPosition: "",
         dateHired: "",
         departmentName: "",
       },
-
       payrollSetup: {
-        annualGrossPay: decimal,
+        annualGrossPay: "",
         salaryBankName: "",
         salaryBankAccount: "",
         pensionFirmName: "",
         pensionAccount: "",
         taxNumber: "",
       },
-
       nextofKinInfo: {
         title: "",
         fullName: "",
@@ -55,7 +51,6 @@ export const AddNewEmployee = () => {
         phone: "",
         address: "",
       },
-
       emergencyContactInfo: {
         title: "",
         fullName: "",
@@ -74,13 +69,18 @@ export const AddNewEmployee = () => {
   const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
 
-  const handleChange = (e) => {
+  const handleChange = (e, section) => {
     const { name, value } = e.target;
     setFormDetails((prev) => ({
       ...prev,
-      [name]: value,
+      [section]: {
+        ...prev[section],
+        [name]: value,
+      },
     }));
   };
+
+  useEffect(() => console.log(formDetails), [formDetails]);
 
   const handleClickPrevious = () => {
     setStep((prev) => {
@@ -147,12 +147,12 @@ export const AddNewEmployee = () => {
             {step === 1 && (
               <Fragment>
                 <BaseFieldSet>
-                  <Label>surname (System generated)</Label>
+                  <Label>Surname (System generated)</Label>
                   <BaseInput
                     type="text"
                     name="surname"
                     value={formDetails.personalInfo.surname}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "personalInfo")}
                     required
                   />
                 </BaseFieldSet>
@@ -164,7 +164,7 @@ export const AddNewEmployee = () => {
                       name="firstName"
                       placeholder="Enter First Name"
                       value={formDetails.personalInfo.firstName}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "personalInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -175,20 +175,20 @@ export const AddNewEmployee = () => {
                       name="othername"
                       placeholder="Enter Other Name"
                       value={formDetails.personalInfo.othername}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "personalInfo")}
                       required
                     />
                   </BaseFieldSet>
                 </AddNewEmployeeRow>
                 <AddNewEmployeeRow>
                   <BaseFieldSet>
-                    <Label>address</Label>
+                    <Label>Address</Label>
                     <BaseInput
                       type="text"
                       name="address"
                       placeholder="Enter Address"
                       value={formDetails.personalInfo.address}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "personalInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -198,7 +198,7 @@ export const AddNewEmployee = () => {
                       type="date"
                       name="dateOfBirth"
                       value={formDetails.personalInfo.dateOfBirth}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "personalInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -211,7 +211,7 @@ export const AddNewEmployee = () => {
                       name="email"
                       placeholder="Enter Email"
                       value={formDetails.personalInfo.email}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "personalInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -222,35 +222,11 @@ export const AddNewEmployee = () => {
                       name="phone"
                       placeholder="Enter PhoneNumber"
                       value={formDetails.personalInfo.phone}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "personalInfo")}
                       required
                     />
                   </BaseFieldSet>
                 </AddNewEmployeeRow>
-                {/* <AddNewEmployeeRow>
-                  <BaseFieldSet>
-                    <Label>Job Position</Label>
-                    <BaseInput
-                      type="text"
-                      name="jobPosition"
-                      placeholder="Enter Job Position"
-                      value={formDetails.jobInfo.jobPosition}
-                      onChange={(e) => handleChange(e)}
-                      required
-                    />
-                  </BaseFieldSet>
-                  <BaseFieldSet>
-                    <Label>Date Hired</Label>
-                    <BaseInput
-                      type="date"
-                      name="dateHired"
-                      placeholder="Enter Date Hired"
-                      value={formDetails.jobInfo.dateHired}
-                      onChange={(e) => handleChange(e)}
-                      required
-                    />
-                  </BaseFieldSet>
-                </AddNewEmployeeRow> */}
                 <H2>Corporate Details</H2>
                 <AddNewEmployeeRow>
                   <BaseFieldSet>
@@ -260,7 +236,7 @@ export const AddNewEmployee = () => {
                       name="departmentName"
                       placeholder="Enter Department Name"
                       value={formDetails.jobInfo.departmentName}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "jobInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -271,7 +247,7 @@ export const AddNewEmployee = () => {
                       name="jobPosition"
                       placeholder="Enter Job Position"
                       value={formDetails.jobInfo.jobPosition}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "jobInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -283,7 +259,7 @@ export const AddNewEmployee = () => {
                     name="dateHired"
                     placeholder="Enter Date Hired"
                     value={formDetails.jobInfo.dateHired}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "jobInfo")}
                     required
                   />
                 </BaseFieldSet>
@@ -295,16 +271,16 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="annualGrossPay"
                       value={formDetails.payrollSetup.annualGrossPay}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
                       required
                     />
                   </BaseFieldSet>
                   <BaseFieldSet>
                     <Label>Salary Bank Name</Label>
                     <BaseSelect
-                      name="saaryBankName"
-                      value={formDetails.payrollSetup.salaryBankAccount}
-                      onChange={(e) => handleChange(e)}
+                      name="salaryBankName"
+                      value={formDetails.payrollSetup.salaryBankName}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
                     >
                       <option value="" hidden></option>
                       <option value="Bank A">Bank A</option>
@@ -319,7 +295,7 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="salaryBankAccount"
                       value={formDetails.payrollSetup.salaryBankAccount}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
                       required
                     />
                   </BaseFieldSet>
@@ -328,7 +304,7 @@ export const AddNewEmployee = () => {
                     <BaseSelect
                       name="pensionFirmName"
                       value={formDetails.payrollSetup.pensionFirmName}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
                     >
                       <option value="" hidden></option>
                       <option value="Pension Firm A">Pension Firm A</option>
@@ -343,7 +319,7 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="pensionAccount"
                       value={formDetails.payrollSetup.pensionAccount}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
                       required
                     />
                   </BaseFieldSet>
@@ -353,7 +329,7 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="taxNumber"
                       value={formDetails.payrollSetup.taxNumber}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
                       required
                     />
                   </BaseFieldSet>
@@ -378,7 +354,7 @@ export const AddNewEmployee = () => {
                     <BaseSelect
                       name="title"
                       value={formDetails.nextofKinInfo.title}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "nextofKinInfo")}
                     >
                       <option value="" hidden></option>
                       <option value="Mr">Mr</option>
@@ -393,7 +369,7 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="fullName"
                       value={formDetails.nextofKinInfo.fullName}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "nextofKinInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -405,7 +381,7 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="relationship"
                       value={formDetails.nextofKinInfo.relationship}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "nextofKinInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -415,7 +391,7 @@ export const AddNewEmployee = () => {
                       type="tel"
                       name="phone"
                       value={formDetails.nextofKinInfo.phone}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "nextofKinInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -427,7 +403,7 @@ export const AddNewEmployee = () => {
                     type="text"
                     name="address"
                     value={formDetails.nextofKinInfo.address}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "nextofKinInfo")}
                     required
                   />
                 </BaseFieldSet>
@@ -438,7 +414,7 @@ export const AddNewEmployee = () => {
                     <BaseSelect
                       name="title"
                       value={formDetails.emergencyContactInfo.title}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "emergencyContactInfo")}
                     >
                       <option value="" hidden></option>
                       <option value="Mr">Mr</option>
@@ -453,7 +429,7 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="fullName"
                       value={formDetails.emergencyContactInfo.fullName}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "emergencyContactInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -464,7 +440,7 @@ export const AddNewEmployee = () => {
                     <BaseSelect
                       name="relationship"
                       value={formDetails.emergencyContactInfo.relationship}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "emergencyContactInfo")}
                     >
                       <option value="" hidden></option>
                       <option value="Father">Father</option>
@@ -478,7 +454,7 @@ export const AddNewEmployee = () => {
                       type="tel"
                       name="phone"
                       value={formDetails.emergencyContactInfo.phone}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e, "emergencyContactInfo")}
                       required
                     />
                   </BaseFieldSet>
@@ -490,7 +466,7 @@ export const AddNewEmployee = () => {
                     type="text"
                     name="address"
                     value={formDetails.emergencyContactInfo.address}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "emergencyContactInfo")}
                     required
                   />
                 </BaseFieldSet>
