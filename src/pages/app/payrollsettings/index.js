@@ -6,57 +6,146 @@ import { BaseInput } from "../../../components/form/input/styled";
 import { H2, H3, Label, P, Span } from "../../../components/typography/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseFlex, Row } from "../../../components/flex/styled";
+import { setupPayrollService } from "../../../utils/apis/payroll/setupPayroll";
 
 export const PayrollSettings = () => {
-  const pensionPercentage = "10";
-  const contributionPercentage = "8";
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState({
-    basic: "",
-    housing: "",
-    transport: "",
-    overtime: false,
-    bonus: false,
-    other: false,
-    pension: "",
-    isPension: false,
-    contribution: "",
-    isContribution: false,
-    PAYE: false,
-    others: false,
+    payrollSetupId: "",
+    payrollVariables: [
+      {
+        setupVariableId: "",
+        name: "basic",
+        type: "Earnings",
+        stake: "percent",
+        value: "",
+        isChecked: true
+      },
+      {
+        setupVariableId: "",
+        name: "housing",
+        type: "Earnings",
+        stake: "percent",
+        value: "",
+        isChecked: true
+      },
+      {
+        setupVariableId: "",
+        name: "transport",
+        type: "Earnings",
+        stake: "percent",
+        value: "",
+        isChecked: true
+      },
+      {
+        setupVariableId: "",
+        name: "overtime",
+        type: "Earnings",
+        stake: "money",
+        value: "",
+        isChecked: false
+      },
+      {
+        setupVariableId: "",
+        name: "bonus",
+        type: "Earnings",
+        stake: "money",
+        value: "",
+        isChecked: false
+      },
+      {
+        setupVariableId: "",
+        name: "other",
+        type: "Earnings",
+        stake: "money",
+        value: "",
+        isChecked: false
+      },
+      {
+        setupVariableId: "",
+        name: "employer pension contribution",
+        type: "Deductions",
+        stake: "percent",
+        value: "10",
+        isChecked: false
+      },
+      {
+        setupVariableId: "",
+        name: "employee pension contribution",
+        type: "Deductions",
+        stake: "percent",
+        value: "8",
+        isChecked: false
+      },
+      {
+        setupVariableId: "",
+        name: "PAYE",
+        type: "Deductions",
+        stake: "money",
+        value: "",
+        isChecked: false
+      },
+      {
+        setupVariableId: "",
+        name: "others",
+        type: "Deductions",
+        stake: "money",
+        value: "",
+        isChecked: false
+      },
+    ],
   });
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
-    if (name === "isPension") {
-      setFormDetails((prev) => ({
-        ...prev,
-        pension: checked ? pensionPercentage : "",
-        isPension: checked,
-      }));
-    } else if (name === "isContribution") {
-      setFormDetails((prev) => ({
-        ...prev,
-        contribution: checked ? contributionPercentage : "",
-        isContribution: checked,
-      }));
-    } else {
-      setFormDetails((prev) => ({ ...prev, [name]: checked }));
-    }
+    setFormDetails((prev) => ({
+      ...prev,
+      payrollVariables: prev.payrollVariables.map((variable) =>
+        variable.name === name
+          ? { ...variable, isChecked: checked }
+          : variable
+      ),
+    }));
   };
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
+
     if (type === "checkbox") {
       handleCheckboxChange(e);
     } else {
-      console.log(value);
-      setFormDetails((prev) => ({ ...prev, [name]: value }));
+      setFormDetails((prev) => ({
+        ...prev,
+        payrollVariables: prev.payrollVariables.map((variable) =>
+          variable.name === name
+            ? { ...variable, value }
+            : variable
+        ),
+      }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formDetails);
+    setError(null);
+    setIsLoading(true);
+    try {
+      const response = await setupPayrollService("TOKEN", formDetails, "companyId");
+      if (response.status) {
+        setIsLoading(false);
+        // handleOpenModal();
+      } else {
+        setIsLoading(false);
+        setError('Payroll setup failed. Please check your credentials and try again.');
+        console.error("Payroll setup failed. Please check your credentials and try again.");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setError(`Payroll setup failed. ${error.message}`);
+      console.error('Payroll setup failed:', error);
+    }
   };
 
   return (
@@ -82,7 +171,9 @@ export const PayrollSettings = () => {
                   type="number"
                   name="basic"
                   max={100}
-                  value={formDetails.basic}
+                  value={
+                    formDetails.payrollVariables.find((variable) => variable.name === "basic")?.value || ""
+                  }
                   onChange={handleChange}
                 />
                 <Span>%</Span>
@@ -106,7 +197,9 @@ export const PayrollSettings = () => {
                   id="housing"
                   name="housing"
                   required
-                  value={formDetails.housing}
+                  value={
+                    formDetails.payrollVariables.find((variable) => variable.name === "housing")?.value || ""
+                  }
                   onChange={handleChange}
                 >
                   <option value="" hidden></option>
@@ -135,7 +228,9 @@ export const PayrollSettings = () => {
                   id="transport"
                   name="transport"
                   required
-                  value={formDetails.transport}
+                  value={
+                    formDetails.payrollVariables.find((variable) => variable.name === "transport")?.value || ""
+                  }
                   onChange={handleChange}
                 >
                   <option value="" hidden></option>
@@ -158,8 +253,10 @@ export const PayrollSettings = () => {
               id="overtime"
               type="checkbox"
               name="overtime"
-              checked={formDetails.overtime}
-              onChange={handleChange}
+              checked={
+                formDetails.payrollVariables.find((variable) => variable.name === "overtime")?.isChecked || ""
+              }
+              onChange={handleCheckboxChange}
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
@@ -168,8 +265,10 @@ export const PayrollSettings = () => {
               id="bonus"
               type="checkbox"
               name="bonus"
-              checked={formDetails.bonus}
-              onChange={handleChange}
+              checked={
+                formDetails.payrollVariables.find((variable) => variable.name === "bonus")?.isChecked || ""
+              }
+              onChange={handleCheckboxChange}
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
@@ -178,8 +277,10 @@ export const PayrollSettings = () => {
               id="other"
               type="checkbox"
               name="other"
-              checked={formDetails.other}
-              onChange={handleChange}
+              checked={
+                formDetails.payrollVariables.find((variable) => variable.name === "other")?.isChecked || ""
+              }
+              onChange={handleCheckboxChange}
             />
           </BaseFlex>
           <H3>Deductions</H3>
@@ -193,8 +294,10 @@ export const PayrollSettings = () => {
               <InputRow>
                 <BaseInput
                   type="number"
-                  name="pension"
-                  value={pensionPercentage}
+                  name="employer pension contribution"
+                  value={
+                    formDetails.payrollVariables.find((variable) => variable.name === "employer pension contribution")?.value || ""
+                  }
                   readOnly
                 />
                 <Span>%</Span>
@@ -202,9 +305,11 @@ export const PayrollSettings = () => {
               <BaseInput
                 id="pension"
                 type="checkbox"
-                name="isPension"
-                onChange={handleChange}
-                checked={formDetails.isPension}
+                name="employer pension contribution"
+                onChange={handleCheckboxChange}
+                checked={
+                  formDetails.payrollVariables.find((variable) => variable.name === "employer pension contribution")?.isChecked || ""
+                }
               />
             </Row>
           </BaseFlex>
@@ -218,8 +323,10 @@ export const PayrollSettings = () => {
               <InputRow>
                 <BaseInput
                   type="number"
-                  name="contribution"
-                  value={contributionPercentage}
+                  name="employee pension contribution"
+                  value={
+                    formDetails.payrollVariables.find((variable) => variable.name === "employee pension contribution")?.value || ""
+                  }
                   readOnly
                 />
                 <Span>%</Span>
@@ -227,9 +334,11 @@ export const PayrollSettings = () => {
               <BaseInput
                 id="contribution"
                 type="checkbox"
-                name="isContribution"
-                onChange={handleChange}
-                checked={formDetails.isContribution}
+                name="employee pension contribution"
+                onChange={handleCheckboxChange}
+                checked={
+                  formDetails.payrollVariables.find((variable) => variable.name === "employee pension contribution")?.isChecked || ""
+                }
               />
             </Row>
           </BaseFlex>
@@ -239,8 +348,10 @@ export const PayrollSettings = () => {
               id="PAYE"
               type="checkbox"
               name="PAYE"
-              onChange={handleChange}
-              checked={formDetails.PAYE}
+              onChange={handleCheckboxChange}
+              checked={
+                formDetails.payrollVariables.find((variable) => variable.name === "PAYE")?.isChecked || ""
+              }
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
@@ -249,8 +360,10 @@ export const PayrollSettings = () => {
               id="others"
               type="checkbox"
               name="others"
-              onChange={handleChange}
-              checked={formDetails.others}
+              onChange={handleCheckboxChange}
+              checked={
+                formDetails.payrollVariables.find((variable) => variable.name === "others")?.isChecked || ""
+              }
             />
           </BaseFlex>
           <BaseButton

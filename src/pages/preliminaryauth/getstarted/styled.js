@@ -68,12 +68,19 @@ export const GetStartedWrapper = styled(Row)(() => {
     },
   };
 });
-export const GetStartedWrapperRow = styled(Row)(() => {
+export const GetStartedWrapperRow = styled(Row)(({ step }) => {
   return {
-    gap: 0,
+    gap: (step === 1) ? "calc(var(--flexGap)/4)" : "calc(var(--flexGap)/1)",
+    flexDirection: (step === 2) && "column",
+    "& button>span": {
+      whiteSpace: "nowrap",
+    },
     "@media screen and (max-width: 1280px)": {
       gap: "calc(var(--flexGap)/1)",
       flexDirection: "column",
-    },
+      "& button>span": {
+        whiteSpace: "normal",
+      },
+    }
   };
 });

@@ -9,9 +9,9 @@ import { FieldSetRow, SetUpYourCompanyWrapper } from "./styled";
 import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../context";
 import { Row } from "../../../components/flex/styled";
-import { setupCompanyService } from "../../../utils/apis/setup";
+import { setupCompanyService } from "../../../utils/apis/company/setupCompany";
 import { DotLoader } from "react-spinners";
-import { getPayrollPlans } from "../../../utils/apis/getpayrollplans";
+import { getPayrollPlans } from "../../../utils/apis/payroll/getpayrollplans";
 
 export const SetUpYourCompany = () => {
     const { setIsPaymentFormModalOpen } = useContext(Context);
