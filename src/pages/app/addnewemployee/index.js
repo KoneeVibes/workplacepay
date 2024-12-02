@@ -9,7 +9,7 @@ import {
 import { Context } from "../../../context";
 import { Layout } from "../../../containers/app/layout";
 import { AddNewEmployeeWrapper } from "./styled";
-import { H2, P, Label } from "../../../components/typography/styled";
+import { H2, P, Label, Span } from "../../../components/typography/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { AddNewEmployeeRow } from "./styled";
@@ -18,8 +18,14 @@ import { Column } from "../../../components/flex/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseTextArea } from "../../../components/form/textarea/styled";
 import { AddEmployeeSuccessModal } from "../../../containers/app/modals/addemployeesuccessmodal";
+import { addNewEmployeeService } from "../../../utils/apis/employee/addNewEmployee";
+import { DotLoader } from "react-spinners";
+import Cookies from "universal-cookie";
 
 export const AddNewEmployee = () => {
+  const cookies = new Cookies();
+  const TOKEN = cookies.getAll().TOKEN;
+
   const initialFormDetails = useMemo(
     () => ({
       personalInfo: {
@@ -65,6 +71,8 @@ export const AddNewEmployee = () => {
   const [step, setStep] = useState(1);
   const [matches, setMatches] = useState(false);
   const [isFormReset, setIsFormReset] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
@@ -97,10 +105,26 @@ export const AddNewEmployee = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formDetails);
-    setIsAddEmployeeSuccessModalOpen(true);
+    setError(null);
+    setIsLoading(true);
+    try {
+      const response = await addNewEmployeeService(TOKEN, formDetails, "companyId");
+      if (response.status) {
+        setIsLoading(false);
+        setIsAddEmployeeSuccessModalOpen(true);
+      } else {
+        setIsLoading(false);
+        setError('Addition of new employee failed. Please check your credentials and try again.');
+        console.error("Addition of new employee failed. Please check your credentials and try again.");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setError(`Addition of new employee failed. ${error.message}`);
+      console.error('Addition of new employee failed:', error);
+    }
   };
 
   const resetForm = useCallback(() => {
@@ -481,11 +505,21 @@ export const AddNewEmployee = () => {
                     backgroundcolor={"#4E57BB"}
                     width={matches ? "-webkit-fill-available" : "fit-content"}
                   >
-                    Submit
+                    {isLoading ?
+                      (<DotLoader
+                        size={20}
+                        color="white"
+                        className='dotLoader'
+                      />) : (
+                        <Span>
+                          Submit
+                        </Span>
+                      )}
                   </BaseButton>
                 </Column>
               </Fragment>
             )}
+            {error && <P style={{ color: 'red' }}>{error}</P>}
           </form>
         </Column>
         <AddEmployeeSuccessModal
