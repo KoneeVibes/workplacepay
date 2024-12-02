@@ -7,8 +7,13 @@ import { H2, H3, Label, P, Span } from "../../../components/typography/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { BaseFlex, Row } from "../../../components/flex/styled";
 import { setupPayrollService } from "../../../utils/apis/payroll/setupPayroll";
+import Cookies from "universal-cookie";
+import { DotLoader } from "react-spinners";
 
 export const PayrollSettings = () => {
+  const cookies = new Cookies();
+  const TOKEN = cookies.getAll().TOKEN;
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState({
@@ -132,7 +137,7 @@ export const PayrollSettings = () => {
     setError(null);
     setIsLoading(true);
     try {
-      const response = await setupPayrollService("TOKEN", formDetails, "companyId");
+      const response = await setupPayrollService(TOKEN, formDetails, "companyId");
       if (response.status) {
         setIsLoading(false);
         // handleOpenModal();
@@ -371,8 +376,18 @@ export const PayrollSettings = () => {
             backgroundcolor={"#4E57BB"}
             width={"fit-content"}
           >
-            Save
+            {isLoading ?
+              (<DotLoader
+                size={20}
+                color="white"
+                className='dotLoader'
+              />) : (
+                <Span>
+                  Save
+                </Span>
+              )}
           </BaseButton>
+          {error && <P style={{ color: 'red' }}>{error}</P>}
         </form>
       </PayrollSettingsWrapper>
     </Layout>
