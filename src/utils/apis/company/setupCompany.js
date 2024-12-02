@@ -1,4 +1,4 @@
-import { BASE_ENDPOINT } from "../endpoint";
+import { BASE_ENDPOINT } from "../../endpoint";
 
 export const setupCompanyService = async (payload) => {
     try {

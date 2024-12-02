@@ -132,7 +132,9 @@ export const GetStarted = () => {
             ) : (
               <Label>Password:</Label>
             )}
-            <GetStartedWrapperRow>
+            <GetStartedWrapperRow
+              step={step}
+            >
               {(step === 1) ? (
                 <BaseInput
                   type="email"
@@ -168,7 +170,7 @@ export const GetStarted = () => {
               >
                 {isLoading ?
                   (<DotLoader
-                    size={48}
+                    size={20}
                     color="white"
                     className='dotLoader'
                   />) : (<Span>Get Started</Span>)
