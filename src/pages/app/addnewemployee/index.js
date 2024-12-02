@@ -80,8 +80,6 @@ export const AddNewEmployee = () => {
     }));
   };
 
-  useEffect(() => console.log(formDetails), [formDetails]);
-
   const handleClickPrevious = () => {
     setStep((prev) => {
       return prev - 1;
