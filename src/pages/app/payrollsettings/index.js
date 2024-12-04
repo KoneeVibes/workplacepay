@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { InputRow, PayrollSettingsWrapper } from "./styled";
 import { BaseButton } from "../../../components/button/styled";
@@ -9,6 +9,7 @@ import { BaseFlex, Row } from "../../../components/flex/styled";
 import { setupPayrollService } from "../../../utils/apis/payroll/setupPayroll";
 import Cookies from "universal-cookie";
 import { DotLoader } from "react-spinners";
+import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 
 export const PayrollSettings = () => {
   const cookies = new Cookies();
@@ -102,6 +103,12 @@ export const PayrollSettings = () => {
       },
     ],
   });
+
+  useEffect(() => {
+    retrievePayrollSetup()
+    
+    console.log()
+  }, [formDetails]);
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
