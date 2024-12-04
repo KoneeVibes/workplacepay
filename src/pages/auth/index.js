@@ -13,6 +13,7 @@ import { signInUser } from "../../utils/apis/authentication/signin";
 
 export const Auth = () => {
     const cookies = new Cookies();
+    
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);

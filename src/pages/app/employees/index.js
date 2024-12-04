@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { EmployeesWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -7,14 +7,24 @@ import { BaseSelect } from "../../../components/form/select/styled";
 import { Label } from "../../../components/typography/styled";
 import { Span } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
+import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
 
 export const Employees = () => {
+  const [employees, setEmployees] = useState([]);
   const [filter, setFilter] = useState({
     username: "",
     department: "",
     jobTitle: "",
     status: "",
   });
+
+  useEffect(() => {
+    getAllEmployees("companyid")
+      .then((data) => setEmployees(data))
+      .catch((err) => {
+        console.error("Failed to fetch employees:", err);
+      });
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -98,7 +108,7 @@ export const Employees = () => {
               "Role",
               "status",
             ]}
-            rowItems={[]}
+            rowItems={employees}
           />
         </div>
       </EmployeesWrapper>
