@@ -10,8 +10,27 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { Table } from "../../../../components/table";
+import Cookies from "universal-cookie";
+import { useEffect, useMemo } from "react";
+import { getCompanies } from "../../../../utils/apis/company/getCompanies";
 
 export const EmployerDashboard = () => {
+    const cookies = useMemo(() => new Cookies(), []);
+    const TOKEN = cookies.get("TOKEN");
+
+    useEffect(() => {
+        getCompanies(TOKEN)
+            .then((data) => {
+                cookies.set("COMPANY_ID", data[0]?.companyId, {
+                    path: "/",
+                    maxAge: 1000000,
+                });
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    }, [TOKEN, cookies]);
+
     return (
         <EmployerDashboardWrapper>
             <Row

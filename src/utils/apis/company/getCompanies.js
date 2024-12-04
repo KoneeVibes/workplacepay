@@ -1,13 +1,13 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const signInUser = async (authDetails) => {
+export const getCompanies = async (TOKEN) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/auth/sign-in`, {
-            method: 'POST',
+        const response = await fetch(`${BASE_ENDPOINT}/api/companies/my-companies`, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(authDetails)
+                'Authorization': `Bearer ${TOKEN}`,
+                'Content-Type': 'application/json'
+            }
         });
         const res = await response.json();
         if (!response.ok) {

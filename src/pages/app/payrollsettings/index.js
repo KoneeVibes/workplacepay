@@ -13,6 +13,7 @@ import { DotLoader } from "react-spinners";
 export const PayrollSettings = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.getAll().TOKEN;
+  const COMPANY_ID = cookies.get("COMPANY_ID");
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -137,7 +138,7 @@ export const PayrollSettings = () => {
     setError(null);
     setIsLoading(true);
     try {
-      const response = await setupPayrollService(TOKEN, formDetails, "companyId");
+      const response = await setupPayrollService(TOKEN, formDetails, COMPANY_ID);
       if (response.status) {
         setIsLoading(false);
         // handleOpenModal();

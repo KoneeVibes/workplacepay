@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
-import { Row } from "../../../components/flex/styled"
-import { BaseFieldSet } from "../../../components/form/fieldset/styled"
-import { BaseSelect } from "../../../components/form/select/styled"
-import { Label } from "../../../components/typography/styled"
-import { Layout } from "../../../containers/app/layout"
-import { AnalyticsWrapper } from "./styled"
+import { useState } from "react";
+import { Row } from "../../../components/flex/styled";
+import { BaseFieldSet } from "../../../components/form/fieldset/styled";
+import { BaseSelect } from "../../../components/form/select/styled";
+import { Label } from "../../../components/typography/styled";
+import { Layout } from "../../../containers/app/layout";
+import { AnalyticsWrapper } from "./styled";
 
 export const Analytics = () => {
     const [filter, setFilter] = useState("");
@@ -13,8 +13,6 @@ export const Analytics = () => {
         const { value } = e.target;
         setFilter(value);
     }
-
-    useEffect(() => console.log(filter), [filter]);
 
     return (
         <Layout
