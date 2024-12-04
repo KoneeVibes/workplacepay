@@ -1,10 +1,11 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const getAllEmployees = async (companyId) => {
+export const getAllEmployees = async (TOKEN, companyId) => {
     try {
         const response = await fetch(`${BASE_ENDPOINT}/api/users/employees/${companyId}`, {
             method: 'GET',
             headers: {
+                'Authorization': `Bearer ${TOKEN}`,
                 'Content-Type': 'application/json'
             }
         });

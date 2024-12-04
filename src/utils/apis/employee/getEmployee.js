@@ -1,17 +1,14 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const getEmployee = async (employeeId) => {
+export const getEmployee = async (TOKEN, employeeId, companyId) => {
   try {
-    const response = await fetch(
-      `${BASE_ENDPOINT}/api/users/employees/${companyId}/${employeeId}
-`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${BASE_ENDPOINT}/api/users/employees/${companyId}/${employeeId}`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
     const res = await response.json();
     if (!response.ok) {
       console.error("Error:", res);

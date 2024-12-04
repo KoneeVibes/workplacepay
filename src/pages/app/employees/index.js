@@ -8,8 +8,13 @@ import { Label } from "../../../components/typography/styled";
 import { Span } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
 import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
+import Cookies from "universal-cookie";
 
 export const Employees = () => {
+  const cookies = new Cookies();
+  const TOKEN = cookies.get("TOKEN");
+  const COMPANY_ID = cookies.get("COMPANY_ID");
+
   const [employees, setEmployees] = useState([]);
   const [filter, setFilter] = useState({
     username: "",
@@ -19,12 +24,12 @@ export const Employees = () => {
   });
 
   useEffect(() => {
-    getAllEmployees("companyid")
+    getAllEmployees(TOKEN, COMPANY_ID)
       .then((data) => setEmployees(data))
       .catch((err) => {
         console.error("Failed to fetch employees:", err);
       });
-  }, [])
+  }, [TOKEN, COMPANY_ID])
 
   const handleChange = (e) => {
     const { name, value } = e.target;

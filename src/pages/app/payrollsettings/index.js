@@ -105,10 +105,10 @@ export const PayrollSettings = () => {
   });
 
   useEffect(() => {
-    retrievePayrollSetup()
-    
-    console.log()
-  }, [formDetails]);
+    retrievePayrollSetup(COMPANY_ID)
+      .then((data) => setFormDetails(data))
+      .catch((err) => console.err(err))
+  }, [formDetails, COMPANY_ID]);
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
