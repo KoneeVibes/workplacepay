@@ -12,8 +12,12 @@ import { Row } from "../../../components/flex/styled";
 import { setupCompanyService } from "../../../utils/apis/company/setupCompany";
 import { DotLoader } from "react-spinners";
 import { getPayrollPlans } from "../../../utils/apis/payroll/getpayrollplans";
+import Cookies from "universal-cookie";
 
 export const SetUpYourCompany = () => {
+    const cookies = new Cookies();
+    const TOKEN = cookies.getAll().TOKEN;
+
     const { setIsPaymentFormModalOpen } = useContext(Context);
 
     const [error, setError] = useState(null);
@@ -21,20 +25,23 @@ export const SetUpYourCompany = () => {
     const [payrollPlans, setPayrollPlans] = useState([]);
     const [formDetails, setFormDetails] = useState({
         firstName: "",
-        lastName: "",
+        surname: "",
+        othername: "",
         companyName: "",
-        phone: "",
+        companyPhone: "",
         companyEmail: "",
-        plan: ""
+        companyPlan: ""
     });
 
     useEffect(() => {
-        getPayrollPlans()
-            .then((data) => setPayrollPlans(data))
+        getPayrollPlans(TOKEN)
+            .then((data) => {
+                setPayrollPlans(data ?? [])
+            })
             .catch((err) => {
                 console.error("Failed to fetch payroll plans:", err);
             });
-    }, [])
+    }, [TOKEN])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,11 +57,10 @@ export const SetUpYourCompany = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formDetails);
         setError(null);
         setIsLoading(true);
         try {
-            const response = await setupCompanyService(formDetails);
+            const response = await setupCompanyService(TOKEN, formDetails);
             if (response.status) {
                 setIsLoading(false);
                 handleOpenModal();
@@ -106,9 +112,21 @@ export const SetUpYourCompany = () => {
                                     Last Name
                                 </Label>
                                 <BaseInput
-                                    name="lastName"
+                                    name="surname"
                                     placeholder="Enter Last Name"
                                     value={formDetails.lastName}
+                                    onChange={(e) => handleChange(e)}
+
+                                />
+                            </BaseFieldSet>
+                            <BaseFieldSet>
+                                <Label>
+                                    Other Name
+                                </Label>
+                                <BaseInput
+                                    name="othername"
+                                    placeholder="Enter Other Name"
+                                    value={formDetails.othername}
                                     onChange={(e) => handleChange(e)}
 
                                 />
@@ -131,9 +149,9 @@ export const SetUpYourCompany = () => {
                                     Phone Number
                                 </Label>
                                 <BaseInput
-                                    name="phone"
-                                    placeholder="Enter Phone Number"
-                                    value={formDetails.phone}
+                                    name="companyPhone"
+                                    placeholder="Enter Company Phone Number"
+                                    value={formDetails.companyPhone}
                                     onChange={(e) => handleChange(e)}
                                 />
                             </BaseFieldSet>
@@ -156,18 +174,18 @@ export const SetUpYourCompany = () => {
                                     Payroll Plan
                                 </Label>
                                 <BaseSelect
-                                    name="plan"
-                                    value={formDetails.plan}
+                                    name="companyPlan"
+                                    value={formDetails?.companyPlan}
                                     onChange={(e) => handleChange(e)}
                                 >
                                     <option value="">Select a Plan</option>
-                                    {payrollPlans.map((plan, index) => {
+                                    {payrollPlans?.map((plan, index) => {
                                         return (
                                             <option
                                                 key={index}
-                                                value={plan.title}
+                                                value={plan?.title}
                                             >
-                                                {plan.title}
+                                                {plan?.title}
                                             </option>
                                         )
                                     })}

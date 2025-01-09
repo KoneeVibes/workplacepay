@@ -1,10 +1,11 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const setupCompanyService = async (payload) => {
+export const setupCompanyService = async (TOKEN, payload) => {
     try {
         const response = await fetch(`${BASE_ENDPOINT}/api/companies/setup`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${TOKEN}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(payload)

@@ -13,7 +13,7 @@ import { signInUser } from "../../utils/apis/authentication/signin";
 
 export const Auth = () => {
     const cookies = new Cookies();
-    
+
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -46,12 +46,13 @@ export const Auth = () => {
                     path: "/",
                     maxAge: 1000000,
                 });
-                if (response.role === "employer") {
-                    navigate("/dashboard/admin");
-                } else if (response.role === "employee") {
-                    navigate("/dashboard/employee");
-                } else {
-                    navigate("/dashboard/admin");
+                if (response.status === "Success") {
+                    if (response.role === "employer") {
+                        // check if COMPANY_ID is in cookie, else
+                        // return pop-up modal for user to select company
+
+                    }
+                    return navigate("/dashboard");
                 }
             } else {
                 setIsLoading(false);

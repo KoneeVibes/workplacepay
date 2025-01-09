@@ -2,7 +2,7 @@ export const navLinks = {
     employer: [
         {
             name: "Dashboard",
-            url: "/dashboard/employer"
+            url: "/dashboard"
         },
         {
             name: "Employees",
@@ -39,18 +39,14 @@ export const navLinks = {
             ]
         },
         {
-            name: "Setup",
+            name: "Payroll Setup",
             url: "/payrollsettings"
-        },
-        {
-            name: "Logout",
-            url: ""
         },
     ],
     employee: [
         {
             name: "Dashboard",
-            url: "/dashboard/employee"
+            url: "/dashboard"
         },
         {
             name: "My Profile",
@@ -64,7 +60,7 @@ export const navLinks = {
     admin: [
         {
             name: "Dashboard",
-            url: "/dashboard/admin"
+            url: "/dashboard"
         },
         {
             name: "Analytics",
@@ -72,3 +68,32 @@ export const navLinks = {
         },
     ]
 };
+
+export const navAvatarAreaLinks = {
+    employer: [
+        {
+            name: "Add new company",
+            url: "/setup"
+        },
+        {
+            name: "Switch company",
+            url: "/switchcompany"
+        },
+        {
+            name: "Logout",
+            url: "/"
+        },
+    ],
+    employee: [
+        {
+            name: "Logout",
+            url: "/"
+        },
+    ],
+    admin: [
+        {
+            name: "Logout",
+            url: "/"
+        },
+    ]
+}

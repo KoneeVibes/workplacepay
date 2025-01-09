@@ -1,10 +1,11 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const getPayrollPlans = async () => {
+export const getPayrollPlans = async (TOKEN) => {
     try {
         const response = await fetch(`${BASE_ENDPOINT}/api/payrolls/plans`, {
             method: 'GET',
             headers: {
+                'Authorization': `Bearer ${TOKEN}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -13,7 +14,7 @@ export const getPayrollPlans = async () => {
             console.error('Error:', res);
             throw new Error(res.message);
         }
-        return res.data;
+        return res;
     } catch (error) {
         console.error('API fetch error:', error);
         throw error;

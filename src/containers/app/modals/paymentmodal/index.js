@@ -48,8 +48,8 @@ export const PaymentModal = () => {
         setIsPaymentFormModalOpen(false);
     }
 
-    const handleNavigateToLogin = () => {
-        handleCloseModal();
+    const handleNavigateToLogin = async () => {
+        await handleCloseModal();
         navigate("/login");
     }
 

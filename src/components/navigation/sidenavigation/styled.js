@@ -76,19 +76,33 @@ export const SideNavigationWrapper = styled(Column)(() => {
                 "&:hover": {
                     color: "rgba(255, 255, 255, 0.57)",
                 }
-            },
-            "& ul": {
-                marginBlock: 0,
-                listStyleType: "none",
-                display: "flex",
-                flexDirection: "column",
-                gap: "calc(var(--flexGap)/3)",
-                paddingInlineStart: "calc(var(--cardPadding))",
-            },
+            }
         },
-        "& .nav-avatar": {
+        "& .nav-avatar-area": {
             padding: "var(--cardPadding)",
             marginTop: "auto",
+            borderTop: "1px solid #FFFFFF",
+        },
+        "& .sub-items": {
+            marginBlock: 0,
+            listStyleType: "none",
+            display: "flex",
+            flexDirection: "column",
+            gap: "calc(var(--flexGap)/3)",
+            paddingInlineStart: "calc(var(--cardPadding))",
+            "& p": {
+                cursor: "pointer",
+                marginBlock: 0,
+                "&:hover": {
+                    color: "rgba(255, 255, 255, 0.57)",
+                }
+            },
+            "& .active-company": {
+                color: "rgba(255, 255, 255, 0.57)"
+            }
+        },
+        "& .user-companies-dropdown": {
+            marginBlockStart: "calc(var(--flexGap)/3)",
         },
         "@media screen and (min-width: 1024px)": {
             left: "auto",

@@ -1,6 +1,6 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../context";
-import { navLinks } from "../../../config/navlinks/dashboard";
+import { navAvatarAreaLinks, navLinks } from "../../../config/navlinks/dashboard";
 import { BaseButton } from "../../button/styled";
 import { P } from "../../typography/styled";
 import { SideNavigationWrapper } from "./styled";
@@ -10,15 +10,20 @@ import { Avatar } from "../../../assets";
 import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { getCompanies } from "../../../utils/apis/company/getCompanies";
 
 export const SideNavigation = () => {
     const cookie = new Cookies();
-    const { ROLE } = cookie.getAll() ?? {};
+    const { ROLE, TOKEN, COMPANY_ID } = cookie.getAll() ?? {};
 
     const navigate = useNavigate();
     const { setIsSideNavigationOpen, setIsResetPasswordModalOpen } = useContext(Context);
 
     const [matches, setMatches] = useState(false);
+    const [isUserProfileDropdownOpen, setIsUserProfileDropdownOpen] = useState(false);
+    const [userCompanies, setUserCompanies] = useState([]);
+    const [activeCompanyId, setActiveCompanyId] = useState(COMPANY_ID);
+    const [isUserCompaniesDropdownOpen, setIsUserCompaniesDropdownOpen] = useState(false);
     const [isSubItemsOpen, setIsSubItemsOpen] = useState(true);
 
     const handleLogoClick = (e) => {
@@ -38,6 +43,43 @@ export const SideNavigation = () => {
         }
         return navigate(destination);
     };
+
+    const handleNavAvatarAreaLinkClick = (e, destination) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (destination === "/switchcompany") {
+            return setIsUserCompaniesDropdownOpen(!isUserCompaniesDropdownOpen);
+        }
+        return navigate(`${destination}`);
+    }
+
+    const handleUserProfileIconClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsUserCompaniesDropdownOpen(false);
+        return setIsUserProfileDropdownOpen(!isUserProfileDropdownOpen);
+    };
+
+    const handleActiveCompanyUpdate = (e, id) => {
+        e.preventDefault();
+        e.stopPropagation();
+        cookie.set("COMPANY_ID", id, {
+            path: "/",
+            maxAge: 1000000,
+        });
+        return setActiveCompanyId(id);
+    }
+
+    useEffect(() => {
+        if (ROLE !== "employer") return;
+        getCompanies(TOKEN)
+            .then((data) => {
+                setUserCompanies(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    }, [TOKEN, ROLE]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -71,7 +113,7 @@ export const SideNavigation = () => {
                             key={index}
                         >
                             <Link
-                                className={(navLink.name === "Setup") ? "setup" : null}
+                                className={(navLink.name === "Payroll Setup") ? "setup" : null}
                                 onClick={(e) => handleSideNavItemClick(e, navLink.url)}
                             >
                                 {(navLink.name === "Report Summary") ?
@@ -87,7 +129,7 @@ export const SideNavigation = () => {
                             </Link>
                             {(navLink.name === "Report Summary" && isSubItemsOpen) && (
                                 <ul
-                                    className="sub-item"
+                                    className="sub-items"
                                 >
                                     {navLink.subItems.map((subItem, index) => {
                                         return (
@@ -108,11 +150,68 @@ export const SideNavigation = () => {
                     )
                 })}
             </Column>
-            <div
-                className="nav-avatar"
+            <Column
+                className="nav-avatar-area"
             >
-                <Avatar />
-            </div>
+                <Row
+                    alignitems={"center"}
+                    justifycontent={"space-between"}
+                    onClick={handleUserProfileIconClick}
+                    style={{ cursor: "pointer" }}
+                >
+                    <Avatar />
+                    <FontAwesomeIcon icon={isSubItemsOpen ? faCaretDown : faCaretRight} />
+                </Row>
+                {(isUserProfileDropdownOpen) && (
+                    <ul
+                        className="sub-items"
+                    >
+                        {navAvatarAreaLinks[ROLE].map((subItem, index) => {
+                            return (
+                                <li
+                                    key={index}
+                                >
+                                    <Link
+                                        onClick={(e) => handleNavAvatarAreaLinkClick(e, subItem.url)}
+                                    >
+                                        {(subItem.url === "/switchcompany") ?
+                                            (
+                                                <Row
+                                                    alignitems={"center"}
+                                                    justifycontent={"space-between"}
+                                                >
+                                                    <P>{subItem.name}</P>
+                                                    <FontAwesomeIcon icon={isSubItemsOpen ? faCaretDown : faCaretRight} />
+                                                </Row>
+                                            ) : (
+                                                <P>{subItem.name}</P>
+                                            )
+                                        }
+                                        {(isUserCompaniesDropdownOpen && subItem.url === "/switchcompany") && (
+                                            <ul
+                                                className="sub-items user-companies-dropdown"
+                                            >
+                                                {userCompanies.map((company, index) => {
+                                                    return (
+                                                        <li key={index}>
+                                                            <P
+                                                                onClick={(e) => handleActiveCompanyUpdate(e, company.companyId)}
+                                                                className={(activeCompanyId === company.companyId) ? "active-company" : "inactive-company"}
+                                                            >
+                                                                {company.name}
+                                                            </P>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        )}
+                                    </Link>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                )}
+            </Column>
         </SideNavigationWrapper >
     )
 }
