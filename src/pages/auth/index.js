@@ -48,9 +48,20 @@ export const Auth = () => {
                 });
                 if (response.status === "Success") {
                     if (response.role === "employer") {
-                        // check if COMPANY_ID is in cookie, else
-                        // return pop-up modal for user to select company
+                        // check if COMPANY_ID is in cookie
+                        // If yes, navigate the employer to the dashboard
+                        
+                        // Check if the employer has a single company
+                        // If yes, set COMPANY_ID to the single company's id and
+                        // navigate the employer to the dashboard
 
+                        // Check if the employer has more than one company
+                        // If yes, pop-up modal for employer to select a single company
+                        // to access and set COMPANY_ID to the selected company's id and
+                        // navigate the employer to the dashboard
+
+                        // Check if the employer does not has any company
+                        // If yes, redirect the employer to the setup company page.
                     }
                     return navigate("/dashboard");
                 }
