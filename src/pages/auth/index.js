@@ -10,6 +10,8 @@ import { BaseButton } from "../../components/button/styled";
 import { BaseFieldSet } from "../../components/form/fieldset/styled";
 import { DotLoader } from "react-spinners";
 import { signInUser } from "../../utils/apis/authentication/signin";
+import { getCompanies } from "../../utils/apis/company/getCompanies";
+import { SelectCompaniesModal } from "../../containers/app/modals/selectcompaniesmodal";
 
 export const Auth = () => {
     const cookies = new Cookies();
@@ -30,6 +32,16 @@ export const Auth = () => {
         }));
     };
 
+    const fetchUserCompanies = async (token, role) => {
+        if (role !== "employer") return;
+        try {
+            const response = await getCompanies(token);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -48,20 +60,29 @@ export const Auth = () => {
                 });
                 if (response.status === "Success") {
                     if (response.role === "employer") {
-                        // check if COMPANY_ID is in cookie
-                        // If yes, navigate the employer to the dashboard
-                        
+                        const { ROLE, TOKEN, COMPANY_ID } = cookies.getAll() ?? {};
+                        const userCompanies = await fetchUserCompanies(TOKEN, ROLE);
+                        // Check if the employer does not have any company
+                        // If yes, redirect the employer to the setup company page.
+                        if (!userCompanies || userCompanies.length === 0) {
+                            return navigate("/setup");
+                        };
                         // Check if the employer has a single company
                         // If yes, set COMPANY_ID to the single company's id and
                         // navigate the employer to the dashboard
-
-                        // Check if the employer has more than one company
+                        if (userCompanies.length === 1) {
+                            cookies.set("COMPANY_ID", userCompanies[0].companyId, {
+                                path: "/",
+                                maxAge: 1000000,
+                            });
+                        };
+                        // check for invalid companyId or employers with more than one company
                         // If yes, pop-up modal for employer to select a single company
                         // to access and set COMPANY_ID to the selected company's id and
                         // navigate the employer to the dashboard
-
-                        // Check if the employer does not has any company
-                        // If yes, redirect the employer to the setup company page.
+                        if ((COMPANY_ID && !userCompanies.some((company) => company.companyId === COMPANY_ID)) || (userCompanies.length > 1)) {
+                            // Add your logic here for handling the conditions
+                        }
                     }
                     return navigate("/dashboard");
                 }
@@ -130,6 +151,7 @@ export const Auth = () => {
                     {error && <P style={{ color: 'red' }}>{error}</P>}
                 </form>
             </Row>
+            <SelectCompaniesModal />
         </AuthWrapper>
     )
 }

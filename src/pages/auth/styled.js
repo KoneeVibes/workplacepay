@@ -63,6 +63,16 @@ export const AuthWrapper = styled("div")(() => {
                 }
             }
         },
+        "& .select-companies-modal": {
+            padding: "var(--cardPadding)",
+            background: "#FFFFFF",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            borderRadius: "1rem",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+        },
         "@media screen and (min-width: 425px)": {
             padding: "calc(var(--cardPadding) * 1.5)",
         },
