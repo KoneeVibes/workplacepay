@@ -34,32 +34,28 @@ export const SelectCompaniesModal = ({ height, width }) => {
       <SelectCompaniesModalWrapper>
         {/* Newton your code should go under this line */}
         <div>
-          <button onClick={toggleModal}>List Of Companies</button>
-          {isOpen && (
-            <div className="modal-overlay">
-              <div className="modal">
-                <h2>List Of Companies</h2>
-                <select value={comany} onChange={handleListOfCompanies}>
-                  <option value={company1}>Company 1</option>
-                  <option value={company2}>Company 2</option>
-                  <option value={company3}>Company 3</option>
-                </select>
-                <div className="modal-actions">
-                  <button onClick={toggleModal} className="cancel-btn">
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => {
-                      toggleModal();
-                      alert(`Company set to: ${company}`);
-                    }}
-                    className="ok-btn"
-                  >
-                    OK
-                  </button>
-                </div>
+          <button>List Of Companies</button>
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>List Of Companies</h2>
+              <select>
+                <option>Company 1</option>
+                <option>Company 2</option>
+                <option>Company 3</option>
+              </select>
+              <div className="modal-actions">
+                <button className="cancel-btn">Cancel</button>
+                <button
+                  //   onClick={() => {
+                  // ;
+                  //   }}
+                  className="ok-btn"
+                >
+                  OK
+                </button>
               </div>
             </div>
+          </div>
           )}
         </div>
       </SelectCompaniesModalWrapper>
