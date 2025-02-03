@@ -6,15 +6,10 @@ import { Row } from "../../flex/styled";
 import { H2, Span } from "../../typography/styled";
 import { TopNavigationWrapper } from "./styled";
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 
-export const TopNavigation = ({ title, location }) => {
-    const navigate = useNavigate();
+export const TopNavigation = ({ title, location, callToAction, handleCallToActionClick }) => {
     const { setIsSideNavigationOpen } = useContext(Context);
-    const navigateToAddNewEmployee = (e) => {
-        e.preventDefault();
-        return navigate("/addnewemployee");
-    }
+
     return (
         <TopNavigationWrapper
             location={location}
@@ -23,11 +18,11 @@ export const TopNavigation = ({ title, location }) => {
             <Row className="call-to-action-buttons">
                 <BaseButton
                     className="add-employee-button"
-                    onClick={(e) => navigateToAddNewEmployee(e)}
+                    onClick={handleCallToActionClick}
                 >
                     <FontAwesomeIcon icon={faPlus} color="#448DEF" />
                     <Span>
-                        Add Employee
+                        {callToAction ?? "Add Employee"}
                     </Span>
                 </BaseButton>
                 <BaseButton

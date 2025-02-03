@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { InputRow, PayrollSettingsWrapper } from "./styled";
 import { BaseButton } from "../../../components/button/styled";
@@ -16,102 +16,111 @@ export const PayrollSettings = () => {
   const TOKEN = cookies.getAll().TOKEN;
   const COMPANY_ID = cookies.get("COMPANY_ID");
 
+  const initialFormDetails = useMemo(
+    () => ({
+      payrollSetupId: "",
+      payrollVariables: [
+        {
+          setupVariableId: null,
+          name: "basic",
+          type: "Earnings",
+          stake: "percent",
+          value: "",
+          isChecked: true
+        },
+        {
+          setupVariableId: null,
+          name: "housing",
+          type: "Earnings",
+          stake: "percent",
+          value: "",
+          isChecked: true
+        },
+        {
+          setupVariableId: null,
+          name: "transport",
+          type: "Earnings",
+          stake: "percent",
+          value: "",
+          isChecked: true
+        },
+        {
+          setupVariableId: null,
+          name: "overtime",
+          type: "Earnings",
+          stake: "money",
+          value: null,
+          isChecked: false
+        },
+        {
+          setupVariableId: null,
+          name: "bonus",
+          type: "Earnings",
+          stake: "money",
+          value: null,
+          isChecked: false
+        },
+        {
+          setupVariableId: null,
+          name: "other",
+          type: "Earnings",
+          stake: "money",
+          value: "",
+          isChecked: false
+        },
+        {
+          setupVariableId: null,
+          name: "employer pension contribution",
+          type: "Deductions",
+          stake: "percent",
+          value: "10",
+          isChecked: false
+        },
+        {
+          setupVariableId: null,
+          name: "employee pension contribution",
+          type: "Deductions",
+          stake: "percent",
+          value: "8",
+          isChecked: false
+        },
+        {
+          setupVariableId: null,
+          name: "PAYE",
+          type: "Deductions",
+          stake: "money",
+          value: null,
+          isChecked: false
+        },
+        {
+          setupVariableId: null,
+          name: "others",
+          type: "Deductions",
+          stake: "money",
+          value: null,
+          isChecked: false
+        },
+      ],
+    }),
+    []
+  );
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [formDetails, setFormDetails] = useState({
-    payrollSetupId: "",
-    payrollVariables: [
-      {
-        setupVariableId: "",
-        name: "basic",
-        type: "Earnings",
-        stake: "percent",
-        value: "",
-        isChecked: true
-      },
-      {
-        setupVariableId: "",
-        name: "housing",
-        type: "Earnings",
-        stake: "percent",
-        value: "",
-        isChecked: true
-      },
-      {
-        setupVariableId: "",
-        name: "transport",
-        type: "Earnings",
-        stake: "percent",
-        value: "",
-        isChecked: true
-      },
-      {
-        setupVariableId: "",
-        name: "overtime",
-        type: "Earnings",
-        stake: "money",
-        value: "",
-        isChecked: false
-      },
-      {
-        setupVariableId: "",
-        name: "bonus",
-        type: "Earnings",
-        stake: "money",
-        value: "",
-        isChecked: false
-      },
-      {
-        setupVariableId: "",
-        name: "other",
-        type: "Earnings",
-        stake: "money",
-        value: "",
-        isChecked: false
-      },
-      {
-        setupVariableId: "",
-        name: "employer pension contribution",
-        type: "Deductions",
-        stake: "percent",
-        value: "10",
-        isChecked: false
-      },
-      {
-        setupVariableId: "",
-        name: "employee pension contribution",
-        type: "Deductions",
-        stake: "percent",
-        value: "8",
-        isChecked: false
-      },
-      {
-        setupVariableId: "",
-        name: "PAYE",
-        type: "Deductions",
-        stake: "money",
-        value: "",
-        isChecked: false
-      },
-      {
-        setupVariableId: "",
-        name: "others",
-        type: "Deductions",
-        stake: "money",
-        value: "",
-        isChecked: false
-      },
-    ],
-  });
+  const [formDetails, setFormDetails] = useState(initialFormDetails);
 
   useEffect(() => {
     retrievePayrollSetup(TOKEN, COMPANY_ID)
       .then((data) => {
-        setFormDetails(data);
-        console.log(data);
+        setFormDetails((prev) => ({
+          ...prev,
+          payrollSetupId: data?.payrollSetupId ?? initialFormDetails.payrollSetupId,
+          payrollVariables: data?.payrollVariables ?? initialFormDetails.payrollVariables
+            .map(variable => ({ ...variable, isChecked: true }))
+        }));
       })
       .catch((err) => console.error(err))
-  }, [TOKEN, formDetails, COMPANY_ID]);
+  }, [TOKEN, initialFormDetails, COMPANY_ID]);
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
@@ -127,7 +136,6 @@ export const PayrollSettings = () => {
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
-
     if (type === "checkbox") {
       handleCheckboxChange(e);
     } else {
@@ -144,11 +152,18 @@ export const PayrollSettings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formDetails);
     setError(null);
     setIsLoading(true);
+    const formattedFormDetails = {
+      payrollSetupId: formDetails.payrollSetupId,
+      payrollVariables: formDetails.payrollVariables
+        // Filter out items where isChecked is false
+        .filter(variable => variable.isChecked)
+        // Remove isChecked field from each remaining item
+        .map(({ isChecked, ...rest }) => rest)
+    };
     try {
-      const response = await setupPayrollService(TOKEN, formDetails, COMPANY_ID);
+      const response = await setupPayrollService(TOKEN, formattedFormDetails, COMPANY_ID);
       if (response.status) {
         setIsLoading(false);
         // handleOpenModal();
@@ -219,9 +234,9 @@ export const PayrollSettings = () => {
                   onChange={handleChange}
                 >
                   <option value="" hidden></option>
-                  <option value="10%">10%</option>
-                  <option value="20%">20%</option>
-                  <option value="30%">30%</option>
+                  <option value="10">10%</option>
+                  <option value="20">20%</option>
+                  <option value="30">30%</option>
                 </BaseSelect>
                 <Span>%</Span>
               </InputRow>
@@ -250,9 +265,9 @@ export const PayrollSettings = () => {
                   onChange={handleChange}
                 >
                   <option value="" hidden></option>
-                  <option value="10%">10%</option>
-                  <option value="20%">20%</option>
-                  <option value="30%">30%</option>
+                  <option value="10">10%</option>
+                  <option value="20">20%</option>
+                  <option value="30">30%</option>
                 </BaseSelect>
                 <Span>%</Span>
               </InputRow>

@@ -20,6 +20,8 @@ import { UserSummary } from "./pages/app/usersummary";
 import { Admincompanies } from "./pages/app/admincompanies";
 import { Profile } from "./pages/app/profile";
 import { Analytics } from "./pages/app/analytics";
+import { Department } from "./pages/app/department";
+import { AddDepartment } from "./pages/app/adddepartment";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/employees" element={<Employees />} />
+        <Route path="/departments" element={<Department />} />
+        <Route path="/adddepartment" element={<AddDepartment />} />
         <Route path="/reportsummary/variance" element={<Variance />} />
         <Route path="/reportsummary/general" element={<GeneralReport />} />
         <Route path="/reportsummary/payeoutput" element={<Paye />} />

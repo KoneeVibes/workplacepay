@@ -1,19 +1,20 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const retrievePayrollSetup = async (TOKEN, companyId) => {
+export const addDepartmentService = async (TOKEN, companyId, payload) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/payrolls/setup/${companyId}`, {
-            method: 'GET',
+        const response = await fetch(`${BASE_ENDPOINT}/api/companies/${companyId}/department`, {
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${TOKEN}`,
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
         });
         const res = await response.json();
         if (!response.ok) {
             console.error('Error:', res);
             throw new Error(res.message);
-        };
+        }
         return res;
     } catch (error) {
         console.error('API fetch error:', error);

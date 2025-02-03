@@ -10,12 +10,11 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { Table } from "../../../../components/table";
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 
 export const EmployerDashboard = () => {
-    const cookie = new Cookies();
-    const { COMPANY_ID } = cookie.getAll() ?? {};
-    console.log(COMPANY_ID);
+    // const cookie = new Cookies();
+    // const { COMPANY_ID } = cookie.getAll() ?? {};
 
     return (
         <EmployerDashboardWrapper>
