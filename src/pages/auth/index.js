@@ -38,7 +38,7 @@ export const Auth = () => {
             const response = await getCompanies(token);
             return response;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

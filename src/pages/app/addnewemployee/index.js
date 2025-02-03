@@ -21,6 +21,7 @@ import { AddEmployeeSuccessModal } from "../../../containers/app/modals/addemplo
 import { addNewEmployeeService } from "../../../utils/apis/employee/addNewEmployee";
 import { DotLoader } from "react-spinners";
 import Cookies from "universal-cookie";
+import { formatDateToDDMMYYYY } from "../../../config/app/dateFormatter";
 
 export const AddNewEmployee = () => {
     const cookies = new Cookies();
@@ -98,7 +99,7 @@ export const AddNewEmployee = () => {
     const handleClickNext = async (e, step) => {
         if (step === 2) {
             return await handleSubmit(e);
-        }
+        };
         // perform form validation here to ensure that all the fields
         // in step one have been entered
         setStep((prev) => {
@@ -108,11 +109,21 @@ export const AddNewEmployee = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formDetails);
         setError(null);
         setIsLoading(true);
+        const formattedFormDetails = {
+            ...formDetails,
+            jobInfo: {
+                ...formDetails.jobInfo,
+                dateHired: formatDateToDDMMYYYY(formDetails.jobInfo.dateHired)
+            },
+            personalInfo: {
+                ...formDetails.personalInfo,
+                dateOfBirth: formatDateToDDMMYYYY(formDetails.personalInfo.dateOfBirth)
+            }
+        };
         try {
-            const response = await addNewEmployeeService(TOKEN, formDetails, COMPANY_ID);
+            const response = await addNewEmployeeService(TOKEN, formattedFormDetails, COMPANY_ID);
             if (response.status) {
                 setIsLoading(false);
                 setIsAddEmployeeSuccessModalOpen(true);
@@ -152,7 +163,10 @@ export const AddNewEmployee = () => {
     }, []);
 
     return (
-        <Layout title={"Add new employee"}>
+        <Layout
+            id={"employees"}
+            title={"Add new employee"}
+        >
             <AddNewEmployeeWrapper>
                 <Column className="employeeForm">
                     {step === 1 && (

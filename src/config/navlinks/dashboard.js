@@ -13,6 +13,10 @@ export const navLinks = {
             url: "/payroll"
         },
         {
+            name: "Departments",
+            url: "/departments"
+        },
+        {
             name: "Report Summary",
             url: "/reportsummary",
             subItems: [

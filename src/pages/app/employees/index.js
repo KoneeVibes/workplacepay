@@ -9,11 +9,14 @@ import { Span } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
 import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Employees = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
+
+  const navigate = useNavigate();
 
   const [employees, setEmployees] = useState([]);
   const [filter, setFilter] = useState({
@@ -39,11 +42,17 @@ export const Employees = () => {
     }));
   };
 
+  const navigateToAddNewEmployee = (e) => {
+    e.preventDefault();
+    return navigate("/addnewemployee");
+  };
+
   return (
     <Layout
       id={"employees"}
       title={"Employees"}
       location={"employees"}
+      handleCallToActionClick={navigateToAddNewEmployee}
     >
       <EmployeesWrapper>
         <Row
