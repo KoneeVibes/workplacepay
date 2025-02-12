@@ -65,7 +65,7 @@ export const PayrollSettings = () => {
           name: "other",
           type: "Earnings",
           stake: "money",
-          value: "",
+          value: null,
           isChecked: false
         },
         {
@@ -86,7 +86,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "PAYE",
+          name: "paye",
           type: "Deductions",
           stake: "money",
           value: null,
@@ -112,14 +112,35 @@ export const PayrollSettings = () => {
   useEffect(() => {
     retrievePayrollSetup(TOKEN, COMPANY_ID)
       .then((data) => {
-        setFormDetails((prev) => ({
-          ...prev,
-          payrollSetupId: data?.payrollSetupId ?? initialFormDetails.payrollSetupId,
-          payrollVariables: data?.payrollVariables ?? initialFormDetails.payrollVariables
-            .map(variable => ({ ...variable, isChecked: true }))
-        }));
+        if (Array.isArray(data?.payrollVariables) && data.payrollVariables.length > 0) {
+          // Create a map of variables from the API response for quick lookup
+          const apiVariablesMap = new Map(data.payrollVariables.map(variable => [variable.name, variable]));
+
+          // Merge the initial variables with the API variables
+          const mergedPayrollVariables = initialFormDetails.payrollVariables.map(initialVariable => {
+            // If the variable exists in the API response, use it and set isChecked to true
+            if (apiVariablesMap.has(initialVariable.name)) {
+              return { ...apiVariablesMap.get(initialVariable.name), isChecked: true };
+            }
+            // Otherwise, keep the initial variable as is
+            return initialVariable;
+          });
+
+          setFormDetails((prev) => ({
+            ...prev,
+            payrollSetupId: data?.payrollSetupId ?? initialFormDetails.payrollSetupId,
+            payrollVariables: mergedPayrollVariables
+          }));
+        } else {
+          // If no variables are returned from the API, use the initial variables
+          setFormDetails((prev) => ({
+            ...prev,
+            payrollSetupId: data?.payrollSetupId ?? initialFormDetails.payrollSetupId,
+            payrollVariables: initialFormDetails.payrollVariables
+          }));
+        }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error(err));
   }, [TOKEN, initialFormDetails, COMPANY_ID]);
 
   const handleCheckboxChange = (e) => {
@@ -374,14 +395,14 @@ export const PayrollSettings = () => {
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="PAYE">PAYE</Label>
+            <Label htmlFor="paye">PAYE</Label>
             <BaseInput
-              id="PAYE"
+              id="paye"
               type="checkbox"
-              name="PAYE"
+              name="paye"
               onChange={handleCheckboxChange}
               checked={
-                formDetails.payrollVariables.find((variable) => variable.name === "PAYE")?.isChecked || ""
+                formDetails.payrollVariables.find((variable) => variable.name === "paye")?.isChecked || ""
               }
             />
           </BaseFlex>

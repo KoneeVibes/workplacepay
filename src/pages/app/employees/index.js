@@ -120,9 +120,10 @@ export const Employees = () => {
               "Salary",
               "Hire Date",
               "Role",
-              "status",
+              "Status",
             ]}
             rowItems={employees}
+            location={"Employee Table"}
           />
         </div>
       </EmployeesWrapper>

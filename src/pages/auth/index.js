@@ -83,14 +83,9 @@ export const Auth = () => {
             // If yes, pop-up modal for employer to select a single company
             // to access and set COMPANY_ID to the selected company's id and
             // navigate the employer to the dashboard
-            if (
-              (COMPANY_ID &&
-                !userCompanies.some(
-                  (company) => company.companyId === COMPANY_ID
-                )) ||
-              userCompanies.length > 1
-            ) {
+            if ((COMPANY_ID && !userCompanies.some((company) => company.companyId === COMPANY_ID)) || userCompanies.length > 1) {
               // Add your logic here for handling the conditions
+              console.log("Hello");
               return setIsSelectCompaniesModalOpen(true);
             }
           }

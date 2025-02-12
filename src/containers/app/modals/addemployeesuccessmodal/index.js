@@ -17,11 +17,15 @@ export const AddEmployeeSuccessModal = ({ height, width, setIsFormReset }) => {
     }
 
     const handleNavigateToDashboard = () => {
+        document.body.style.overflow = "auto";
+        document.body.style.pointerEvents = "auto";
         setIsAddEmployeeSuccessModalOpen(false);
         navigate("/dashboard");
     }
 
     const handleNavigateToAddEmployee = () => {
+        document.body.style.overflow = "auto";
+        document.body.style.pointerEvents = "auto";
         setIsAddEmployeeSuccessModalOpen(false);
         setIsFormReset(true);
     }

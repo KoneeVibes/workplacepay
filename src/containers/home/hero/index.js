@@ -5,6 +5,13 @@ import { HeroButtonRow, HeroWrapper } from "./styled";
 
 export const Hero = () => {
   const navigate = useNavigate();
+
+  const handleNavigation = (e, destination) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return navigate(destination);
+  }
+
   return (
     <HeroWrapper>
       {/* Newton your html should begin below this line */}
@@ -19,13 +26,13 @@ export const Hero = () => {
         <BaseButton
           backgroundcolor={"#4E57BB"}
           width={"fit-content"}
-          onClick={() => navigate("/how")}
+          onClick={(e) => handleNavigation(e, "/how")}
         >
           Get Started
         </BaseButton>
         <BaseButton
           width={"fit-content"}
-          onClick={() => navigate("/login")}
+          onClick={(e) => handleNavigation(e, "/login")}
         >
           Login
         </BaseButton>

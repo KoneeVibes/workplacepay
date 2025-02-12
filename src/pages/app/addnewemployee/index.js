@@ -22,6 +22,7 @@ import { addNewEmployeeService } from "../../../utils/apis/employee/addNewEmploy
 import { DotLoader } from "react-spinners";
 import Cookies from "universal-cookie";
 import { formatDateToDDMMYYYY } from "../../../config/app/dateFormatter";
+import { getDepartments } from "../../../utils/apis/department/getDepartments";
 
 export const AddNewEmployee = () => {
     const cookies = new Cookies();
@@ -42,7 +43,7 @@ export const AddNewEmployee = () => {
             jobInfo: {
                 jobPosition: "",
                 dateHired: "",
-                departmentName: "",
+                departmentName: null,
             },
             payrollSetup: {
                 annualGrossPay: "",
@@ -75,6 +76,7 @@ export const AddNewEmployee = () => {
     const [isFormReset, setIsFormReset] = useState(false);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [departments, setDepartments] = useState([]);
 
     const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
     const [formDetails, setFormDetails] = useState(initialFormDetails);
@@ -162,6 +164,18 @@ export const AddNewEmployee = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const response = await getDepartments(TOKEN, COMPANY_ID);
+                return setDepartments(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchDepartments();
+    }, [TOKEN, COMPANY_ID])
+
     return (
         <Layout
             id={"employees"}
@@ -184,7 +198,7 @@ export const AddNewEmployee = () => {
                         {step === 1 && (
                             <Fragment>
                                 <BaseFieldSet>
-                                    <Label>Surname (System generated)</Label>
+                                    <Label>Surname</Label>
                                     <BaseInput
                                         type="text"
                                         name="surname"
@@ -268,14 +282,24 @@ export const AddNewEmployee = () => {
                                 <AddNewEmployeeRow>
                                     <BaseFieldSet>
                                         <Label>Department Name</Label>
-                                        <BaseInput
-                                            type="text"
+                                        <BaseSelect
+                                            required
                                             name="departmentName"
-                                            placeholder="Enter Department Name"
                                             value={formDetails.jobInfo.departmentName}
                                             onChange={(e) => handleChange(e, "jobInfo")}
-                                            required
-                                        />
+                                        >
+                                            <option value={null}>Select Department</option>
+                                            {departments.map((department, index) => {
+                                                return (
+                                                    <option
+                                                        key={index}
+                                                        value={department.name}
+                                                    >
+                                                        {department.name}
+                                                    </option>
+                                                )
+                                            })}
+                                        </BaseSelect>
                                     </BaseFieldSet>
                                     <BaseFieldSet>
                                         <Label>Job Position</Label>

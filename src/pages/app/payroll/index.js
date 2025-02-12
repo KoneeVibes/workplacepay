@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BaseButton } from "../../../components/button/styled";
 import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
@@ -7,11 +7,19 @@ import { Label } from "../../../components/typography/styled";
 import { Layout } from "../../../containers/app/layout";
 import { PayrollWrapper } from "./styled";
 import { Table } from "../../../components/table";
+import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
+import Cookies from "universal-cookie";
 
 export const Payroll = () => {
+    const cookies = new Cookies();
+    const TOKEN = cookies.get("TOKEN");
+    const COMPANY_ID = cookies.get("COMPANY_ID");
+
+    const [employees, setEmployees] = useState([]);
+    const payrollTableHeaders = ["Employee", "Department", "Salary", "Hire Date", "Role", "Status"];
     const [payrollPayload, setPayrollPayload] = useState({
-        year: "",
         month: "",
+        year: "",
     });
 
     const [filter, setFilter] = useState({
@@ -19,7 +27,15 @@ export const Payroll = () => {
         department: "",
         jobTitle: "",
         status: "",
-    })
+    });
+
+    useEffect(() => {
+        getAllEmployees(TOKEN, COMPANY_ID)
+            .then((data) => setEmployees(data))
+            .catch((err) => {
+                console.error("Failed to fetch employees:", err);
+            });
+    }, [TOKEN, COMPANY_ID])
 
     const handleChange = (e, target) => {
         const { name, value } = e.target;
@@ -38,6 +54,7 @@ export const Payroll = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(payrollPayload);
     }
 
     return (
@@ -137,10 +154,9 @@ export const Payroll = () => {
                     className="payroll-table"
                 >
                     <Table
-                        columnTitles={[
-                            "Employee", "Department", "Salary", "Exemption", "Overtime", "Bonus", "Other Addition", "Other Deduction"
-                        ]}
-                        rowItems={[]}
+                        columnTitles={payrollTableHeaders}
+                        rowItems={employees}
+                        location={"Payroll Table"}
                     />
                 </div>
             </PayrollWrapper>

@@ -1,7 +1,8 @@
+import { Fragment } from "react";
 import { Td, Th } from "../typography/styled";
 import { TableWrapper } from "./styled";
 
-export const Table = ({ columnTitles, rowItems }) => {
+export const Table = ({ columnTitles, rowItems, location }) => {
     return (
         <TableWrapper>
             <thead>
@@ -23,12 +24,16 @@ export const Table = ({ columnTitles, rowItems }) => {
                         <tr
                             key={index}
                         >
-                            <Td>{rowItem.employee || ""}</Td>
-                            <Td>{rowItem.department || ""}</Td>
-                            <Td>{rowItem.salary || ""}</Td>
-                            <Td>{rowItem.hireDate || ""}</Td>
-                            <Td>{rowItem.role || ""}</Td>
-                            <Td>{rowItem.status || ""}</Td>
+                            {(location === "Employee Table" || location === "Payroll Table") && (
+                                <Fragment>
+                                    <Td>{rowItem.fullName || ""}</Td>
+                                    <Td>{rowItem.jobInformation.department ?? "Not Assigned"}</Td>
+                                    <Td>{rowItem.salary || ""}</Td>
+                                    <Td>{rowItem.jobInformation.dateHired || ""}</Td>
+                                    <Td>{rowItem.jobInformation.jobPosition || ""}</Td>
+                                    <Td>{rowItem.status || ""}</Td>
+                                </Fragment>
+                            )}
                         </tr>
                     )
                 })}
