@@ -10,94 +10,68 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { Table } from "../../../../components/table";
-// import Cookies from "universal-cookie";
+// import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
 
 export const EmployerDashboard = () => {
-    // const cookie = new Cookies();
-    // const { COMPANY_ID } = cookie.getAll() ?? {};
+  // const cookie = new Cookies();
+  // const { COMPANY_ID } = cookie.getAll() ?? {};
 
-    return (
-        <EmployerDashboardWrapper>
-            <Row
-                className="cards-group"
-            >
-                <Card
-                    className={"upcoming-salary-date-card"}
-                >
-                    <Row
-                        className="card-title"
-                    >
-                        <SalaryDate />
-                        <H3>Upcoming Salary Date</H3>
-                    </Row>
-                    <div
-                        className="card-body"
-                    >
-                        <P>Fill employee Details</P>
-                        <FontAwesomeIcon icon={faChartSimple} style={{ float: "right" }} />
-                    </div>
-                </Card>
-                <Card
-                    className={"upcoming-salary-amount-card"}
-                >
-                    <Row
-                        className="card-title"
-                    >
-                        <SalaryAmount />
-                        <H3>Upcoming Salary Amount</H3>
-                    </Row>
-                    <div
-                        className="card-body"
-                    >
-                        <P>N0.00</P>
-                        <P>0 employees</P>
-                    </div>
-                </Card>
-            </Row>
-            <Chart
-                title={"Payment History"}
-                labels={[]}
-                datasets={[]}
-            />
-            <Card
-                className={"employee-table-card"}
-            >
-                <Row
-                    className="card-title"
-                >
-                    <H3>Employee List</H3>
-                    <H3>See all</H3>
-                </Row>
-                <Row
-                    className="card-table-filter"
-                >
-                    <BaseInput
-                        placeholder="Search"
-                    />
-                    <BaseFieldSet>
-                        <Label>Department</Label>
-                        <BaseSelect>
-                            {/* options will go in below here */}
-                        </BaseSelect>
-                    </BaseFieldSet>
-                    <BaseFieldSet>
-                        <Label>Job Title</Label>
-                        <BaseSelect>
-                            {/* options will go in below here */}
-                        </BaseSelect>
-                    </BaseFieldSet>
-                </Row>
-                <div
-                    className="card-table"
-                >
-                    <Table
-                        columnTitles={[
-                            "Employee", "Department", "Salary", "Hire Date", "Role", "Status"
-                        ]}
-                        rowItems={[]}
-                    />
-                </div>
-            </Card>
-        </EmployerDashboardWrapper>
-    )
-}
+  return (
+    <EmployerDashboardWrapper>
+      <Row className="cards-group">
+        <Card className={"upcoming-salary-date-card"}>
+          <Row className="card-title">
+            <SalaryDate />
+            <H3>Upcoming Salary Date</H3>
+          </Row>
+          <div className="card-body">
+            <P>Fill employee Details</P>
+            <FontAwesomeIcon icon={faChartSimple} style={{ float: "right" }} />
+          </div>
+        </Card>
+        <Card className={"upcoming-salary-amount-card"}>
+          <Row className="card-title">
+            <SalaryAmount />
+            <H3>Upcoming Salary Amount</H3>
+          </Row>
+          <div className="card-body">
+            <P>N0.00</P>
+            <P>0 employees</P>
+          </div>
+        </Card>
+      </Row>
+      <Chart title={"Payment History"} labels={[]} datasets={[]} />
+      <Card className={"employee-table-card"}>
+        <Row className="card-title">
+          <H3>Employee List</H3>
+          <H3>See all</H3>
+        </Row>
+        <Row className="card-table-filter">
+          <BaseInput placeholder="Search" />
+          <BaseFieldSet>
+            <Label>Department</Label>
+            <BaseSelect>{/* options will go in below here */}</BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>Job Title</Label>
+            <BaseSelect>{/* options will go in below here */}</BaseSelect>
+          </BaseFieldSet>
+        </Row>
+        <div className="card-table">
+          <Table
+            columnTitles={[
+              "Employee",
+              "Department",
+              "Salary",
+              "Hire Date",
+              "Role",
+              "Status",
+            ]}
+            rowItems={[]}
+          />
+        </div>
+        {/* <ResetPasswordModal width={"40%"} height={"60%"} /> */}
+      </Card>
+    </EmployerDashboardWrapper>
+  );
+};
