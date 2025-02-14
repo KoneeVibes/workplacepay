@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Td, Th } from "../typography/styled";
 import { TableWrapper } from "./styled";
+import { BaseInput } from "../form/input/styled"
 
 export const Table = ({ columnTitles, rowItems, location }) => {
     return (
@@ -24,7 +25,7 @@ export const Table = ({ columnTitles, rowItems, location }) => {
                         <tr
                             key={index}
                         >
-                            {(location === "Employee Table" || location === "Payroll Table") && (
+                            {(location === "Employee Table") && (
                                 <Fragment>
                                     <Td>{rowItem.fullName || ""}</Td>
                                     <Td>{rowItem.jobInformation.department ?? "Not Assigned"}</Td>
@@ -32,6 +33,30 @@ export const Table = ({ columnTitles, rowItems, location }) => {
                                     <Td>{rowItem.jobInformation.dateHired || ""}</Td>
                                     <Td>{rowItem.jobInformation.jobPosition || ""}</Td>
                                     <Td>{rowItem.status || ""}</Td>
+                                </Fragment>
+                            )}
+                            {(location === "Payroll Table") && (
+                                <Fragment>
+                                    <Td>{rowItem.fullName || ""}</Td>
+                                    <Td>{rowItem.department || ""}</Td>
+                                    <Td>{rowItem.monthlySalary || ""}</Td>
+                                    <Td>
+                                        <BaseInput
+                                            type="checkbox"
+                                            checked={rowItem.isExempted}
+                                            style={{
+                                                width: "auto",
+                                                flexShrink: 0
+                                            }}
+                                        />
+                                    </Td>
+                                    {rowItem.payrollVariables.map((variable, index) => (
+                                        <Td
+                                            key={index}
+                                        >
+                                            {variable.value}
+                                        </Td>
+                                    ))}
                                 </Fragment>
                             )}
                         </tr>

@@ -3,25 +3,37 @@ import { BaseButton } from "../../../components/button/styled";
 import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
-import { Label } from "../../../components/typography/styled";
+import { Label, P, Span } from "../../../components/typography/styled";
 import { Layout } from "../../../containers/app/layout";
 import { PayrollWrapper } from "./styled";
 import { Table } from "../../../components/table";
-import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
 import Cookies from "universal-cookie";
+import { months } from "../../../helpers/retrieveAllMonths";
+import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
+import { runPayrollService } from "../../../utils/apis/payroll/runpayroll";
+import { DotLoader } from "react-spinners";
+import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 
 export const Payroll = () => {
+    const startDate = 1990;
+    const endDate = 2025;
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");
     const COMPANY_ID = cookies.get("COMPANY_ID");
 
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [employees, setEmployees] = useState([]);
-    const payrollTableHeaders = ["Employee", "Department", "Salary", "Hire Date", "Role", "Status"];
+    const [payrollTableHeaders, setPayrollTableHeaders] = useState([
+        "Employee",
+        "Department",
+        "Salary",
+        "Exemption"
+    ]);
     const [payrollPayload, setPayrollPayload] = useState({
         month: "",
         year: "",
     });
-
     const [filter, setFilter] = useState({
         username: "",
         department: "",
@@ -30,12 +42,18 @@ export const Payroll = () => {
     });
 
     useEffect(() => {
-        getAllEmployees(TOKEN, COMPANY_ID)
-            .then((data) => setEmployees(data))
-            .catch((err) => {
-                console.error("Failed to fetch employees:", err);
-            });
-    }, [TOKEN, COMPANY_ID])
+        retrievePayrollSetup(TOKEN, COMPANY_ID)
+            .then((data) => {
+                const capitalizedVariables = data.payrollVariables.map(variable =>
+                    variable.name.charAt(0).toUpperCase() + variable.name.slice(1)
+                );
+                setPayrollTableHeaders(prevHeaders => {
+                    const uniqueHeaders = [...new Set([...prevHeaders, ...capitalizedVariables])];
+                    return uniqueHeaders;
+                });
+            })
+            .catch((err) => console.error(err));
+    }, [TOKEN, COMPANY_ID]);
 
     const handleChange = (e, target) => {
         const { name, value } = e.target;
@@ -52,9 +70,26 @@ export const Payroll = () => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(payrollPayload);
+        setError(null);
+        setIsLoading(true);
+        try {
+            const response = await runPayrollService(TOKEN, COMPANY_ID, payrollPayload);
+            if (response.status) {
+                setIsLoading(false);
+                setEmployees(response.employees);
+                // handleOpenModal();
+            } else {
+                setIsLoading(false);
+                setError('Run payroll operation failed. Please check your credentials and try again.');
+                console.error("Run payroll operation failed. Please check your credentials and try again.");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`Run payroll operation failed. ${error.message}`);
+            console.error('Run payroll operation failed:', error);
+        }
     }
 
     return (
@@ -74,8 +109,16 @@ export const Payroll = () => {
                             value={payrollPayload.year}
                         >
                             <option value="" hidden></option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
+                            {getYearRange(startDate, endDate).map((year, index) => {
+                                return (
+                                    <option
+                                        key={index}
+                                        value={year}
+                                    >
+                                        {year}
+                                    </option>
+                                )
+                            })}
                         </BaseSelect>
                     </BaseFieldSet>
                     <BaseFieldSet>
@@ -86,18 +129,40 @@ export const Payroll = () => {
                             value={payrollPayload.month}
                         >
                             <option value="" hidden></option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
+                            {months.map((month, index) => {
+                                return (
+                                    <option
+                                        key={index}
+                                        value={index + 1}
+                                    >
+                                        {month}
+                                    </option>
+                                )
+                            })}
                         </BaseSelect>
                     </BaseFieldSet>
                     <div
                         className="payroll-button-box"
                     >
                         <BaseButton>
-                            Run Payroll
+                            {isLoading ?
+                                (<DotLoader
+                                    size={20}
+                                    color="white"
+                                    className='dotLoader'
+                                />) : (
+                                    <Span>
+                                        Run Payroll
+                                    </Span>
+                                )}
                         </BaseButton>
                     </div>
                 </form>
+                <div
+                    className="error-text"
+                >
+                    {error && <P style={{ color: 'red', marginBlockStart: 0 }}>{error}</P>}
+                </div>
                 <Row
                     className="filter"
                 >
