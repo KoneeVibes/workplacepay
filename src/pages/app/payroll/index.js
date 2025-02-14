@@ -10,7 +10,7 @@ import { Table } from "../../../components/table";
 import Cookies from "universal-cookie";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
-import { runPayrollService } from "../../../utils/apis/payroll/runpayroll";
+import { runPayrollService } from "../../../utils/apis/payroll/runPayroll";
 import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 
