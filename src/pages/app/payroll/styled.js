@@ -59,6 +59,9 @@ export const PayrollWrapper = styled("div")(() => {
         },
         "& td": {
             minWidth: "200px",
+        },
+        "& .error-text": {
+            padding: "0 var(--cardPadding)"
         }
     }
 })
