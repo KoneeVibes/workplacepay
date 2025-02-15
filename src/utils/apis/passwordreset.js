@@ -1,4 +1,4 @@
-import { BASE_ENDPOINT } from "../../endpoint";
+import { BASE_ENDPOINT } from "../../utils/endpoint";
 
 export const passwordReset = async (TOKEN) => {
     try {
