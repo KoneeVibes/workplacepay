@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-// import { Layout } from "../layout";
 import { PasswordResetAreaWrapper } from "./styled";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation,  useNavigate,  useParams } from "react-router-dom";
 import { DotLoader } from "react-spinners";
 import Cookies from "universal-cookie";
-import { resetPassword } from "../../util/apis/passwordReset";
 import { H2, Label, P } from "../../../components/typography/styled";
 import { BaseButton } from "../../../components/button/styled";
 import { BaseInput } from "../../../components/form/input/styled";
+import { BaseFieldSet } from "../../../components/form/fieldset/styled";
+import { Layout } from "../../../containers/app/layout";
+import { passwordReset } from "../../../utils/apis/passwordreset";
 
 export const PasswordResetArea = () => {
   const cookies = new Cookies();
@@ -19,14 +20,12 @@ export const PasswordResetArea = () => {
   const location = useLocation();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [queryToken, setQueryToken] = useState(undefined);
-  const [formDetails, setFormDetails] = useState({
-    ...((action === "passwordreset" || action === "firsttimepasswordreset") && {
-      oldPassword: "",
-    }),
-    newPassword: "",
-    confirmNewPassword: "",
-  });
+  const [ setQueryToken] = useState(undefined);
+ const [formDetails, setFormDetails] = useState({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+    });
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -46,11 +45,9 @@ export const PasswordResetArea = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    if (queryToken) {
-      token = queryToken;
-    }
+    console.log(formDetails);
     try {
-      const response = await resetPassword(token, action, formDetails);
+      const response = await passwordReset(token, action, formDetails);
       if (response.status === "Success") {
         setLoading(false);
         navigate("/");
@@ -66,44 +63,43 @@ export const PasswordResetArea = () => {
   };
 
   return (
+    <Layout
+            id={"passwordReset"}
+            title={"Password Reset"}
+        >
     <PasswordResetAreaWrapper>
       <H2>RESET PASSWORD</H2>
       <form onSubmit={handleSubmit}>
-        {(action === "passwordreset" ||
-          action === "firsttimepasswordreset") && (
-          <React.Fragment>
-            <Label>Old Password</Label>
-            <BaseInput
-              as="input"
-              type="text"
-              name="oldPassword"
-              placeholder="Enter Old Password"
+            <BaseFieldSet>
+                        <Label>Enter Password</Label>
+                        <BaseInput
+                            name="oldPassword"
+                            placeholder="Enter Old Password"
               required
-              value={formDetails.oldPassword}
-              onChange={handleChange}
-            />
-          </React.Fragment>
-        )}
-        <Label>New Password</Label>
-        <BaseInput
-          as="input"
-          type="text"
-          name="newPassword"
-          placeholder="Enter New Password"
+                            value={formDetails.oldPassword}
+                            onChange={(e) => handleChange(e)}
+                        />
+                    </BaseFieldSet>
+        <BaseFieldSet>
+                        <Label>Enter New Password</Label>
+                        <BaseInput
+                            name="newPassword"
+                            placeholder="Enter New Password"
           required
-          value={formDetails.newPassword}
-          onChange={handleChange}
-        />
-        <Label>Confirm Password</Label>
-        <BaseInput
-          as="input"
-          type="text"
-          name="confirmNewPassword"
-          placeholder="Confirm New Password"
+                            value={formDetails.newPassword}
+                            onChange={(e) => handleChange(e)}
+                        />
+                    </BaseFieldSet>
+       <BaseFieldSet>
+                        <Label>Confirm New Password</Label>
+                        <BaseInput
+                            name="confirmPassword"
+                             placeholder="Confirm New Password"
           required
-          value={formDetails.confirmNewPassword}
-          onChange={handleChange}
-        />
+                            value={formDetails.confirmPassword}
+                            onChange={(e) => handleChange(e)}
+                        />
+                    </BaseFieldSet>
         <BaseButton type="submit">
           {loading ? (
             <DotLoader size={20} color="white" className="dotLoader" />
@@ -114,5 +110,6 @@ export const PasswordResetArea = () => {
       </form>
       {error && <P style={{ color: "red" }}>{error}</P>}
     </PasswordResetAreaWrapper>
+    </Layout>
   );
 };

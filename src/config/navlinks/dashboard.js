@@ -85,7 +85,7 @@ export const navAvatarAreaLinks = {
     },
     {
       name: "Password Reset",
-      url: "/resetpassword",
+      url: "/passwordreset",
     },
     {
       name: "Logout",
