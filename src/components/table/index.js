@@ -59,6 +59,11 @@ export const Table = ({ columnTitles, rowItems, location }) => {
                                     ))}
                                 </Fragment>
                             )}
+                            {(location === "Summary Table") && (
+                                <Fragment>
+                                    
+                                </Fragment>
+                            )}
                         </tr>
                     )
                 })}

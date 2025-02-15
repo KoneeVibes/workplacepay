@@ -11,7 +11,7 @@ import { Context } from "../../../context";
 import { Row } from "../../../components/flex/styled";
 import { setupCompanyService } from "../../../utils/apis/company/setupCompany";
 import { DotLoader } from "react-spinners";
-import { getPayrollPlans } from "../../../utils/apis/payroll/getpayrollplans";
+import { getPayrollPlans } from "../../../utils/apis/payroll/getPayrollPlans";
 import Cookies from "universal-cookie";
 
 export const SetUpYourCompany = () => {
