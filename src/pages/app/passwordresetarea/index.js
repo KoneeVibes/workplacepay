@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PasswordResetAreaWrapper } from "./styled";
-import { useLocation,  useNavigate,  useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DotLoader } from "react-spinners";
 import Cookies from "universal-cookie";
 import { H2, Label, P } from "../../../components/typography/styled";
@@ -16,22 +16,13 @@ export const PasswordResetArea = () => {
   let token = cookie.TOKEN;
 
   const navigate = useNavigate();
-  const { action } = useParams();
-  const location = useLocation();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [ setQueryToken] = useState(undefined);
- const [formDetails, setFormDetails] = useState({
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-    });
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const query = queryParams.get("token");
-    setQueryToken(query);
-  }, [location.search]);
+  const [formDetails, setFormDetails] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,10 +38,10 @@ export const PasswordResetArea = () => {
     setLoading(true);
     console.log(formDetails);
     try {
-      const response = await passwordReset(token, action, formDetails);
+      const response = await passwordReset(token, formDetails);
       if (response.status === "Success") {
         setLoading(false);
-        navigate("/");
+        navigate("/login");
       } else {
         setLoading(false);
         setError("Submission failed. Please check your inputs and try again.");
@@ -63,53 +54,50 @@ export const PasswordResetArea = () => {
   };
 
   return (
-    <Layout
-            id={"passwordReset"}
-            title={"Password Reset"}
-        >
-    <PasswordResetAreaWrapper>
-      <H2>RESET PASSWORD</H2>
-      <form onSubmit={handleSubmit}>
-            <BaseFieldSet>
-                        <Label>Enter Password</Label>
-                        <BaseInput
-                            name="oldPassword"
-                            placeholder="Enter Old Password"
+    <Layout id={"passwordReset"} title={"Password Reset"}>
+      <PasswordResetAreaWrapper>
+        <H2>RESET PASSWORD</H2>
+        <form onSubmit={handleSubmit}>
+          <BaseFieldSet>
+            <Label>Enter Password</Label>
+            <BaseInput
+              name="oldPassword"
+              placeholder="Enter Old Password"
               required
-                            value={formDetails.oldPassword}
-                            onChange={(e) => handleChange(e)}
-                        />
-                    </BaseFieldSet>
-        <BaseFieldSet>
-                        <Label>Enter New Password</Label>
-                        <BaseInput
-                            name="newPassword"
-                            placeholder="Enter New Password"
-          required
-                            value={formDetails.newPassword}
-                            onChange={(e) => handleChange(e)}
-                        />
-                    </BaseFieldSet>
-       <BaseFieldSet>
-                        <Label>Confirm New Password</Label>
-                        <BaseInput
-                            name="confirmPassword"
-                             placeholder="Confirm New Password"
-          required
-                            value={formDetails.confirmPassword}
-                            onChange={(e) => handleChange(e)}
-                        />
-                    </BaseFieldSet>
-        <BaseButton type="submit">
-          {loading ? (
-            <DotLoader size={20} color="white" className="dotLoader" />
-          ) : (
-            "Continue"
-          )}
-        </BaseButton>
-      </form>
-      {error && <P style={{ color: "red" }}>{error}</P>}
-    </PasswordResetAreaWrapper>
+              value={formDetails.oldPassword}
+              onChange={(e) => handleChange(e)}
+            />
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>Enter New Password</Label>
+            <BaseInput
+              name="newPassword"
+              placeholder="Enter New Password"
+              required
+              value={formDetails.newPassword}
+              onChange={(e) => handleChange(e)}
+            />
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>Confirm New Password</Label>
+            <BaseInput
+              name="confirmPassword"
+              placeholder="Confirm New Password"
+              required
+              value={formDetails.confirmPassword}
+              onChange={(e) => handleChange(e)}
+            />
+          </BaseFieldSet>
+          <BaseButton type="submit">
+            {loading ? (
+              <DotLoader size={20} color="white" className="dotLoader" />
+            ) : (
+              "Continue"
+            )}
+          </BaseButton>
+        </form>
+        {error && <P style={{ color: "red" }}>{error}</P>}
+      </PasswordResetAreaWrapper>
     </Layout>
   );
 };
