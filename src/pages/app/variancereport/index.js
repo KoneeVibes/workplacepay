@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { VarianceWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -6,13 +6,28 @@ import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { H3 } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
+import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
+import { months } from "../../../helpers/retrieveAllMonths";
+import { retrieveVariance } from "../../../utils/apis/report/retrieveVarianceReport";
+import Cookies from "universal-cookie";
 
 export const Variance = () => {
+  const startDate = 1990;
+  const endDate = 2025;
+
+  const currentDate = new Date();
+  const cookies = new Cookies();
+  const TOKEN = cookies.get("TOKEN");
+  const COMPANY_ID = cookies.get("COMPANY_ID");
+
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
   const [filter, setFilter] = useState({
-    year: "",
-    firstMonth: "",
-    secondMonth: "",
+    year: currentYear,
+    firstMonth: currentMonth,
+    secondMonth: currentMonth - 1,
   });
+  const [varianceReport, setVarianceReport] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +36,18 @@ export const Variance = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const fetchVarianceReport = async () => {
+      try {
+        const res = await retrieveVariance(TOKEN, COMPANY_ID, filter.firstMonth, filter.secondMonth, filter.year);
+        return setVarianceReport(res?.data);
+      } catch (err) {
+        console.error("Failed to fetch variance report:", err);
+      }
+    };
+    fetchVarianceReport();
+  }, [TOKEN, COMPANY_ID, filter]);
 
   return (
     <Layout
@@ -40,9 +67,16 @@ export const Variance = () => {
               onChange={handleChange}
               value={filter.year}
             >
-              <option value="Select Year">Select Year</option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
+              {getYearRange(startDate, endDate).map((year, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={year}
+                  >
+                    {year}
+                  </option>
+                )
+              })}
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
@@ -51,9 +85,16 @@ export const Variance = () => {
               onChange={handleChange}
               value={filter.firstMonth}
             >
-              <option value="Select Month">Select Month</option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
+              {months.map((month, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={index + 1}
+                  >
+                    {month}
+                  </option>
+                )
+              })}
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
@@ -62,9 +103,16 @@ export const Variance = () => {
               onChange={handleChange}
               value={filter.secondMonth}
             >
-              <option value="Select Month">Select Month</option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
+              {months.map((month, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={index + 1}
+                  >
+                    {month}
+                  </option>
+                )
+              })}
             </BaseSelect>
           </BaseFieldSet>
         </Row>
@@ -77,7 +125,8 @@ export const Variance = () => {
               "Variance",
               "Percentage %",
             ]}
-            rowItems={[]}
+            rowItems={varianceReport}
+            location={"Variance Table"}
           />
         </div>
       </VarianceWrapper>

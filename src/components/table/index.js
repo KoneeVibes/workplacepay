@@ -94,6 +94,15 @@ export const Table = ({ columnTitles, rowItems, location }) => {
                                     <Td>{rowItem.value || ""}</Td>
                                 </Fragment>
                             )}
+                            {(location === "Variance Table") && (
+                                <Fragment>
+                                    <Td>{rowItem.employeeFullName || ""}</Td>
+                                    <Td>{rowItem.firstMonthValue || ""}</Td>
+                                    <Td>{rowItem.secondMonthValue || ""}</Td>
+                                    <Td>{rowItem.variance || ""}</Td>
+                                    <Td>{rowItem.percentage || ""}</Td>
+                                </Fragment>
+                            )}
                         </tr>
                     )
                 })}
