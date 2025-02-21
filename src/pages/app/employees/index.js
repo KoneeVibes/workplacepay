@@ -93,7 +93,9 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.department}
             >
-              <option value="">Select Department</option>
+              <option value="" hidden>
+                Select Department
+              </option>
               {departments.map((department) => (
                 <option key={department.id} value={department.id}>
                   {department.name}
