@@ -115,7 +115,7 @@ export const GetStartedSuccessModal = forwardRef(
             <GreenTick />
           </Column>
           <div>
-            <P>Please check your email. We have sent an OTP to {email || "your email address"} </P>
+            <P>Please check your email. We have sent an OTP to {email} </P>
           </div>
           <Row className="otp-container">
             {otp.map((data, index) => (

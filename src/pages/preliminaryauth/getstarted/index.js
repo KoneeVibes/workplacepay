@@ -29,6 +29,7 @@ export const GetStarted = () => {
   const [error, setError] = useState(null);
 
   const [token, setToken] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState({});
 
@@ -68,6 +69,7 @@ export const GetStarted = () => {
       if (response.status === "Success") {
         setToken(response.token);
         setIsLoading(false);
+        setUserEmail(formDetails.email);
         setStep(2);
         handleOTPModal();
       } else {
@@ -195,7 +197,7 @@ export const GetStarted = () => {
         ref={otpModalRef}
         width={"40%"}
         TOKEN={token}
-        email={" " + formDetails.email}
+        email={" " + userEmail}
         setIsOTPEntered={setIsOTPEntered}
       />
     </GetStartedWrapper>
