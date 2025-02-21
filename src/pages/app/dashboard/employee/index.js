@@ -40,7 +40,7 @@ export const EmployeeDashboard = () => {
       [name]: value,
     }));
   };
-
+ 
   return (
     <EmployeeDashboardWrapper>
       <div className="title-heading">
