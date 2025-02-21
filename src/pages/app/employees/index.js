@@ -92,7 +92,7 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.department}
             >
-              <option value="">Select Department</option>
+              <option value="" hidden>Select Department</option>
               {departments.map((department, index) => (
                 <option
                   key={index}
@@ -120,7 +120,7 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.status}
             >
-              <option value="">Select Status</option>
+              <option value="" hidden>Select Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </BaseSelect>

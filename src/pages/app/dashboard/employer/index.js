@@ -10,11 +10,52 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { Table } from "../../../../components/table";
+import Cookies from "universal-cookie";
+import { useEffect, useState } from "react";
+import { getDepartments } from "../../../../utils/apis/department/getDepartments";
+import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
 // import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
 
 export const EmployerDashboard = () => {
-  // const cookie = new Cookies();
-  // const { COMPANY_ID } = cookie.getAll() ?? {};
+  const cookies = new Cookies();
+  const TOKEN = cookies.get("TOKEN");
+  const COMPANY_ID = cookies.get("COMPANY_ID");
+
+  const [employees, setEmployees] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [filter, setFilter] = useState({
+    username: "",
+    department: "",
+    jobTitle: "",
+  });
+
+  useEffect(() => {
+    getAllEmployees(TOKEN, COMPANY_ID, filter)
+      .then((data) => setEmployees(data))
+      .catch((err) => {
+        console.error("Failed to fetch employees:", err);
+      });
+  }, [TOKEN, COMPANY_ID, filter]);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await getDepartments(TOKEN, COMPANY_ID);
+        return setDepartments(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDepartments();
+  }, [TOKEN, COMPANY_ID]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFilter((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   return (
     <EmployerDashboardWrapper>
@@ -47,14 +88,40 @@ export const EmployerDashboard = () => {
           <H3>See all</H3>
         </Row>
         <Row className="card-table-filter">
-          <BaseInput placeholder="Search" />
+          <BaseFieldSet>
+            <Label>Username</Label>
+            <BaseInput
+              type="text"
+              name="username"
+              placeholder="Search by username"
+              value={filter.username}
+              onChange={handleChange}
+            />
+          </BaseFieldSet>
           <BaseFieldSet>
             <Label>Department</Label>
-            <BaseSelect>{/* options will go in below here */}</BaseSelect>
+            <BaseSelect
+              name="department"
+              onChange={handleChange}
+              value={filter.department}
+            >
+              <option value="" hidden>Select Department</option>
+              {departments.map((department, index) => (
+                <option key={index} value={department.id}>
+                  {department.name}
+                </option>
+              ))}
+            </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Job Title</Label>
-            <BaseSelect>{/* options will go in below here */}</BaseSelect>
+            <BaseInput
+              type="text"
+              name="jobTitle"
+              placeholder="Search by jobtitle"
+              value={filter.jobTitle}
+              onChange={handleChange}
+            />
           </BaseFieldSet>
         </Row>
         <div className="card-table">
@@ -67,7 +134,8 @@ export const EmployerDashboard = () => {
               "Role",
               "Status",
             ]}
-            rowItems={[]}
+            rowItems={employees}
+            location={"Employee Table"}
           />
         </div>
         {/* <ResetPasswordModal width={"40%"} height={"60%"} /> */}
