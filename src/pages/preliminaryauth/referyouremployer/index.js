@@ -31,7 +31,6 @@ export const ReferYourEmployer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(referForm);
         setError(null);
         setIsLoading(true);
         try {

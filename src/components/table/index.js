@@ -1,9 +1,14 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Td, Th } from "../typography/styled";
 import { TableWrapper } from "./styled";
 import { BaseInput } from "../form/input/styled"
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../context";
 
 export const Table = ({ columnTitles, rowItems, location }) => {
+    const navigate = useNavigate();
+    const { isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen } = useContext(Context);
+
     return (
         <TableWrapper>
             <thead>
@@ -61,13 +66,38 @@ export const Table = ({ columnTitles, rowItems, location }) => {
                             )}
                             {(location === "Summary Table") && (
                                 <Fragment>
-                                    
+                                    <Td>{rowItem.fullName || ""}</Td>
+                                    <Td>{rowItem.totalEarnings || ""}</Td>
+                                    <Td>{rowItem.totalDeductions || ""}</Td>
+                                    <Td>{rowItem.netSalary || ""}</Td>
+                                    <Td
+                                        onClick={() => navigate(`/reportsummary/summary/${rowItem.payslipId}`)}
+                                    >
+                                        View Payslip
+                                    </Td>
+                                </Fragment>
+                            )}
+                            {(location === "Employee Payslip Table") && (
+                                <Fragment>
+                                    <Td>{rowItem.month || ""}</Td>
+                                    <Td>{rowItem.year || ""}</Td>
+                                    <Td
+                                        onClick={() => !isPayslipDetailsModalOpen && setIsPayslipDetailsModalOpen(true)}
+                                    >
+                                        View Payslip
+                                    </Td>
+                                </Fragment>
+                            )}
+                            {(location === "User Summary Table") && (
+                                <Fragment>
+                                    <Td>{rowItem.name || ""}</Td>
+                                    <Td>{rowItem.value || ""}</Td>
                                 </Fragment>
                             )}
                         </tr>
                     )
                 })}
             </tbody>
-        </TableWrapper>
+        </TableWrapper >
     )
 }

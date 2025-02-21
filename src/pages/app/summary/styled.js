@@ -10,6 +10,26 @@ export const SummaryWrapper = styled("div")(() => {
                 marginBlock: 0,
             }
         },
+        "& form": {
+            display: "flex",
+            alignItems: "flex-end",
+            gap: "var(--flexGap)",
+            justifyContent: "space-between",
+            padding: "var(--cardPadding)",
+            // marginBlockEnd: "calc(var(--sectionMargin) * 3)",
+            "& select": {
+                padding: "calc(var(--cardPadding)/2.7)",
+                borderRadius: "10px",
+            },
+            "& fieldset": {
+                flex: 1,
+                overflow: "hidden",
+            },
+            "@media screen and (max-width: 500px)": {
+                alignItems: "stretch",
+                flexDirection: "column",
+            }
+        },
         "& .summary-table": {
             overflow: "auto",
         },
@@ -20,6 +40,6 @@ export const SummaryWrapper = styled("div")(() => {
         },
         "& td": {
             minWidth: "200px",
-        }
+        },
     }
 })
