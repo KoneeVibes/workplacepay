@@ -10,6 +10,8 @@ import { Table } from "../../../components/table";
 import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { BaseInput } from "../../../components/form/input/styled";
+import { getDepartments } from "../../../utils/apis/department/getDepartments";
 
 export const Employees = () => {
   const cookies = new Cookies();
@@ -19,6 +21,7 @@ export const Employees = () => {
   const navigate = useNavigate();
 
   const [employees, setEmployees] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [filter, setFilter] = useState({
     username: "",
     department: "",
@@ -27,12 +30,25 @@ export const Employees = () => {
   });
 
   useEffect(() => {
-    getAllEmployees(TOKEN, COMPANY_ID)
+    getAllEmployees(TOKEN, COMPANY_ID, filter)
       .then((data) => setEmployees(data))
       .catch((err) => {
         console.error("Failed to fetch employees:", err);
       });
-  }, [TOKEN, COMPANY_ID])
+  }, [TOKEN, COMPANY_ID, filter]);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await getDepartments(TOKEN, COMPANY_ID);
+        console.log(response.data);
+        return setDepartments(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDepartments();
+  }, [TOKEN, COMPANY_ID]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,25 +71,20 @@ export const Employees = () => {
       handleCallToActionClick={navigateToAddNewEmployee}
     >
       <EmployeesWrapper>
-        <Row
-          className="heading-row"
-          justifycontent={"space-between"}
-        >
+        <Row className="heading-row" justifycontent={"space-between"}>
           <Span>Employee List</Span>
           <Span>See all</Span>
         </Row>
         <Row className="filter">
           <BaseFieldSet>
             <Label>Username</Label>
-            <BaseSelect
+            <BaseInput
+              type="text"
               name="username"
-              onChange={handleChange}
+              placeholder="Search by username"
               value={filter.username}
-            >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
-            </BaseSelect>
+              onChange={handleChange}
+            />
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Department</Label>
@@ -82,22 +93,23 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.department}
             >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
+              <option value="">Select Department</option>
+              {departments.map((department) => (
+                <option key={department.id} value={department.id}>
+                  {department.name}
+                </option>
+              ))}
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Job Title</Label>
-            <BaseSelect
+            <BaseInput
+              type="text"
               name="jobTitle"
-              onChange={handleChange}
+              placeholder="Search by jobtitle"
               value={filter.jobTitle}
-            >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
-            </BaseSelect>
+              onChange={handleChange}
+            />
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Status</Label>
@@ -106,9 +118,9 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.status}
             >
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
+              <option value="">Select Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
             </BaseSelect>
           </BaseFieldSet>
         </Row>

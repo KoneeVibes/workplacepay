@@ -2,7 +2,14 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Prelim } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
-import { H1, H3, P, Label, H2, Span } from "../../../components/typography/styled";
+import {
+  H1,
+  H3,
+  P,
+  Label,
+  H2,
+  Span,
+} from "../../../components/typography/styled";
 import { GetStartedWrapper, GetStartedWrapperRow } from "./styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
@@ -20,6 +27,7 @@ export const GetStarted = () => {
   const [isOTPEntered, setIsOTPEntered] = useState(false);
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
+
   const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState({});
@@ -36,14 +44,14 @@ export const GetStarted = () => {
     if (isOTPEntered) {
       setStep(2);
       otpModalRef.current.clearOtp();
-    };
+    }
   }, [isOTPEntered]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDetails((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -64,19 +72,26 @@ export const GetStarted = () => {
         handleOTPModal();
       } else {
         setIsLoading(false);
-        setError('Email verification failed. Please check your credentials and try again.');
-        console.error("Email verification failed. Please check your credentials and try again.");
+        setError(
+          "Email verification failed. Please check your credentials and try again."
+        );
+        console.error(
+          "Email verification failed. Please check your credentials and try again."
+        );
       }
     } catch (error) {
       setIsLoading(false);
       setError(`Email verification failed. ${error.message}`);
-      console.error('Email verification failed:', error);
+      console.error("Email verification failed:", error);
     }
   };
 
   const handleSetPassword = async () => {
     try {
-      const response = await setUserPassword(otpModalRef.current.retrieveGetStartedToken(), formDetails);
+      const response = await setUserPassword(
+        otpModalRef.current.retrieveGetStartedToken(),
+        formDetails
+      );
       if (response.status === "Success") {
         setIsLoading(false);
         cookies.set("token", response.token, {
@@ -88,20 +103,24 @@ export const GetStarted = () => {
         }
       } else {
         setIsLoading(false);
-        setError('Set password failed. Please check your credentials and try again.');
-        console.error("Set password failed. Please check your credentials and try again.");
+        setError(
+          "Set password failed. Please check your credentials and try again."
+        );
+        console.error(
+          "Set password failed. Please check your credentials and try again."
+        );
       }
     } catch (error) {
       setIsLoading(false);
       setError(`Set password failed. ${error.message}`);
-      console.error('Set password failed:', error);
+      console.error("Set password failed:", error);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (step === 1) {
-      return await handleVerifyEmail()
+      return await handleVerifyEmail();
     }
     setError(null);
     setIsLoading(true);
@@ -123,19 +142,15 @@ export const GetStarted = () => {
           Please provide the following details to set up your company with
           workPlacePAY
         </P>
-        <form
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <BaseFieldSet>
-            {(step === 1) ? (
+            {step === 1 ? (
               <Label>Email Address:</Label>
             ) : (
               <Label>Password:</Label>
             )}
-            <GetStartedWrapperRow
-              step={step}
-            >
-              {(step === 1) ? (
+            <GetStartedWrapperRow step={step}>
+              {step === 1 ? (
                 <BaseInput
                   type="email"
                   name="email"
@@ -164,20 +179,15 @@ export const GetStarted = () => {
                   />
                 </Fragment>
               )}
-              <BaseButton
-                type="submit"
-                width={"fit-content"}
-              >
-                {isLoading ?
-                  (<DotLoader
-                    size={20}
-                    color="white"
-                    className='dotLoader'
-                  />) : (<Span>Get Started</Span>)
-                }
+              <BaseButton type="submit" width={"fit-content"}>
+                {isLoading ? (
+                  <DotLoader size={20} color="white" className="dotLoader" />
+                ) : (
+                  <Span>Get Started</Span>
+                )}
               </BaseButton>
             </GetStartedWrapperRow>
-            {error && <P style={{ color: 'red' }}>{error}</P>}
+            {error && <P style={{ color: "red" }}>{error}</P>}
           </BaseFieldSet>
         </form>
       </div>
@@ -185,8 +195,9 @@ export const GetStarted = () => {
         ref={otpModalRef}
         width={"40%"}
         TOKEN={token}
+        email={" " + formDetails.email}
         setIsOTPEntered={setIsOTPEntered}
       />
-    </GetStartedWrapper >
+    </GetStartedWrapper>
   );
 };

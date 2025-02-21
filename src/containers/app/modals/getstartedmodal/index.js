@@ -1,4 +1,9 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { DotLoader } from "react-spinners";
 import { BaseModal } from "../../../../components/modal";
 import { GetStartedModalWrapper } from "./styled";
@@ -9,7 +14,8 @@ import { Column, Row } from "../../../../components/flex/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { verifyUserOtp } from "../../../../utils/apis/authentication/employer/verifyOTP";
 
-export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width, TOKEN }, ref) => {
+export const GetStartedSuccessModal = forwardRef(
+  ({ setIsOTPEntered, width, TOKEN, email }, ref) => {
     const [matches, setMatches] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isGetStartedModalOpen, setIsGetStartedModalOpen] = useState(false);
@@ -18,134 +24,129 @@ export const GetStartedSuccessModal = forwardRef(({ setIsOTPEntered, width, TOKE
     const [error, setError] = useState("");
 
     useImperativeHandle(ref, () => ({
-        getOtp: () => otp.join(''),
-        retrieveGetStartedToken: () => getStartedToken,
-        clearOtp: () => setOtp(new Array(4).fill("")),
-        openOtpModal: () => setIsGetStartedModalOpen(true),
+      getOtp: () => otp.join(""),
+      retrieveGetStartedToken: () => getStartedToken,
+      clearOtp: () => setOtp(new Array(4).fill("")),
+      openOtpModal: () => setIsGetStartedModalOpen(true),
     }));
 
     // Persist open on click out
     const handleCloseModal = () => {
-        setIsGetStartedModalOpen(true);
+      setIsGetStartedModalOpen(true);
     };
 
     const handleOTPSubmit = async () => {
-        if (otp.includes("")) {
-            setError("Please enter the complete OTP.");
-            return;
+      if (otp.includes("")) {
+        setError("Please enter the complete OTP.");
+        return;
+      }
+      setError(null);
+      setIsLoading(true);
+      try {
+        const payload = { otp: otp.join("") };
+        const response = await verifyUserOtp(payload, TOKEN);
+        if (response.status === "Success") {
+          setIsLoading(false);
+          setGetStartedToken(response.token);
+          setIsOTPEntered(true);
+          setIsGetStartedModalOpen(false);
+        } else {
+          setIsLoading(false);
+          setError("OTP verification failed. Please try again.");
+          console.error("OTP verification failed. Please try again.");
         }
-        setError(null);
-        setIsLoading(true);
-        try {
-            const payload = { otp: otp.join('') };
-            const response = await verifyUserOtp(payload, TOKEN);
-            if (response.status === "Success") {
-                setIsLoading(false);
-                setGetStartedToken(response.token);
-                setIsOTPEntered(true);
-                setIsGetStartedModalOpen(false);
-            } else {
-                setIsLoading(false);
-                setError('OTP verification failed. Please try again.');
-                console.error("OTP verification failed. Please try again.");
-            }
-        } catch (error) {
-            setIsLoading(false);
-            setError(`OTP verification failed. ${error.message}`);
-            console.error('OTP verification failed:', error);
-        }
+      } catch (error) {
+        setIsLoading(false);
+        setError(`OTP verification failed. ${error.message}`);
+        console.error("OTP verification failed:", error);
+      }
     };
 
     const handleChange = (element, index) => {
-        if (isNaN(element.value)) return;
+      if (isNaN(element.value)) return;
 
-        const newOtp = [...otp];
-        newOtp[index] = element.value;
-        setOtp(newOtp);
+      const newOtp = [...otp];
+      newOtp[index] = element.value;
+      setOtp(newOtp);
 
-        // Move to the next input field if the current one is filled
-        if (element.nextSibling && element.value !== "") {
-            element.nextSibling.focus();
-        }
+      // Move to the next input field if the current one is filled
+      if (element.nextSibling && element.value !== "") {
+        element.nextSibling.focus();
+      }
     };
 
     const handleKeyDown = (e, index) => {
-        if (e.key === "Backspace") {
-            if (otp[index] === "") {
-                // Move to the previous input on click of backspace
-                if (index > 0) {
-                    e.target.previousSibling.focus();
-                }
-            } else {
-                const newOtp = [...otp];
-                newOtp[index] = "";
-                setOtp(newOtp);
-            }
+      if (e.key === "Backspace") {
+        if (otp[index] === "") {
+          // Move to the previous input on click of backspace
+          if (index > 0) {
+            e.target.previousSibling.focus();
+          }
+        } else {
+          const newOtp = [...otp];
+          newOtp[index] = "";
+          setOtp(newOtp);
         }
+      }
     };
 
     useEffect(() => {
-        const handleResize = () => {
-            setMatches(window.screen.availWidth < 425);
-        };
-        window.addEventListener('resize', handleResize);
-        handleResize();
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+      const handleResize = () => {
+        setMatches(window.screen.availWidth < 425);
+      };
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
     }, []);
 
     return (
-        <BaseModal
-            open={isGetStartedModalOpen}
-            onClose={handleCloseModal}
-            className={"get-started-modal"}
-            height={"auto"}
-            width={matches ? "75%" : width || "50%"}
-        >
-            <GetStartedModalWrapper>
-                <Column gap={"0"} className="receipt-title">
-                    <H2>Email Verification</H2>
-                    <GreenTick />
-                </Column>
-                <div>
-                    <P>
-                        Please check your email.
-                        We have sent an OTP to ibukunoladiporaji@gmail.com
-                    </P>
-                </div>
-                <Row className="otp-container">
-                    {otp.map((data, index) => (
-                        <BaseInput
-                            key={index}
-                            type="text"
-                            maxLength="1"
-                            value={data}
-                            width={"25%"}
-                            onChange={(e) => handleChange(e.target, index)}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
-                        />
-                    ))}
-                </Row>
-                {error && <P style={{ color: "red", marginTop: "10px" }}>{error}</P>}
-                <div className="submit-button-box">
-                    <BaseButton
-                        type="submit"
-                        color="#000000"
-                        backgroundcolor={"#D9D9D9"}
-                        onClick={handleOTPSubmit}
-                    >
-                        {isLoading ?
-                            (<DotLoader
-                                size={20}
-                                color="white"
-                                className='dotLoader'
-                            />) : (
-                                <Span>Next</Span>
-                            )}
-                    </BaseButton>
-                </div>
-            </GetStartedModalWrapper>
-        </BaseModal>
+      <BaseModal
+        open={isGetStartedModalOpen}
+        onClose={handleCloseModal}
+        className={"get-started-modal"}
+        height={"auto"}
+        width={matches ? "75%" : width || "50%"}
+      >
+        <GetStartedModalWrapper>
+          <Column gap={"0"} className="receipt-title">
+            <H2>Email Verification</H2>
+            <GreenTick />
+          </Column>
+          <div>
+            <P>Please check your email. We have sent an OTP to {email || "your email address"} </P>
+          </div>
+          <Row className="otp-container">
+            {otp.map((data, index) => (
+              <BaseInput
+                key={index}
+                type="text"
+                maxLength="1"
+                value={data}
+                width={"25%"}
+                onChange={(e) => handleChange(e.target, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+              />
+            ))}
+          </Row>
+          {error && <P style={{ color: "red", marginTop: "10px" }}>{error}</P>}
+          <div className="submit-button-box">
+            <BaseButton
+              type="submit"
+              color="#000000"
+              backgroundcolor={"#D9D9D9"}
+              onClick={handleOTPSubmit}
+            >
+              {isLoading ? (
+                <DotLoader size={20} color="white" className="dotLoader" />
+              ) : (
+                <Span>Next</Span>
+              )}
+            </BaseButton>
+          </div>
+        </GetStartedModalWrapper>
+      </BaseModal>
     );
-});
+  }
+);
