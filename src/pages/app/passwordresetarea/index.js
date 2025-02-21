@@ -36,7 +36,6 @@ export const PasswordResetArea = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    console.log(formDetails);
     try {
       const response = await passwordReset(token, formDetails);
       if (response.status === "Success") {

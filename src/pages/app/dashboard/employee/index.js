@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EmployeeDashboardWrapper } from "./styled";
 import { H1, H2, Label } from "../../../../components/typography/styled";
 import { Row } from "../../../../components/flex/styled";
@@ -6,8 +6,28 @@ import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { Table } from "../../../../components/table";
 import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
+import Cookies from "universal-cookie";
+import { getEmployeePayslips } from "../../../../utils/apis/payroll/getEmployeePayslips";
+import { PayslipDetailsModal } from "../../../../containers/app/modals/payslipdetailsmodal";
 
 export const EmployeeDashboard = () => {
+  const cookies = new Cookies();
+  const TOKEN = cookies.get("TOKEN");
+
+  const [payslips, setPayslips] = useState([]);
+
+  useEffect(() => {
+    const fetchPayslips = async () => {
+      try {
+        const res = await getEmployeePayslips(TOKEN);
+        return setPayslips(res?.data);
+      } catch (err) {
+        console.error("Failed to fetch employee payslips:", err);
+      }
+    };
+    fetchPayslips();
+  }, [TOKEN]);
+
   const [filter, setFilter] = useState({
     year: "",
     month: "",
@@ -55,17 +75,21 @@ export const EmployeeDashboard = () => {
       </Row>
       <div className="table">
         <Table
+          location={"Employee Payslip Table"}
           columnTitles={[
             "Month",
             "Year",
             "View Payslip",
           ]}
-          rowItems={[]}
+          rowItems={payslips}
         />
       </div>
       <ResetPasswordModal
         width={"40%"}
         height={"60%"}
+      />
+      <PayslipDetailsModal
+        width={"80%"}
       />
     </EmployeeDashboardWrapper>
   )

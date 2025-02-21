@@ -7,6 +7,7 @@ export const EmployeesWrapper = styled("div")(() => {
     "& select, & input": {
       padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
+      border: "1px solid #000000",
     },
     "& fieldset": {
       flex: 1,

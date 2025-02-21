@@ -41,7 +41,6 @@ export const Employees = () => {
     const fetchDepartments = async () => {
       try {
         const response = await getDepartments(TOKEN, COMPANY_ID);
-        console.log(response.data);
         return setDepartments(response.data);
       } catch (error) {
         console.error(error);
@@ -93,11 +92,12 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.department}
             >
-              <option value="" hidden>
-                Select Department
-              </option>
-              {departments.map((department) => (
-                <option key={department.id} value={department.id}>
+              <option value="">Select Department</option>
+              {departments.map((department, index) => (
+                <option
+                  key={index}
+                  value={department.id}
+                >
                   {department.name}
                 </option>
               ))}

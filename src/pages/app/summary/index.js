@@ -1,18 +1,40 @@
 import { useEffect, useState } from "react";
 import { Table } from "../../../components/table";
-import { H3 } from "../../../components/typography/styled";
+import { H3, Label } from "../../../components/typography/styled";
 import { Layout } from "../../../containers/app/layout";
 import { SummaryWrapper } from "./styled";
 import { getEmployeePayslips } from "../../../utils/apis/payroll/getEmployeePayslips";
 import Cookies from "universal-cookie";
 import { getEmployeePayslipDetails } from "../../../utils/apis/payroll/getEmployeePayslipDetails";
+import { BaseFieldSet } from "../../../components/form/fieldset/styled";
+import { BaseSelect } from "../../../components/form/select/styled";
+import { months } from "../../../helpers/retrieveAllMonths";
+import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 
 export const Summary = () => {
+    const startDate = 1990;
+    const endDate = 2025;
+
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");
     const COMPANY_ID = cookies.get("COMPANY_ID");
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
 
     const [payslips, setPayslips] = useState([]);
+    const [filter, setFilter] = useState({
+        month: currentMonth,
+        year: currentYear,
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFilter((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
 
     useEffect(() => {
         const fetchPayslips = async () => {
@@ -39,8 +61,48 @@ export const Summary = () => {
                 <div
                     className="heading-row"
                 >
-                    <H3>Report for January, 2024</H3>
+                    <H3>Report for {months[filter.month - 1]}, {filter.year}</H3>
                 </div>
+                <form>
+                    <BaseFieldSet>
+                        <Label>Payment Year</Label>
+                        <BaseSelect
+                            name="year"
+                            onChange={(e) => handleChange(e)}
+                            value={filter.year}
+                        >
+                            {getYearRange(startDate, endDate).map((year, index) => {
+                                return (
+                                    <option
+                                        key={index}
+                                        value={year}
+                                    >
+                                        {year}
+                                    </option>
+                                )
+                            })}
+                        </BaseSelect>
+                    </BaseFieldSet>
+                    <BaseFieldSet>
+                        <Label>Payment Month</Label>
+                        <BaseSelect
+                            name="month"
+                            onChange={(e) => handleChange(e, "payroll")}
+                            value={filter.month}
+                        >
+                            {months.map((month, index) => {
+                                return (
+                                    <option
+                                        key={index}
+                                        value={index + 1}
+                                    >
+                                        {month}
+                                    </option>
+                                )
+                            })}
+                        </BaseSelect>
+                    </BaseFieldSet>
+                </form>
                 <div
                     className="summary-table"
                 >
