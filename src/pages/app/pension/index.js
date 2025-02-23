@@ -36,7 +36,6 @@ export const Pension = () => {
           filter.year,
           filter.month
         );
-        console.log(res?.data);
         return setPensionReport(res?.data);
       } catch (err) {
         console.error("Failed to fetch pension report:", err);
