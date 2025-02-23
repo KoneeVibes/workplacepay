@@ -54,7 +54,7 @@ export const GeneralReport = () => {
         );
         return setGeneralReport(res?.data);
       } catch (err) {
-        console.error("Failed to fetch variance report:", err);
+        console.error("Failed to fetch general report:", err);
       }
     };
     fetchGeneralReport();

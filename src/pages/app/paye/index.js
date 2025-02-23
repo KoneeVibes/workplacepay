@@ -36,9 +36,10 @@ export const Paye = () => {
           filter.year,
           filter.month
         );
+
         return setPayeReport(res?.data);
       } catch (err) {
-        console.error("Failed to fetch variance report:", err);
+        console.error("Failed to fetch paye report:", err);
       }
     };
     fetchPayeReport();
