@@ -86,6 +86,14 @@ export const EmployerDashboardWrapper = styled("div")(() => {
         overflow: "auto",
       },
     },
+    "& th": {
+      color: "#FFFFFF",
+      background: "#4E57BB",
+      minWidth: "200px",
+    },
+    "& td": {
+      minWidth: "200px",
+    },
     "@media screen and (max-width: 768px)": {
       "& .cards-group": {
         flexDirection: "column",

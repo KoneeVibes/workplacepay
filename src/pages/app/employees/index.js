@@ -24,7 +24,7 @@ export const Employees = () => {
   const [departments, setDepartments] = useState([]);
   const [filter, setFilter] = useState({
     username: "",
-    department: "",
+    departmentId: "",
     jobTitle: "",
     status: "",
   });
@@ -76,11 +76,11 @@ export const Employees = () => {
         </Row>
         <Row className="filter">
           <BaseFieldSet>
-            <Label>Username</Label>
+            <Label>Employee</Label>
             <BaseInput
               type="text"
               name="username"
-              placeholder="Search by username"
+              placeholder="Search by Employee"
               value={filter.username}
               onChange={handleChange}
             />
@@ -88,17 +88,17 @@ export const Employees = () => {
           <BaseFieldSet>
             <Label>Department</Label>
             <BaseSelect
-              name="department"
+              name="departmentId"
               onChange={handleChange}
-              value={filter.department}
+              value={filter.departmentId}
             >
-              <option value="">Select Department</option>
+              <option value="" hidden>Select Department</option>
               {departments.map((department, index) => (
                 <option
                   key={index}
                   value={department.id}
                 >
-                  {department.name}
+                  {department.name.replace(/\b\w/g, char => char.toUpperCase())}
                 </option>
               ))}
             </BaseSelect>
@@ -120,7 +120,7 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.status}
             >
-              <option value="">Select Status</option>
+              <option value="" hidden>Select Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </BaseSelect>
