@@ -100,18 +100,18 @@ export const Table = ({ columnTitles, rowItems, location }) => {
               {location === "General Table" && (
                 <Fragment>
                   <Td>{rowItem.employeeFullName || ""}</Td>
+                  <Td>{rowItem.department || ""}</Td>
                   <Td>{rowItem.month || ""}</Td>
                   <Td>{rowItem.year || ""}</Td>
-                  <Td>{rowItem.department || ""}</Td>
                   <Td>{rowItem.salaryBankName || ""}</Td>
                   <Td>{rowItem.salaryBankAccount || ""}</Td>
                   <Td>{rowItem.pensionFirmName || ""}</Td>
                   <Td>{rowItem.pensionAccount || ""}</Td>
-                  <Td>{rowItem.taxNumber || ""}</Td>
+                  
+                  <Td>{rowItem.totalEarnings || ""}</Td>
+                  <Td>{rowItem.totalDeductions || ""}</Td>
                   <Td>{rowItem.grossPay || ""}</Td>
                   <Td>{rowItem.netPay || ""}</Td>
-                  <Td>{rowItem.totalDeductions || ""}</Td>
-                  <Td>{rowItem.totalEarnings || ""}</Td>
                 </Fragment>
               )}
               {location === "Pension Table" && (

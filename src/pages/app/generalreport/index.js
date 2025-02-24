@@ -19,6 +19,7 @@ export const GeneralReport = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
+
   const [departments, setDepartments] = useState([]);
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
@@ -28,7 +29,7 @@ export const GeneralReport = () => {
     month: currentMonth,
     departmentId: "",
   });
-  const [GeneralReport, setGeneralReport] = useState([]);
+  const [generalReport, setGeneralReport] = useState([]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -133,12 +134,12 @@ export const GeneralReport = () => {
               "Bonus",
               "PAYE",
               "Pension",
-              "Other Addition",
-              "Other Deduction",
+              "Total Earnings",
+              "Total Deductions",
               "Gross",
               "Net Pay",
             ]}
-            rowItems={GeneralReport}
+            rowItems={generalReport}
             location={"General Table"}
           />
         </div>
