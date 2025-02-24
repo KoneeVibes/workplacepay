@@ -107,7 +107,26 @@ export const Table = ({ columnTitles, rowItems, location }) => {
                   <Td>{rowItem.salaryBankAccount || ""}</Td>
                   <Td>{rowItem.pensionFirmName || ""}</Td>
                   <Td>{rowItem.pensionAccount || ""}</Td>
-                  
+                  {['basic', 'housing', 'transport', 'overtime', 'bonus'].map(expectedName => {
+                    const foundEarning = rowItem.earnings.find(
+                      variable => variable.name.toLowerCase() === expectedName.toLowerCase()
+                    );
+                    return (
+                      <Td key={expectedName}>
+                        {foundEarning ? foundEarning.value : ''}
+                      </Td>
+                    );
+                  })}
+                  {['paye', 'employer pension contribution', 'employee pension contribution'].map(expectedName => {
+                    const foundDeduction = rowItem.deductions.find(
+                      variable => variable.name.toLowerCase() === expectedName.toLowerCase()
+                    );
+                    return (
+                      <Td key={expectedName}>
+                        {foundDeduction ? foundDeduction.value : ''}
+                      </Td>
+                    );
+                  })}
                   <Td>{rowItem.totalEarnings || ""}</Td>
                   <Td>{rowItem.totalDeductions || ""}</Td>
                   <Td>{rowItem.grossPay || ""}</Td>
@@ -116,25 +135,21 @@ export const Table = ({ columnTitles, rowItems, location }) => {
               )}
               {location === "Pension Table" && (
                 <Fragment>
-                  <Td>{rowItem.payslipId || ""}</Td>
                   <Td>{rowItem.employeeFullName || ""}</Td>
                   <Td>{rowItem.month || ""}</Td>
                   <Td>{rowItem.year || ""}</Td>
                   <Td>{rowItem.pensionFirmName || ""}</Td>
                   <Td>{rowItem.pensionAccount || ""}</Td>
-                  <Td>{rowItem.grossPay || ""}</Td>
-                  <Td>{rowItem.pensionValue || ""}</Td>
                 </Fragment>
               )}
               {location === "Paye Table" && (
                 <Fragment>
-                  <Td>{rowItem.payslipId || ""}</Td>
                   <Td>{rowItem.employeeFullName || ""}</Td>
+                  <Td>{rowItem.taxNumber || ""}</Td>
                   <Td>{rowItem.month || ""}</Td>
                   <Td>{rowItem.year || ""}</Td>
-                  <Td>{rowItem.payeValue || ""}</Td>
                   <Td>{rowItem.grossPay || ""}</Td>
-                  <Td>{rowItem.taxNumber || ""}</Td>
+                  <Td>{rowItem.payeValue || ""}</Td>
                 </Fragment>
               )}
             </tr>

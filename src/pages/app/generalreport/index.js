@@ -119,7 +119,7 @@ export const GeneralReport = () => {
         <div className="general-report-table">
           <Table
             columnTitles={[
-              "Name",
+              "Employee",
               "Department",
               "Month",
               "Year",
@@ -133,7 +133,8 @@ export const GeneralReport = () => {
               "Overtime",
               "Bonus",
               "PAYE",
-              "Pension",
+              "Employer Pension Contribution",
+              "Employee Pension Contribution",
               "Total Earnings",
               "Total Deductions",
               "Gross",

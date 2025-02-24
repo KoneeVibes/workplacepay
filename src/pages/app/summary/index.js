@@ -109,7 +109,7 @@ export const Summary = () => {
                     <Table
                         location={"Summary Table"}
                         columnTitles={[
-                            "Employees", "Gross Pay", "Total Deduction", "Net Pay", "Re-run"
+                            "Employee", "Gross Pay", "Total Deduction", "Net Pay", "Re-run"
                         ]}
                         rowItems={payslips}
                     />

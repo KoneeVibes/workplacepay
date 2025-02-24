@@ -91,7 +91,7 @@ export const Paye = () => {
         <div className="paye-table">
           <Table
             columnTitles={[
-              "Username",
+              "Employee",
               "Tax ID",
               "Month",
               "Year",

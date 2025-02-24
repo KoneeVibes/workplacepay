@@ -90,7 +90,7 @@ export const Pension = () => {
         </Row>
         <div className="pension-table">
           <Table
-            columnTitles={[" Employee", "Month", "Year", "PFA", "PFA Account"]}
+            columnTitles={["Employee", "Month", "Year", "PFA", "PFA Account"]}
             rowItems={PensionReport}
             location={"Pension Table"}
           />
