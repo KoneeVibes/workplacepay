@@ -44,11 +44,16 @@ export const SideNavigation = () => {
         return navigate(destination);
     };
 
-    const handleNavAvatarAreaLinkClick = (e, destination) => {
+    const handleNavAvatarAreaLinkClick = async (e, destination) => {
         e.preventDefault();
         e.stopPropagation();
         if (destination === "/switchcompany") {
             return setIsUserCompaniesDropdownOpen(!isUserCompaniesDropdownOpen);
+        }
+        if (destination === "/") {
+            await cookie.remove("ROLE", { path: '/' });
+            await cookie.remove("COMPANY_ID", { path: '/' });
+            await cookie.remove("TOKEN", { path: '/' });
         }
         return navigate(`${destination}`);
     }

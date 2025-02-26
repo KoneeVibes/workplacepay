@@ -7,26 +7,55 @@ import { BaseButton } from "../../../../components/button/styled";
 import { Row } from "../../../../components/flex/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { Span } from "../../../../components/typography/styled";
+import Cookies from "universal-cookie";
+import { getCompanies } from "../../../../utils/apis/company/getCompanies";
+import { useNavigate } from "react-router-dom";
 
 export const SelectCompaniesModal = ({ height, width }) => {
+  const cookies = new Cookies();
+  const TOKEN = cookies.get("TOKEN");
+
+  const navigate = useNavigate();
   const { isSelectCompaniesModalOpen, setIsSelectCompaniesModalOpen } = useContext(Context);
 
   const [matches, setMatches] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await getCompanies(TOKEN);
+        return setCompanies(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCompanies();
+  }, [TOKEN]);
 
   const handleChange = (e) => {
     const { value } = e.target;
-    setSelectedCompany(value);
+    setSelectedCompanyId(value);
   };
 
   const handleCloseModal = (e) => {
     e.preventDefault();
+    document.body.style.overflow = "auto";
+    document.body.style.pointerEvents = "auto";
     setIsSelectCompaniesModalOpen(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("selected Company:", selectedCompany);
+    cookies.set("COMPANY_ID", selectedCompanyId, {
+      path: "/",
+      maxAge: 1000000,
+    });
+    document.body.style.overflow = "auto";
+    document.body.style.pointerEvents = "auto";
+    setIsSelectCompaniesModalOpen(false)
+    return navigate("/dashboard");
   };
 
   useEffect(() => {
@@ -55,7 +84,7 @@ export const SelectCompaniesModal = ({ height, width }) => {
         </div>
         <BaseFieldSet>
           <BaseSelect
-            value={selectedCompany}
+            value={selectedCompanyId}
             onChange={handleChange}
           >
             <option
@@ -64,9 +93,14 @@ export const SelectCompaniesModal = ({ height, width }) => {
             >
               Select Company
             </option>
-            <option value="company1">Company 1</option>
-            <option value="company2">Company 2</option>
-            <option value="company3">Company 3</option>
+            {companies?.map((company, index) => (
+              <option
+                key={index}
+                value={company.companyId}
+              >
+                {company.name}
+              </option>
+            ))}
           </BaseSelect>
         </BaseFieldSet>
         <Row

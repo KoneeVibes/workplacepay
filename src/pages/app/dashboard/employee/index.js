@@ -9,10 +9,18 @@ import { ResetPasswordModal } from "../../../../containers/app/modals/resetpassw
 import Cookies from "universal-cookie";
 import { getEmployeePayslips } from "../../../../utils/apis/payroll/getEmployeePayslips";
 import { PayslipDetailsModal } from "../../../../containers/app/modals/payslipdetailsmodal";
+import { getYearRange } from "../../../../helpers/retrieveAllYearsToDate";
+import { months } from "../../../../helpers/retrieveAllMonths";
 
 export const EmployeeDashboard = () => {
+  const startDate = 1990;
+  const endDate = 2025;
+
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
 
   const [payslips, setPayslips] = useState([]);
 
@@ -29,8 +37,8 @@ export const EmployeeDashboard = () => {
   }, [TOKEN]);
 
   const [filter, setFilter] = useState({
-    year: "",
-    month: "",
+    month: currentMonth,
+    year: currentYear,
   });
 
   const handleChange = (e) => {
@@ -40,7 +48,7 @@ export const EmployeeDashboard = () => {
       [name]: value,
     }));
   };
- 
+
   return (
     <EmployeeDashboardWrapper>
       <div className="title-heading">
@@ -52,24 +60,38 @@ export const EmployeeDashboard = () => {
           <Label>Month</Label>
           <BaseSelect
             name="month"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, "payroll")}
             value={filter.month}
           >
-            <option value="">Select Month</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
+            {months.map((month, index) => {
+              return (
+                <option
+                  key={index}
+                  value={index + 1}
+                >
+                  {month}
+                </option>
+              )
+            })}
           </BaseSelect>
         </BaseFieldSet>
         <BaseFieldSet>
           <Label>Year</Label>
           <BaseSelect
             name="year"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e)}
             value={filter.year}
           >
-            <option value="">Select Year</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
+            {getYearRange(startDate, endDate).map((year, index) => {
+              return (
+                <option
+                  key={index}
+                  value={year}
+                >
+                  {year}
+                </option>
+              )
+            })}
           </BaseSelect>
         </BaseFieldSet>
       </Row>

@@ -13,6 +13,8 @@ import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { runPayrollService } from "../../../utils/apis/payroll/runPayroll";
 import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
+import { getDepartments } from "../../../utils/apis/department/getDepartments";
+import { BaseInput } from "../../../components/form/input/styled";
 
 export const Payroll = () => {
     const startDate = 1990;
@@ -30,13 +32,14 @@ export const Payroll = () => {
         "Salary",
         "Exemption"
     ]);
+    const [departments, setDepartments] = useState([]);
     const [payrollPayload, setPayrollPayload] = useState({
         month: "",
         year: "",
     });
     const [filter, setFilter] = useState({
         username: "",
-        department: "",
+        departmentId: "",
         jobTitle: "",
         status: "",
     });
@@ -53,6 +56,18 @@ export const Payroll = () => {
                 });
             })
             .catch((err) => console.error(err));
+    }, [TOKEN, COMPANY_ID]);
+
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const response = await getDepartments(TOKEN, COMPANY_ID);
+                return setDepartments(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchDepartments();
     }, [TOKEN, COMPANY_ID]);
 
     const handleChange = (e, target) => {
@@ -167,51 +182,53 @@ export const Payroll = () => {
                     className="filter"
                 >
                     <BaseFieldSet>
-                        <Label>Username</Label>
-                        <BaseSelect
+                        <Label>Employee</Label>
+                        <BaseInput
+                            type="text"
                             name="username"
-                            onChange={(e) => handleChange(e, "filter")}
+                            placeholder="Search by Employee"
                             value={filter.username}
-                        >
-                            <option value="" hidden></option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
-                        </BaseSelect>
+                            onChange={handleChange}
+                        />
                     </BaseFieldSet>
                     <BaseFieldSet>
                         <Label>Department</Label>
                         <BaseSelect
-                            name="department"
+                            name="departmentId"
                             onChange={(e) => handleChange(e, "filter")}
-                            value={filter.department}
+                            value={filter.departmentId}
                         >
-                            <option value="" hidden></option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
+                            <option value="" hidden>Select Department</option>
+                            {departments.map((department, index) => (
+                                <option
+                                    key={index}
+                                    value={department.id}
+                                >
+                                    {department.name.replace(/\b\w/g, char => char.toUpperCase())}
+                                </option>
+                            ))}
                         </BaseSelect>
                     </BaseFieldSet>
                     <BaseFieldSet>
                         <Label>Job Title</Label>
-                        <BaseSelect
+                        <BaseInput
+                            type="text"
                             name="jobTitle"
-                            onChange={(e) => handleChange(e, "filter")}
+                            placeholder="Search by jobtitle"
                             value={filter.jobTitle}
-                        >
-                            <option value="" hidden></option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
-                        </BaseSelect>
+                            onChange={handleChange}
+                        />
                     </BaseFieldSet>
                     <BaseFieldSet>
                         <Label>Status</Label>
                         <BaseSelect
                             name="status"
-                            onChange={(e) => handleChange(e, "filter")}
+                            onChange={handleChange}
                             value={filter.status}
                         >
-                            <option value="" hidden></option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
+                            <option value="" hidden>Select Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
                         </BaseSelect>
                     </BaseFieldSet>
                 </Row>

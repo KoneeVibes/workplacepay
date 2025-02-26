@@ -24,8 +24,8 @@ export const Variance = () => {
   const currentYear = currentDate.getFullYear();
   const [filter, setFilter] = useState({
     year: currentYear,
-    firstMonth: currentMonth,
-    secondMonth: currentMonth - 1,
+    firstMonth: currentMonth - 1,
+    secondMonth: currentMonth,
   });
   const [varianceReport, setVarianceReport] = useState([]);
 
@@ -58,7 +58,7 @@ export const Variance = () => {
         <div
           className="heading"
         >
-          <H3>The difference between Net Salary of two distinct months</H3>
+          <H3>The difference between net salary of two distinct months</H3>
         </div>
         <Row className="filter">
           <BaseFieldSet>

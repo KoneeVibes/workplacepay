@@ -3,13 +3,12 @@ import { Table } from "../../../components/table";
 import { H3, Label } from "../../../components/typography/styled";
 import { Layout } from "../../../containers/app/layout";
 import { SummaryWrapper } from "./styled";
-import { getEmployeePayslips } from "../../../utils/apis/payroll/getEmployeePayslips";
 import Cookies from "universal-cookie";
-import { getEmployeePayslipDetails } from "../../../utils/apis/payroll/getEmployeePayslipDetails";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
+import { retrievePayrollByDate } from "../../../utils/apis/payroll/retrievePayrollByDate";
 
 export const Summary = () => {
     const startDate = 1990;
@@ -39,18 +38,14 @@ export const Summary = () => {
     useEffect(() => {
         const fetchPayslips = async () => {
             try {
-                const res = await getEmployeePayslips(TOKEN);
-                if (!res?.data) return;
-                const payslipsDetail = await Promise.all(
-                    res.data.map((payslip) => getEmployeePayslipDetails(TOKEN, payslip.payslipId))
-                );
-                setPayslips(payslipsDetail);
+                const res = await retrievePayrollByDate(TOKEN, COMPANY_ID, filter.month, filter.year);
+                setPayslips(res?.data);
             } catch (err) {
                 console.error("Failed to fetch employee payslips:", err);
             }
         };
         fetchPayslips();
-    }, [TOKEN, COMPANY_ID]);
+    }, [TOKEN, COMPANY_ID, filter]);
 
     return (
         <Layout
