@@ -39,7 +39,7 @@ export const Table = ({ columnTitles, rowItems, location, activeRowId, handleRow
               {(location === "Employee Table") && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
-                  <Td>{rowItem?.jobInformation.department ?? "Not Assigned"}</Td>
+                  <Td>{capitalizeWords(rowItem?.jobInformation.department) ?? "Not Assigned"}</Td>
                   <Td>{rowItem?.salary || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
@@ -49,7 +49,7 @@ export const Table = ({ columnTitles, rowItems, location, activeRowId, handleRow
               {(location === "Payroll Table") && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
-                  <Td>{rowItem?.department || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.department) || ""}</Td>
                   <Td>{rowItem?.monthlySalary || ""}</Td>
                   <Td>
                     <BaseInput
