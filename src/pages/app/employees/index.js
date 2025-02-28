@@ -92,13 +92,14 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.departmentId}
             >
-              <option value="" hidden>Select Department</option>
+              <option value="" hidden>
+                Select Department
+              </option>
               {departments.map((department, index) => (
-                <option
-                  key={index}
-                  value={department.id}
-                >
-                  {department.name.replace(/\b\w/g, char => char.toUpperCase())}
+                <option key={index} value={department.id}>
+                  {department.name.replace(/\b\w/g, (char) =>
+                    char.toUpperCase()
+                  )}
                 </option>
               ))}
             </BaseSelect>
@@ -120,7 +121,9 @@ export const Employees = () => {
               onChange={handleChange}
               value={filter.status}
             >
-              <option value="" hidden>Select Status</option>
+              <option value="" hidden>
+                Select Status
+              </option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </BaseSelect>
