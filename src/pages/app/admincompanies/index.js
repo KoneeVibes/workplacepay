@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 export const Admincompanies = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
-  const companyId = cookies.get("companyId");
+  const COMPANY_ID = cookies.get("COMPANY_ID");
 
   const { id } = useParams();
   const [company, setCompany] = useState({});
@@ -19,14 +19,14 @@ export const Admincompanies = () => {
   useEffect(() => {
     const fetchCompanyDetails = async () => {
       try {
-        const res = await getCompanyDetails(TOKEN, companyId);
+        const res = await getCompanyDetails(TOKEN, COMPANY_ID);
         return setCompany(res?.data);
       } catch (err) {
         console.error("Failed to fetch company details:", err);
       }
     };
     fetchCompanyDetails();
-  }, [TOKEN, companyId]);
+  }, [TOKEN, COMPANY_ID]);
   return (
     <Layout id={"adminCompany"} title={"Raji Ventures"}>
       <AdmincompaniesWrapper>
