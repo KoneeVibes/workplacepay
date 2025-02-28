@@ -9,14 +9,17 @@ import { Table } from "../../../../components/table";
 import Cookies from "universal-cookie";
 import { getAllCompanies } from "../../../../utils/apis/company/getAllCompanies";
 import { BaseInput } from "../../../../components/form/input/styled";
+import { useNavigate } from "react-router-dom";
 
 export const AdminDashboard = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
 
+  const navigate = useNavigate();
+
   const [companies, setCompanies] = useState([]);
   const [filter, setFilter] = useState({
-    companyName: "",
+    companyId: "",
     planType: "",
     usage: "",
   });
@@ -37,6 +40,12 @@ export const AdminDashboard = () => {
     }));
   };
 
+  const handleNavigateToCompanyDetailsPage = (e, companyId) => {
+    e.stopPropagation();
+    e.preventDefault();
+    return navigate(`/admin/companies/${companyId}`);
+  };
+
   return (
     <AdminDashboardWrapper>
       <Row className="heading-row" justifycontent={"space-between"}>
@@ -48,9 +57,9 @@ export const AdminDashboard = () => {
           <Label>Company Name</Label>
           <BaseInput
             type="text"
-            name="companyName"
-            placeholder="Search by Company"
-            value={filter.companyName}
+            name="companyId"
+            placeholder="Search by Company Name"
+            value={filter.companyId}
             onChange={handleChange}
           />
         </BaseFieldSet>
@@ -66,11 +75,7 @@ export const AdminDashboard = () => {
         </BaseFieldSet>
         <BaseFieldSet>
           <Label>Usage</Label>
-          <BaseSelect
-            name="usage"
-            onChange={handleChange}
-            value={filter.jobTitle}
-          >
+          <BaseSelect name="usage" onChange={handleChange} value={filter.usage}>
             <option value="" hidden></option>
             <option value="2010">2010</option>
             <option value="2011">2011</option>
@@ -85,8 +90,11 @@ export const AdminDashboard = () => {
             "Plan Type",
             "Credits Left",
             "Last Used",
+            "",
           ]}
           rowItems={companies}
+          location={"Company Table"}
+          handleRowItemClick={handleNavigateToCompanyDetailsPage}
         />
       </div>
     </AdminDashboardWrapper>

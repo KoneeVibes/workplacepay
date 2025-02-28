@@ -7,7 +7,15 @@ import { Context } from "../../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-export const Table = ({ columnTitles, rowItems, location, activeRowId, handleRowItemClick, handleRowItemActionClick, dropdownRef }) => {
+export const Table = ({
+  columnTitles,
+  rowItems,
+  location,
+  activeRowId,
+  handleRowItemClick,
+  handleRowItemActionClick,
+  dropdownRef,
+}) => {
   const navigate = useNavigate();
   const { isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen } =
     useContext(Context);
@@ -17,36 +25,31 @@ export const Table = ({ columnTitles, rowItems, location, activeRowId, handleRow
       <thead>
         <tr>
           {columnTitles.map((columnTitle, index) => {
-            return (
-              <Th
-                key={index}
-              >
-                {columnTitle}
-              </Th>
-            )
+            return <Th key={index}>{columnTitle}</Th>;
           })}
         </tr>
       </thead>
       <tbody>
         {rowItems.map((rowItem, index) => {
           const capitalizeWords = (str) => {
-            return str.replace(/\b\w/g, char => char.toUpperCase());
+            return str.replace(/\b\w/g, (char) => char.toUpperCase());
           };
           return (
-            <tr
-              key={index}
-            >
-              {(location === "Employee Table") && (
+            <tr key={index}>
+              {location === "Employee Table" && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
-                  <Td>{capitalizeWords(rowItem?.jobInformation.department) ?? "Not Assigned"}</Td>
+                  <Td>
+                    {capitalizeWords(rowItem?.jobInformation.department) ??
+                      "Not Assigned"}
+                  </Td>
                   <Td>{rowItem?.salary || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
                 </Fragment>
               )}
-              {(location === "Payroll Table") && (
+              {location === "Payroll Table" && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>{capitalizeWords(rowItem?.department) || ""}</Td>
@@ -57,50 +60,51 @@ export const Table = ({ columnTitles, rowItems, location, activeRowId, handleRow
                       checked={rowItem?.isExempted}
                       style={{
                         width: "auto",
-                        flexShrink: 0
+                        flexShrink: 0,
                       }}
                     />
                   </Td>
                   {rowItem?.payrollVariables?.map((variable, index) => (
-                    <Td
-                      key={index}
-                    >
-                      {variable?.value}
-                    </Td>
+                    <Td key={index}>{variable?.value}</Td>
                   ))}
                 </Fragment>
               )}
-              {(location === "Summary Table") && (
+              {location === "Summary Table" && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>{rowItem?.totalEarnings || ""}</Td>
                   <Td>{rowItem?.totalDeductions || ""}</Td>
                   <Td>{rowItem?.netSalary || ""}</Td>
                   <Td
-                    onClick={() => navigate(`/reportsummary/summary/${rowItem?.payslipId}`)}
+                    onClick={() =>
+                      navigate(`/reportsummary/summary/${rowItem?.payslipId}`)
+                    }
                   >
                     View Payslip
                   </Td>
                 </Fragment>
               )}
-              {(location === "Employee Payslip Table") && (
+              {location === "Employee Payslip Table" && (
                 <Fragment>
                   <Td>{rowItem?.month || ""}</Td>
                   <Td>{rowItem?.year || ""}</Td>
                   <Td
-                    onClick={() => !isPayslipDetailsModalOpen && setIsPayslipDetailsModalOpen(true)}
+                    onClick={() =>
+                      !isPayslipDetailsModalOpen &&
+                      setIsPayslipDetailsModalOpen(true)
+                    }
                   >
                     View Payslip
                   </Td>
                 </Fragment>
               )}
-              {(location === "User Summary Table") && (
+              {location === "User Summary Table" && (
                 <Fragment>
                   <Td>{rowItem?.name || ""}</Td>
                   <Td>{rowItem?.value || ""}</Td>
                 </Fragment>
               )}
-              {(location === "Variance Table") && (
+              {location === "Variance Table" && (
                 <Fragment>
                   <Td>{rowItem?.employeeFullName || ""}</Td>
                   <Td>{rowItem?.firstMonthValue || ""}</Td>
@@ -109,35 +113,69 @@ export const Table = ({ columnTitles, rowItems, location, activeRowId, handleRow
                   <Td>{rowItem?.percentage || ""}</Td>
                 </Fragment>
               )}
-              {(location === "Departments Table") && (
+              {location === "Departments Table" && (
                 <Fragment>
                   <Td>{rowItem?.name ? capitalizeWords(rowItem?.name) : ""}</Td>
                   <Td
-                    onClick={(e) => handleRowItemClick(e, rowItem?.departmentId)}
+                    onClick={(e) =>
+                      handleRowItemClick(e, rowItem?.departmentId)
+                    }
                   >
-                    <FontAwesomeIcon icon={faEllipsisV} style={{ display: "block", marginLeft: "auto", marginRight: "auto" }} />
-                    {(activeRowId === rowItem?.departmentId) && (
-                      <ul
-                        ref={dropdownRef}
-                        className="drop-down"
-                      >
+                    <FontAwesomeIcon
+                      icon={faEllipsisV}
+                      style={{
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                    {activeRowId === rowItem?.departmentId && (
+                      <ul ref={dropdownRef} className="drop-down">
                         <li
-                          onClick={(e) => handleRowItemActionClick(e, rowItem?.departmentId, "edit")}
+                          onClick={(e) =>
+                            handleRowItemActionClick(
+                              e,
+                              rowItem?.departmentId,
+                              "edit"
+                            )
+                          }
                         >
                           Edit Department
                         </li>
                         <li
-                          onClick={(e) => handleRowItemActionClick(e, rowItem?.departmentId, "delete")}
+                          onClick={(e) =>
+                            handleRowItemActionClick(
+                              e,
+                              rowItem?.departmentId,
+                              "delete"
+                            )
+                          }
                         >
                           Delete Department
                         </li>
                       </ul>
                     )}
+                    {location === "Company Table" && (
+                      <Fragment>
+                        <Td>{rowItem?.companyName || ""}</Td>
+                        <Td>{rowItem?.employerEmail || ""}</Td>
+                        <Td>{rowItem?.planType || ""}</Td>
+                        <Td>{rowItem?.creditBalance || ""}</Td>
+                        <Td>{rowItem?.lastUsedDate || ""}</Td>
+                        <Td
+                          onClick={(e) =>
+                            handleRowItemClick(e, rowItem?.companyId)
+                          }
+                        >
+                          View Details
+                        </Td>
+                      </Fragment>
+                    )}
                   </Td>
                 </Fragment>
               )}
             </tr>
-          )
+          );
         })}
       </tbody>
     </TableWrapper>
