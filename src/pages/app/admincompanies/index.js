@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 export const Admincompanies = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
-  const COMPANY_ID = cookies.get("COMPANY_ID");
 
   const { id } = useParams();
   const [company, setCompany] = useState({});
@@ -19,14 +18,14 @@ export const Admincompanies = () => {
   useEffect(() => {
     const fetchCompanyDetails = async () => {
       try {
-        const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+        const res = await getCompanyDetails(TOKEN, id);
         return setCompany(res?.data);
       } catch (err) {
         console.error("Failed to fetch company details:", err);
       }
     };
     fetchCompanyDetails();
-  }, [TOKEN, COMPANY_ID]);
+  }, [TOKEN, id]);
   return (
     <Layout id={"adminCompany"} title={"Raji Ventures"}>
       <AdmincompaniesWrapper>
@@ -38,7 +37,7 @@ export const Admincompanies = () => {
           </Row>
           <Row className="heading-row" gap={"5rem"}>
             <Span>Available Credits</Span>
-            <Span>30 Credits</Span>
+            <Span>{`${company?.credit} Credits`}</Span>
           </Row>
         </div>
         <div className="company-information">
@@ -49,7 +48,7 @@ export const Admincompanies = () => {
           </Row>
           <Row className="heading-row" gap={"5rem"}>
             <Span>Available Credits</Span>
-            <Span>30 Credits</Span>
+            <Span>{`${company?.credit} Credits`}</Span>
           </Row>
         </div>
       </AdmincompaniesWrapper>

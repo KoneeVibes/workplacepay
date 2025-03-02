@@ -10,6 +10,7 @@ import Cookies from "universal-cookie";
 import { getAllCompanies } from "../../../../utils/apis/company/getAllCompanies";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { useNavigate } from "react-router-dom";
+import { getPayrollPlans } from "../../../../utils/apis/payroll/getPayrollPlans";
 
 export const AdminDashboard = () => {
   const cookies = new Cookies();
@@ -18,6 +19,7 @@ export const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [companies, setCompanies] = useState([]);
+  const [payrollPlans, setPayrollPlans] = useState([]);
   const [filter, setFilter] = useState({
     companyId: "",
     planType: "",
@@ -31,6 +33,16 @@ export const AdminDashboard = () => {
         console.error("Failed to fetch companies:", err);
       });
   }, [TOKEN, filter]);
+
+  useEffect(() => {
+    getPayrollPlans(TOKEN)
+      .then((data) => {
+        setPayrollPlans(data ?? []);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch payroll plans:", err);
+      });
+  }, [TOKEN]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +74,23 @@ export const AdminDashboard = () => {
             value={filter.companyId}
             onChange={handleChange}
           />
+        </BaseFieldSet>
+        <BaseFieldSet>
+          <Label>Plan Type</Label>
+          <BaseSelect
+            name="planType"
+            value={filter?.planType}
+            onChange={(e) => handleChange(e)}
+          >
+            <option value="">Select a Plan</option>
+            {payrollPlans?.map((plan, index) => {
+              return (
+                <option key={index} value={plan?.title}>
+                  {plan?.title}
+                </option>
+              );
+            })}
+          </BaseSelect>
         </BaseFieldSet>
         <BaseFieldSet>
           <Label>Plan Type</Label>
