@@ -4,9 +4,10 @@ export const AdminDashboardWrapper = styled("div")(() => {
   return {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
-    "& select": {
+    "& select, & input": {
       padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
+      border: "1px solid #000000",
     },
     "& fieldset": {
       flex: 1,
