@@ -2,7 +2,7 @@ import { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../context";
 import { navAvatarAreaLinks, navLinks } from "../../../config/navlinks/dashboard";
 import { BaseButton } from "../../button/styled";
-import { P } from "../../typography/styled";
+import { P, Span } from "../../typography/styled";
 import { SideNavigationWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretRight, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +11,7 @@ import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { getCompanies } from "../../../utils/apis/company/getCompanies";
+import { getUser } from "../../../utils/apis/getUser";
 
 export const SideNavigation = () => {
     const cookie = new Cookies();
@@ -25,6 +26,7 @@ export const SideNavigation = () => {
     const [activeCompanyId, setActiveCompanyId] = useState(COMPANY_ID);
     const [isUserCompaniesDropdownOpen, setIsUserCompaniesDropdownOpen] = useState(false);
     const [isSubItemsOpen, setIsSubItemsOpen] = useState(true);
+    const [loggedInUser, setLoggedInUser] = useState({});
 
     const handleLogoClick = (e) => {
         e.preventDefault();
@@ -74,6 +76,16 @@ export const SideNavigation = () => {
         });
         return setActiveCompanyId(id);
     }
+
+    useEffect(() => {
+        getUser(TOKEN)
+            .then((data) => {
+                setLoggedInUser(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    }, [TOKEN])
 
     useEffect(() => {
         if (ROLE !== "employer") return;
@@ -160,11 +172,13 @@ export const SideNavigation = () => {
             >
                 <Row
                     alignitems={"center"}
+                    gap={"calc(var(--flexGap)/4)"}
                     justifycontent={"space-between"}
                     onClick={handleUserProfileIconClick}
                     style={{ cursor: "pointer" }}
                 >
                     <Avatar />
+                    <Span>{loggedInUser?.fullName?.split(" ")[1].replace(/\b\w/g, char => char.toUpperCase())}</Span>
                     <FontAwesomeIcon icon={isSubItemsOpen ? faCaretDown : faCaretRight} />
                 </Row>
                 {(isUserProfileDropdownOpen) && (

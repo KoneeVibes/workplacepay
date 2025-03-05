@@ -23,6 +23,7 @@ import { Analytics } from "./pages/app/analytics";
 import { Department } from "./pages/app/department";
 import { AddDepartment } from "./pages/app/adddepartment";
 import { PasswordResetArea } from "./pages/app/passwordresetarea";
+import { EditDepartment } from "./pages/app/editdepartment";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/employees" element={<Employees />} />
         <Route path="/departments" element={<Department />} />
         <Route path="/adddepartment" element={<AddDepartment />} />
+        <Route path="/departments/:id" element={<EditDepartment />} />
         <Route path="/passwordreset" element={<PasswordResetArea />} />
         <Route path="/reportsummary/variance" element={<Variance />} />
         <Route path="/reportsummary/general" element={<GeneralReport />} />
