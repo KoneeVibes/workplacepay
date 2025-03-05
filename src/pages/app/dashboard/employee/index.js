@@ -11,6 +11,7 @@ import { getEmployeePayslips } from "../../../../utils/apis/payroll/getEmployeeP
 import { PayslipDetailsModal } from "../../../../containers/app/modals/payslipdetailsmodal";
 import { getYearRange } from "../../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../../helpers/retrieveAllMonths";
+import { getUser } from "../../../../utils/apis/user/getUser";
 
 export const EmployeeDashboard = () => {
   const startDate = 1990;
@@ -23,6 +24,7 @@ export const EmployeeDashboard = () => {
   const currentYear = currentDate.getFullYear();
 
   const [payslips, setPayslips] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   useEffect(() => {
     const fetchPayslips = async () => {
@@ -35,6 +37,16 @@ export const EmployeeDashboard = () => {
     };
     fetchPayslips();
   }, [TOKEN]);
+
+  useEffect(() => {
+    getUser(TOKEN)
+      .then((data) => {
+        setLoggedInUser(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }, [TOKEN])
 
   const [filter, setFilter] = useState({
     month: currentMonth,
@@ -52,7 +64,7 @@ export const EmployeeDashboard = () => {
   return (
     <EmployeeDashboardWrapper>
       <div className="title-heading">
-        <H1>Welcome Olumide,</H1>
+        <H1>Welcome {loggedInUser?.fullName?.split(' ')[1]},</H1>
         <H2>Payslip List</H2>
       </div>
       <Row className="filter">

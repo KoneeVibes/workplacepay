@@ -5,7 +5,7 @@ import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
-import { referEmployer } from "../../../utils/apis/refer";
+import { referEmployer } from "../../../utils/apis/user/refer";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 

@@ -9,7 +9,7 @@ import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { DotLoader } from "react-spinners";
-import { passwordReset } from "../../../../utils/apis/passwordreset";
+import { passwordReset } from "../../../../utils/apis/user/passwordreset";
 
 export const ResetPasswordModal = ({ height, width }) => {
   const { isResetPasswordModalOpen, setIsResetPasswordModalOpen } =

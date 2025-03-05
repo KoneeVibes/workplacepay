@@ -1,20 +1,21 @@
-import { BASE_ENDPOINT } from "../endpoint";
+import { BASE_ENDPOINT } from "../../endpoint";
 
-export const getUser = async (TOKEN) => {
+export const updateContactDetailsService = async (TOKEN, payload) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/users`, {
-            method: 'GET',
+        const response = await fetch(`${BASE_ENDPOINT}/api/users/contact-details`, {
+            method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${TOKEN}`,
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
         });
         const res = await response.json();
         if (!response.ok) {
             console.error('Error:', res);
             throw new Error(res.message);
         }
-        return res?.data;
+        return res;
     } catch (error) {
         console.error('API fetch error:', error);
         throw error;

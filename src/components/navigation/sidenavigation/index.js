@@ -11,7 +11,7 @@ import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { getCompanies } from "../../../utils/apis/company/getCompanies";
-import { getUser } from "../../../utils/apis/getUser";
+import { getUser } from "../../../utils/apis/user/getUser";
 
 export const SideNavigation = () => {
     const cookie = new Cookies();
