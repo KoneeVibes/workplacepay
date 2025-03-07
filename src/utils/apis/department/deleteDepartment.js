@@ -1,12 +1,12 @@
-import { BASE_ENDPOINT } from "../endpoint";
+import { BASE_ENDPOINT } from "../../endpoint";
 
-export const deleteEmployee = async (TOKEN, companyId, departmentId) => {
+export const deleteDepartmentService = async (TOKEN, companyId, departmentId) => {
     try {
         const response = await fetch(`${BASE_ENDPOINT}/api/companies/${companyId}/department/${departmentId}/delete`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${TOKEN}`,
+                'Content-Type': 'application/json',
             },
         });
         const res = await response.json();
@@ -16,7 +16,7 @@ export const deleteEmployee = async (TOKEN, companyId, departmentId) => {
         }
         return res;
     } catch (error) {
-        console.error('API fetch error:', error.message);
+        console.error('API fetch error:', error);
         throw error;
     }
 };

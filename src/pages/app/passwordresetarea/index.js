@@ -8,7 +8,7 @@ import { BaseButton } from "../../../components/button/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { Layout } from "../../../containers/app/layout";
-import { passwordReset } from "../../../utils/apis/passwordReset";
+import { passwordReset } from "../../../utils/apis/user/passwordreset";
 
 export const PasswordResetArea = () => {
   const cookies = new Cookies();

@@ -1,8 +1,8 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const updateDepartmentService = async (TOKEN, companyId, payload) => {
+export const updateBankDetailsService = async (TOKEN, payload) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/companies/${companyId}/department`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/users/bank-details`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${TOKEN}`,

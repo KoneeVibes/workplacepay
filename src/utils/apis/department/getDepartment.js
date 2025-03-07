@@ -14,7 +14,7 @@ export const getDepartment = async (TOKEN, companyId, departmentId) => {
             console.error('Error:', res);
             throw new Error(res.message);
         }
-        return res;
+        return res?.data;
     } catch (error) {
         console.error('API fetch error:', error);
         throw error;

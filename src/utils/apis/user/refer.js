@@ -1,14 +1,13 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const updateDepartmentService = async (TOKEN, companyId, payload) => {
+export const referEmployer = async (referer) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/companies/${companyId}/department`, {
-            method: 'PATCH',
+        const response = await fetch(`${BASE_ENDPOINT}/api/companies/refer`, {
+            method: 'POST',
             headers: {
-                'Authorization': `Bearer ${TOKEN}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(referer)
         });
         const res = await response.json();
         if (!response.ok) {

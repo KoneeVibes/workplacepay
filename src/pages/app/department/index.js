@@ -6,6 +6,7 @@ import { H3 } from "../../../components/typography/styled";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import Cookies from "universal-cookie";
 import { Table } from "../../../components/table";
+import { deleteDepartmentService } from "../../../utils/apis/department/deleteDepartment";
 
 export const Department = () => {
   const cookies = new Cookies();
@@ -28,7 +29,7 @@ export const Department = () => {
       }
     };
     fetchDepartments();
-  }, [TOKEN, COMPANY_ID]);
+  }, [TOKEN, COMPANY_ID, activeDepartmentId]);
 
   const handleDropDownClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -57,15 +58,24 @@ export const Department = () => {
     return setActiveDepartmentId(departmentId);
   }
 
-  const handleRowItemActionClick = (e, departmentId, action) => {
+  const deleteDepartment = async (departmentId) => {
+    try {
+      await deleteDepartmentService(TOKEN, COMPANY_ID, departmentId);
+      // open modal here
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleRowItemActionClick = async (e, departmentId, action) => {
     e.stopPropagation();
     if (!activeDepartmentId) return;
     switch (action) {
       case "edit":
-        console.log(activeDepartmentId, action);
+        navigate(`/departments/${departmentId}`)
         break;
       case "delete":
-        console.log(activeDepartmentId, action);
+        await deleteDepartment(departmentId);
         break;
       default:
         return
