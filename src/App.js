@@ -50,7 +50,7 @@ function App() {
         <Route path="/reportsummary/pensionoutput" element={<Pension />} />
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
-        <Route path="/admin/companies/" element={<Admincompanies />} />
+        <Route path="/admin/companies/:id" element={<Admincompanies />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/analytics" element={<Analytics />} />
       </Routes>
