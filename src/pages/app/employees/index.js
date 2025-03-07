@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { EmployeesWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -17,11 +17,13 @@ export const Employees = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
+  
 
   const navigate = useNavigate();
-
+  const dropdownRef = useRef(null);
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [activeEmployeeId, setActiveEmployeeId] = useState(null);
   const [filter, setFilter] = useState({
     username: "",
     departmentId: "",
@@ -57,11 +59,48 @@ export const Employees = () => {
     }));
   };
 
+  const handleDropDownClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setActiveEmployeeId(null);
+    }
+  };
+
+  useEffect(() => {
+    if (activeEmployeeId !== null) {
+      document.addEventListener("mousedown", handleDropDownClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleDropDownClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleDropDownClickOutside);
+    };
+  }, [activeEmployeeId]);
+
   const navigateToAddNewEmployee = (e) => {
     e.preventDefault();
     return navigate("/addnewemployee");
   };
 
+  const handleRowItemClick = (e, employeeId) => {
+    e.stopPropagation();
+    return setActiveEmployeeId(employeeId);
+  };
+
+  const handleRowItemActionClick = (e, employeeId, action) => {
+    e.stopPropagation();
+    if (!activeEmployeeId) return;
+    switch (action) {
+      case "edit":
+        console.log(activeEmployeeId, action);
+        break;
+      case "delete":
+        console.log(activeEmployeeId, action);
+        break;
+      default:
+        return;
+    }
+    return setActiveEmployeeId(null);
+  };
   return (
     <Layout
       id={"employees"}
@@ -138,9 +177,14 @@ export const Employees = () => {
               "Hire Date",
               "Role",
               "Status",
+              "Action",
             ]}
             rowItems={employees}
             location={"Employee Table"}
+            activeRowId={activeEmployeeId}
+            handleRowItemClick={handleRowItemClick}
+            handleRowItemActionClick={handleRowItemActionClick}
+            dropdownRef={dropdownRef}
           />
         </div>
       </EmployeesWrapper>

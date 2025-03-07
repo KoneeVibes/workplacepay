@@ -100,6 +100,10 @@ export const navAvatarAreaLinks = {
   ],
   admin: [
     {
+      name: "Password Reset",
+      url: "/passwordreset",
+    },
+    {
       name: "Logout",
       url: "/",
     },
