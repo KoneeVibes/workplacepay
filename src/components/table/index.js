@@ -39,11 +39,52 @@ export const Table = ({
               {location === "Employee Table" && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
-                  <Td>{capitalizeWords(rowItem?.jobInformation.department) ?? "Not Assigned"}</Td>
+                  <Td>
+                    {capitalizeWords(rowItem?.jobInformation.department) ??
+                      "Not Assigned"}
+                  </Td>
                   <Td>{rowItem?.salary || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
+                  <Td
+                    onClick={(e) => handleRowItemClick(e, rowItem?.demployeeId)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faEllipsisV}
+                      style={{
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    />
+                    {activeRowId === rowItem?.employeeId && (
+                      <ul ref={dropdownRef} className="drop-down">
+                        <li
+                          onClick={(e) =>
+                            handleRowItemActionClick(
+                              e,
+                              rowItem?.employeeId,
+                              "edit"
+                            )
+                          }
+                        >
+                          Edit Employee
+                        </li>
+                        <li
+                          onClick={(e) =>
+                            handleRowItemActionClick(
+                              e,
+                              rowItem?.employeeId,
+                              "delete"
+                            )
+                          }
+                        >
+                          Delete Employee
+                        </li>
+                      </ul>
+                    )}
+                  </Td>
                 </Fragment>
               )}
               {location === "Payroll Table" && (
