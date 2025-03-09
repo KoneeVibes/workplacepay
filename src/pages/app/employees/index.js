@@ -12,6 +12,7 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { BaseInput } from "../../../components/form/input/styled";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
+// import { deleteEmployee } from "../../../utils/apis/employee/deleteEmployee";
 
 export const Employees = () => {
   const cookies = new Cookies();
@@ -86,15 +87,25 @@ export const Employees = () => {
     return setActiveEmployeeId(employeeId);
   };
 
-  const handleRowItemActionClick = (e, employeeId, action) => {
+  const deleteEmployee = async (employeeId) => {
+    try {
+      await deleteEmployee(TOKEN, COMPANY_ID, employeeId);
+      // open modal here
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const handleRowItemActionClick = async (e, employeeId, action) => {
     e.stopPropagation();
     if (!activeEmployeeId) return;
     switch (action) {
       case "edit":
-        console.log(activeEmployeeId, action);
+        navigate(`/employees/${employeeId}`);
         break;
       case "delete":
-        console.log(activeEmployeeId, action);
+        await deleteEmployee(employeeId);
         break;
       default:
         return;

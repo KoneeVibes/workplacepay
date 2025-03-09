@@ -55,9 +55,9 @@ export const EmployeesWrapper = styled("div")(() => {
           padding: "calc(var(--cardPadding)/4) calc(var(--cardPadding)/4)",
           "&:hover": {
             backgroundColor: "#4E57BB",
-          },
-        },
-      },
+          }
+        }
+      }
     },
     "& th": {
       color: "#FFFFFF",
