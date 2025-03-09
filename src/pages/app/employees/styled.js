@@ -4,6 +4,7 @@ export const EmployeesWrapper = styled("div")(() => {
   return {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
+    position: "relative",
     "& select, & input": {
       padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
@@ -39,9 +40,6 @@ export const EmployeesWrapper = styled("div")(() => {
     },
     "& .employees-table": {
       overflow: "auto",
-      "& tr:not(:last-of-type)": {
-        borderBottom: "1px solid #000000",
-      },
       "& .drop-down": {
         position: "absolute",
         boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -51,6 +49,7 @@ export const EmployeesWrapper = styled("div")(() => {
         borderRadius: "0.25rem",
         zIndex: 10,
         overflow: "hidden",
+        right: "calc(2 * var(--cardPadding))",
         "& li": {
           padding: "calc(var(--cardPadding)/4) calc(var(--cardPadding)/4)",
           "&:hover": {
@@ -71,8 +70,8 @@ export const EmployeesWrapper = styled("div")(() => {
     "& td": {
       minWidth: "200px",
     },
-     "& td:last-of-type": {
-       borderLeft: "1px solid #000000",
-     },
+    "& td:last-of-type": {
+      borderLeft: "1px solid #000000",
+    },
   };
 });

@@ -25,6 +25,7 @@ import { AddDepartment } from "./pages/app/adddepartment";
 import { PasswordResetArea } from "./pages/app/passwordresetarea";
 import { EditDepartment } from "./pages/app/editdepartment";
 import { EmployerProfile } from "./pages/app/profile/employer";
+import { EditEmployee } from "./pages/app/editemployee";
 
 function App() {
   return (
@@ -37,10 +38,11 @@ function App() {
         <Route path="/setup" element={<SetUpYourCompany />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/addnewemployee" element={<AddNewEmployee />} />
         <Route path="/payrollsettings" element={<PayrollSettings />} />
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/employees" element={<Employees />} />
+        <Route path="/addnewemployee" element={<AddNewEmployee />} />
+        <Route path="/employees/:id" element={<EditEmployee />} />
         <Route path="/departments" element={<Department />} />
         <Route path="/adddepartment" element={<AddDepartment />} />
         <Route path="/departments/:id" element={<EditDepartment />} />

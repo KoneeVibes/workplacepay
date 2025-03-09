@@ -19,7 +19,7 @@ export const Employees = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
-  
+
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -39,7 +39,7 @@ export const Employees = () => {
       .catch((err) => {
         console.error("Failed to fetch employees:", err);
       });
-  }, [TOKEN, COMPANY_ID, filter]);
+  }, [TOKEN, COMPANY_ID, filter, activeEmployeeId]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -97,7 +97,6 @@ export const Employees = () => {
     }
   };
 
-
   const handleRowItemActionClick = async (e, employeeId, action) => {
     e.stopPropagation();
     if (!activeEmployeeId) return;
@@ -113,6 +112,7 @@ export const Employees = () => {
     }
     return setActiveEmployeeId(null);
   };
+
   return (
     <Layout
       id={"employees"}
