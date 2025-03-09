@@ -1,6 +1,6 @@
-import { BASE_ENDPOINT } from "../endpoint";
+import { BASE_ENDPOINT } from "../../endpoint";
 
-export const deleteEmployee = async (TOKEN, companyId, employeeId) => {
+export const deleteEmployeeService = async (TOKEN, companyId, employeeId) => {
     try {
         const response = await fetch(`${BASE_ENDPOINT}/api/companies/${companyId}/employee/${employeeId}/delete`, {
             method: 'PATCH',

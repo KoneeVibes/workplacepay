@@ -71,8 +71,8 @@ export const EmployeesWrapper = styled("div")(() => {
     "& td": {
       minWidth: "200px",
     },
-    "& td:last-of-type": {
-      borderLeft: "1px solid #000000",
-    },
+     "& td:last-of-type": {
+       borderLeft: "1px solid #000000",
+     },
   };
 });

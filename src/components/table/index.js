@@ -48,7 +48,7 @@ export const Table = ({
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
                   <Td
-                    onClick={(e) => handleRowItemClick(e, rowItem?.demployeeId)}
+                    onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
                   >
                     <FontAwesomeIcon
                       icon={faEllipsisV}

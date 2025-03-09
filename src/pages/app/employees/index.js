@@ -12,6 +12,7 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { BaseInput } from "../../../components/form/input/styled";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
+import { deleteEmployeeService } from "../../../utils/apis/employee/deleteEmployee";
 // import { deleteEmployee } from "../../../utils/apis/employee/deleteEmployee";
 
 export const Employees = () => {
@@ -89,7 +90,7 @@ export const Employees = () => {
 
   const deleteEmployee = async (employeeId) => {
     try {
-      await deleteEmployee(TOKEN, COMPANY_ID, employeeId);
+      await deleteEmployeeService(TOKEN, COMPANY_ID, employeeId);
       // open modal here
     } catch (error) {
       console.error(error);
