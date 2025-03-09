@@ -82,7 +82,7 @@ export const AdminDashboard = () => {
             value={filter?.planType}
             onChange={(e) => handleChange(e)}
           >
-            <option value="">Select a Plan</option>
+            <option value="" hidden>Select a Plan</option>
             {payrollPlans?.map((plan, index) => {
               return (
                 <option key={index} value={plan?.title}>
@@ -91,16 +91,6 @@ export const AdminDashboard = () => {
               );
             })}
           </BaseSelect>
-        </BaseFieldSet>
-        <BaseFieldSet>
-          <Label>Plan Type</Label>
-          <BaseInput
-            type="text"
-            name="planType"
-            placeholder="Search by Plan Type"
-            value={filter.planType}
-            onChange={handleChange}
-          />
         </BaseFieldSet>
         <BaseFieldSet>
           <Label>Usage</Label>
