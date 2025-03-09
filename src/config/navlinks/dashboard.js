@@ -54,7 +54,7 @@ export const navLinks = {
     },
     {
       name: "My Profile",
-      url: "/profile",
+      url: "/employee/profile",
     },
     {
       name: "Password Reset",
@@ -75,6 +75,10 @@ export const navLinks = {
 
 export const navAvatarAreaLinks = {
   employer: [
+    {
+      name: "Profile",
+      url: "/employer/profile"
+    },
     {
       name: "Add new company",
       url: "/setup",

@@ -23,7 +23,7 @@ export const TopNavigationWrapper = styled(Row)(({ location }) => {
       },
       "& .add-employee-button": {
         display:
-          location === "dashboard" || location === "employees" || location === "departments"
+          location === "dashboard" || location === "employees" || location === "departments" || location === "employer-profile"
             ? "inline-flex"
             : "none",
         alignItems: "center",

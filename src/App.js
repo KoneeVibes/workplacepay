@@ -18,12 +18,13 @@ import { Pension } from "./pages/app/pension";
 import { Summary } from "./pages/app/summary";
 import { UserSummary } from "./pages/app/usersummary";
 import { Admincompanies } from "./pages/app/admincompanies";
-import { Profile } from "./pages/app/profile";
+import { EmployeeProfile } from "./pages/app/profile/employee";
 import { Analytics } from "./pages/app/analytics";
 import { Department } from "./pages/app/department";
 import { AddDepartment } from "./pages/app/adddepartment";
 import { PasswordResetArea } from "./pages/app/passwordresetarea";
 import { EditDepartment } from "./pages/app/editdepartment";
+import { EmployerProfile } from "./pages/app/profile/employer";
 
 function App() {
   return (
@@ -51,7 +52,8 @@ function App() {
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
         <Route path="/admin/companies/:id" element={<Admincompanies />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/employee/profile" element={<EmployeeProfile />} />
+        <Route path="/employer/profile" element={<EmployerProfile />} />
         <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </BrowserRouter>
