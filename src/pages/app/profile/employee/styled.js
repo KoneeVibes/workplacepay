@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProfileWrapper = styled("div")(() => {
+export const EmployeeProfileWrapper = styled("div")(() => {
     return {
         backgroundColor: "#FFFFFF",
         borderRadius: "1rem",

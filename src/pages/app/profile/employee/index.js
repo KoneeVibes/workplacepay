@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { Layout } from "../../../containers/app/layout";
-import { ProfileWrapper } from "./styled";
-import { H2, Label, P, Span } from "../../../components/typography/styled";
-import { Row } from "../../../components/flex/styled";
-import { ResetPasswordModal } from "../../../containers/app/modals/resetpasswordmodal";
-import { getUser } from "../../../utils/apis/user/getUser";
+import { Layout } from "../../../../containers/app/layout";
+import { EmployeeProfileWrapper } from "./styled";
+import { H2, Label, P, Span } from "../../../../components/typography/styled";
+import { Row } from "../../../../components/flex/styled";
+import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
+import { getUser } from "../../../../utils/apis/user/getUser";
 import Cookies from "universal-cookie";
-import { BaseInput } from "../../../components/form/input/styled";
-import { BaseButton } from "../../../components/button/styled";
+import { BaseInput } from "../../../../components/form/input/styled";
+import { BaseButton } from "../../../../components/button/styled";
 import { DotLoader } from "react-spinners";
-import { updateBankDetailsService } from "../../../utils/apis/user/updateBankDetails";
-import { updateContactDetailsService } from "../../../utils/apis/user/updateContactDetails";
+import { updateBankDetailsService } from "../../../../utils/apis/user/updateBankDetails";
+import { updateContactDetailsService } from "../../../../utils/apis/user/updateContactDetails";
 
-export const Profile = () => {
+export const EmployeeProfile = () => {
     const cookies = new Cookies();
     const TOKEN = cookies.getAll().TOKEN;
 
@@ -47,6 +47,7 @@ export const Profile = () => {
     useEffect(() => {
         getUser(TOKEN)
             .then((data) => {
+                console.log(data);
                 setUser(data);
                 setBankDetails((prev) => ({
                     ...prev,
@@ -139,10 +140,10 @@ export const Profile = () => {
 
     return (
         <Layout
-            id={"profile"}
+            id={"employee-profile"}
             title={"Your Profile"}
         >
-            <ProfileWrapper>
+            <EmployeeProfileWrapper>
                 <div className="details">
                     <H2>Personal Details</H2>
                     <Row>
@@ -350,7 +351,7 @@ export const Profile = () => {
                 <ResetPasswordModal
                     width={"40%"}
                 />
-            </ProfileWrapper>
+            </EmployeeProfileWrapper>
         </Layout>
     );
 };
