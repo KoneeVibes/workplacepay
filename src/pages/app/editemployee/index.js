@@ -207,10 +207,10 @@ export const EditEmployee = () => {
       } else {
         setIsLoading(false);
         setError(
-          "Update of new employee failed. Please check your credentials and try again."
+          "Update of employee failed. Please check your credentials and try again."
         );
         console.error(
-          "Update of new employee failed. Please check your credentials and try again."
+          "Update of employee failed. Please check your credentials and try again."
         );
       }
     } catch (error) {
