@@ -3,7 +3,7 @@ import { BASE_ENDPOINT } from "../../endpoint";
 export const updateEmployeeService = async (TOKEN, companyId, employeeId, employeeData) => {
   try {
     const response = await fetch(
-      `${BASE_ENDPOINT}/api/companies/${companyId}/employees/${employeeId}`,
+      `${BASE_ENDPOINT}/api/companies/${companyId}/employee/${employeeId}`,
       {
         method: "PATCH",
         headers: {

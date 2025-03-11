@@ -7,6 +7,7 @@ export const ContextProvider = ({ children }) => {
     const [isPaymentFormModalOpen, setIsPaymentFormModalOpen] = useState(false);
     const [isSideNavigationOpen, setIsSideNavigationOpen] = useState(false);
     const [isAddEmployeeSuccessModalOpen, setIsAddEmployeeSuccessModalOpen] = useState(false);
+    const [isUpdateEmployeeSuccessModalOpen, setIsUpdateEmployeeSuccessModalOpen] = useState(false);
     const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false);
     const [isSelectCompaniesModalOpen, setIsSelectCompaniesModalOpen] = useState(false);
     const [isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen] = useState(false);
@@ -21,6 +22,8 @@ export const ContextProvider = ({ children }) => {
             setIsSideNavigationOpen,
             isAddEmployeeSuccessModalOpen,
             setIsAddEmployeeSuccessModalOpen,
+            isUpdateEmployeeSuccessModalOpen,
+            setIsUpdateEmployeeSuccessModalOpen,
             isResetPasswordModalOpen,
             setIsResetPasswordModalOpen,
             isSelectCompaniesModalOpen,

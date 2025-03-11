@@ -75,7 +75,7 @@ export const EditEmployeeWrapper = styled("div")(() => {
   };
 });
 
-export const AddNewEmployeeRow = styled(Row)(() => {
+export const EditEmployeeRow = styled(Row)(() => {
   return {
     justifyContent: "space-between",
     "@media screen and (max-width: 1280px)": {

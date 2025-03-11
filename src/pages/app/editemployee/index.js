@@ -21,7 +21,7 @@ import { DotLoader } from "react-spinners";
 import Cookies from "universal-cookie";
 import { formatDateToDDMMYYYY } from "../../../config/app/dateFormatter";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
-import { AddNewEmployeeRow } from "../addnewemployee/styled";
+import { EditEmployeeRow } from "./styled";
 import { getEmployee } from "../../../utils/apis/employee/getEmployee";
 import { useParams } from "react-router-dom";
 import { updateEmployeeService } from "../../../utils/apis/employee/updateEmployee";
@@ -83,7 +83,7 @@ export const EditEmployee = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
 
-  const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
+  const { setIsUpdateEmployeeSuccessModalOpen } = useContext(Context);
 
   function formatDateForInput(dateString) {
     if (!dateString) return "";
@@ -151,6 +151,41 @@ export const EditEmployee = () => {
       .catch((error) => console.error(error));
   }, [TOKEN, COMPANY_ID, id]);
 
+  const resetForm = useCallback(() => {
+    setStep(1);
+    setEmployee(initialFormDetails);
+  }, [initialFormDetails]);
+
+  useEffect(() => {
+    if (isFormReset) {
+      resetForm();
+      setIsFormReset(false);
+    }
+  }, [isFormReset, resetForm]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMatches(window.screen.availWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await getDepartments(TOKEN, COMPANY_ID);
+        return setDepartments(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDepartments();
+  }, [TOKEN, COMPANY_ID]);
+
   const handleChange = (e, section) => {
     const { name, value } = e.target;
     setEmployee((prev) => ({
@@ -203,7 +238,7 @@ export const EditEmployee = () => {
       );
       if (response.status) {
         setIsLoading(false);
-        setIsAddEmployeeSuccessModalOpen(true);
+        setIsUpdateEmployeeSuccessModalOpen(true);
       } else {
         setIsLoading(false);
         setError(
@@ -220,41 +255,6 @@ export const EditEmployee = () => {
     }
   };
 
-  const resetForm = useCallback(() => {
-    setStep(1);
-    setEmployee(initialFormDetails);
-  }, [initialFormDetails]);
-
-  useEffect(() => {
-    if (isFormReset) {
-      resetForm();
-      setIsFormReset(false);
-    }
-  }, [isFormReset, resetForm]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setMatches(window.screen.availWidth < 768);
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const response = await getDepartments(TOKEN, COMPANY_ID);
-        return setDepartments(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchDepartments();
-  }, [TOKEN, COMPANY_ID]);
-
   return (
     <Layout id={"employees"} title={"Update Employee"}>
       <EditEmployeeWrapper>
@@ -262,7 +262,7 @@ export const EditEmployee = () => {
           {step === 1 && (
             <div className="formText">
               <H2>Personal Details</H2>
-              <P>Add user by capturing all the details</P>
+              <P>Update employee by capturing all the details</P>
             </div>
           )}
           {step === 2 && (
@@ -286,7 +286,7 @@ export const EditEmployee = () => {
                     required
                   />
                 </BaseFieldSet>
-                <AddNewEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>First Name</Label>
                     <BaseInput
@@ -315,8 +315,8 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
-                <AddNewEmployeeRow>
+                </EditEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Address</Label>
                     <BaseInput
@@ -344,8 +344,8 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
-                <AddNewEmployeeRow>
+                </EditEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Email</Label>
                     <BaseInput
@@ -368,18 +368,15 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
+                </EditEmployeeRow>
                 <H2>Corporate Details</H2>
-                <AddNewEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Department Name</Label>
                     <BaseSelect
                       required
                       name="departmentName"
-                      value={employee.jobInfo.departmentName?.replace(
-                        /\b\w/g,
-                        (char) => char.toUpperCase()
-                      )}
+                      value={employee.jobInfo.departmentName}
                       onChange={(e) => handleChange(e, "jobInfo")}
                     >
                       <option value={null}>Select Department</option>
@@ -408,7 +405,7 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
+                </EditEmployeeRow>
                 <BaseFieldSet>
                   <Label>Date Hired</Label>
                   <BaseInput
@@ -421,7 +418,7 @@ export const EditEmployee = () => {
                   />
                 </BaseFieldSet>
                 <H2>Payroll Setup</H2>
-                <AddNewEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Annual Gross Pay</Label>
                     <BaseInput
@@ -447,8 +444,8 @@ export const EditEmployee = () => {
                       <option value="Bank B">Bank B</option>
                     </BaseSelect>
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
-                <AddNewEmployeeRow>
+                </EditEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Salary Bank Account</Label>
                     <BaseInput
@@ -474,8 +471,8 @@ export const EditEmployee = () => {
                       <option value="Pension Firm B">Pension Firm B</option>
                     </BaseSelect>
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
-                <AddNewEmployeeRow>
+                </EditEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Pension Account</Label>
                     <BaseInput
@@ -496,7 +493,7 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
+                </EditEmployeeRow>
                 <BaseButton
                   backgroundcolor={"#4E57BB"}
                   width={"fit-content"}
@@ -511,7 +508,7 @@ export const EditEmployee = () => {
             )}
             {step === 2 && (
               <Fragment>
-                <AddNewEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Next of Kin’s Title</Label>
                     <BaseSelect
@@ -542,8 +539,8 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
-                <AddNewEmployeeRow>
+                </EditEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Relationship</Label>
                     <BaseInput
@@ -567,7 +564,7 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
+                </EditEmployeeRow>
                 <BaseFieldSet>
                   <Label>Contact Address</Label>
                   <BaseTextArea
@@ -583,7 +580,7 @@ export const EditEmployee = () => {
                   />
                 </BaseFieldSet>
                 <H2>Emergency Contacts</H2>
-                <AddNewEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Contact’s Title</Label>
                     <BaseSelect
@@ -614,8 +611,8 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
-                <AddNewEmployeeRow>
+                </EditEmployeeRow>
+                <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Relationship</Label>
                     <BaseSelect
@@ -642,7 +639,7 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
-                </AddNewEmployeeRow>
+                </EditEmployeeRow>
                 <BaseFieldSet>
                   <Label>Contact Address</Label>
                   <BaseTextArea
