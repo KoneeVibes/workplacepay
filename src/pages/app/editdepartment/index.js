@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { getDepartment } from "../../../utils/apis/department/getDepartment";
 
 export const EditDepartment = () => {
-    const cookies = new Cookies();
+    const cookies = new Cookies(); 
     const COMPANY_ID = cookies.get("COMPANY_ID");
     const TOKEN = cookies.getAll().TOKEN;
 
