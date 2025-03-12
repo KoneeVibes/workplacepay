@@ -67,44 +67,44 @@ export const Department = () => {
   const handleRowItemClick = (e, departmentId) => {
     e.stopPropagation();
     return setActiveDepartmentId(departmentId);
-  }
+  };
 
   const deleteDepartment = async (departmentId) => {
     try {
-      const response = await deleteDepartmentService(TOKEN, COMPANY_ID, departmentId);
+      const response = await deleteDepartmentService(
+        TOKEN,
+        COMPANY_ID,
+        departmentId
+      );
       if (response.status === "Success") {
         return setIsSuccessModalOpen(true);
       } else {
-        setError(
-          "Delete department operation failed. Please try again."
-        );
+        setError("Delete department operation failed. Please try again.");
         return console.error(
           "Delete department operation failed. Please try again."
         );
       }
     } catch (error) {
-      setError(
-        "Delete department operation failed. Please try again."
-      );
+      setError("Delete department operation failed. Please try again.");
       return console.error(error);
     }
-  }
+  };
 
   const handleRowItemActionClick = async (e, departmentId, action) => {
     e.stopPropagation();
     if (!activeDepartmentId) return;
     switch (action) {
       case "edit":
-        navigate(`/departments/${departmentId}`)
+        navigate(`/departments/${departmentId}`);
         break;
       case "delete":
         await deleteDepartment(departmentId);
         break;
       default:
-        return
-    };
+        return;
+    }
     return setActiveDepartmentId(null);
-  }
+  };
 
   return (
     <Layout
@@ -124,14 +124,10 @@ export const Department = () => {
           callToAction={"Close"}
           handleCallToActionClick={handleCloseSuccessModal}
         />
-        <div
-          className="heading"
-        >
+        <div className="heading">
           <H3>All Departments</H3>
         </div>
-        <div
-          className="departments-table"
-        >
+        <div className="departments-table">
           <Table
             columnTitles={columnHeaders}
             rowItems={departments}
@@ -142,9 +138,7 @@ export const Department = () => {
             dropdownRef={dropdownRef}
           />
         </div>
-        <div>
-          {error && <P style={{ color: "red" }}>{error}</P>}
-        </div>
+        <div>{error && <P style={{ color: "red" }}>{error}</P>}</div>
       </DepartmentWrapper>
     </Layout>
   );
