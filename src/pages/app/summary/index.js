@@ -9,6 +9,7 @@ import { BaseSelect } from "../../../components/form/select/styled";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { retrievePayrollByDate } from "../../../utils/apis/payroll/retrievePayrollByDate";
+import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
 
 export const Summary = () => {
     const startDate = 1990;
@@ -26,6 +27,7 @@ export const Summary = () => {
         month: currentMonth,
         year: currentYear,
     });
+    const [company, setCompany] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +35,24 @@ export const Summary = () => {
             ...prev,
             [name]: value
         }));
-    }
+    };
+
+    const handleOpenCreditPurchaseModal = (e) => {
+        e.preventDefault();
+        console.log("I am clicked");
+    };
+
+    useEffect(() => {
+        const fetchCompanyDetails = async () => {
+            try {
+                const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+                return setCompany(res?.data);
+            } catch (err) {
+                console.error("Failed to fetch company details:", err);
+            }
+        };
+        fetchCompanyDetails();
+    }, [TOKEN, COMPANY_ID]);
 
     useEffect(() => {
         const fetchPayslips = async () => {
@@ -51,6 +70,9 @@ export const Summary = () => {
         <Layout
             id={"summary"}
             title={"Summary"}
+            location={"summary"}
+            callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
+            handleCallToActionClick={handleOpenCreditPurchaseModal}
         >
             <SummaryWrapper>
                 <div

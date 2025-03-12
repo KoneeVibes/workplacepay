@@ -10,6 +10,7 @@ import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { retrieveVariance } from "../../../utils/apis/report/retrieveVarianceReport";
 import Cookies from "universal-cookie";
+import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
 
 export const Variance = () => {
   const startDate = 1990;
@@ -28,6 +29,7 @@ export const Variance = () => {
     secondMonth: currentMonth,
   });
   const [varianceReport, setVarianceReport] = useState([]);
+  const [company, setCompany] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +37,11 @@ export const Variance = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleOpenCreditPurchaseModal = (e) => {
+    e.preventDefault();
+    console.log("I am clicked");
   };
 
   useEffect(() => {
@@ -49,10 +56,25 @@ export const Variance = () => {
     fetchVarianceReport();
   }, [TOKEN, COMPANY_ID, filter]);
 
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      try {
+        const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+        return setCompany(res?.data);
+      } catch (err) {
+        console.error("Failed to fetch company details:", err);
+      }
+    };
+    fetchCompanyDetails();
+  }, [TOKEN, COMPANY_ID]);
+
   return (
     <Layout
       id={"variance"}
       title={"Variance Report"}
+      location={"variance"}
+      callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
+      handleCallToActionClick={handleOpenCreditPurchaseModal}
     >
       <VarianceWrapper>
         <div

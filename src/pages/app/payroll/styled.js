@@ -4,6 +4,7 @@ export const PayrollWrapper = styled("div")(() => {
     return {
         borderRadius: "1rem",
         backgroundColor: "#FFFFFF",
+        overflow: "hidden",
         "& form": {
             display: "flex",
             alignItems: "flex-end",
@@ -20,7 +21,10 @@ export const PayrollWrapper = styled("div")(() => {
                 overflow: "hidden",
             },
             "& .payroll-button-box": {
-                overflow: "hidden",
+                position: "relative",
+                "& button": {
+                    overflow: "hidden"
+                }
             },
             "@media screen and (max-width: 500px)": {
                 alignItems: "stretch",
@@ -63,6 +67,14 @@ export const PayrollWrapper = styled("div")(() => {
         },
         "& .error-text": {
             padding: "0 var(--cardPadding)"
-        }
+        },
+        "& .run-payroll-modal": {
+            position: "absolute",
+            marginTop: "calc(var(--cardPadding) / 4)",
+            zIndex: 10,
+            backgroundColor: "#FFFFFF",
+            borderRadius: "0.5rem",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+        },
     }
 })

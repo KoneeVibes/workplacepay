@@ -13,13 +13,11 @@ import { useNavigate } from "react-router-dom";
 import { BaseInput } from "../../../components/form/input/styled";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import { deleteEmployeeService } from "../../../utils/apis/employee/deleteEmployee";
-// import { deleteEmployee } from "../../../utils/apis/employee/deleteEmployee";
 
 export const Employees = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
-
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);

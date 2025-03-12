@@ -14,7 +14,6 @@ import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
 import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
-// import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
 
 export const EmployerDashboard = () => {
   const cookies = new Cookies();
@@ -137,10 +136,9 @@ export const EmployerDashboard = () => {
               "Status",
             ]}
             rowItems={employees}
-            location={"Employee Table"}
+            location={"Dashboard Employee Table"}
           />
         </div>
-        {/* <ResetPasswordModal width={"40%"} height={"60%"} /> */}
       </Card>
     </EmployerDashboardWrapper>
   );

@@ -87,6 +87,19 @@ export const Table = ({
                   </Td>
                 </Fragment>
               )}
+              {(location === "Dashboard Employee Table") && (
+                <Fragment>
+                  <Td>{rowItem?.fullName || ""}</Td>
+                  <Td>
+                    {capitalizeWords(rowItem?.jobInformation.department) ??
+                      "Not Assigned"}
+                  </Td>
+                  <Td>{rowItem?.salary || ""}</Td>
+                  <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
+                  <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
+                  <Td>{rowItem?.status || ""}</Td>
+                </Fragment>
+              )}
               {location === "Payroll Table" && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>

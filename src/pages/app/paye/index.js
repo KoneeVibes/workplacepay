@@ -9,6 +9,7 @@ import { retrievePaye } from "../../../utils/apis/report/retrievePayeReport";
 import Cookies from "universal-cookie";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../helpers/retrieveAllMonths";
+import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
 
 export const Paye = () => {
   const startDate = 1990;
@@ -26,6 +27,7 @@ export const Paye = () => {
     month: currentMonth,
   });
   const [PayeReport, setPayeReport] = useState([]);
+  const [company, setCompany] = useState({});
 
   useEffect(() => {
     const fetchPayeReport = async () => {
@@ -44,6 +46,19 @@ export const Paye = () => {
     };
     fetchPayeReport();
   }, [TOKEN, COMPANY_ID, filter]);
+
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      try {
+        const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+        return setCompany(res?.data);
+      } catch (err) {
+        console.error("Failed to fetch company details:", err);
+      }
+    };
+    fetchCompanyDetails();
+  }, [TOKEN, COMPANY_ID]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({
@@ -52,12 +67,19 @@ export const Paye = () => {
     }));
   };
 
+  const handleOpenCreditPurchaseModal = (e) => {
+    e.preventDefault();
+    console.log("I am clicked");
+  };
+
   return (
     <Layout
       id={"paye"}
       title={"Paye Output"}
       location={"paye"}
       style={{ textColor: "#4E57BB" }}
+      callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
+      handleCallToActionClick={handleOpenCreditPurchaseModal}
     >
       <PayeWrapper>
         <Row className="filter">

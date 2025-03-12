@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BaseButton } from "../../../components/button/styled";
 import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
@@ -15,6 +15,9 @@ import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import { BaseInput } from "../../../components/form/input/styled";
+import { RunPayrollModal } from "../../../containers/app/modals/runpayrollmodal";
+import { Context } from "../../../context";
+import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
 
 export const Payroll = () => {
     const startDate = 1990;
@@ -22,6 +25,8 @@ export const Payroll = () => {
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");
     const COMPANY_ID = cookies.get("COMPANY_ID");
+
+    const { setIsRunPayrollModalOpen } = useContext(Context);
 
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +48,7 @@ export const Payroll = () => {
         jobTitle: "",
         status: "",
     });
+    const [company, setCompany] = useState({});
 
     useEffect(() => {
         retrievePayrollSetup(TOKEN, COMPANY_ID)
@@ -70,6 +76,18 @@ export const Payroll = () => {
         fetchDepartments();
     }, [TOKEN, COMPANY_ID]);
 
+    useEffect(() => {
+        const fetchCompanyDetails = async () => {
+            try {
+                const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+                return setCompany(res?.data);
+            } catch (err) {
+                console.error("Failed to fetch company details:", err);
+            }
+        };
+        fetchCompanyDetails();
+    }, [TOKEN, COMPANY_ID]);
+
     const handleChange = (e, target) => {
         const { name, value } = e.target;
         if (target === "payroll") {
@@ -83,14 +101,30 @@ export const Payroll = () => {
                 [name]: value
             }))
         }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        return setIsRunPayrollModalOpen(true);
     }
 
-    const handleSubmit = async (e) => {
+    const handleOpenCreditPurchaseModal = (e) => {
         e.preventDefault();
+        console.log("I am clicked");
+    };
+
+    const handleRunPayroll = async (e, flag) => {
+        e.preventDefault();
+        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return;
         setError(null);
         setIsLoading(true);
+        setIsRunPayrollModalOpen(false);
+        const transformedPayrollPayload = {
+            ...payrollPayload,
+            includeEmployer: flag === "with-employer" ? true : false
+        }
         try {
-            const response = await runPayrollService(TOKEN, COMPANY_ID, payrollPayload);
+            const response = await runPayrollService(TOKEN, COMPANY_ID, transformedPayrollPayload);
             if (response.status) {
                 setIsLoading(false);
                 setEmployees(response.employees);
@@ -111,6 +145,9 @@ export const Payroll = () => {
         <Layout
             id={"payroll"}
             title={"Payroll"}
+            location={"payroll"}
+            callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
+            handleCallToActionClick={handleOpenCreditPurchaseModal}
         >
             <PayrollWrapper>
                 <form
@@ -171,6 +208,9 @@ export const Payroll = () => {
                                     </Span>
                                 )}
                         </BaseButton>
+                        <RunPayrollModal
+                            handleActionItemClick={handleRunPayroll}
+                        />
                     </div>
                 </form>
                 <div

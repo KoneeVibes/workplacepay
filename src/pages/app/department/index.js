@@ -2,22 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../../../containers/app/layout";
 import { DepartmentWrapper } from "./styled";
-import { H3 } from "../../../components/typography/styled";
+import { H3, P } from "../../../components/typography/styled";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import Cookies from "universal-cookie";
 import { Table } from "../../../components/table";
 import { deleteDepartmentService } from "../../../utils/apis/department/deleteDepartment";
+import { SuccessModal } from "../../../containers/app/modals/successmodal";
 
 export const Department = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
-  const columnHeaders = ["Department", "Action"]
+  const columnHeaders = ["Department", "Action"];
 
-  const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
   const [departments, setDepartments] = useState([]);
   const [activeDepartmentId, setActiveDepartmentId] = useState(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -48,6 +51,14 @@ export const Department = () => {
     };
   }, [activeDepartmentId]);
 
+  const handleCloseSuccessModal = () => {
+    return setIsSuccessModalOpen(false);
+  };
+
+  const handlePersistModal = () => {
+    return setIsSuccessModalOpen(true);
+  };
+
   const navigateToAddNewDepartment = (e) => {
     e.preventDefault();
     return navigate("/adddepartment");
@@ -60,10 +71,22 @@ export const Department = () => {
 
   const deleteDepartment = async (departmentId) => {
     try {
-      await deleteDepartmentService(TOKEN, COMPANY_ID, departmentId);
-      // open modal here
+      const response = await deleteDepartmentService(TOKEN, COMPANY_ID, departmentId);
+      if (response.status === "Success") {
+        return setIsSuccessModalOpen(true);
+      } else {
+        setError(
+          "Delete department operation failed. Please try again."
+        );
+        return console.error(
+          "Delete department operation failed. Please try again."
+        );
+      }
     } catch (error) {
-      console.error(error);
+      setError(
+        "Delete department operation failed. Please try again."
+      );
+      return console.error(error);
     }
   }
 
@@ -92,6 +115,15 @@ export const Department = () => {
       handleCallToActionClick={navigateToAddNewDepartment}
     >
       <DepartmentWrapper>
+        <SuccessModal
+          open={isSuccessModalOpen}
+          handleClickOutside={handlePersistModal}
+          className={"delete-department-success-modal"}
+          title={"Success"}
+          message={"Department has been deleted successfully"}
+          callToAction={"Close"}
+          handleCallToActionClick={handleCloseSuccessModal}
+        />
         <div
           className="heading"
         >
@@ -109,6 +141,9 @@ export const Department = () => {
             handleRowItemActionClick={handleRowItemActionClick}
             dropdownRef={dropdownRef}
           />
+        </div>
+        <div>
+          {error && <P style={{ color: "red" }}>{error}</P>}
         </div>
       </DepartmentWrapper>
     </Layout>

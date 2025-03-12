@@ -10,6 +10,7 @@ import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import { retrieveGeneral } from "../../../utils/apis/report/retrieveGeneralReport";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../helpers/retrieveAllMonths";
+import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
 
 export const GeneralReport = () => {
   const startDate = 1990;
@@ -30,6 +31,7 @@ export const GeneralReport = () => {
     departmentId: "",
   });
   const [generalReport, setGeneralReport] = useState([]);
+  const [company, setCompany] = useState({});
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -61,6 +63,18 @@ export const GeneralReport = () => {
     fetchGeneralReport();
   }, [TOKEN, COMPANY_ID, filter]);
 
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      try {
+        const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+        return setCompany(res?.data);
+      } catch (err) {
+        console.error("Failed to fetch company details:", err);
+      }
+    };
+    fetchCompanyDetails();
+  }, [TOKEN, COMPANY_ID]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({
@@ -69,8 +83,19 @@ export const GeneralReport = () => {
     }));
   };
 
+  const handleOpenCreditPurchaseModal = (e) => {
+    e.preventDefault();
+    console.log("I am clicked");
+  };
+
   return (
-    <Layout id={"generalreport"} title={"General Report"}>
+    <Layout
+      id={"generalreport"}
+      title={"General Report"}
+      location={"general-report"}
+      callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
+      handleCallToActionClick={handleOpenCreditPurchaseModal}
+    >
       <GeneralReportWrapper>
         <Row className="filter">
           <BaseFieldSet>

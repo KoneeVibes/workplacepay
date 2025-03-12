@@ -11,6 +11,7 @@ export const ContextProvider = ({ children }) => {
     const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false);
     const [isSelectCompaniesModalOpen, setIsSelectCompaniesModalOpen] = useState(false);
     const [isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen] = useState(false);
+    const [isRunPayrollModalOpen, setIsRunPayrollModalOpen] = useState(false);
 
     return (
         <Context.Provider value={{
@@ -30,6 +31,8 @@ export const ContextProvider = ({ children }) => {
             setIsSelectCompaniesModalOpen,
             isPayslipDetailsModalOpen,
             setIsPayslipDetailsModalOpen,
+            isRunPayrollModalOpen,
+            setIsRunPayrollModalOpen
         }}>
             {children}
         </Context.Provider>

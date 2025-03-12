@@ -13,6 +13,7 @@ import { DotLoader } from "react-spinners";
 import { BaseButton } from "../../../../components/button/styled";
 import { formatDateToDDMMYYYY } from "../../../../config/app/dateFormatter";
 import { updateEmployerProfileService } from "../../../../utils/apis/user/updateEmployer";
+import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
@@ -65,6 +66,7 @@ export const EmployerProfile = () => {
     const [matches, setMatches] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [company, setCompany] = useState({});
 
     function formatDateForInput(dateString) {
         if (!dateString) return '';
@@ -150,6 +152,17 @@ export const EmployerProfile = () => {
         fetchDepartments();
     }, [TOKEN, COMPANY_ID]);
 
+    useEffect(() => {
+        const fetchCompanyDetails = async () => {
+            try {
+                const res = await getCompanyDetails(TOKEN, COMPANY_ID);
+                return setCompany(res?.data);
+            } catch (err) {
+                console.error("Failed to fetch company details:", err);
+            }
+        };
+        fetchCompanyDetails();
+    }, [TOKEN, COMPANY_ID]);
 
     const handleChange = (e, section) => {
         const { name, value } = e.target;
@@ -165,7 +178,7 @@ export const EmployerProfile = () => {
     const handleOpenCreditPurchaseModal = (e) => {
         e.preventDefault();
         console.log("I am clicked");
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -212,7 +225,7 @@ export const EmployerProfile = () => {
             id={"employer-profile"}
             title={"Your Profile"}
             location={"employer-profile"}
-            callToAction={"Buy Credit"}
+            callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
             handleCallToActionClick={handleOpenCreditPurchaseModal}
         >
             <EmployerProfileWrapper>
