@@ -18,7 +18,7 @@ export const AddDepartment = () => {
 
   const [matches, setMatches] = useState(false);
   const [error, setError] = useState(null);
-     const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [formDetails, setFormDetails] = useState({
@@ -34,12 +34,12 @@ export const AddDepartment = () => {
   };
 
   const handleCloseSuccessModal = () => {
-    return setIsSuccessModalOpen(false);
+    setIsSuccessModalOpen(false);
+    return Navigate(-1);
   };
 
   const handlePersistModal = () => {
-    setIsSuccessModalOpen(true);
-    return Navigate(-1);
+    return setIsSuccessModalOpen(true);
   };
 
   useEffect(() => {
@@ -63,9 +63,9 @@ export const AddDepartment = () => {
         COMPANY_ID,
         formDetails
       );
-      if (response.status ) {
+      if (response.status) {
         setIsLoading(false);
-         setIsSuccessModalOpen(true);
+        setIsSuccessModalOpen(true);
       } else {
         setIsLoading(false);
         setError(

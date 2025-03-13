@@ -80,12 +80,12 @@ export const EmployerProfile = () => {
     }
 
 const handleCloseSuccessModal = () => {
-  return setIsSuccessModalOpen(false);
+  setIsSuccessModalOpen(false);
+  return Navigate(-1);
 };
 
 const handlePersistModal = () => {
-  setIsSuccessModalOpen(true);
-  return Navigate(-1);
+  return setIsSuccessModalOpen(true);
 };
 
     useEffect(() => {
