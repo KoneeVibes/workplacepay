@@ -4,7 +4,7 @@ import { EmployeesWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
-import { Label } from "../../../components/typography/styled";
+import { Label, P } from "../../../components/typography/styled";
 import { Span } from "../../../components/typography/styled";
 import { Table } from "../../../components/table";
 import { getAllEmployees } from "../../../utils/apis/employee/getAllEmployees";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { BaseInput } from "../../../components/form/input/styled";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import { deleteEmployeeService } from "../../../utils/apis/employee/deleteEmployee";
+import { SuccessModal } from "../../../containers/app/modals/successmodal";
 
 export const Employees = () => {
   const cookies = new Cookies();
@@ -21,6 +22,8 @@ export const Employees = () => {
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [error, setError] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [activeEmployeeId, setActiveEmployeeId] = useState(null);
@@ -30,6 +33,14 @@ export const Employees = () => {
     jobTitle: "",
     status: "",
   });
+
+  const handleCloseSuccessModal = () => {
+    return setIsSuccessModalOpen(false);
+  };
+
+  const handlePersistModal = () => {
+    setIsSuccessModalOpen(true);
+  };
 
   useEffect(() => {
     getAllEmployees(TOKEN, COMPANY_ID, filter)
@@ -88,8 +99,19 @@ export const Employees = () => {
 
   const deleteEmployee = async (employeeId) => {
     try {
-      await deleteEmployeeService(TOKEN, COMPANY_ID, employeeId);
-      // open modal here
+      const response = await deleteEmployeeService(
+        TOKEN,
+        COMPANY_ID,
+        employeeId
+      );
+      if (response.status === "Success") {
+        return setIsSuccessModalOpen(true);
+      } else {
+        setError("Delete department operation failed. Please try again.");
+        return console.error(
+          "Delete department operation failed. Please try again."
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -119,6 +141,15 @@ export const Employees = () => {
       handleCallToActionClick={navigateToAddNewEmployee}
     >
       <EmployeesWrapper>
+        <SuccessModal
+          open={isSuccessModalOpen}
+          handleClickOutside={handlePersistModal}
+          className={"delete-employee-success-modal"}
+          title={"Success"}
+          message={"Employee has been successfully deleted"}
+          callToAction={"Close"}
+          handleCallToActionClick={handleCloseSuccessModal}
+        />
         <Row className="heading-row" justifycontent={"space-between"}>
           <Span>Employee List</Span>
           <Span>See all</Span>
@@ -197,6 +228,7 @@ export const Employees = () => {
             dropdownRef={dropdownRef}
           />
         </div>
+        <div>{error && <P style={{ color: "red" }}>{error}</P>}</div>
       </EmployeesWrapper>
     </Layout>
   );

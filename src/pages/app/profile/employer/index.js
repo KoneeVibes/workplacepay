@@ -16,6 +16,8 @@ import { updateEmployerProfileService } from "../../../../utils/apis/user/update
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { Context } from "../../../../context";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
+import { SuccessModal } from "../../../../containers/app/modals/successmodal";
+import { useNavigate } from "react-router-dom";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
@@ -70,6 +72,8 @@ export const EmployerProfile = () => {
     const [matches, setMatches] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+        const Navigate = useNavigate();
+      const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [company, setCompany] = useState({});
 
     function formatDateForInput(dateString) {
@@ -78,6 +82,15 @@ export const EmployerProfile = () => {
         if (parts.length !== 3) return '';
         return `${parts[2]}-${parts[1]}-${parts[0]}`;
     }
+
+const handleCloseSuccessModal = () => {
+  setIsSuccessModalOpen(false);
+  return Navigate(-1);
+};
+
+const handlePersistModal = () => {
+  return setIsSuccessModalOpen(true);
+};
 
     useEffect(() => {
         const handleResize = () => {
@@ -208,7 +221,7 @@ export const EmployerProfile = () => {
             );
             if (response.status) {
                 setIsLoading(false);
-                // setIsAddEmployeeSuccessModalOpen(true);
+                 setIsSuccessModalOpen(true);
             } else {
                 setIsLoading(false);
                 setError(
@@ -234,6 +247,15 @@ export const EmployerProfile = () => {
             handleCallToActionClick={handleOpenCreditPurchaseModal}
         >
             <EmployerProfileWrapper>
+            <SuccessModal
+                      open={isSuccessModalOpen}
+                      handleClickOutside={handlePersistModal}
+                      className={"employer-profile-deparrtment-success-modal"}
+                      title={"Success"}
+                      message={"Employer profile has been successfully updated"}
+                      callToAction={"Close"}
+                      handleCallToActionClick={handleCloseSuccessModal}
+                    />
                 <div>
                     <H2>Personal Details</H2>
                     <P>Update user details</P>
