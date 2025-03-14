@@ -1,14 +1,6 @@
 import { Layout } from "../../../containers/app/layout";
 import { EditEmployeeWrapper } from "./styled";
-import {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { Context } from "../../../context";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { H2, P, Label, Span } from "../../../components/typography/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
@@ -23,8 +15,9 @@ import { formatDateToDDMMYYYY } from "../../../config/app/dateFormatter";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import { EditEmployeeRow } from "./styled";
 import { getEmployee } from "../../../utils/apis/employee/getEmployee";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams } from "react-router-dom";
 import { updateEmployeeService } from "../../../utils/apis/employee/updateEmployee";
+import { SuccessModal } from "../../../containers/app/modals/successmodal";
 
 export const EditEmployee = () => {
   const cookies = new Cookies();
@@ -77,13 +70,13 @@ export const EditEmployee = () => {
 
   const [employee, setEmployee] = useState(initialFormDetails);
   const [step, setStep] = useState(1);
+   const Navigate = useNavigate();
   const [matches, setMatches] = useState(false);
   const [isFormReset, setIsFormReset] = useState(false);
   const [error, setError] = useState(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
-
-  const { setIsUpdateEmployeeSuccessModalOpen } = useContext(Context);
 
   function formatDateForInput(dateString) {
     if (!dateString) return "";
@@ -91,6 +84,15 @@ export const EditEmployee = () => {
     if (parts.length !== 3) return "";
     return `${parts[2]}-${parts[1]}-${parts[0]}`;
   }
+
+  const handleCloseSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    return Navigate(-1);
+  };
+
+  const handlePersistModal = () => {
+    return setIsSuccessModalOpen(true);
+  };
 
   useEffect(() => {
     getEmployee(TOKEN, id, COMPANY_ID)
@@ -238,7 +240,7 @@ export const EditEmployee = () => {
       );
       if (response.status) {
         setIsLoading(false);
-        setIsUpdateEmployeeSuccessModalOpen(true);
+        setIsSuccessModalOpen(true);
       } else {
         setIsLoading(false);
         setError(
@@ -256,8 +258,17 @@ export const EditEmployee = () => {
   };
 
   return (
-    <Layout id={"employees"} title={"Update Employee"}>
+    <Layout id={"employees"} title={"Edit Employee"}>
       <EditEmployeeWrapper>
+        <SuccessModal
+          open={isSuccessModalOpen}
+          handleClickOutside={handlePersistModal}
+          className={"edit-employee-success-modal"}
+          title={"Success"}
+          message={"Employee has been successfully edited"}
+          callToAction={"Close"}
+          handleCallToActionClick={handleCloseSuccessModal}
+        />
         <Column className="employeeForm">
           {step === 1 && (
             <div className="formText">

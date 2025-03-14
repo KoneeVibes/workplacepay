@@ -10,6 +10,8 @@ import { setupPayrollService } from "../../../utils/apis/payroll/setupPayroll";
 import Cookies from "universal-cookie";
 import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
+import { SuccessModal } from "../../../containers/app/modals/successmodal";
+import { useNavigate } from "react-router-dom";
 
 export const PayrollSettings = () => {
   const cookies = new Cookies();
@@ -108,6 +110,17 @@ export const PayrollSettings = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
+    const Navigate = useNavigate();
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+ const handleCloseSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    return Navigate(-1);
+  };
+
+  const handlePersistModal = () => {
+    return setIsSuccessModalOpen(true);
+  };
 
   useEffect(() => {
     retrievePayrollSetup(TOKEN, COMPANY_ID)
@@ -187,7 +200,7 @@ export const PayrollSettings = () => {
       const response = await setupPayrollService(TOKEN, formattedFormDetails, COMPANY_ID);
       if (response.status) {
         setIsLoading(false);
-        // handleOpenModal();
+        setIsSuccessModalOpen(true);
       } else {
         setIsLoading(false);
         setError('Payroll setup failed. Please check your credentials and try again.');
@@ -206,6 +219,15 @@ export const PayrollSettings = () => {
       title={"Payroll Settings"}
     >
       <PayrollSettingsWrapper>
+        <SuccessModal
+                open={isSuccessModalOpen}
+                handleClickOutside={handlePersistModal}
+                className={"payroll=setup-success-modal"}
+                title={"Success"}
+                message={"payroll was setup successfully"}
+                callToAction={"Close"}
+                handleCallToActionClick={handleCloseSuccessModal}
+              />
         <H2>Payroll Variables</H2>
         <P>Select the applicable variables for the user</P>
         <form onSubmit={handleSubmit}>

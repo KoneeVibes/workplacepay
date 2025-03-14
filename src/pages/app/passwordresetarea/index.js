@@ -9,6 +9,7 @@ import { BaseInput } from "../../../components/form/input/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { Layout } from "../../../containers/app/layout";
 import { passwordReset } from "../../../utils/apis/user/passwordreset";
+import { SuccessModal } from "../../../containers/app/modals/successmodal";
 
 export const PasswordResetArea = () => {
   const cookies = new Cookies();
@@ -17,6 +18,7 @@ export const PasswordResetArea = () => {
 
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formDetails, setFormDetails] = useState({
     oldPassword: "",
@@ -32,6 +34,16 @@ export const PasswordResetArea = () => {
     }));
   };
 
+  const handleCloseSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+     return navigate("/login");
+  };
+
+  const handlePersistModal = () => {
+   return setIsSuccessModalOpen(true);
+   
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -40,7 +52,7 @@ export const PasswordResetArea = () => {
       const response = await passwordReset(token, formDetails);
       if (response.status === "Success") {
         setLoading(false);
-        navigate("/login");
+        setIsSuccessModalOpen(true);
       } else {
         setLoading(false);
         setError("Submission failed. Please check your inputs and try again.");
@@ -55,6 +67,15 @@ export const PasswordResetArea = () => {
   return (
     <Layout id={"passwordReset"} title={"Password Reset"}>
       <PasswordResetAreaWrapper>
+        <SuccessModal
+          open={isSuccessModalOpen}
+          handleClickOutside={handlePersistModal}
+          className={"password-reset--success-modal"}
+          title={"Success"}
+          message={"password has been changed successfully"}
+          callToAction={"Close"}
+          handleCallToActionClick={handleCloseSuccessModal}
+        />
         <H2>RESET PASSWORD</H2>
         <form onSubmit={handleSubmit}>
           <BaseFieldSet>
