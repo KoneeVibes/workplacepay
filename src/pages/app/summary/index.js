@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Table } from "../../../components/table";
 import { H3, Label } from "../../../components/typography/styled";
 import { Layout } from "../../../containers/app/layout";
@@ -10,6 +10,8 @@ import { months } from "../../../helpers/retrieveAllMonths";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { retrievePayrollByDate } from "../../../utils/apis/payroll/retrievePayrollByDate";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
+import { Context } from "../../../context";
 
 export const Summary = () => {
     const startDate = 1990;
@@ -21,6 +23,8 @@ export const Summary = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
+
+    const { setIsPaymentFormModalOpen } = useContext(Context);
 
     const [payslips, setPayslips] = useState([]);
     const [filter, setFilter] = useState({
@@ -39,7 +43,8 @@ export const Summary = () => {
 
     const handleOpenCreditPurchaseModal = (e) => {
         e.preventDefault();
-        console.log("I am clicked");
+        e.stopPropagation();
+        setIsPaymentFormModalOpen(true);
     };
 
     useEffect(() => {
@@ -131,6 +136,7 @@ export const Summary = () => {
                         rowItems={payslips}
                     />
                 </div>
+                <PaymentModal />
             </SummaryWrapper>
         </Layout>
     )

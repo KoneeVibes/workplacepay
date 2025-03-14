@@ -14,7 +14,7 @@ export const GeneralReportWrapper = styled("div")(() => {
     },
     "& .filter": {
       padding: "var(--cardPadding)",
-      paddingBottom:"0",
+      paddingBottom: "0",
       justifyContent: "space-between",
       marginBlockEnd: "var(--sectionMargin)",
       "@media screen and (max-width: 768px)": {
@@ -31,6 +31,16 @@ export const GeneralReportWrapper = styled("div")(() => {
     },
     "& td": {
       minWidth: "200px",
+    },
+    "& .payment-modal": {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "#FFFFFF",
+      padding: "calc(var(--cardPadding) * 2)",
+      borderRadius: "1rem",
+      boxShadow: "0px 20px 24px -4px #10182814",
     },
   };
 });

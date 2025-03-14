@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { PayeWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -10,6 +10,8 @@ import Cookies from "universal-cookie";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
+import { Context } from "../../../context";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 
 export const Paye = () => {
   const startDate = 1990;
@@ -28,6 +30,8 @@ export const Paye = () => {
   });
   const [PayeReport, setPayeReport] = useState([]);
   const [company, setCompany] = useState({});
+
+  const { setIsPaymentFormModalOpen } = useContext(Context);
 
   useEffect(() => {
     const fetchPayeReport = async () => {
@@ -69,7 +73,8 @@ export const Paye = () => {
 
   const handleOpenCreditPurchaseModal = (e) => {
     e.preventDefault();
-    console.log("I am clicked");
+    e.stopPropagation();
+    setIsPaymentFormModalOpen(true);
   };
 
   return (
@@ -124,6 +129,7 @@ export const Paye = () => {
             location={"Paye Table"}
           />
         </div>
+        <PaymentModal />
       </PayeWrapper>
     </Layout>
   );

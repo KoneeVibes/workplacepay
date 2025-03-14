@@ -76,5 +76,15 @@ export const PayrollWrapper = styled("div")(() => {
             borderRadius: "0.5rem",
             boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
         },
+        "& .payment-modal": {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            padding: "calc(var(--cardPadding) * 2)",
+            borderRadius: "1rem",
+            boxShadow: "0px 20px 24px -4px #10182814",
+        },
     }
 })

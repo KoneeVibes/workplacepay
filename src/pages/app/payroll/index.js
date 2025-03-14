@@ -18,6 +18,7 @@ import { BaseInput } from "../../../components/form/input/styled";
 import { RunPayrollModal } from "../../../containers/app/modals/runpayrollmodal";
 import { Context } from "../../../context";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 
 export const Payroll = () => {
     const startDate = 1990;
@@ -26,7 +27,7 @@ export const Payroll = () => {
     const TOKEN = cookies.get("TOKEN");
     const COMPANY_ID = cookies.get("COMPANY_ID");
 
-    const { setIsRunPayrollModalOpen } = useContext(Context);
+    const { setIsRunPayrollModalOpen, setIsPaymentFormModalOpen } = useContext(Context);
 
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -106,11 +107,12 @@ export const Payroll = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         return setIsRunPayrollModalOpen(true);
-    }
+    };
 
     const handleOpenCreditPurchaseModal = (e) => {
         e.preventDefault();
-        console.log("I am clicked");
+        e.stopPropagation();
+        setIsPaymentFormModalOpen(true);
     };
 
     const handleRunPayroll = async (e, flag) => {
@@ -281,6 +283,7 @@ export const Payroll = () => {
                         location={"Payroll Table"}
                     />
                 </div>
+                <PaymentModal />
             </PayrollWrapper>
         </Layout>
     )

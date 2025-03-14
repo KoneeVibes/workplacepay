@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { GeneralReportWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -11,6 +11,8 @@ import { retrieveGeneral } from "../../../utils/apis/report/retrieveGeneralRepor
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
+import { Context } from "../../../context";
 
 export const GeneralReport = () => {
   const startDate = 1990;
@@ -32,6 +34,8 @@ export const GeneralReport = () => {
   });
   const [generalReport, setGeneralReport] = useState([]);
   const [company, setCompany] = useState({});
+
+  const { setIsPaymentFormModalOpen } = useContext(Context);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -85,7 +89,8 @@ export const GeneralReport = () => {
 
   const handleOpenCreditPurchaseModal = (e) => {
     e.preventDefault();
-    console.log("I am clicked");
+    e.stopPropagation();
+    setIsPaymentFormModalOpen(true);
   };
 
   return (
@@ -169,6 +174,7 @@ export const GeneralReport = () => {
             location={"General Table"}
           />
         </div>
+        <PaymentModal />
       </GeneralReportWrapper>
     </Layout>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { VarianceWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -11,6 +11,8 @@ import { months } from "../../../helpers/retrieveAllMonths";
 import { retrieveVariance } from "../../../utils/apis/report/retrieveVarianceReport";
 import Cookies from "universal-cookie";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
+import { Context } from "../../../context";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 
 export const Variance = () => {
   const startDate = 1990;
@@ -31,6 +33,8 @@ export const Variance = () => {
   const [varianceReport, setVarianceReport] = useState([]);
   const [company, setCompany] = useState({});
 
+  const { setIsPaymentFormModalOpen } = useContext(Context);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({
@@ -41,7 +45,8 @@ export const Variance = () => {
 
   const handleOpenCreditPurchaseModal = (e) => {
     e.preventDefault();
-    console.log("I am clicked");
+    e.stopPropagation();
+    setIsPaymentFormModalOpen(true);
   };
 
   useEffect(() => {
@@ -151,6 +156,7 @@ export const Variance = () => {
             location={"Variance Table"}
           />
         </div>
+        <PaymentModal />
       </VarianceWrapper>
     </Layout>
   );

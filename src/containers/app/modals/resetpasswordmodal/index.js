@@ -48,6 +48,7 @@ export const ResetPasswordModal = ({ height, width }) => {
       const response = await passwordReset(token, formDetails);
       if (response.status === "Success") {
         setLoading(false);
+        setIsResetPasswordModalOpen(false);
         navigate("/login");
       } else {
         setLoading(false);

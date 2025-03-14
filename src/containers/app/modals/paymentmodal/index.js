@@ -10,20 +10,83 @@ import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { getCompanies } from "../../../../utils/apis/company/getCompanies";
+import Cookies from "universal-cookie";
+import { BaseSelect } from "../../../../components/form/select/styled";
+import { purchaseRequestService } from "../../../../utils/apis/credit/purchaseRequest";
+import { DotLoader } from "react-spinners";
+import { PaystackButton } from 'react-paystack';
+import { verifyPurchaseService } from "../../../../utils/apis/credit/verfiyPurchase";
 
 export const PaymentModal = () => {
-    const navigate = useNavigate();
+    const cookies = new Cookies();
+    const TOKEN = cookies.get("TOKEN");
+
     const { isPaymentFormModalOpen, setIsPaymentFormModalOpen } = useContext(Context);
     const [matches, setMatches] = useState(false);
     const [isPaymentSuccessModal, setIsPaymentSuccessModal] = useState(false);
     const [formDetails, setFormDetails] = useState({
-        fundWithPaystack: "",
-        cardHolderName: "",
-        cardNumber: "",
-        expiryDate: "",
-        CVV: ""
+        companyId: "",
+        creditAmount: ""
     });
+    const [companies, setCompanies] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [generatedInvoice, setGeneratedInvoice] = useState(null);
+
+    useEffect(() => {
+        const fetchCompanies = async () => {
+            try {
+                const response = await getCompanies(TOKEN);
+                return setCompanies(response);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchCompanies();
+    }, [TOKEN]);
+
+    const handlePaystackSuccessCredit = async (reference) => {
+        console.log("reference", reference);
+        try {
+            const response = await verifyPurchaseService(
+                TOKEN,
+                { reference: reference }
+            );
+            if (response?.result?.status === "Success") {
+                console.log()
+            } else {
+                console.error(
+                    "Server failed to verify purchase. Please contact support."
+                );
+            }
+        } catch (error) {
+            console.error("Purchase verification failed:", error);
+        }
+    };
+
+    const handlePaystackCloseAction = () => {
+        console.log('closed')
+    };
+
+    const config = {
+        reference: (new Date()).getTime().toString(),
+        email: "user@gmail.com",
+        amount: generatedInvoice?.totalCreditCost, //this could be in kobo, so take note.
+        publicKey: 'pk_test_1056c2beeefb2598d536f2e384dc49cad6e378ee',
+        metadata: {
+            name: generatedInvoice?.companyName,
+            payrollPlan: generatedInvoice?.payrollPlan,
+            invoiceId: generatedInvoice?.invoiceId,
+        }
+    };
+
+    const componentProps = {
+        ...config,
+        text: 'Proceed to Pay',
+        onSuccess: (reference) => handlePaystackSuccessCredit(reference),
+        onClose: handlePaystackCloseAction,
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -37,20 +100,38 @@ export const PaymentModal = () => {
         setIsPaymentSuccessModal(true);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formDetails);
-        handleOpenPaymentSuccessModal(e);
+        setError(null);
+        setIsLoading(true);
+        try {
+            const response = await purchaseRequestService(
+                TOKEN,
+                formDetails
+            );
+            setGeneratedInvoice(response?.result?.data);
+            if (response?.result?.status === "Success") {
+                setIsLoading(false);
+                handleOpenPaymentSuccessModal(e);
+            } else {
+                setIsLoading(false);
+                setError(
+                    "Server failed to raise request. Please contact support."
+                );
+                console.error(
+                    "Server failed to raise request. Please contact support."
+                );
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`Purchase request failed. ${error.message}`);
+            console.error("Purchase request failed:", error);
+        }
     };
 
     const handleCloseModal = () => {
         setIsPaymentSuccessModal(false);
         setIsPaymentFormModalOpen(false);
-    }
-
-    const handleNavigateToLogin = async () => {
-        await handleCloseModal();
-        navigate("/login");
     }
 
     useEffect(() => {
@@ -117,7 +198,7 @@ export const PaymentModal = () => {
                                 <BaseInput
                                     type="checkbox"
                                     name="fundWithPaystack"
-                                    checked={formDetails.fundWithPaystack}
+                                    checked={true}
                                     onChange={(e) => handleChange(e)}
                                     style={{
                                         width: "auto",
@@ -136,40 +217,33 @@ export const PaymentModal = () => {
                                 tocolumn={true}
                             >
                                 <BaseFieldSet>
-                                    <Label>Card Holder Name</Label>
-                                    <BaseInput
-                                        name="cardHolderName"
-                                        value={formDetails.cardHolderName}
-                                        onChange={(e) => handleChange(e)}
-                                    />
+                                    <Label>Select Company</Label>
+                                    <BaseSelect
+                                        name="companyId"
+                                        value={formDetails.companyId}
+                                        onChange={handleChange}
+                                    >
+                                        <option
+                                            value=""
+                                            hidden
+                                        >
+                                            Select Company
+                                        </option>
+                                        {companies?.map((company, index) => (
+                                            <option
+                                                key={index}
+                                                value={company.companyId}
+                                            >
+                                                {company.name}
+                                            </option>
+                                        ))}
+                                    </BaseSelect>
                                 </BaseFieldSet>
                                 <BaseFieldSet>
-                                    <Label>Card Number</Label>
+                                    <Label>Credit Amount</Label>
                                     <BaseInput
-                                        name="cardNumber"
-                                        value={formDetails.cardNumber}
-                                        onChange={(e) => handleChange(e)}
-                                    />
-                                </BaseFieldSet>
-                            </Row>
-                            <Row
-                                tocolumn={true}
-                            >
-                                <BaseFieldSet>
-                                    <Label>Expiry Date</Label>
-                                    <BaseInput
-                                        type="date"
-                                        name="expiryDate"
-                                        value={formDetails.expiryDate}
-                                        onChange={(e) => handleChange(e)}
-                                    />
-                                </BaseFieldSet>
-                                <BaseFieldSet>
-                                    <Label>CVV</Label>
-                                    <BaseInput
-                                        maxLength={3}
-                                        name="CVV"
-                                        value={formDetails.CVV}
+                                        name="creditAmount"
+                                        value={formDetails.creditAmount}
                                         onChange={(e) => handleChange(e)}
                                     />
                                 </BaseFieldSet>
@@ -189,72 +263,93 @@ export const PaymentModal = () => {
                                     type="submit"
                                     backgroundcolor={"#4E57BB"}
                                 >
-                                    <Span>
-                                        Continue
-                                    </Span>
+                                    {isLoading ? (
+                                        <DotLoader
+                                            size={20}
+                                            color="white"
+                                            className="dotLoader"
+                                        />
+                                    ) : (
+                                        <Span>
+                                            Continue
+                                        </Span>
+                                    )}
                                 </BaseButton>
                             </Row>
+                            {error && <P style={{ color: "red" }}>{error}</P>}
                         </form>
                     </Fragment>
                 ) : (
                     <Fragment>
                         <Column
-                            className="receipt-title"
+                            className="confirm-invoice-title"
                         >
-                            <H2>Payment  Successfull!</H2>
+                            <H2>Confirm Details</H2>
                             <GreenTick />
                         </Column>
                         <Row
                             tocolumn={true}
-                            className="receipt-detail"
+                            className="confirm-invoice-details"
                         >
-                            <P>Payment Type</P>
-                            <P>Net Banking</P>
+                            <P>Invoice Id</P>
+                            <P>{generatedInvoice?.invoiceId}</P>
                         </Row>
                         <Row
                             tocolumn={true}
-                            className="receipt-detail"
+                            className="confirm-invoice-details"
                         >
-                            <P>Bank</P>
-                            <P>First Bank</P>
+                            <P>Credit Amount</P>
+                            <P>{generatedInvoice?.creditAmount}</P>
                         </Row>
                         <Row
                             tocolumn={true}
-                            className="receipt-detail"
+                            className="confirm-invoice-details"
                         >
-                            <P>Email</P>
-                            <P>ofofonono.umoren@focusgroupng.com</P>
+                            <P>Cost per credit</P>
+                            <P>{generatedInvoice?.costPerCredit}</P>
                         </Row>
                         <Row
                             tocolumn={true}
-                            className="receipt-detail"
+                            className="confirm-invoice-details"
                         >
-                            <P>Amount</P>
-                            <P>5000</P>
+                            <P>Total credit cost</P>
+                            <P>{generatedInvoice?.totalCreditCost}</P>
                         </Row>
                         <Row
                             tocolumn={true}
-                            className="receipt-detail"
+                            className="confirm-invoice-details"
                         >
-                            <P>Transaction ID</P>
-                            <P>125478965698</P>
+                            <P>Payroll Plan Name</P>
+                            <P>{generatedInvoice?.payrollPlanName}</P>
+                        </Row>
+                        <Row
+                            tocolumn={true}
+                            className="confirm-invoice-details"
+                        >
+                            <P>Date Initiated</P>
+                            <P>{generatedInvoice?.dateInitiated}</P>
+                        </Row>
+                        <Row
+                            tocolumn={true}
+                            className="confirm-invoice-details"
+                        >
+                            <P>Invoice Status</P>
+                            <P>{generatedInvoice?.status}</P>
                         </Row>
                         <Row
                             className="form-action-row"
                         >
-                            <BaseButton>
-                                <Span>
-                                    Print
-                                </Span>
-                            </BaseButton>
                             <BaseButton
-                                backgroundcolor={"#4E57BB"}
-                                onClick={handleNavigateToLogin}
+                                onClick={handleCloseModal}
                             >
                                 <Span>
-                                    Proceed to Login
+                                    Cancel
                                 </Span>
                             </BaseButton>
+                            <PaystackButton
+                                backgroundcolor={"#4E57BB"}
+                                {...componentProps}
+                            />
                         </Row>
                     </Fragment>
                 )}

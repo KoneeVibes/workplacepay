@@ -93,23 +93,23 @@ export const PaymentModalWrapper = styled(Column)(() => {
                 flexDirection: "column",
             }
         },
-        "& .receipt-detail>p": {
+        "& .confirm-invoice-details>p": {
             flex: 1,
         },
-        "& .receipt-detail>p:nth-child(1)": {
+        "& .confirm-invoice-details>p:nth-child(1)": {
             fontWeight: 700,
         },
-        "& .receipt-title": {
+        "& .confirm-invoice-title": {
             alignItems: "center",
         },
         "@media screen and (max-width: 1024px)": {
-            "& .receipt-detail": {
+            "& .confirm-invoice-details": {
                 flexDirection: "column",
             },
-            "& .receipt-detail>p": {
+            "& .confirm-invoice-details>p": {
                 marginBlock: 0,
             },
-            "& .receipt-title": {
+            "& .confirm-invoice-title": {
                 alignItems: "flex-start",
             },
         },

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Layout } from "../../../containers/app/layout";
 import { PensionWrapper } from "./styled";
 import { Row } from "../../../components/flex/styled";
@@ -10,6 +10,8 @@ import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { retrievePension } from "../../../utils/apis/report/retrievePensionReport";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
+import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
+import { Context } from "../../../context";
 
 export const Pension = () => {
   const startDate = 1990;
@@ -28,6 +30,8 @@ export const Pension = () => {
   });
   const [PensionReport, setPensionReport] = useState([]);
   const [company, setCompany] = useState({});
+
+  const { setIsPaymentFormModalOpen } = useContext(Context);
 
   useEffect(() => {
     const fetchPensionReport = async () => {
@@ -68,7 +72,8 @@ export const Pension = () => {
 
   const handleOpenCreditPurchaseModal = (e) => {
     e.preventDefault();
-    console.log("I am clicked");
+    e.stopPropagation();
+    setIsPaymentFormModalOpen(true);
   };
 
   return (
@@ -116,6 +121,7 @@ export const Pension = () => {
             location={"Pension Table"}
           />
         </div>
+        <PaymentModal />
       </PensionWrapper>
     </Layout>
   );

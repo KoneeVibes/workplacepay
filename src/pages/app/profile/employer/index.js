@@ -1,7 +1,7 @@
 import Cookies from "universal-cookie";
 import { Layout } from "../../../../containers/app/layout"
 import { EmployerProfileWrapper, ProfileRow } from "./styled"
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { getUser } from "../../../../utils/apis/user/getUser";
 import { H2, Label, P, Span } from "../../../../components/typography/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
@@ -14,6 +14,8 @@ import { BaseButton } from "../../../../components/button/styled";
 import { formatDateToDDMMYYYY } from "../../../../config/app/dateFormatter";
 import { updateEmployerProfileService } from "../../../../utils/apis/user/updateEmployer";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
+import { Context } from "../../../../context";
+import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
@@ -61,6 +63,8 @@ export const EmployerProfile = () => {
         }),
         []
     );
+    const { setIsPaymentFormModalOpen } = useContext(Context);
+
     const [profile, setProfile] = useState(initialFormDetails);
     const [departments, setDepartments] = useState([]);
     const [matches, setMatches] = useState(false);
@@ -177,7 +181,8 @@ export const EmployerProfile = () => {
 
     const handleOpenCreditPurchaseModal = (e) => {
         e.preventDefault();
-        console.log("I am clicked");
+        e.stopPropagation();
+        setIsPaymentFormModalOpen(true);
     };
 
     const handleSubmit = async (e) => {
@@ -573,6 +578,7 @@ export const EmployerProfile = () => {
                     </div>
                     {error && <P style={{ color: "red" }}>{error}</P>}
                 </form>
+                <PaymentModal />
             </EmployerProfileWrapper>
         </Layout>
     )
