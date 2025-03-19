@@ -51,10 +51,11 @@ export const PaymentModal = () => {
         try {
             const response = await verifyPurchaseService(
                 TOKEN,
-                { reference: reference }
+                { reference: reference?.reference }
             );
+            console.log(response);
             if (response?.result?.status === "Success") {
-                console.log()
+                console.log("credited successfully")
             } else {
                 console.error(
                     "Server failed to verify purchase. Please contact support."

@@ -72,8 +72,8 @@ export const EmployerProfile = () => {
     const [matches, setMatches] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-        const Navigate = useNavigate();
-      const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const Navigate = useNavigate();
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [company, setCompany] = useState({});
 
     function formatDateForInput(dateString) {
@@ -83,14 +83,14 @@ export const EmployerProfile = () => {
         return `${parts[2]}-${parts[1]}-${parts[0]}`;
     }
 
-const handleCloseSuccessModal = () => {
-  setIsSuccessModalOpen(false);
-  return Navigate(-1);
-};
+    const handleCloseSuccessModal = () => {
+        setIsSuccessModalOpen(false);
+        return Navigate(-1);
+    };
 
-const handlePersistModal = () => {
-  return setIsSuccessModalOpen(true);
-};
+    const handlePersistModal = () => {
+        return setIsSuccessModalOpen(true);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -221,7 +221,7 @@ const handlePersistModal = () => {
             );
             if (response.status) {
                 setIsLoading(false);
-                 setIsSuccessModalOpen(true);
+                setIsSuccessModalOpen(true);
             } else {
                 setIsLoading(false);
                 setError(
@@ -247,15 +247,15 @@ const handlePersistModal = () => {
             handleCallToActionClick={handleOpenCreditPurchaseModal}
         >
             <EmployerProfileWrapper>
-            <SuccessModal
-                      open={isSuccessModalOpen}
-                      handleClickOutside={handlePersistModal}
-                      className={"employer-profile-deparrtment-success-modal"}
-                      title={"Success"}
-                      message={"Employer profile has been successfully updated"}
-                      callToAction={"Close"}
-                      handleCallToActionClick={handleCloseSuccessModal}
-                    />
+                <SuccessModal
+                    open={isSuccessModalOpen}
+                    handleClickOutside={handlePersistModal}
+                    className={"employer-profile-deparrtment-success-modal"}
+                    title={"Success"}
+                    message={"Employer profile has been successfully updated"}
+                    callToAction={"Close"}
+                    handleCallToActionClick={handleCloseSuccessModal}
+                />
                 <div>
                     <H2>Personal Details</H2>
                     <P>Update user details</P>
