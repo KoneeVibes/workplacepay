@@ -32,7 +32,7 @@ export const Table = ({
       <tbody>
         {rowItems.map((rowItem, index) => {
           const capitalizeWords = (str) => {
-            return str.replace(/\b\w/g, (char) => char.toUpperCase());
+            return str?.replace(/\b\w/g, (char) => char.toUpperCase());
           };
           return (
             <tr key={index}>
