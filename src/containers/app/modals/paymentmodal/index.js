@@ -242,7 +242,7 @@ export const PaymentModal = () => {
                                     </BaseSelect>
                                 </BaseFieldSet>
                                 <BaseFieldSet>
-                                    <Label>Credit Amount</Label>
+                                    <Label>Wallet Amount</Label>
                                     <BaseInput
                                         name="creditAmount"
                                         value={formDetails.creditAmount}
@@ -300,7 +300,7 @@ export const PaymentModal = () => {
                             tocolumn={true}
                             className="confirm-invoice-details"
                         >
-                            <P>Credit Amount</P>
+                            <P>Wallet Amount</P>
                             <P>{generatedInvoice?.creditAmount}</P>
                         </Row>
                         <Row
