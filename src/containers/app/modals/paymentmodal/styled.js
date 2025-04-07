@@ -81,7 +81,7 @@ export const PaymentModalWrapper = styled(Column)(() => {
             color: "#646060",
             lineHeight: "3rem",
         },
-        "& .payment-form fieldset>input": {
+        "& .payment-form fieldset>input, & .payment-form fieldset>select": {
             padding: "calc(var(--cardPadding)/4)",
             border: "1px solid #8A90DC",
             borderRadius: "0.5rem",
@@ -101,6 +101,20 @@ export const PaymentModalWrapper = styled(Column)(() => {
         },
         "& .confirm-invoice-title": {
             alignItems: "center",
+        },
+        "& .paystack-button-wrapper": {
+            width: "-webkit-fill-available",
+        },
+        "& .paystack-button": {
+            textAlign: "center",
+            backgroundColor: "#8A90DC",
+            border: "none",
+            color: "white",
+            borderRadius: "8px",
+            width: "-webkit-fill-available",
+            padding: "calc(var(--cardPadding) / 2) var(--cardPadding)",
+            fontSize: "1rem",
+            cursor: "pointer",
         },
         "@media screen and (max-width: 1024px)": {
             "& .confirm-invoice-details": {

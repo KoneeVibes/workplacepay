@@ -92,7 +92,7 @@ export const PayrollSettings = () => {
           type: "Deductions",
           stake: "money",
           value: null,
-          isChecked: false
+          isChecked: true
         },
         {
           setupVariableId: null,
@@ -110,10 +110,10 @@ export const PayrollSettings = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
-    const Navigate = useNavigate();
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const Navigate = useNavigate();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
- const handleCloseSuccessModal = () => {
+  const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
     return Navigate(-1);
   };
@@ -161,12 +161,17 @@ export const PayrollSettings = () => {
     setFormDetails((prev) => ({
       ...prev,
       payrollVariables: prev.payrollVariables.map((variable) =>
-        variable.name === name
-          ? { ...variable, isChecked: checked }
-          : variable
+        ["employer pension contribution", "employee pension contribution"].includes(name)
+          ? ["employer pension contribution", "employee pension contribution"].includes(variable.name)
+            ? { ...variable, isChecked: checked }
+            : variable
+          : variable.name === name
+            ? { ...variable, isChecked: checked }
+            : variable
       ),
     }));
   };
+
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -197,6 +202,7 @@ export const PayrollSettings = () => {
         .map(({ isChecked, ...rest }) => rest)
     };
     try {
+      console.log(formattedFormDetails);
       const response = await setupPayrollService(TOKEN, formattedFormDetails, COMPANY_ID);
       if (response.status) {
         setIsLoading(false);
@@ -220,14 +226,14 @@ export const PayrollSettings = () => {
     >
       <PayrollSettingsWrapper>
         <SuccessModal
-                open={isSuccessModalOpen}
-                handleClickOutside={handlePersistModal}
-                className={"payroll=setup-success-modal"}
-                title={"Success"}
-                message={"payroll was setup successfully"}
-                callToAction={"Close"}
-                handleCallToActionClick={handleCloseSuccessModal}
-              />
+          open={isSuccessModalOpen}
+          handleClickOutside={handlePersistModal}
+          className={"payroll=setup-success-modal"}
+          title={"Success"}
+          message={"payroll was setup successfully"}
+          callToAction={"Close"}
+          handleCallToActionClick={handleCloseSuccessModal}
+        />
         <H2>Payroll Variables</H2>
         <P>Select the applicable variables for the user</P>
         <form onSubmit={handleSubmit}>
@@ -418,7 +424,7 @@ export const PayrollSettings = () => {
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
             <Label htmlFor="paye">PAYE</Label>
-            <BaseInput
+            {/* <BaseInput
               id="paye"
               type="checkbox"
               name="paye"
@@ -426,6 +432,11 @@ export const PayrollSettings = () => {
               checked={
                 formDetails.payrollVariables.find((variable) => variable.name === "paye")?.isChecked || ""
               }
+            /> */}
+            <BaseInput
+              type="checkbox"
+              checked
+              readOnly
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
