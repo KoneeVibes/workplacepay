@@ -43,7 +43,7 @@ export const UserSummary = () => {
     return (
         <Layout
             id={"summary"}
-            title={companyName.replace(/\b\w/g, char => char.toUpperCase())}
+            title={companyName?.replace(/\b\w/g, char => char.toUpperCase())}
         >
             <UserSummaryWrapper>
                 <div

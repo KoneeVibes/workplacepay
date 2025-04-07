@@ -63,13 +63,14 @@ export const PaymentModal = () => {
     }, [TOKEN])
 
     const handlePaystackSuccessCredit = async (reference) => {
+        const payload = { reference: String(reference?.reference) };
         try {
             const response = await verifyPurchaseService(
                 TOKEN,
-                { reference: reference?.reference }
+                payload
             );
-            if (response?.result?.status === "Success") {
-                console.log("credited successfully");
+            if (response?.status === "Success") {
+                console.log("credited successfully", response);
                 navigate("/dashboard");
             } else {
                 console.error("Server failed to verify purchase. Please contact support.");
@@ -79,6 +80,7 @@ export const PaymentModal = () => {
         }
     };
 
+
     const handlePaystackCloseAction = () => {
         console.log('closed')
     };
@@ -86,12 +88,16 @@ export const PaymentModal = () => {
     const config = {
         reference: (new Date()).getTime().toString(),
         email: loggedInUser?.email,
-        amount: generatedInvoice?.totalCreditCost, //this could be in kobo, so take note.
+        amount: `${generatedInvoice?.totalCreditCost}00`,
         publicKey: PK,
         metadata: {
-            name: generatedInvoice?.companyName,
-            payrollPlan: generatedInvoice?.payrollPlan,
             invoiceId: generatedInvoice?.invoiceId,
+            creditAmount: generatedInvoice?.creditAmount,
+            companyName: generatedInvoice?.companyName,
+            payrollPlanName: generatedInvoice?.payrollPlanName,
+            costPerCredit: generatedInvoice?.costPerCredit,
+            totalCreditCost: generatedInvoice?.totalCreditCost,
+            dateInitiated: generatedInvoice?.dateInitiated,
         }
     };
 

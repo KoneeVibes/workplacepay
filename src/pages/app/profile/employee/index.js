@@ -52,7 +52,6 @@ export const EmployeeProfile = () => {
   useEffect(() => {
     getUser(TOKEN)
       .then((data) => {
-        console.log(data);
         setUser(data);
         setBankDetails((prev) => ({
           ...prev,
