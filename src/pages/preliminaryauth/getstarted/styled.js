@@ -42,6 +42,7 @@ export const GetStartedWrapper = styled(Row)(() => {
       border: "none",
       backgroundColor: "#F2F2F8",
       borderRadius: "8px",
+      fontWeight: 400,
     },
     "& .get-started-modal": {
       position: "fixed",

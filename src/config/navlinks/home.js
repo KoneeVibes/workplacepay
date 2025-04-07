@@ -1,7 +1,7 @@
 export const navLinks = [
     {
         name: "Why this app?",
-        url: ""
+        url: "/#why"
     },
     {
         name: "Features",
@@ -9,10 +9,10 @@ export const navLinks = [
     },
     {
         name: "Plan & Pricing",
-        url: ""
+        url: "/#plans"
     },
     {
         name: "Contact",
-        url: ""
+        url: "/#contact"
     },
 ];

@@ -20,11 +20,13 @@ export const FooterWrapper = styled(Row)(() => {
     ".site-map": {
       flex: 1,
       padding: "var(--cardPadding) 0",
+      gap: "0",
     },
 
     ".contact": {
       flex: 1,
       padding: "var(--cardPadding) 0",
+      gap: "0",
     },
 
     "@media screen and (max-width: 1024px)": {

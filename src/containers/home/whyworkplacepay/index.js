@@ -6,7 +6,10 @@ import { Column } from "../../../components/flex/styled";
 
 export const WhyWorkPlacePay = () => {
   return (
-    <WhyWorkPlacePayWrapper tocolumn={true}>
+    <WhyWorkPlacePayWrapper 
+    id="why"
+    tocolumn={true}
+    >
       {/* Ibukun your html code should begin below this line */}
       <div className="hero-img">
         <img src={heroImage} alt="diplomatic agreement" />
