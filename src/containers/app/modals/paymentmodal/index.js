@@ -80,7 +80,6 @@ export const PaymentModal = () => {
         }
     };
 
-
     const handlePaystackCloseAction = () => {
         console.log('closed')
     };

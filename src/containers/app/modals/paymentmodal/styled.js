@@ -115,6 +115,7 @@ export const PaymentModalWrapper = styled(Column)(() => {
             padding: "calc(var(--cardPadding) / 2) var(--cardPadding)",
             fontSize: "1rem",
             cursor: "pointer",
+            height: "100%",
         },
         "@media screen and (max-width: 1024px)": {
             "& .confirm-invoice-details": {
