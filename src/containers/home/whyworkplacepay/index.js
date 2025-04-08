@@ -6,7 +6,7 @@ import { Column } from "../../../components/flex/styled";
 
 export const WhyWorkPlacePay = () => {
   return (
-    <WhyWorkPlacePayWrapper 
+    <WhyWorkPlacePayWrapper
     id="why"
     tocolumn={true}
     >

@@ -28,6 +28,7 @@ export const EditEmployeeWrapper = styled("div")(() => {
       border: "none",
       backgroundColor: "#F2F2F8",
       borderRadius: "8px",
+      fontWeight: "400",
     },
     "& .employeeForm label": {
       fontFamily: "Poppins",

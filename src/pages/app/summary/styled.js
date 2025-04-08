@@ -20,6 +20,7 @@ export const SummaryWrapper = styled("div")(() => {
             "& select": {
                 padding: "calc(var(--cardPadding)/2.7)",
                 borderRadius: "10px",
+                fontWeight: "400",
             },
             "& fieldset": {
                 flex: 1,

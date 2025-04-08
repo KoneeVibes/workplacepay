@@ -45,6 +45,7 @@ export const PayrollWrapper = styled("div")(() => {
                 padding: "calc(var(--cardPadding)/2)",
                 borderRadius: "10px",
                 border: "1px solid #000000",
+                fontWeight: "400",
             },
             "& fieldset": {
                 flex: 1,

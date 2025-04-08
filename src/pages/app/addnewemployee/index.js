@@ -207,6 +207,7 @@ export const AddNewEmployee = () => {
                   <BaseInput
                     type="text"
                     name="surname"
+                    placeholder="Enter Surname"
                     value={formDetails.personalInfo.surname}
                     onChange={(e) => handleChange(e, "personalInfo")}
                     required

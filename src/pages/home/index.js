@@ -4,6 +4,7 @@ import { Hero } from "../../containers/home/hero";
 import { WhyWorkPlacePay } from "../../containers/home/whyworkplacepay";
 import { PlansAndPricing } from "../../containers/home/plansandpricing";
 import { Footer } from "../../containers/home/footer";
+import { Features } from "../../containers/home/features";
 
 export const Home = () => {
     return (
@@ -11,6 +12,7 @@ export const Home = () => {
             <Navbar />
             <Hero />
             <WhyWorkPlacePay />
+            <Features/>
             <PlansAndPricing />
             <Footer />
         </HomeWrapper>

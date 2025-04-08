@@ -5,7 +5,7 @@ export const navLinks = [
     },
     {
         name: "Features",
-        url: ""
+        url: "/#features"
     },
     {
         name: "Plan & Pricing",

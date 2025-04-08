@@ -86,6 +86,7 @@ export const PaymentModalWrapper = styled(Column)(() => {
             border: "1px solid #8A90DC",
             borderRadius: "0.5rem",
             outline: "none",
+            fontWeight: "400",
         },
         "& .form-action-row": {
             padding: "calc(var(--cardPadding)/2) 0",

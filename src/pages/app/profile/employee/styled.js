@@ -29,6 +29,7 @@ export const EmployeeProfileWrapper = styled("div")(() => {
             backgroundColor: "transparent",
             border: "1px solid #000000",
             borderRadius: "8px",
+            fontWeight: "400",
         },
         "& label": {
             fontFamily: "Poppins",
