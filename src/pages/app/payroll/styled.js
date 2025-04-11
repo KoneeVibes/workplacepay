@@ -38,6 +38,11 @@ export const PayrollWrapper = styled("div")(() => {
             fontSize: 20,
             color: "#000000",
         },
+        "& select": {
+            padding: "calc(var(--cardPadding)/4)",
+            borderRadius: "10px",
+            border: "1px solid #000000",
+        },
         "& .filter": {
             padding: "var(--cardPadding)",
             justifyContent: "space-between",

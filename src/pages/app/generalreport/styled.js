@@ -5,7 +5,7 @@ export const GeneralReportWrapper = styled("div")(() => {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
     "& select": {
-      padding: "calc(var(--cardPadding)/2)",
+      padding: "calc(var(--cardPadding)/4)",
       borderRadius: "10px",
       fontWeight: "400",
     },

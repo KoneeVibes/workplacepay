@@ -127,8 +127,9 @@ export const Auth = () => {
           <BaseFieldSet>
             <Label>Password*</Label>
             <BaseInput
+              type="password"
               name="password"
-              placeholder="Enter Password"
+              placeholder="Enter Password" required
               value={formDetails.password}
               onChange={(e) => handleChange(e)}
             />

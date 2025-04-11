@@ -12,7 +12,6 @@ import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 import { SuccessModal } from "../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
-import { retrievePayrollVariables } from "../../../utils/apis/payroll/getPayrollVariables";
 
 export const PayrollSettings = () => {
   const cookies = new Cookies();
@@ -360,7 +359,7 @@ export const PayrollSettings = () => {
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="other benefits">Other</Label>
+            <Label htmlFor="other benefits">Other Benefits</Label>
             <BaseInput
               id="other benefits"
               type="checkbox"

@@ -9,3 +9,4 @@ export { ReactComponent as Avatar } from "./images/avatar.svg";
 export { ReactComponent as SalaryDate } from "./images/salarydate.svg";
 export { ReactComponent as SalaryAmount } from "./images/salaryamount.svg";
 export { ReactComponent as AreYouSure } from "./images/areyousure.svg";
+export { ReactComponent as FaqIcon } from "./images/faqicon.svg";
