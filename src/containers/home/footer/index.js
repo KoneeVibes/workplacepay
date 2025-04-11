@@ -6,7 +6,9 @@ import { BaseInput } from "../../../components/form/input/styled";
 
 export const Footer = () => {
   return (
-    <FooterWrapper>
+    <FooterWrapper
+    id="contact"
+    >
       <Column className="footer-form">
         <H2>Contact Us</H2>
         <Label htmlFor="email" className="emailLabel">

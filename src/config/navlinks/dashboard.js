@@ -84,10 +84,6 @@ export const navAvatarAreaLinks = {
       url: "/setup",
     },
     {
-      name: "Switch company",
-      url: "/switchcompany",
-    },
-    {
       name: "Password Reset",
       url: "/passwordreset",
     },

@@ -21,6 +21,7 @@ export const SelectCompaniesModalWrapper = styled("form")(() => {
       border: "none",
       backgroundColor: "#F2F2F8",
       borderRadius: "8px",
+      fontWeight: "400",
     },
     "& .action-buttons-row": {
       gap: "calc(var(--flexGap)/3)",

@@ -17,10 +17,15 @@ import { purchaseRequestService } from "../../../../utils/apis/credit/purchaseRe
 import { DotLoader } from "react-spinners";
 import { PaystackButton } from 'react-paystack';
 import { verifyPurchaseService } from "../../../../utils/apis/credit/verfiyPurchase";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../../../utils/apis/user/getUser";
 
 export const PaymentModal = () => {
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");
+    const PK = process.env.REACT_APP_PAYSTACK_PK;
+
+    const navigate = useNavigate();
 
     const { isPaymentFormModalOpen, setIsPaymentFormModalOpen } = useContext(Context);
     const [matches, setMatches] = useState(false);
@@ -33,6 +38,7 @@ export const PaymentModal = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [generatedInvoice, setGeneratedInvoice] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState({});
 
     useEffect(() => {
         const fetchCompanies = async () => {
@@ -44,7 +50,17 @@ export const PaymentModal = () => {
             }
         };
         fetchCompanies();
-    }, [TOKEN]);
+    }, [TOKEN, isPaymentFormModalOpen]);
+
+    useEffect(() => {
+        getUser(TOKEN)
+            .then((data) => {
+                setLoggedInUser(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    }, [TOKEN])
 
     const handlePaystackSuccessCredit = async (reference) => {
         const payload = { reference: String(reference?.reference) };
@@ -54,7 +70,8 @@ export const PaymentModal = () => {
                 payload
             );
             if (response?.status === "Success") {
-                console.log("credited successfully", response)
+                console.log("credited successfully", response);
+                navigate("/dashboard");
             } else {
                 console.error("Server failed to verify purchase. Please contact support.");
             }
@@ -69,9 +86,9 @@ export const PaymentModal = () => {
 
     const config = {
         reference: (new Date()).getTime().toString(),
-        email: "user@gmail.com",
+        email: loggedInUser?.email,
         amount: `${generatedInvoice?.totalCreditCost}00`,
-        publicKey: 'pk_test_1056c2beeefb2598d536f2e384dc49cad6e378ee',
+        publicKey: PK,
         metadata: {
             invoiceId: generatedInvoice?.invoiceId,
             creditAmount: generatedInvoice?.creditAmount,
@@ -90,6 +107,11 @@ export const PaymentModal = () => {
         onClose: handlePaystackCloseAction,
     };
 
+    const handleIsPaystackPaymentModalOpen = (e) => {
+        e.stopPropagation();
+        return handleCloseModal();
+    }
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormDetails((prev) => ({
@@ -100,7 +122,7 @@ export const PaymentModal = () => {
 
     const handleOpenPaymentSuccessModal = () => {
         setIsPaymentSuccessModal(true);
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -134,7 +156,7 @@ export const PaymentModal = () => {
     const handleCloseModal = () => {
         setIsPaymentSuccessModal(false);
         setIsPaymentFormModalOpen(false);
-    }
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -348,10 +370,15 @@ export const PaymentModal = () => {
                                     Cancel
                                 </Span>
                             </BaseButton>
-                            <PaystackButton
-                                backgroundcolor={"#4E57BB"}
-                                {...componentProps}
-                            />
+                            <div
+                                className="paystack-button-wrapper"
+                                onClick={handleIsPaystackPaymentModalOpen}
+                            >
+                                <PaystackButton
+                                    {...componentProps}
+                                    className="paystack-button"
+                                />
+                            </div>
                         </Row>
                     </Fragment>
                 )}

@@ -9,7 +9,7 @@ export const TableWrapper = styled("table")(() => {
         "& th": {
             textAlign: "left",
             textTransform: "capitalize",
-            padding: "var(--cardPadding)",
+            padding: "calc(var(--cardPadding)/2)",
             borderBottom: "1px solid #000000",
             minWidth: "150px",
             fontSize: "24px",
@@ -20,7 +20,7 @@ export const TableWrapper = styled("table")(() => {
         "& td": {
             textAlign: "left",
             border: "1px solid #000000",
-            padding: "var(--cardPadding)",
+            padding: "calc(var(--cardPadding)/2)",
             minWidth: "150px",
             color: "#CCCCCC",
         },

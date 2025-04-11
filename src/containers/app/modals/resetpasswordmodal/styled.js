@@ -24,6 +24,7 @@ export const ResetPasswordModalWrapper = styled("div")(() => {
         border: "1px solid #4E57BB",
         backgroundColor: "transparent",
         borderRadius: "8px",
+        fontWeight: "400",
       },
       "@media screen and (min-width: 612px)": {
         "& legend": {
