@@ -121,7 +121,6 @@ export const Payroll = () => {
     const handleFlagState = (e, flag) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(flag);
         setFlag(flag);
         setIsRunPayrollModalOpen(false);
         setIsConfirmationModalOpen(true);

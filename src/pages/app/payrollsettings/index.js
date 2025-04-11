@@ -12,6 +12,7 @@ import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 import { SuccessModal } from "../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
+import { retrievePayrollVariables } from "../../../utils/apis/payroll/getPayrollVariables";
 
 export const PayrollSettings = () => {
   const cookies = new Cookies();
@@ -24,7 +25,7 @@ export const PayrollSettings = () => {
       payrollVariables: [
         {
           setupVariableId: null,
-          name: "basic",
+          name: "basic salary",
           type: "Earnings",
           stake: "percent",
           value: "",
@@ -32,7 +33,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "housing",
+          name: "housing allowance",
           type: "Earnings",
           stake: "percent",
           value: "",
@@ -40,7 +41,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "transport",
+          name: "transport allowance",
           type: "Earnings",
           stake: "percent",
           value: "",
@@ -48,7 +49,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "overtime",
+          name: "overtime pay",
           type: "Earnings",
           stake: "money",
           value: null,
@@ -56,7 +57,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "bonus",
+          name: "bonuses",
           type: "Earnings",
           stake: "money",
           value: null,
@@ -64,7 +65,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "other",
+          name: "other benefits",
           type: "Earnings",
           stake: "money",
           value: null,
@@ -96,7 +97,7 @@ export const PayrollSettings = () => {
         },
         {
           setupVariableId: null,
-          name: "others",
+          name: "other deductions",
           type: "Deductions",
           stake: "money",
           value: null,
@@ -110,17 +111,25 @@ export const PayrollSettings = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
-    return Navigate(-1);
+    return navigate(-1);
   };
 
   const handlePersistModal = () => {
     return setIsSuccessModalOpen(true);
   };
+
+  // useEffect(() => {
+  //   retrievePayrollVariables(TOKEN, COMPANY_ID)
+  //     .then((data) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => console.error(err));
+  // })
 
   useEffect(() => {
     retrievePayrollSetup(TOKEN, COMPANY_ID)
@@ -172,7 +181,6 @@ export const PayrollSettings = () => {
     }));
   };
 
-
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
@@ -201,8 +209,8 @@ export const PayrollSettings = () => {
         // Remove isChecked field from each remaining item
         .map(({ isChecked, ...rest }) => rest)
     };
+    console.log(formattedFormDetails);
     try {
-      console.log(formattedFormDetails);
       const response = await setupPayrollService(TOKEN, formattedFormDetails, COMPANY_ID);
       if (response.status) {
         setIsLoading(false);
@@ -239,7 +247,7 @@ export const PayrollSettings = () => {
         <form onSubmit={handleSubmit}>
           <H3>Earning</H3>
           <BaseFlex className="field-row">
-            <Label htmlFor="basic">Basic</Label>
+            <Label htmlFor="basic salary">Basic</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -247,12 +255,12 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseInput
-                  id="basic"
+                  id="basic salary"
                   type="number"
-                  name="basic"
+                  name="basic salary"
                   max={100}
                   value={
-                    formDetails.payrollVariables.find((variable) => variable.name === "basic")?.value || ""
+                    formDetails.payrollVariables.find((variable) => variable.name === "basic salary")?.value || ""
                   }
                   onChange={handleChange}
                 />
@@ -266,7 +274,7 @@ export const PayrollSettings = () => {
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row">
-            <Label htmlFor="housing">Housing</Label>
+            <Label htmlFor="housing allowance">Housing</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -274,11 +282,11 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseSelect
-                  id="housing"
-                  name="housing"
+                  id="housing allowance"
+                  name="housing allowance"
                   required
                   value={
-                    formDetails.payrollVariables.find((variable) => variable.name === "housing")?.value || ""
+                    formDetails.payrollVariables.find((variable) => variable.name === "housing allowance")?.value || ""
                   }
                   onChange={handleChange}
                 >
@@ -297,7 +305,7 @@ export const PayrollSettings = () => {
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row">
-            <Label htmlFor="transport">Transport</Label>
+            <Label htmlFor="transport allowance">Transport</Label>
             <Row
               flex={0.6}
               alignitems={"center"}
@@ -305,11 +313,11 @@ export const PayrollSettings = () => {
             >
               <InputRow>
                 <BaseSelect
-                  id="transport"
-                  name="transport"
+                  id="transport allowance"
+                  name="transport allowance"
                   required
                   value={
-                    formDetails.payrollVariables.find((variable) => variable.name === "transport")?.value || ""
+                    formDetails.payrollVariables.find((variable) => variable.name === "transport allowance")?.value || ""
                   }
                   onChange={handleChange}
                 >
@@ -328,37 +336,37 @@ export const PayrollSettings = () => {
             </Row>
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="overtime">Overtime</Label>
+            <Label htmlFor="overtime pay">Overtime</Label>
             <BaseInput
-              id="overtime"
+              id="overtime pay"
               type="checkbox"
-              name="overtime"
+              name="overtime pay"
               checked={
-                formDetails.payrollVariables.find((variable) => variable.name === "overtime")?.isChecked || ""
+                formDetails.payrollVariables.find((variable) => variable.name === "overtime pay")?.isChecked || ""
               }
               onChange={handleCheckboxChange}
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="bonus">Bonus</Label>
+            <Label htmlFor="bonuses">Bonus</Label>
             <BaseInput
-              id="bonus"
+              id="bonuses"
               type="checkbox"
-              name="bonus"
+              name="bonuses"
               checked={
-                formDetails.payrollVariables.find((variable) => variable.name === "bonus")?.isChecked || ""
+                formDetails.payrollVariables.find((variable) => variable.name === "bonuses")?.isChecked || ""
               }
               onChange={handleCheckboxChange}
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="other">Other</Label>
+            <Label htmlFor="other benefits">Other</Label>
             <BaseInput
-              id="other"
+              id="other benefits"
               type="checkbox"
-              name="other"
+              name="other benefits"
               checked={
-                formDetails.payrollVariables.find((variable) => variable.name === "other")?.isChecked || ""
+                formDetails.payrollVariables.find((variable) => variable.name === "other benefits")?.isChecked || ""
               }
               onChange={handleCheckboxChange}
             />
@@ -440,14 +448,14 @@ export const PayrollSettings = () => {
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="others">Others</Label>
+            <Label htmlFor="other deductions">Others</Label>
             <BaseInput
-              id="others"
+              id="other deductions"
               type="checkbox"
-              name="others"
+              name="other deductions"
               onChange={handleCheckboxChange}
               checked={
-                formDetails.payrollVariables.find((variable) => variable.name === "others")?.isChecked || ""
+                formDetails.payrollVariables.find((variable) => variable.name === "other deductions")?.isChecked || ""
               }
             />
           </BaseFlex>
