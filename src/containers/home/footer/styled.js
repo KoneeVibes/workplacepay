@@ -21,12 +21,11 @@ export const FooterWrapper = styled(Row)(() => {
     ".site-map": {
       flex: 1,
       padding: "var(--cardPadding) 0",
-      gap: "calc(var(--flexGap)/3)",
-    },
-
+      gap: "0",
     ".contact": {
       flex: 1,
       padding: "var(--cardPadding) 0",
+      gap: "0",
     },
 
      ".emailInput": {

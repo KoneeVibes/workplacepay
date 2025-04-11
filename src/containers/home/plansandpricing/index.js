@@ -3,7 +3,9 @@ import { PlansAndPricingRow, PlansAndPricingWrapper } from "./styled";
 
 export const PlansAndPricing = () => {
     return (
-        <PlansAndPricingWrapper>
+        <PlansAndPricingWrapper
+        id="plans"
+        >
             {/* Awele, your html code should begin below this line */}
             <H2>Plans and Pricing</H2>
             <PlansAndPricingRow className="pricingRow"

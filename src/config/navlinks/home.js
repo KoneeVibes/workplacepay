@@ -1,18 +1,18 @@
 export const navLinks = [
     {
         name: "Why this app?",
-        url: ""
+        url: "/#why"
     },
     {
         name: "Features",
-        url: ""
+        url: "/#features"
     },
     {
         name: "Plan & Pricing",
-        url: ""
+        url: "/#plans"
     },
     {
         name: "Contact",
-        url: ""
+        url: "/#contact"
     },
 ];

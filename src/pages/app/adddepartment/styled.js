@@ -25,6 +25,7 @@ export const AddDepartmentWrapper = styled("div")(() => {
             border: "none",
             backgroundColor: "#F2F2F8",
             borderRadius: "8px",
+            fontWeight: "400",
         },
         "& label": {
             fontFamily: "Poppins",

@@ -46,6 +46,7 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
             outline: "none",
             border: "none",
             backgroundColor: "#F2F2F8",
+            fontWeight: 400,
             borderRadius: "8px",
         },
         "@media screen and (max-width: 425px)": {

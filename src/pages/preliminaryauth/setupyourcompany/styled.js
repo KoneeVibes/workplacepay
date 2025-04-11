@@ -54,6 +54,7 @@ export const SetUpYourCompanyWrapper = styled("div")(() => {
             border: "none",
             backgroundColor: "#F2F2F8",
             borderRadius: "8px",
+            fontWeight: "400",
         },
         "& .payment-modal": {
             position: "fixed",

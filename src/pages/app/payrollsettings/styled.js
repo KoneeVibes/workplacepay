@@ -35,6 +35,7 @@ export const PayrollSettingsWrapper = styled("div")(() => {
     },
     "& input": {
       width: "auto",
+      fontWeight: "400",
     },
     "& select": {
       width: "auto",
@@ -69,6 +70,7 @@ export const InputRow = styled(Row)(() => {
       borderRight: "1px solid #000000",
       borderRadius: "1rem 0 0 1rem",
       padding: "calc(var(--cardPadding)/2)",
+      fontWeight: "400",
     },
     "& span": {
       padding: "calc(var(--cardPadding)/4)",

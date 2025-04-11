@@ -7,6 +7,7 @@ export const VarianceWrapper = styled("div")(() => {
     "& select": {
       padding: "calc(var(--cardPadding)/2)",
       borderRadius: "10px",
+      fontWeight: "400",
     },
     "& fieldset": {
       flex: 1,
