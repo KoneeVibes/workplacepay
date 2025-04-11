@@ -15,18 +15,21 @@ export const FooterWrapper = styled(Row)(() => {
       flex: 1,
       overflow: "hidden",
       padding: "var(--cardPadding) 0",
+      gap: "calc(var(--flexGap)/3)",
     },
 
     ".site-map": {
       flex: 1,
       padding: "var(--cardPadding) 0",
       gap: "0",
-    },
-
     ".contact": {
       flex: 1,
       padding: "var(--cardPadding) 0",
       gap: "0",
+    },
+
+     ".emailInput": {
+      padding: "10px",
     },
 
     "@media screen and (max-width: 1024px)": {

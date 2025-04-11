@@ -37,6 +37,19 @@ export const EmployerProfileWrapper = styled("div")(() => {
             padding: "calc(var(--cardPadding) * 2)",
             borderRadius: "1rem",
             boxShadow: "0px 20px 24px -4px #10182814",
+            "& .payment-form": {
+                alignItems: "unset",
+                justifyContent: "unset",
+                padding: "unset"
+            },
+            "@media screen and (max-width: 425px)": {
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                transform: "unset",
+                borderRadius: 0,
+            }
         },
     }
 });

@@ -11,7 +11,6 @@ import Cookies from "universal-cookie";
 import { months } from "../../../helpers/retrieveAllMonths";
 import { getYearRange } from "../../../helpers/retrieveAllYearsToDate";
 import { runPayrollService } from "../../../utils/apis/payroll/runPayroll";
-import { DotLoader } from "react-spinners";
 import { retrievePayrollSetup } from "../../../utils/apis/payroll/retrievePayrollSetup";
 import { getDepartments } from "../../../utils/apis/department/getDepartments";
 import { BaseInput } from "../../../components/form/input/styled";
@@ -19,6 +18,7 @@ import { RunPayrollModal } from "../../../containers/app/modals/runpayrollmodal"
 import { Context } from "../../../context";
 import { getCompanyDetails } from "../../../utils/apis/company/getCompanyDetails";
 import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
+import { ConfirmationModal } from "../../../containers/app/modals/confirmationmodal";
 
 export const Payroll = () => {
     const startDate = 1990;
@@ -50,6 +50,8 @@ export const Payroll = () => {
         status: "",
     });
     const [company, setCompany] = useState({});
+    const [flag, setFlag] = useState("");
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
     useEffect(() => {
         retrievePayrollSetup(TOKEN, COMPANY_ID)
@@ -106,6 +108,7 @@ export const Payroll = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return;
         return setIsRunPayrollModalOpen(true);
     };
 
@@ -115,29 +118,43 @@ export const Payroll = () => {
         setIsPaymentFormModalOpen(true);
     };
 
-    const handleRunPayroll = async (e, flag) => {
+    const handleFlagState = (e, flag) => {
         e.preventDefault();
-        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return;
-        setError(null);
-        setIsLoading(true);
+        e.stopPropagation();
+        setFlag(flag);
         setIsRunPayrollModalOpen(false);
+        setIsConfirmationModalOpen(true);
+    };
+
+    const handlePersistModal = () => {
+        setError(null);
+        return setIsConfirmationModalOpen(false);
+    };
+
+    const handleRunPayroll = async (e) => {
+        e.preventDefault();
+        if (!flag.trim()) return;
+        setIsLoading(true);
         const transformedPayrollPayload = {
             ...payrollPayload,
             includeEmployer: flag === "with-employer" ? true : false
         }
         try {
             const response = await runPayrollService(TOKEN, COMPANY_ID, transformedPayrollPayload);
-            if (response.status) {
+            if (response) {
                 setIsLoading(false);
-                setEmployees(response.employees);
+                setEmployees(response.employeePayslips);
+                setFlag("");
                 // handleOpenModal();
             } else {
                 setIsLoading(false);
+                setFlag("");
                 setError('Run payroll operation failed. Please check your credentials and try again.');
                 console.error("Run payroll operation failed. Please check your credentials and try again.");
             }
         } catch (error) {
             setIsLoading(false);
+            setFlag("");
             setError(`Run payroll operation failed. ${error.message}`);
             console.error('Run payroll operation failed:', error);
         }
@@ -199,27 +216,15 @@ export const Payroll = () => {
                         className="payroll-button-box"
                     >
                         <BaseButton>
-                            {isLoading ?
-                                (<DotLoader
-                                    size={20}
-                                    color="white"
-                                    className='dotLoader'
-                                />) : (
-                                    <Span>
-                                        Run Payroll
-                                    </Span>
-                                )}
+                            <Span>
+                                Run Payroll
+                            </Span>
                         </BaseButton>
                         <RunPayrollModal
-                            handleActionItemClick={handleRunPayroll}
+                            handleActionItemClick={handleFlagState}
                         />
                     </div>
                 </form>
-                <div
-                    className="error-text"
-                >
-                    {error && <P style={{ color: 'red', marginBlockStart: 0 }}>{error}</P>}
-                </div>
                 <Row
                     className="filter"
                 >
@@ -284,6 +289,16 @@ export const Payroll = () => {
                     />
                 </div>
                 <PaymentModal />
+                <ConfirmationModal
+                    open={isConfirmationModalOpen}
+                    handleClickOutside={handlePersistModal}
+                    className={"payroll-confirmation-modal"}
+                    title={"Are you sure?"}
+                    message={error && <P style={{ color: 'red', marginBlockStart: 0 }}>{error}</P>}
+                    callToAction={"Proceed"}
+                    isLoading={isLoading}
+                    handleCallToActionClick={handleRunPayroll}
+                />
             </PayrollWrapper>
         </Layout>
     )
