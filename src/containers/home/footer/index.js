@@ -30,8 +30,8 @@ export const Footer = () => {
       </Column>
       <Column className="contact">
         <P>workplacePay</P>
-        <P>info@focusgroup.com</P>
-        <P>+2348069999680</P>
+        <P>workplacepay@focusgroupng.com</P>
+        <P>+2348021810040</P>
       </Column>
     </FooterWrapper>
   );
