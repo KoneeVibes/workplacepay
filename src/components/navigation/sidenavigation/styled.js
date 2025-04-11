@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Context } from "../../../context";
 import { Column } from "../../flex/styled";
 
-export const SideNavigationWrapper = styled(Column)(() => {
+export const SideNavigationWrapper = styled(Column)(({ USERROLE }) => {
     const { isSideNavigationOpen, setIsSideNavigationOpen } = useContext(Context);
     const [matches, setMatches] = useState(false);
     useEffect(() => {
@@ -27,45 +27,53 @@ export const SideNavigationWrapper = styled(Column)(() => {
         right: 0,
         bottom: 0,
         overflowY: "auto",
+        zIndex: 1,
         display: isSideNavigationOpen ? "flex" : "none",
         "& a": {
             textDecoration: "none",
             color: "#FFFFFF",
         },
-        "& .nav-logo": {
-            padding: "var(--cardPadding)",
+        "& .side-navigation-upper-section": {
             borderBottom: "1px solid #FFFFFF",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "var(--flexGap)",
-            "& p": {
-                fontFamily: "Poppins",
-                fontWeight: 700,
-                fontSize: "24px",
-                marginBlock: 0,
-                cursor: "pointer",
+            "& .switch-companies-box": {
+                padding: "var(--cardPadding)",
+                paddingTop: 0,
             },
-            "& button": {
-                width: "fit-content",
-                borderRadius: "40px",
-            },
-            "@media screen and (max-width: 425px)": {
-                alignItems: "flex-start",
-                flexDirection: "column-reverse",
-                "& p": {
-                    width: "100%",
-                }
-            },
-            "@media screen and (min-width: 1024px)": {
-                minHeight: "var(--topNavHeight)",
-                boxSizing: "border-box",
+            "& .nav-logo": {
+                padding: "var(--cardPadding)",
+                paddingBottom: USERROLE === "employer" ? 0 : "calc(var(--cardPadding) * 1.7)",
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "space-between",
+                gap: "var(--flexGap)",
+                "& p": {
+                    fontFamily: "Poppins",
+                    fontWeight: 700,
+                    fontSize: "24px",
+                    marginBlock: 0,
+                    cursor: "pointer",
+                },
                 "& button": {
-                    display: "none",
+                    width: "fit-content",
+                    borderRadius: "40px",
+                },
+                "@media screen and (max-width: 425px)": {
+                    alignItems: "flex-start",
+                    flexDirection: "column-reverse",
+                    "& p": {
+                        width: "100%",
+                    }
+                },
+                "@media screen and (min-width: 1024px)": {
+                    // minHeight: "var(--topNavHeight)",
+                    boxSizing: "border-box",
+                    display: "flex",
+                    alignItems: "center",
+                    "& button": {
+                        display: "none",
+                    }
                 }
-            }
+            },
         },
         "& .nav-links": {
             padding: "var(--cardPadding)",

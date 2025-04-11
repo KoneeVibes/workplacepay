@@ -12,6 +12,10 @@ export const PayrollWrapper = styled("div")(() => {
             justifyContent: "space-between",
             padding: "var(--cardPadding)",
             // marginBlockEnd: "calc(var(--sectionMargin) * 3)",
+            "& select": {
+                padding: "calc(var(--cardPadding)/4)",
+                borderRadius: "10px",
+            },
             "& fieldset": {
                 flex: 1,
                 overflow: "hidden",
@@ -19,7 +23,8 @@ export const PayrollWrapper = styled("div")(() => {
             "& .payroll-button-box": {
                 position: "relative",
                 "& button": {
-                    overflow: "hidden"
+                    overflow: "hidden",
+                    padding: "calc(var(--cardPadding)/3.35) calc(var(--cardPadding)/2)",
                 }
             },
             "@media screen and (max-width: 500px)": {
@@ -46,6 +51,7 @@ export const PayrollWrapper = styled("div")(() => {
                 padding: "calc(var(--cardPadding)/4)",
                 borderRadius: "10px",
                 border: "1px solid #000000",
+                fontWeight: "400",
             },
             "& fieldset": {
                 flex: 1,
@@ -86,6 +92,22 @@ export const PayrollWrapper = styled("div")(() => {
             padding: "calc(var(--cardPadding) * 2)",
             borderRadius: "1rem",
             boxShadow: "0px 20px 24px -4px #10182814",
+            "& .payment-form": {
+                alignItems: "unset",
+                justifyContent: "unset",
+                padding: "unset"
+            },
+            "@media screen and (max-width: 425px)": {
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                transform: "unset",
+                borderRadius: 0,
+            }
         },
+        "& .payroll-confirmation-modal > div:first-of-type": {
+            maxWidth: "19.6rem"
+        }
     }
 })

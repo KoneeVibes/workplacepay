@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PasswordResetAreaWrapper = styled("div")(() => {
- return {
+  return {
     overflow: "hidden",
     backgroundColor: "#F5F5F5",
     padding: "var(--cardPadding)",
@@ -16,8 +16,8 @@ export const PasswordResetAreaWrapper = styled("div")(() => {
         border: "1px solid #4E57BB",
         backgroundColor: "transparent",
         borderRadius: "8px",
+        fontWeight: "400",
       },
-      
     },
   };
 });

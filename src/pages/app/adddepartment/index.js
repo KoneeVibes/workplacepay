@@ -88,7 +88,7 @@ export const AddDepartment = () => {
         <SuccessModal
           open={isSuccessModalOpen}
           handleClickOutside={handlePersistModal}
-          className={"add-deparrtment-success-modal"}
+          className={"add-department-success-modal"}
           title={"Success"}
           message={"Department has been successfully added"}
           callToAction={"Close"}

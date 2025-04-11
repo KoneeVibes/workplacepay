@@ -54,6 +54,7 @@ export const SetUpYourCompanyWrapper = styled("div")(() => {
             border: "none",
             backgroundColor: "#F2F2F8",
             borderRadius: "8px",
+            fontWeight: "400",
         },
         "& .payment-modal": {
             position: "fixed",
@@ -64,6 +65,11 @@ export const SetUpYourCompanyWrapper = styled("div")(() => {
             padding: "calc(var(--cardPadding) * 2)",
             borderRadius: "1rem",
             boxShadow: "0px 20px 24px -4px #10182814",
+            "& .payment-form": {
+                alignItems: "unset",
+                justifyContent: "unset",
+                padding: "unset"
+            }
         },
         "@media screen and (max-width: 425px)": {
             "& .image-container": {
@@ -78,6 +84,12 @@ export const SetUpYourCompanyWrapper = styled("div")(() => {
                 right: 0,
                 bottom: 0,
                 transform: "unset",
+                borderRadius: 0,
+                "& .payment-form": {
+                    alignItems: "unset",
+                    justifyContent: "unset",
+                    padding: "unset"
+                },
             },
         },
         "@media screen and (max-width: 1024px)": {

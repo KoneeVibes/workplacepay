@@ -5,6 +5,7 @@ import { WhyWorkPlacePay } from "../../containers/home/whyworkplacepay";
 import { PlansAndPricing } from "../../containers/home/plansandpricing";
 import { FAQ } from "../../containers/home/faq";
 import { Footer } from "../../containers/home/footer";
+import { Features } from "../../containers/home/features";
 
 export const Home = () => {
     const frequentlyAskedQuestions = [
@@ -27,6 +28,7 @@ export const Home = () => {
             <Navbar />
             <Hero />
             <WhyWorkPlacePay />
+            <Features/>
             <PlansAndPricing />
             <FAQ
                 faqItems={frequentlyAskedQuestions}

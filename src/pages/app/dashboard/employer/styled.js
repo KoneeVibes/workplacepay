@@ -75,12 +75,14 @@ export const EmployerDashboardWrapper = styled("div")(() => {
         padding: "calc(var(--cardPadding)/4)",
         outline: "none",
         border: "1px solid #000000",
+        fontWeight: "400",
       },
       "& .card-table-filter select": {
         borderRadius: "1rem",
         padding: "calc(var(--cardPadding)/4)",
         outline: "none",
         border: "1px solid #000000",
+        fontWeight: "400",
       },
       "& .card-table": {
         overflow: "auto",
