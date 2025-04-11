@@ -22,13 +22,15 @@ export const FooterWrapper = styled(Row)(() => {
       flex: 1,
       padding: "var(--cardPadding) 0",
       gap: "0",
+    },
+
     ".contact": {
       flex: 1,
       padding: "var(--cardPadding) 0",
       gap: "0",
     },
 
-     ".emailInput": {
+    ".emailInput": {
       padding: "10px",
     },
 
@@ -40,5 +42,5 @@ export const FooterWrapper = styled(Row)(() => {
     "@media screen and (max-width: 1280px)": {
       gap: "calc(var(--flexGap) * 3)",
     },
-  };
+  }
 });
