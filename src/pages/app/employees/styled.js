@@ -6,7 +6,7 @@ export const EmployeesWrapper = styled("div")(() => {
     backgroundColor: "#FFFFFF",
     position: "relative",
     "& select, & input": {
-      padding: "calc(var(--cardPadding)/2)",
+      padding: "calc(var(--cardPadding)/4)",
       borderRadius: "10px",
       border: "1px solid #000000",
     },

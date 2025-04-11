@@ -225,7 +225,7 @@ export const AddNewEmployee = () => {
                     />
                   </BaseFieldSet>
                   <BaseFieldSet>
-                    <Label>Other Name</Label>
+                    <Label> Name</Label>
                     <BaseInput
                       type="text"
                       name="othername"

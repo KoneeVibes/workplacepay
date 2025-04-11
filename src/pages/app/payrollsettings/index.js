@@ -110,10 +110,10 @@ export const PayrollSettings = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
-    const Navigate = useNavigate();
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const Navigate = useNavigate();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
- const handleCloseSuccessModal = () => {
+  const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
     return Navigate(-1);
   };
@@ -220,14 +220,14 @@ export const PayrollSettings = () => {
     >
       <PayrollSettingsWrapper>
         <SuccessModal
-                open={isSuccessModalOpen}
-                handleClickOutside={handlePersistModal}
-                className={"payroll=setup-success-modal"}
-                title={"Success"}
-                message={"payroll was setup successfully"}
-                callToAction={"Close"}
-                handleCallToActionClick={handleCloseSuccessModal}
-              />
+          open={isSuccessModalOpen}
+          handleClickOutside={handlePersistModal}
+          className={"payroll=setup-success-modal"}
+          title={"Success"}
+          message={"payroll was setup successfully"}
+          callToAction={"Close"}
+          handleCallToActionClick={handleCloseSuccessModal}
+        />
         <H2>Payroll Variables</H2>
         <P>Select the applicable variables for the user</P>
         <form onSubmit={handleSubmit}>
@@ -346,7 +346,7 @@ export const PayrollSettings = () => {
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="other">Other</Label>
+            <Label htmlFor="other">Other Benefits</Label>
             <BaseInput
               id="other"
               type="checkbox"
