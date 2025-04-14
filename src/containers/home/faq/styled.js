@@ -1,7 +1,12 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { Context } from "../../../context";
 
 export const FAQWrapper = styled('div')(() => {
+    const { isMenuOpen } = useContext(Context);
     return {
+        position: "relative",
+        top: isMenuOpen ? "var(--mobileNavLinks)" : "0",
         padding: "0 var(--pagePadding)",
         display: "flex",
         flexDirection: "column",

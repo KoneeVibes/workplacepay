@@ -1,121 +1,101 @@
-import { AdminDashboardWrapper } from "./styled";
-import { useEffect, useState } from "react";
 import { Row } from "../../../../components/flex/styled";
+import { AdminDashboardWrapper } from "./styled";
+import { PieChart } from "../../../../components/doughnut";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { Label } from "../../../../components/typography/styled";
-import { Span } from "../../../../components/typography/styled";
-import { Table } from "../../../../components/table";
+import { useEffect, useState } from "react";
+import { LineGraph } from "../../../../components/linegraph";
+import { retrieveCreditToPayrollAnalysis } from "../../../../utils/apis/analytics/creditToPayroll";
 import Cookies from "universal-cookie";
-import { getAllCompanies } from "../../../../utils/apis/company/getAllCompanies";
-import { BaseInput } from "../../../../components/form/input/styled";
-import { useNavigate } from "react-router-dom";
-import { getPayrollPlans } from "../../../../utils/apis/payroll/getPayrollPlans";
 
 export const AdminDashboard = () => {
-  const cookies = new Cookies();
-  const TOKEN = cookies.get("TOKEN");
+    const cookies = new Cookies();
+    const TOKEN = cookies.get("TOKEN");
 
-  const navigate = useNavigate();
+    const [filter, setFilter] = useState("");
+    const [companies, setCompanies] = useState([]);
+    const [payrollRun, setPayrollRun] = useState([]);
+    const [creditConsumed, setCreditConsumed] = useState([]);
 
-  const [companies, setCompanies] = useState([]);
-  const [payrollPlans, setPayrollPlans] = useState([]);
-  const [filter, setFilter] = useState({
-    companyId: "",
-    planType: "",
-    usage: "",
-  });
+    const handleChange = (e) => {
+        const { value } = e.target;
+        setFilter(value);
+    };
 
-  useEffect(() => {
-    getAllCompanies(TOKEN, filter)
-      .then((data) => setCompanies(data))
-      .catch((err) => {
-        console.error("Failed to fetch companies:", err);
-      });
-  }, [TOKEN, filter]);
-
-  useEffect(() => {
-    getPayrollPlans(TOKEN)
-      .then((data) => {
-        setPayrollPlans(data ?? []);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch payroll plans:", err);
-      });
-  }, [TOKEN]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFilter((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleNavigateToCompanyDetailsPage = (e, companyId) => {
-    e.stopPropagation();
-    e.preventDefault();
-    return navigate(`/admin/companies/${companyId}`);
-  };
-
-  return (
-    <AdminDashboardWrapper>
-      <Row className="heading-row" justifycontent={"space-between"}>
-        <Span>Company List</Span>
-        <Span>See all</Span>
-      </Row>
-      <Row className="filter">
-        <BaseFieldSet>
-          <Label>Company Name</Label>
-          <BaseInput
-            type="text"
-            name="companyId"
-            placeholder="Search by Company Name"
-            value={filter.companyId}
-            onChange={handleChange}
-          />
-        </BaseFieldSet>
-        <BaseFieldSet>
-          <Label>Plan Type</Label>
-          <BaseSelect
-            name="planType"
-            value={filter?.planType}
-            onChange={(e) => handleChange(e)}
-          >
-            <option value="" hidden>Select a Plan</option>
-            {payrollPlans?.map((plan, index) => {
-              return (
-                <option key={index} value={plan?.title}>
-                  {plan?.title}
-                </option>
-              );
-            })}
-          </BaseSelect>
-        </BaseFieldSet>
-        <BaseFieldSet>
-          <Label>Usage</Label>
-          <BaseSelect name="usage" onChange={handleChange} value={filter.usage}>
-            <option value="" hidden></option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
-          </BaseSelect>
-        </BaseFieldSet>
-      </Row>
-      <div className="admin-table">
-        <Table
-          columnTitles={[
-            "Company Name",
-            "Employer's Name",
-            "Plan Type",
-            "Credits Left",
-            "Last Used",
-            "",
-          ]}
-          rowItems={companies}
-          location={"Company Table"}
-          handleRowItemClick={handleNavigateToCompanyDetailsPage}
-        />
-      </div>
-    </AdminDashboardWrapper>
-  );
-};
+    useEffect(() => {
+        retrieveCreditToPayrollAnalysis(TOKEN)
+            .then((data) => {
+                setCompanies(data?.["payrolls"]?.map((payroll) => payroll.companyName));
+                setPayrollRun(data?.["payrolls"]?.map((payroll) => payroll.value));
+                setCreditConsumed(data?.["creditConsumed"]?.map((payroll) => payroll.value));
+            })
+            .catch((err) => {
+                console.error("Failed to fetch credit to payroll analysis:", err);
+            });
+    }, [TOKEN]);
+    
+    return (
+        <AdminDashboardWrapper>
+            <div
+                className="filter"
+            >
+                <BaseFieldSet>
+                    <Label>Filter by Period</Label>
+                    <BaseSelect
+                        name="month"
+                        onChange={(e) => handleChange(e)}
+                        value={filter}
+                    >
+                        <option value="">All time</option>
+                        <option value="yesterday">Last one day</option>
+                        <option value="last week">Last week</option>
+                        <option value="last month">Last month</option>
+                        <option value="last quarter">Last three months</option>
+                        <option value="last half">Last six months</option>
+                        <option value="last year">Last year</option>
+                    </BaseSelect>
+                </BaseFieldSet>
+            </div>
+            <Row
+                className="pie-chart-row"
+            >
+                <div
+                    className="pie-chart-container"
+                >
+                    <PieChart
+                        title={"Credits Utilization"}
+                        labels={["Salaries Paid", "Credit Consumed"]}
+                        values={[300, 100]}
+                    />
+                </div>
+                <div
+                    className="pie-chart-container"
+                >
+                    <PieChart
+                        title={"Referrals Conversion"}
+                        labels={["Total Referrals", "Converted Referrals"]}
+                        values={[300, 500]}
+                    />
+                </div>
+            </Row>
+            <div>
+                <LineGraph
+                    title={"Company Performance Graph"}
+                    labels={companies}
+                    datasets={[
+                        {
+                            label: "Payroll Run",
+                            data: payrollRun
+                        },
+                        {
+                            label: "Credit Consumed",
+                            data: creditConsumed
+                        },
+                    ]}
+                    bgColor={"#D9D9D9"}
+                />
+            </div>
+        </AdminDashboardWrapper>
+    )
+}

@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { Row } from "../../../components/flex/styled";
+import { useContext } from "react";
+import { Context } from "../../../context";
 
 export const WhyWorkPlacePayWrapper = styled(Row)(() => {
+  const { isMenuOpen } = useContext(Context);
   return {
+    position: "relative",
+    top: isMenuOpen ? "var(--mobileNavLinks)" : "0",
     // Ibukun, your CSS styling should begin below this line
     margin: "calc(var(--sectionMargin) * 2) 0",
     padding: "0 var(--pagePadding)",

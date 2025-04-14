@@ -1,9 +1,8 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Td, Th } from "../typography/styled";
 import { TableWrapper } from "./styled";
 import { BaseInput } from "../form/input/styled";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,11 +13,9 @@ export const Table = ({
   activeRowId,
   handleRowItemClick,
   handleRowItemActionClick,
-  dropdownRef,
+  dropdownRef
 }) => {
   const navigate = useNavigate();
-  const { isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen } =
-    useContext(Context);
 
   return (
     <TableWrapper>
@@ -140,10 +137,7 @@ export const Table = ({
                   <Td>{rowItem?.month || ""}</Td>
                   <Td>{rowItem?.year || ""}</Td>
                   <Td
-                    onClick={() =>
-                      !isPayslipDetailsModalOpen &&
-                      setIsPayslipDetailsModalOpen(true)
-                    }
+                    onClick={(e) => handleRowItemClick(e)}
                   >
                     View Payslip
                   </Td>
@@ -206,23 +200,33 @@ export const Table = ({
                         </li>
                       </ul>
                     )}
-                    {location === "Company Table" && (
-                      <Fragment>
-                        <Td>{rowItem?.companyName || ""}</Td>
-                        <Td>{rowItem?.employerEmail || ""}</Td>
-                        <Td>{rowItem?.planType || ""}</Td>
-                        <Td>{rowItem?.creditBalance || ""}</Td>
-                        <Td>{rowItem?.lastUsedDate || ""}</Td>
-                        <Td
-                          onClick={(e) =>
-                            handleRowItemClick(e, rowItem?.companyId)
-                          }
-                        >
-                          View Details
-                        </Td>
-                      </Fragment>
-                    )}
                   </Td>
+                </Fragment>
+              )}
+              {location === "Company Table" && (
+                <Fragment>
+                  <Td>{rowItem?.companyName || ""}</Td>
+                  <Td>{rowItem?.employerEmail || ""}</Td>
+                  <Td>{rowItem?.planType || ""}</Td>
+                  <Td>{rowItem?.creditBalance || ""}</Td>
+                  <Td>{rowItem?.lastUsedDate || ""}</Td>
+                  <Td
+                    onClick={(e) =>
+                      handleRowItemClick(e, rowItem?.companyId)
+                    }
+                  >
+                    View Details
+                  </Td>
+                </Fragment>
+              )}
+              {location === "Referrals Table" && (
+                <Fragment>
+                  <Td>{rowItem?.refererFullname}</Td>
+                  <Td>{rowItem?.employerFullname}</Td>
+                  <Td>{rowItem?.companyName}</Td>
+                  <Td>{rowItem?.companyEmail}</Td>
+                  <Td>{rowItem?.dateReferred}</Td>
+                  <Td>{rowItem?.status}</Td>
                 </Fragment>
               )}
             </tr>

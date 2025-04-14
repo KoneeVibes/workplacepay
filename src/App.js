@@ -6,26 +6,28 @@ import { ReferYourEmployer } from "./pages/preliminaryauth/referyouremployer";
 import { SetUpYourCompany } from "./pages/preliminaryauth/setupyourcompany";
 import { Auth } from "./pages/auth";
 import { Dashboard } from "./pages/app/dashboard";
-import { AddNewEmployee } from "./pages/app/addnewemployee";
-import { PayrollSettings } from "./pages/app/payrollsettings";
-import { Payroll } from "./pages/app/payroll";
-import { Employees } from "./pages/app/employees";
+import { AddNewEmployee } from "./pages/app/employer/addnewemployee";
+import { PayrollSettings } from "./pages/app/employer/payrollsettings";
+import { Payroll } from "./pages/app/employer/payroll";
+import { Employees } from "./pages/app/employer/employees";
 import { GetStarted } from "./pages/preliminaryauth/getstarted";
-import { Variance } from "./pages/app/variancereport";
-import { GeneralReport } from "./pages/app/generalreport";
-import { Paye } from "./pages/app/paye";
-import { Pension } from "./pages/app/pension";
-import { Summary } from "./pages/app/summary";
-import { UserSummary } from "./pages/app/usersummary";
-import { Admincompanies } from "./pages/app/admincompanies";
+import { Variance } from "./pages/app/employer/variancereport";
+import { GeneralReport } from "./pages/app/employer/generalreport";
+import { Paye } from "./pages/app/employer/paye";
+import { Pension } from "./pages/app/employer/pension";
+import { Summary } from "./pages/app/employer/summary";
+import { UserSummary } from "./pages/app/employer/usersummary";
+import { CompanyDetails } from "./pages/app/admin/companydetails";
 import { EmployeeProfile } from "./pages/app/profile/employee";
-import { Analytics } from "./pages/app/analytics";
-import { Department } from "./pages/app/department";
-import { AddDepartment } from "./pages/app/adddepartment";
-import { PasswordResetArea } from "./pages/app/passwordresetarea";
-import { EditDepartment } from "./pages/app/editdepartment";
+import { Department } from "./pages/app/employer/department";
+import { AddDepartment } from "./pages/app/employer/adddepartment";
+import { PasswordResetArea } from "./pages/app/employer/passwordresetarea";
+import { EditDepartment } from "./pages/app/employer/editdepartment";
 import { EmployerProfile } from "./pages/app/profile/employer";
-import { EditEmployee } from "./pages/app/editemployee";
+import { EditEmployee } from "./pages/app/employer/editemployee";
+import { Referral } from "./pages/app/admin/referral";
+import { Companies } from "./pages/app/admin/companies";
+import { Pricing } from "./pages/app/admin/pricing";
 
 function App() {
   return (
@@ -53,10 +55,12 @@ function App() {
         <Route path="/reportsummary/pensionoutput" element={<Pension />} />
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
-        <Route path="/admin/companies/:id" element={<Admincompanies />} />
+        <Route path="/admin/companies/:id" element={<CompanyDetails />} />
         <Route path="/employee/profile" element={<EmployeeProfile />} />
         <Route path="/employer/profile" element={<EmployerProfile />} />
-        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/admin/companies" element={<Companies />} />
+        <Route path="/admin/referral" element={<Referral />} />
+        <Route path="/admin/pricing" element={<Pricing />} />
       </Routes>
     </BrowserRouter>
   );

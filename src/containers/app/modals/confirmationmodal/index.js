@@ -5,8 +5,9 @@ import { H1, Span } from "../../../../components/typography/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { AreYouSure } from "../../../../assets";
 import { DotLoader } from "react-spinners";
+import { Row } from "../../../../components/flex/styled";
 
-export const ConfirmationModal = ({ open, handleClickOutside, className, title, message, callToAction, isLoading, handleCallToActionClick }) => {
+export const ConfirmationModal = ({ open, handleClickOutside, className, title, message, callToActionI, callToActionII, isLoadingI, isLoadingII, handleCallToActionClick }) => {
     const [matches, setMatches] = useState(false);
 
     useEffect(() => {
@@ -46,22 +47,34 @@ export const ConfirmationModal = ({ open, handleClickOutside, className, title, 
                         {message}
                     </div>
                 )}
-                <div
+                <Row
                     className="call-to-action-button-box"
                 >
                     <BaseButton
-                        onClick={handleCallToActionClick}
+                        onClick={(e) => handleCallToActionClick(e, "callToActionI")}
                     >
-                        {isLoading ?
+                        {isLoadingI ?
                             (<DotLoader
                                 size={20}
                                 color="white"
                                 className='dotLoader'
                             />) : (
-                                <Span>{callToAction}</Span>
+                                <Span>{callToActionI}</Span>
                             )}
                     </BaseButton>
-                </div>
+                    <BaseButton
+                        onClick={(e) => handleCallToActionClick(e, "callToActionII")}
+                    >
+                        {isLoadingII ?
+                            (<DotLoader
+                                size={20}
+                                color="white"
+                                className='dotLoader'
+                            />) : (
+                                <Span>{callToActionII}</Span>
+                            )}
+                    </BaseButton>
+                </Row>
             </ConfirmationModalWrapper>
         </BaseModal>
     )

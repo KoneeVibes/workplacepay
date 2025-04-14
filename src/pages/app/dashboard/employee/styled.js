@@ -45,6 +45,11 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
     },
     "& td": {
       minWidth: "200px",
+      border: "none",
+      borderLeft: "1px solid #000000",
+    },
+    "& td:first-of-type": {
+      borderLeft: "none",
     },
     "& .reset-password-modal": {
       padding: "var(--cardPadding)",

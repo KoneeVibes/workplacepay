@@ -11,7 +11,7 @@ export const HeroWrapper = styled("div")(() => {
     padding: "0 var(--pagePadding)",
     textAlign: "center",
     position: "relative",
-    top: isMenuOpen ? "var(--mobileNavLinks)" : "0",
+    top: isMenuOpen ? "calc(var(--mobileNavLinks))" : "0",
     "@media screen and (max-width: 768px)": {
       textAlign: "left",
     },
