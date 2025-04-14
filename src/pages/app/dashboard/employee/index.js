@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EmployeeDashboardWrapper } from "./styled";
 import { H1, H2, Label } from "../../../../components/typography/styled";
 import { Row } from "../../../../components/flex/styled";
@@ -12,6 +12,7 @@ import { PayslipDetailsModal } from "../../../../containers/app/modals/payslipde
 import { getYearRange } from "../../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../../helpers/retrieveAllMonths";
 import { getUser } from "../../../../utils/apis/user/getUser";
+import { Context } from "../../../../context";
 
 export const EmployeeDashboard = () => {
   const startDate = 1990;
@@ -22,6 +23,9 @@ export const EmployeeDashboard = () => {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
+
+  const { isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen } =
+    useContext(Context);
 
   const [payslips, setPayslips] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -60,6 +64,11 @@ export const EmployeeDashboard = () => {
       [name]: value,
     }));
   };
+
+  const handleOpenPayslipModal = (e) => {
+    e.stopPropagation();
+    return !isPayslipDetailsModalOpen && setIsPayslipDetailsModalOpen(true)
+  }
 
   return (
     <EmployeeDashboardWrapper>
@@ -117,6 +126,7 @@ export const EmployeeDashboard = () => {
           ]}
           // rowItems={payslips}
           rowItems={[{id: 1, month: "January", year: 2025}]}
+          handleRowItemClick={handleOpenPayslipModal}
         />
       </div>
       <ResetPasswordModal

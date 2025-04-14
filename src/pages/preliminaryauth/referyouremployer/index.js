@@ -5,7 +5,7 @@ import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
-import { referEmployer } from "../../../utils/apis/user/refer";
+import { referEmployer } from "../../../utils/apis/referral/referEmployer";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +35,7 @@ export const ReferYourEmployer = () => {
         setIsLoading(true);
         try {
             const response = await referEmployer(referForm);
-            if (response.status === "Success") {
+            if (response.status === "success") {
                 setIsLoading(false);
                 navigate("/");
             } else {

@@ -32,6 +32,7 @@ export const SetUpYourCompany = () => {
         companyEmail: "",
         companyPlan: ""
     });
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
 
     useEffect(() => {
         getPayrollPlans(TOKEN)
@@ -63,6 +64,7 @@ export const SetUpYourCompany = () => {
             const response = await setupCompanyService(TOKEN, formDetails);
             if (response.status) {
                 setIsLoading(false);
+                setShowPaymentModal(true);
                 handleOpenModal();
             } else {
                 setIsLoading(false);
@@ -213,7 +215,7 @@ export const SetUpYourCompany = () => {
                     </form>
                 </div>
             </Row>
-            <PaymentModal />
+            {showPaymentModal && <PaymentModal />}
         </SetUpYourCompanyWrapper >
     )
 }

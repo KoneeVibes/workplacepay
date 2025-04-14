@@ -5,7 +5,7 @@ import { Row } from "../../../../components/flex/styled";
 import { H3, Label, P } from "../../../../components/typography/styled";
 import { EmployerDashboardWrapper } from "./styled";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
-import { Chart } from "../../../../components/chart";
+import { LineGraph } from "../../../../components/linegraph";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
@@ -80,7 +80,7 @@ export const EmployerDashboard = () => {
           </div>
         </Card>
       </Row>
-      <Chart title={"Payment History"} labels={[]} datasets={[]} />
+      <LineGraph title={"Payment History"} labels={[]} datasets={[]} />
       <Card className={"employee-table-card"}>
         <Row className="card-title">
           <H3>Employee List</H3>
