@@ -5,10 +5,17 @@ import { PayslipDetailsModalWrapper } from "./styled";
 import { Column, Row } from "../../../../components/flex/styled";
 import { H1, H2, H3, Span } from "../../../../components/typography/styled";
 import { Card } from "../../../../components/card";
+import { getEmployeePayslipDetails } from "../../../../utils/apis/payroll/getEmployeePayslipDetails";
+import Cookies from "universal-cookie";
 
-export const PayslipDetailsModal = ({ height, width }) => {
-    const [matches, setMatches] = useState(false);
+export const PayslipDetailsModal = ({ height, width, payslipId }) => {
+    const cookies = new Cookies();
+    const TOKEN = cookies.get("TOKEN");
+
     const { isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen } = useContext(Context);
+
+    const [matches, setMatches] = useState(false);
+    const [payslipDetail, setPayslipDetail] = useState({});
 
     const handleCloseModal = () => {
         document.body.style.overflow = "auto";
@@ -27,6 +34,18 @@ export const PayslipDetailsModal = ({ height, width }) => {
         };
     }, []);
 
+    useEffect(() => {
+        const retrievePayslip = async () => {
+            try {
+                const payslip = await getEmployeePayslipDetails(TOKEN, payslipId);
+                setPayslipDetail(payslip?.data);
+            } catch (error) {
+                console.error("Failed to fetch employee payslip:", error);
+            }
+        };
+        retrievePayslip();
+    }, [TOKEN, payslipId]);
+
     return (
         <BaseModal
             open={isPayslipDetailsModalOpen}
@@ -39,12 +58,12 @@ export const PayslipDetailsModal = ({ height, width }) => {
                 <Row className="firstContainer">
                     <div>
                         <Row>
-                            <H1>Egunlusi Olumide</H1>
-                            <H2>Jan 2025</H2>
+                            <H1>{payslipDetail.fullName}</H1>
+                            <H2>{`${payslipDetail.month} ${payslipDetail.year}`}</H2>
                         </Row>
                     </div>
                     <div className="companyName">
-                        <H2>InfraFocus</H2>
+                        <H2>{payslipDetail.companyName}</H2>
                     </div>
                 </Row>
                 <Row className="middleContainer">
@@ -64,30 +83,17 @@ export const PayslipDetailsModal = ({ height, width }) => {
                     <Column>
                         <H3>Payments</H3>
                         <Card className="card">
-                            <Row className="cardRow">
-                                <Span>Basic</Span>
-                                <Span>N 450,000</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Housing</Span>
-                                <Span>N 45,769</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Transport</Span>
-                                <Span>N 78,300</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Bonus</Span>
-                                <Span>-</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Overtime 12.5 hours @ N1000</Span>
-                                <Span>N 17,450</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Total</Span>
-                                <Span>N 591,519</Span>
-                            </Row>
+                            {payslipDetail?.earnings?.map((earning, index) => {
+                                return (
+                                    <Row
+                                        key={index}
+                                        className="cardRow"
+                                    >
+                                        <Span>{earning.name}</Span>
+                                        <Span>{earning.value}</Span>
+                                    </Row>
+                                )
+                            })}
                         </Card>
                     </Column>
                     <Column>

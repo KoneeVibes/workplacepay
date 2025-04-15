@@ -28,6 +28,7 @@ export const EmployeeDashboard = () => {
     useContext(Context);
 
   const [payslips, setPayslips] = useState([]);
+  const [selectedPayslipId, setSelectedPayslipId] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState({});
 
   useEffect(() => {
@@ -65,8 +66,10 @@ export const EmployeeDashboard = () => {
     }));
   };
 
-  const handleOpenPayslipModal = (e) => {
+  const handleOpenPayslipModal = async (e, payslipId) => {
     e.stopPropagation();
+    if (!String(payslipId).trim()) return;
+    setSelectedPayslipId(payslipId);
     return !isPayslipDetailsModalOpen && setIsPayslipDetailsModalOpen(true)
   }
 
@@ -134,6 +137,7 @@ export const EmployeeDashboard = () => {
       />
       <PayslipDetailsModal
         width={"80%"}
+        payslipId={selectedPayslipId}
       />
     </EmployeeDashboardWrapper>
   )
