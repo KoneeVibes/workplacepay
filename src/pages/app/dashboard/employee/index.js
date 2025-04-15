@@ -124,8 +124,7 @@ export const EmployeeDashboard = () => {
             "Year",
             "View Payslip",
           ]}
-          // rowItems={payslips}
-          rowItems={[{id: 1, month: "January", year: 2025}]}
+          rowItems={payslips}
           handleRowItemClick={handleOpenPayslipModal}
         />
       </div>
