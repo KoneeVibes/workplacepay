@@ -59,7 +59,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                     <div>
                         <Row>
                             <H1>{payslipDetail.fullName}</H1>
-                            <H2>{`${payslipDetail.month} ${payslipDetail.year}`}</H2>
+                            <H2>{`${payslipDetail.month}, ${payslipDetail.year}`}</H2>
                         </Row>
                     </div>
                     <div className="companyName">
@@ -72,7 +72,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                         <Card className="card">
                             <Row className="cardRow">
                                 <Span>Employee ID</Span>
-                                <Span>NV874dd3</Span>
+                                <Span>{payslipDetail.employeeId}</Span>
                             </Row>
                             <Row className="cardRow">
                                 <Span>Pension ID</Span>
@@ -99,27 +99,26 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                     <Column>
                         <H3>Deductions</H3>
                         <Card className="card">
-                            <Row className="cardRow">
-                                <Span>PAYE</Span>
-                                <Span>N 8,000</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Pension</Span>
-                                <Span>N 2,870</Span>
-                            </Row>
-                            <Row className="cardRow">
-                                <Span>Total</Span>
-                                <Span>N 10,870</Span>
-                            </Row>
+                            {payslipDetail?.deductions?.map((deduction, index) => {
+                                return (
+                                    <Row
+                                        key={index}
+                                        className="cardRow"
+                                    >
+                                        <Span>{deduction.name}</Span>
+                                        <Span>{deduction.value}</Span>
+                                    </Row>
+                                )
+                            })}
                         </Card>
                     </Column>
                 </Row>
                 <Row className="bottomContainer">
                     <H1>PAYMENT</H1>
                     <div className="amount">
-                        <H1 className="bottom">N 451,430</H1>
+                        <H1 className="bottom">{payslipDetail.netSalary}</H1>
                     </div>
-                    <H2>Paid 28/01/24</H2>
+                    <H2>{payslipDetail.datePaid}</H2>
                 </Row>
             </PayslipDetailsModalWrapper>
         </BaseModal>
