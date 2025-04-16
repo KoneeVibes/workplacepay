@@ -67,9 +67,17 @@ export const navLinks = {
       url: "/dashboard",
     },
     {
-      name: "Analytics",
-      url: "/analytics",
+      name: "Companies",
+      url: "/admin/companies",
     },
+    {
+      name: "Referral",
+      url: "/admin/referral"
+    },
+    {
+      name: "Pricing",
+      url: "/admin/pricing"
+    }
   ],
 };
 

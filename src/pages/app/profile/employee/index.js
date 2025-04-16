@@ -21,8 +21,8 @@ export const EmployeeProfile = () => {
   const [user, setUser] = useState({});
   const [matches, setMatches] = useState(false);
   const [error, setError] = useState(null);
-   const Navigate = useNavigate();
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const Navigate = useNavigate();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isContactSubmitLoading, setIsContactSubmitLoading] = useState(false);
   const [isBankDetailsSubmitLoading, setIsBankDetailsSubmitLoading] =
     useState(false);
@@ -81,13 +81,13 @@ export const EmployeeProfile = () => {
   };
 
   const handleCloseSuccessModal = () => {
-     setIsSuccessModalOpen(false);
- return Navigate(-1);
+    setIsSuccessModalOpen(false);
+    return Navigate(-1);
   };
 
   const handlePersistModal = () => {
     return setIsSuccessModalOpen(true);
-   
+
   };
 
   const handleContactDetailsChange = (e) => {
@@ -106,8 +106,8 @@ export const EmployeeProfile = () => {
       const response = await updateBankDetailsService(TOKEN, bankDetails);
       if (response.status) {
         setIsBankDetailsSubmitLoading(false);
-         setIsSuccessModalOpen(true);
-        
+        setIsSuccessModalOpen(true);
+
       } else {
         setIsBankDetailsSubmitLoading(false);
         setError(
@@ -189,7 +189,7 @@ export const EmployeeProfile = () => {
           <Row>
             <P>Department</P>
             <P>
-              {user?.jobInformation?.department.replace(/\b\w/g, (char) =>
+              {user?.jobInformation?.department?.replace(/\b\w/g, (char) =>
                 char.toUpperCase()
               )}
             </P>

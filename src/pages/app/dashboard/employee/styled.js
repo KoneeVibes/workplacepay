@@ -45,6 +45,11 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
     },
     "& td": {
       minWidth: "200px",
+      border: "none",
+      borderLeft: "1px solid #000000",
+    },
+    "& td:first-of-type": {
+      borderLeft: "none",
     },
     "& .reset-password-modal": {
       padding: "var(--cardPadding)",
@@ -62,9 +67,16 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
       left: "50%",
       transform: "translate(-50%, -50%)",
       backgroundColor: "#FFFFFF",
-      padding: "var(--cardPadding)",
       borderRadius: "1rem",
       boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+      "@media screen and (max-width: 768px)": {
+        top: "0",
+        bottom: "0",
+        left: "0",
+        right: "0",
+        transform: "unset",
+        borderRadius: "unset"
+      }
     },
   };
 });
