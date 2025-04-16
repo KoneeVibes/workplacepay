@@ -36,12 +36,12 @@ export const PasswordResetArea = () => {
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
-     return navigate("/login");
+    return navigate("/login");
   };
 
   const handlePersistModal = () => {
-   return setIsSuccessModalOpen(true);
-   
+    return setIsSuccessModalOpen(true);
+
   };
 
   const handleSubmit = async (e) => {
@@ -81,6 +81,7 @@ export const PasswordResetArea = () => {
           <BaseFieldSet>
             <Label>Enter Password</Label>
             <BaseInput
+              type="password"
               name="oldPassword"
               placeholder="Enter Old Password"
               required
@@ -91,6 +92,7 @@ export const PasswordResetArea = () => {
           <BaseFieldSet>
             <Label>Enter New Password</Label>
             <BaseInput
+              type="password"
               name="newPassword"
               placeholder="Enter New Password"
               required
@@ -101,6 +103,7 @@ export const PasswordResetArea = () => {
           <BaseFieldSet>
             <Label>Confirm New Password</Label>
             <BaseInput
+              type="password"
               name="confirmPassword"
               placeholder="Confirm New Password"
               required
