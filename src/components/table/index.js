@@ -234,6 +234,21 @@ export const Table = ({
                   <Td>{rowItem?.status}</Td>
                 </Fragment>
               )}
+              {location === "Pricing Table" && (
+                <Fragment>
+                  <Td>{rowItem?.planName || ""}</Td>
+                  <Td>{rowItem?.price || ""}</Td>
+                  <Td>{rowItem?.duration || ""}</Td>
+                  <Td
+                    onClick={(e) =>
+                      handleRowItemClick(e, rowItem?.priceId)
+                    }
+                  >
+                    View More
+                  </Td>
+                </Fragment>
+              )}
+
             </tr>
           );
         })}
