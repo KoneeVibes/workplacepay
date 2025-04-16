@@ -86,6 +86,7 @@ export const ResetPasswordModal = ({ height, width }) => {
           <BaseFieldSet>
             <Label>Enter Password</Label>
             <BaseInput
+              type="password"
               name="oldPassword"
               value={formDetails.oldPassword}
               onChange={(e) => handleChange(e)}
@@ -94,6 +95,7 @@ export const ResetPasswordModal = ({ height, width }) => {
           <BaseFieldSet>
             <Label>Enter New Password</Label>
             <BaseInput
+              type="password"
               name="newPassword"
               value={formDetails.newPassword}
               onChange={(e) => handleChange(e)}
@@ -102,6 +104,7 @@ export const ResetPasswordModal = ({ height, width }) => {
           <BaseFieldSet>
             <Label>Confirm New Password</Label>
             <BaseInput
+              type="password"
               name="confirmPassword"
               value={formDetails.confirmPassword}
               onChange={(e) => handleChange(e)}
