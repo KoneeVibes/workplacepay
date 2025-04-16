@@ -136,7 +136,8 @@ export const EmployeeDashboard = () => {
         height={"60%"}
       />
       <PayslipDetailsModal
-        width={"80%"}
+        width={"60%"}
+        height={"500px"}
         payslipId={selectedPayslipId}
       />
     </EmployeeDashboardWrapper>

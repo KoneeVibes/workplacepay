@@ -25,7 +25,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            setMatches(window.screen.availWidth < 425);
+            setMatches(window.screen.availWidth < 768);
         };
         window.addEventListener('resize', handleResize);
         handleResize();
@@ -35,6 +35,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
     }, []);
 
     useEffect(() => {
+        if (!payslipId) return;
         const retrievePayslip = async () => {
             try {
                 const payslip = await getEmployeePayslipDetails(TOKEN, payslipId);
@@ -46,41 +47,72 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
         retrievePayslip();
     }, [TOKEN, payslipId]);
 
+    const getMonthName = (monthIndex, year = new Date().getFullYear(), locale = 'en-US') => {
+        const date = new Date(year, monthIndex - 1);
+        return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
+    };
+
     return (
         <BaseModal
             open={isPayslipDetailsModalOpen}
             onClose={handleCloseModal}
             className={"payslip-details-modal"}
             height={matches ? "auto" : height || "auto"}
-            width={matches ? "60%" : width || "50%"}
+            width={matches ? "auto" : width || "50%"}
         >
             <PayslipDetailsModalWrapper>
-                <Row className="firstContainer">
-                    <div>
-                        <Row>
-                            <H1>{payslipDetail.fullName}</H1>
-                            <H2>{`${payslipDetail.month}, ${payslipDetail.year}`}</H2>
-                        </Row>
+                <Row
+                    className="firstContainer"
+                    justifycontent={"space-between"}
+                >
+                    <div
+                        className="first-container-item full-name"
+                    >
+                        <H1>{payslipDetail.fullName}</H1>
                     </div>
-                    <div className="companyName">
+                    <div
+                        className="first-container-item date"
+                    >
+                        <H2>{payslipDetail.month ? `${getMonthName(payslipDetail.month, payslipDetail?.year)} ${payslipDetail?.year}` : ''}</H2>
+                    </div>
+                    <div
+                        className="first-container-item companyName"
+                    >
                         <H2>{payslipDetail.companyName}</H2>
                     </div>
                 </Row>
                 <Row className="middleContainer">
-                    <Column>
+                    <Column
+                        className="middle-container-column"
+                    >
                         <H3>Employee Details</H3>
                         <Card className="card">
-                            <Row className="cardRow">
-                                <Span>Employee ID</Span>
-                                <Span>{payslipDetail.employeeId}</Span>
+                            <Row
+                                className="cardRow"
+                                justifycontent={"space-between"}
+                            >
+                                <div>
+                                    <Span>Employee ID</Span>
+                                </div>
+                                <div>
+                                    <Span>{payslipDetail.employeeId}</Span>
+                                </div>
                             </Row>
-                            <Row className="cardRow">
-                                <Span>Pension ID</Span>
-                                <Span>135TL</Span>
+                            <Row
+                                className="cardRow"
+                            >
+                                <div>
+                                    <Span>Pension ID</Span>
+                                </div>
+                                <div>
+                                    <Span>135TL</Span>
+                                </div>
                             </Row>
                         </Card>
                     </Column>
-                    <Column>
+                    <Column
+                        className="middle-container-column"
+                    >
                         <H3>Payments</H3>
                         <Card className="card">
                             {payslipDetail?.earnings?.map((earning, index) => {
@@ -89,14 +121,20 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                         key={index}
                                         className="cardRow"
                                     >
-                                        <Span>{earning.name}</Span>
-                                        <Span>{earning.value}</Span>
+                                        <div>
+                                            <Span>{earning.name}</Span>
+                                        </div>
+                                        <div>
+                                            <Span>{earning.value}</Span>
+                                        </div>
                                     </Row>
                                 )
                             })}
                         </Card>
                     </Column>
-                    <Column>
+                    <Column
+                        className="middle-container-column"
+                    >
                         <H3>Deductions</H3>
                         <Card className="card">
                             {payslipDetail?.deductions?.map((deduction, index) => {
@@ -105,22 +143,33 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                         key={index}
                                         className="cardRow"
                                     >
-                                        <Span>{deduction.name}</Span>
-                                        <Span>{deduction.value}</Span>
+                                        <div>
+                                            <Span>{deduction.name}</Span>
+                                        </div>
+                                        <div>
+                                            <Span>{deduction.value}</Span>
+                                        </div>
                                     </Row>
                                 )
                             })}
                         </Card>
                     </Column>
                 </Row>
-                <Row className="bottomContainer">
-                    <H1>PAYMENT</H1>
+                <Row
+                    className="bottomContainer"
+                    justifycontent={"space-between"}
+                >
+                    <div>
+                        <H1>PAYMENT</H1>
+                    </div>
                     <div className="amount">
                         <H1 className="bottom">{payslipDetail.netSalary}</H1>
                     </div>
-                    <H2>{payslipDetail.datePaid}</H2>
+                    <div>
+                        <H2>{`PAID ${payslipDetail.datePaid}`}</H2>
+                    </div>
                 </Row>
             </PayslipDetailsModalWrapper>
-        </BaseModal>
+        </BaseModal >
     )
 }

@@ -17,6 +17,11 @@ export const Table = ({
 }) => {
   const navigate = useNavigate();
 
+  const getMonthName = (monthIndex, year = new Date().getFullYear(), locale = 'en-US') => {
+    const date = new Date(year, monthIndex - 1);
+    return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
+  };
+
   return (
     <TableWrapper>
       <thead>
@@ -134,7 +139,7 @@ export const Table = ({
               )}
               {location === "Employee Payslip Table" && (
                 <Fragment>
-                  <Td>{rowItem?.month || ""}</Td>
+                  <Td>{getMonthName(rowItem?.month, rowItem?.year) || ""}</Td>
                   <Td>{rowItem?.year || ""}</Td>
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.payslipId)}
