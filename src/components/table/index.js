@@ -137,7 +137,7 @@ export const Table = ({
                   <Td>{rowItem?.month || ""}</Td>
                   <Td>{rowItem?.year || ""}</Td>
                   <Td
-                    onClick={(e) => handleRowItemClick(e)}
+                    onClick={(e) => handleRowItemClick(e, rowItem?.payslipId)}
                   >
                     View Payslip
                   </Td>

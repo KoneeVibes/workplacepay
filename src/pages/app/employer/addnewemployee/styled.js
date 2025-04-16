@@ -43,11 +43,11 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             flexDirection: "column",
             justifyContent: "space-between",
         },
-        "& .employeeForm address": {
-            padding: "calc(var(--cardPadding)*3)",
+        "& .employeeForm .address": {
             overflow: "hidden",
             textOverflow: "ellipsis",
             width: "-webkit-fill-available",
+            fontWeight: "400",
         },
         "& .add-new-employee-modal": {
             position: "fixed",
