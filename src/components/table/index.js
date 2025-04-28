@@ -42,10 +42,10 @@ export const Table = ({
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>
-                    {capitalizeWords(rowItem?.jobInformation.department) ??
+                    {capitalizeWords(rowItem?.jobInformation?.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.salary?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
@@ -96,7 +96,7 @@ export const Table = ({
                     {capitalizeWords(rowItem?.jobInformation.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.salary?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
@@ -124,10 +124,10 @@ export const Table = ({
               )}
               {location === "Summary Table" && (
                 <Fragment>
-                  <Td>{rowItem?.fullName || ""}</Td>
+                  <Td>{rowItem?.employeeFullName || ""}</Td>
                   <Td>{rowItem?.totalEarnings?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.totalDeductions?.toLocaleString() || ""}</Td>
-                  <Td>{rowItem?.netSalary?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.netPay?.toLocaleString() || ""}</Td>
                   <Td
                     onClick={() =>
                       navigate(`/reportsummary/summary/${rowItem?.payslipId}`)
@@ -157,8 +157,8 @@ export const Table = ({
               {location === "Variance Table" && (
                 <Fragment>
                   <Td>{rowItem?.employeeFullName || ""}</Td>
-                  <Td>{rowItem?.firstMonthValue || ""}</Td>
-                  <Td>{rowItem?.secondMonthValue || ""}</Td>
+                  <Td>{rowItem?.firstMonthValue?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.secondMonthValue?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.variance || ""}</Td>
                   <Td>{rowItem?.percentage || ""}</Td>
                 </Fragment>
@@ -213,7 +213,7 @@ export const Table = ({
                   <Td>{rowItem?.companyName || ""}</Td>
                   <Td>{rowItem?.employerEmail || ""}</Td>
                   <Td>{rowItem?.planType || ""}</Td>
-                  <Td>{rowItem?.creditBalance?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.creditBalance || ""}</Td>
                   <Td>{rowItem?.lastUsedDate || ""}</Td>
                   <Td
                     onClick={(e) =>
@@ -234,21 +234,21 @@ export const Table = ({
                   <Td>{rowItem?.status}</Td>
                 </Fragment>
               )}
-              {location === "Pricing Table" && (
+              {location === "Plans & Pricing" && (
                 <Fragment>
-                  <Td>{rowItem?.planName || ""}</Td>
-                  <Td>{rowItem?.price?.toLocalString() || ""}</Td>
-                  <Td>{rowItem?.duration || ""}</Td>
+                  <Td>{rowItem?.title?.charAt(0)?.toUpperCase() + rowItem?.title?.slice(1)}</Td>
+                  <Td>{rowItem?.lowerLimit}</Td>
+                  <Td>{rowItem?.upperLimit}</Td>
+                  <Td>{rowItem?.creditCostPerEmployee}</Td>
                   <Td
                     onClick={(e) =>
-                      handleRowItemClick(e, rowItem?.priceId)
+                      handleRowItemClick(e, rowItem?.id)
                     }
                   >
-                    View More
+                    Manage Detail
                   </Td>
                 </Fragment>
               )}
-
             </tr>
           );
         })}
