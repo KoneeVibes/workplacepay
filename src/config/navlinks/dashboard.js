@@ -75,8 +75,12 @@ export const navLinks = {
       url: "/admin/referral"
     },
     {
-      name: "Pricing",
+      name: "Plans & Pricing",
       url: "/admin/pricing"
+    },
+    {
+      name: "Billing",
+      url: "/admin/billing",
     }
   ],
 };

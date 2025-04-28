@@ -7,6 +7,7 @@ import { H1, H2, H3, Span } from "../../../../components/typography/styled";
 import { Card } from "../../../../components/card";
 import { getEmployeePayslipDetails } from "../../../../utils/apis/payroll/getEmployeePayslipDetails";
 import Cookies from "universal-cookie";
+import { BaseButton } from "../../../../components/button/styled";
 
 export const PayslipDetailsModal = ({ height, width, payslipId }) => {
     const cookies = new Cookies();
@@ -61,6 +62,20 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
             width={matches ? "auto" : width || "50%"}
         >
             <PayslipDetailsModalWrapper>
+                <Row
+                    className="close-modal-button-header"
+                >
+                    <div
+                        className="close-modal-button-area"
+                    >
+                        <BaseButton
+                            className="close-modal-button"
+                            onClick={handleCloseModal}
+                        >
+                            <Span>X</Span>
+                        </BaseButton>
+                    </div>
+                </Row>
                 <Row
                     className="firstContainer"
                     justifycontent={"space-between"}

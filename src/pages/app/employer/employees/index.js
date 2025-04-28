@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Layout } from "../../../../containers/app/layout";
 import { EmployeesWrapper } from "./styled";
 import { Row } from "../../../../components/flex/styled";
@@ -14,6 +14,9 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
 import { deleteEmployeeService } from "../../../../utils/apis/employee/deleteEmployee";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
+import { AddEmployeeModal } from "../../../../containers/app/modals/addemployeemodal";
+import { Context } from "../../../../context";
+import { EmployeeBulkUploadModal } from "../../../../containers/app/modals/employeebulkuploadmodal";
 
 export const Employees = () => {
   const cookies = new Cookies();
@@ -22,6 +25,9 @@ export const Employees = () => {
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const { setIsAddEmployeeModalOpen, setIsEmployeeBulkUploadModalOpen } =
+    useContext(Context);
+
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [error, setError] = useState(null);
   const [employees, setEmployees] = useState([]);
@@ -87,6 +93,11 @@ export const Employees = () => {
     };
   }, [activeEmployeeId]);
 
+  const handleAddEmployeeButtonClick = (e) => {
+    e.stopPropagation();
+    setIsAddEmployeeModalOpen(true);
+  };
+
   const navigateToAddNewEmployee = (e) => {
     e.preventDefault();
     return navigate("/addnewemployee");
@@ -133,12 +144,32 @@ export const Employees = () => {
     return setActiveEmployeeId(null);
   };
 
+  const handleUploadActionItemClick = (e, action) => {
+    e.stopPropagation();
+    switch (action) {
+      case "single-employee-upload":
+        navigateToAddNewEmployee(e);
+        break;
+      case "bulk-upload":
+        setIsAddEmployeeModalOpen(false);
+        setIsEmployeeBulkUploadModalOpen(true);
+        break;
+      case "download-template":
+        // window.open(
+        //   "https://res.cloudinary.com/dqj8v4x2h/raw/upload/v1698236485/Employee_Upload_Template"
+        // );
+        break;
+      default:
+        return;
+    };
+  };
+
   return (
     <Layout
       id={"employees"}
       title={"Employees"}
       location={"employees"}
-      handleCallToActionClick={navigateToAddNewEmployee}
+      handleCallToActionClick={handleAddEmployeeButtonClick}
     >
       <EmployeesWrapper>
         <SuccessModal
@@ -149,6 +180,14 @@ export const Employees = () => {
           message={"Employee has been successfully deleted"}
           callToAction={"Close"}
           handleCallToActionClick={handleCloseSuccessModal}
+        />
+        <AddEmployeeModal
+          handleActionItemClick={handleUploadActionItemClick}
+        />
+        <EmployeeBulkUploadModal
+          width={"40%"}
+          height={"350px"}
+          setIsSuccessModalOpen={setIsSuccessModalOpen}
         />
         <Row className="heading-row" justifycontent={"space-between"}>
           <Span>Employee List</Span>

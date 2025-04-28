@@ -10,7 +10,7 @@ import Cookies from "universal-cookie";
 import { getAllCompanies } from "../../../../utils/apis/company/getAllCompanies";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { useNavigate } from "react-router-dom";
-import { getPayrollPlans } from "../../../../utils/apis/payroll/getPayrollPlans";
+import { getAllPlans } from "../../../../utils/apis/plansandpricing/getAllPlans";
 import { Layout } from "../../../../containers/app/layout";
 
 export const Companies = () => {
@@ -36,7 +36,7 @@ export const Companies = () => {
   }, [TOKEN, filter]);
 
   useEffect(() => {
-    getPayrollPlans(TOKEN)
+    getAllPlans(TOKEN)
       .then((data) => {
         setPayrollPlans(data ?? []);
       })

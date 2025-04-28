@@ -42,10 +42,10 @@ export const Table = ({
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>
-                    {capitalizeWords(rowItem?.jobInformation.department) ??
+                    {capitalizeWords(rowItem?.jobInformation?.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.salary || ""}</Td>
+                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
@@ -96,7 +96,7 @@ export const Table = ({
                     {capitalizeWords(rowItem?.jobInformation.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.salary || ""}</Td>
+                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
@@ -124,10 +124,10 @@ export const Table = ({
               )}
               {location === "Summary Table" && (
                 <Fragment>
-                  <Td>{rowItem?.fullName || ""}</Td>
+                  <Td>{rowItem?.employeeFullName || ""}</Td>
                   <Td>{rowItem?.totalEarnings || ""}</Td>
                   <Td>{rowItem?.totalDeductions || ""}</Td>
-                  <Td>{rowItem?.netSalary || ""}</Td>
+                  <Td>{rowItem?.netPay || ""}</Td>
                   <Td
                     onClick={() =>
                       navigate(`/reportsummary/summary/${rowItem?.payslipId}`)
@@ -232,6 +232,21 @@ export const Table = ({
                   <Td>{rowItem?.companyEmail}</Td>
                   <Td>{rowItem?.dateReferred}</Td>
                   <Td>{rowItem?.status}</Td>
+                </Fragment>
+              )}
+              {location === "Plans & Pricing" && (
+                <Fragment>
+                  <Td>{rowItem?.title?.charAt(0)?.toUpperCase() + rowItem?.title?.slice(1)}</Td>
+                  <Td>{rowItem?.lowerLimit}</Td>
+                  <Td>{rowItem?.upperLimit}</Td>
+                  <Td>{rowItem?.creditCostPerEmployee}</Td>
+                  <Td
+                    onClick={(e) =>
+                      handleRowItemClick(e, rowItem?.id)
+                    }
+                  >
+                    Manage Detail
+                  </Td>
                 </Fragment>
               )}
             </tr>

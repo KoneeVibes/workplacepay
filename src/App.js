@@ -28,6 +28,7 @@ import { EditEmployee } from "./pages/app/employer/editemployee";
 import { Referral } from "./pages/app/admin/referral";
 import { Companies } from "./pages/app/admin/companies";
 import { Pricing } from "./pages/app/admin/pricing";
+import { Billing } from "./pages/app/admin/billing";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
         <Route path="/admin/companies" element={<Companies />} />
         <Route path="/admin/referral" element={<Referral />} />
         <Route path="/admin/pricing" element={<Pricing />} />
+        <Route path="/admin/billing" element={<Billing />} />
       </Routes>
     </BrowserRouter>
   );

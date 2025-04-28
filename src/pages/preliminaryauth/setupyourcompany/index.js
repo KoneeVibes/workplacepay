@@ -11,7 +11,7 @@ import { Context } from "../../../context";
 import { Row } from "../../../components/flex/styled";
 import { setupCompanyService } from "../../../utils/apis/company/setupCompany";
 import { DotLoader } from "react-spinners";
-import { getPayrollPlans } from "../../../utils/apis/payroll/getPayrollPlans";
+import { getAllPlans } from "../../../utils/apis/plansandpricing/getAllPlans";
 import Cookies from "universal-cookie";
 
 export const SetUpYourCompany = () => {
@@ -35,7 +35,7 @@ export const SetUpYourCompany = () => {
     const [showPaymentModal, setShowPaymentModal] = useState(false);
 
     useEffect(() => {
-        getPayrollPlans(TOKEN)
+        getAllPlans(TOKEN)
             .then((data) => {
                 setPayrollPlans(data ?? [])
             })
