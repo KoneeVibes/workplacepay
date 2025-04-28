@@ -62,6 +62,7 @@ export const Pricing = () => {
     };
 
     return (
+
         <Layout
             id={"pricing"}
             title={"Plans & Pricing"}

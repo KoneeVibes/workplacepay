@@ -8,6 +8,8 @@ import { Card } from "../../../../components/card";
 import { getEmployeePayslipDetails } from "../../../../utils/apis/payroll/getEmployeePayslipDetails";
 import Cookies from "universal-cookie";
 import { BaseButton } from "../../../../components/button/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const PayslipDetailsModal = ({ height, width, payslipId }) => {
     const cookies = new Cookies();
@@ -88,12 +90,17 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                     <div
                         className="first-container-item date"
                     >
-                        <H2>{payslipDetail.month ? `${getMonthName(payslipDetail.month, payslipDetail?.year)} ${payslipDetail?.year}` : ''}</H2>
+                        <H3>{payslipDetail.month ? `${getMonthName(payslipDetail.month, payslipDetail?.year)} ${payslipDetail?.year}` : ''}</H3>
                     </div>
                     <div
                         className="first-container-item companyName"
                     >
                         <H2>{payslipDetail.companyName}</H2>
+                    </div>
+                    <div className="button-div">
+                        <BaseButton className="button">
+                            <FontAwesomeIcon icon={faXmark} color="#FFFFFF" />
+                        </BaseButton>
                     </div>
                 </Row>
                 <Row className="middleContainer">
@@ -110,7 +117,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                     <Span>Employee ID</Span>
                                 </div>
                                 <div>
-                                    <Span>{payslipDetail.employeeId}</Span>
+                                    <Span className="span">{payslipDetail.employeeId}</Span>
                                 </div>
                             </Row>
                             <Row
@@ -120,7 +127,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                     <Span>Pension ID</Span>
                                 </div>
                                 <div>
-                                    <Span>135TL</Span>
+                                    <Span className="span">135TL</Span>
                                 </div>
                             </Row>
                         </Card>
@@ -140,7 +147,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                             <Span>{earning.name}</Span>
                                         </div>
                                         <div>
-                                            <Span>{earning.value}</Span>
+                                            <Span className="span">{earning.value}</Span>
                                         </div>
                                     </Row>
                                 )
@@ -162,7 +169,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                             <Span>{deduction.name}</Span>
                                         </div>
                                         <div>
-                                            <Span>{deduction.value}</Span>
+                                            <Span className="span">{deduction.value}</Span>
                                         </div>
                                     </Row>
                                 )
@@ -175,10 +182,10 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                     justifycontent={"space-between"}
                 >
                     <div>
-                        <H1>PAYMENT</H1>
+                        <H2>PAYMENT</H2>
                     </div>
                     <div className="amount">
-                        <H1 className="bottom">{payslipDetail.netSalary}</H1>
+                        <H2 className="bottom">{payslipDetail.netSalary}</H2>
                     </div>
                     <div>
                         <H2>{`PAID ${payslipDetail.datePaid}`}</H2>

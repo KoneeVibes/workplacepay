@@ -122,6 +122,14 @@ export const PayrollSettings = () => {
     return setIsSuccessModalOpen(true);
   };
 
+  // useEffect(() => {
+  //   retrievePayrollVariables(TOKEN, COMPANY_ID)
+  //     .then((data) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => console.error(err));
+  // })
+
   useEffect(() => {
     retrievePayrollSetup(TOKEN, COMPANY_ID)
       .then((data) => {

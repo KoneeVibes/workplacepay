@@ -12,15 +12,26 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
             alignItems: "center",
             gap: "calc(var(--flexGap)/2)",
             padding: "calc(var(--cardPadding)/1.5) var(--cardPadding)",
+            "& .button": {
+                display: "none",
+            },
             "& .first-container-item": {
                 overflow: "hidden",
                 width: "100%",
                 "& h1": {
                     // style the h1 to be alot smaller (fontsize)
+                    fontSize: "1.5rem",
+                    fontWeight: "500",
                     marginBlock: 0,
                 },
                 "& h2": {
                     // style the h1 to be alot smaller (fontsize)
+                    fontWeight: "600",
+                    marginBlock: 0,
+                },
+                "& h3": {
+                    // style the h1 to be alot smaller (fontsize)
+                    fontWeight: "300",
                     marginBlock: 0,
                 },
                 "& .full-name": {
@@ -37,6 +48,15 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
                 alignItems: "flex-start",
                 gap: "calc(var(--flexGap)/4)",
                 flexDirection: "column-reverse"
+            },
+            "@media screen and (max-width: 766px)": {
+                "& .button-div": {
+                    display: "block",
+                    marginLeft: "auto",
+                    "& .button": {
+                        display: "block",
+                    }
+                }
             }
         },
         " .middleContainer": {
@@ -48,6 +68,9 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
                 overflow: "hidden",
                 "& h3": {
                     marginBlock: 0
+                },
+                "& .span": {
+                    fontWeight: "600",
                 }
             },
             "@media screen and (max-width: 1720px)": {
@@ -74,11 +97,18 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
             },
         },
         "& .cardRow > div:nth-child(2)": {
-            textAlign: "right"
+            textAlign: "right",
         },
         "& .bottomContainer": {
             padding: "calc(var(--cardPadding)/1.5) var(--cardPadding)",
             alignItems: "center",
+            "& h2": {
+                fontWeight: "450",
+                marginBlock: 0,
+            },
+            "& .bottom": {
+                fontWeight: "700",
+            },
             "& >*": {
                 width: "100%"
             },
