@@ -124,5 +124,17 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
                 flexDirection: "column"
             }
         },
+        "& .close-modal-button-header": {
+            padding: "calc(var(--cardPadding)/1.5) var(--cardPadding)",
+            "& .close-modal-button-area": {
+                overflow: "hidden",
+                "& .close-modal-button": {
+                    width: "fit-content",
+                },
+                "@media screen and (min-width: 768px)": {
+                    display: "none",
+                }
+            },
+        }
     }
 })

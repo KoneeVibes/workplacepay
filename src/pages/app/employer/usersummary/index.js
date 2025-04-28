@@ -33,7 +33,7 @@ export const UserSummary = () => {
         const fetchPayslip = async () => {
             try {
                 const payslipsDetail = await getEmployeePayslipDetails(TOKEN, id);
-                setPayslipDetail(payslipsDetail);
+                setPayslipDetail(payslipsDetail?.data);
             } catch (err) {
                 console.error("Failed to fetch employee payslip:", err);
             }

@@ -65,6 +65,20 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
         >
             <PayslipDetailsModalWrapper>
                 <Row
+                    className="close-modal-button-header"
+                >
+                    <div
+                        className="close-modal-button-area"
+                    >
+                        <BaseButton
+                            className="close-modal-button"
+                            onClick={handleCloseModal}
+                        >
+                            <Span>X</Span>
+                        </BaseButton>
+                    </div>
+                </Row>
+                <Row
                     className="firstContainer"
                     justifycontent={"space-between"}
                 >

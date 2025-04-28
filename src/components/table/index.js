@@ -237,7 +237,7 @@ export const Table = ({
               {location === "Pricing Table" && (
                 <Fragment>
                   <Td>{rowItem?.planName || ""}</Td>
-                  <Td>{rowItem?.price?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.price?.toLocalString() || ""}</Td>
                   <Td>{rowItem?.duration || ""}</Td>
                   <Td
                     onClick={(e) =>

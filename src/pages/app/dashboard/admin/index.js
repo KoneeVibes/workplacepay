@@ -6,8 +6,10 @@ import { BaseSelect } from "../../../../components/form/select/styled";
 import { Label } from "../../../../components/typography/styled";
 import { useEffect, useState } from "react";
 import { LineGraph } from "../../../../components/linegraph";
-import { retrieveCreditToPayrollAnalysis } from "../../../../utils/apis/analytics/creditToPayroll";
+import { retrieveCreditToPayrollAnalysis } from "../../../../utils/apis/analytics/creditToPayrollAnalysis";
 import Cookies from "universal-cookie";
+import { retrieveCreditToPayrollSummary } from "../../../../utils/apis/analytics/creditToPayrollSummary";
+import { retrieveReferralToConversionSummary } from "../../../../utils/apis/analytics/referralToConversionSummary";
 
 export const AdminDashboard = () => {
     const cookies = new Cookies();
@@ -17,6 +19,8 @@ export const AdminDashboard = () => {
     const [companies, setCompanies] = useState([]);
     const [payrollRun, setPayrollRun] = useState([]);
     const [creditConsumed, setCreditConsumed] = useState([]);
+    const [creditToPayrollSummary, setCreditToPayrollSummary] = useState({});
+    const [referralToConversionSummary, setReferralToConversionSummary] = useState({});
 
     const handleChange = (e) => {
         const { value } = e.target;
@@ -24,7 +28,7 @@ export const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        retrieveCreditToPayrollAnalysis(TOKEN)
+        retrieveCreditToPayrollAnalysis(TOKEN, filter)
             .then((data) => {
                 setCompanies(data?.["payrolls"]?.map((payroll) => payroll.companyName));
                 setPayrollRun(data?.["payrolls"]?.map((payroll) => payroll.value));
@@ -33,8 +37,28 @@ export const AdminDashboard = () => {
             .catch((err) => {
                 console.error("Failed to fetch credit to payroll analysis:", err);
             });
+    }, [TOKEN, filter]);
+
+    useEffect(() => {
+        retrieveCreditToPayrollSummary(TOKEN, filter)
+            .then((data) => {
+                setCreditToPayrollSummary(data)
+            })
+            .catch((err) => {
+                console.error("Failed to fetch credit to payroll summary:", err);
+            });
+    }, [TOKEN, filter]);
+
+    useEffect(() => {
+        retrieveReferralToConversionSummary(TOKEN)
+            .then((data) => {
+                setReferralToConversionSummary(data)
+            })
+            .catch((err) => {
+                console.error("Failed to fetch referral to conversion summary:", err);
+            });
     }, [TOKEN]);
-    
+
     return (
         <AdminDashboardWrapper>
             <div
@@ -48,11 +72,11 @@ export const AdminDashboard = () => {
                         value={filter}
                     >
                         <option value="">All time</option>
-                        <option value="yesterday">Last one day</option>
+                        <option value="last day">Last one day</option>
                         <option value="last week">Last week</option>
                         <option value="last month">Last month</option>
-                        <option value="last quarter">Last three months</option>
-                        <option value="last half">Last six months</option>
+                        <option value="last three month">Last three months</option>
+                        <option value="last six month">Last six months</option>
                         <option value="last year">Last year</option>
                     </BaseSelect>
                 </BaseFieldSet>
@@ -65,8 +89,8 @@ export const AdminDashboard = () => {
                 >
                     <PieChart
                         title={"Credits Utilization"}
-                        labels={["Salaries Paid", "Credit Consumed"]}
-                        values={[300, 100]}
+                        labels={["Credit Purchased", "Payroll Run"]}
+                        values={creditToPayrollSummary ? [creditToPayrollSummary?.credits, creditToPayrollSummary?.payroll] : [0, 0]}
                     />
                 </div>
                 <div
@@ -74,8 +98,8 @@ export const AdminDashboard = () => {
                 >
                     <PieChart
                         title={"Referrals Conversion"}
-                        labels={["Total Referrals", "Converted Referrals"]}
-                        values={[300, 500]}
+                        labels={["Total Referrals", "Total Enrolled"]}
+                        values={referralToConversionSummary ? [referralToConversionSummary?.totalRefferedCompanies, referralToConversionSummary?.totalEnrolledCompanies] : [0, 0]}
                     />
                 </div>
             </Row>

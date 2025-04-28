@@ -1,8 +1,8 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const getPayrollPlans = async (TOKEN) => {
+export const getPlanService = async (TOKEN, planId) => {
     try {
-        const response = await fetch(`${BASE_ENDPOINT}/api/payrollplans`, {
+        const response = await fetch(`${BASE_ENDPOINT}/api/payrollplans/${planId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${TOKEN}`,

@@ -18,7 +18,7 @@ export const AddDepartment = () => {
 
   const [matches, setMatches] = useState(false);
   const [error, setError] = useState(null);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [formDetails, setFormDetails] = useState({
@@ -35,7 +35,7 @@ export const AddDepartment = () => {
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
-    return Navigate(-1);
+    return navigate(-1);
   };
 
   const handlePersistModal = () => {
