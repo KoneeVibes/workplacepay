@@ -133,7 +133,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                             <Span>{earning.name}</Span>
                                         </div>
                                         <div>
-                                            <Span className="span">{earning.value}</Span>
+                                            <Span className="span">{`₦ ${earning?.value?.toLocaleString() }`}</Span>
                                         </div>
                                     </Row>
                                 )
@@ -155,7 +155,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                             <Span>{deduction.name}</Span>
                                         </div>
                                         <div>
-                                            <Span className="span">{deduction.value}</Span>
+                                            <Span className="span">{`₦ ${deduction?.value?.toLocaleString()}`}</Span>
                                         </div>
                                     </Row>
                                 )
@@ -171,7 +171,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                         <H2>PAYMENT</H2>
                     </div>
                     <div className="amount">
-                        <H2 className="bottom">{payslipDetail.netSalary}</H2>
+                        <H2 className="bottom">{`₦ ${payslipDetail?.netSalary?.toLocaleString()}`}</H2>
                     </div>
                     <div>
                         <H2>{`PAID ${payslipDetail.datePaid}`}</H2>

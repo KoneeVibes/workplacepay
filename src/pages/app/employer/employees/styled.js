@@ -62,7 +62,8 @@ export const EmployeesWrapper = styled("div")(() => {
     "& th": {
       color: "#FFFFFF",
       background: "#4E57BB",
-      minWidth: "200px",
+      minWidth: "150px",
+      fontSize: "18px",
     },
     "& th:not(:last-of-type)": {
       width: "90%",

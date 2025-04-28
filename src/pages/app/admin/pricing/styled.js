@@ -16,6 +16,7 @@ export const PricingWrapper = styled("div")(() => {
             color: "#FFFFFF",
             background: "#4E57BB",
             minWidth: "50px",
+            fontSize: "18px",
         },
         "& th:not(:last-of-type)": {
             width: "90%",

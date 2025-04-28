@@ -35,7 +35,8 @@ export const VarianceWrapper = styled("div")(() => {
     "& th": {
       color: "#FFFFFF",
       background: "#4E57BB",
-      minWidth: "200px",
+      minWidth: "150px",
+      fontSize: "18px",
     },
     "& td": {
       minWidth: "200px",

@@ -45,7 +45,7 @@ export const Table = ({
                     {capitalizeWords(rowItem?.jobInformation.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.salary || ""}</Td>
+                  <Td>{rowItem?.salary?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
@@ -96,7 +96,7 @@ export const Table = ({
                     {capitalizeWords(rowItem?.jobInformation.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.salary || ""}</Td>
+                  <Td>{rowItem?.salary?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
@@ -106,7 +106,7 @@ export const Table = ({
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>{capitalizeWords(rowItem?.department) || ""}</Td>
-                  <Td>{rowItem?.monthlySalary || ""}</Td>
+                  <Td>{rowItem?.monthlySalary?.toLocaleString() || ""}</Td>
                   <Td>
                     <BaseInput
                       type="checkbox"
@@ -125,9 +125,9 @@ export const Table = ({
               {location === "Summary Table" && (
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
-                  <Td>{rowItem?.totalEarnings || ""}</Td>
-                  <Td>{rowItem?.totalDeductions || ""}</Td>
-                  <Td>{rowItem?.netSalary || ""}</Td>
+                  <Td>{rowItem?.totalEarnings?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.totalDeductions?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.netSalary?.toLocaleString() || ""}</Td>
                   <Td
                     onClick={() =>
                       navigate(`/reportsummary/summary/${rowItem?.payslipId}`)
@@ -213,7 +213,7 @@ export const Table = ({
                   <Td>{rowItem?.companyName || ""}</Td>
                   <Td>{rowItem?.employerEmail || ""}</Td>
                   <Td>{rowItem?.planType || ""}</Td>
-                  <Td>{rowItem?.creditBalance || ""}</Td>
+                  <Td>{rowItem?.creditBalance?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.lastUsedDate || ""}</Td>
                   <Td
                     onClick={(e) =>
@@ -237,7 +237,7 @@ export const Table = ({
               {location === "Pricing Table" && (
                 <Fragment>
                   <Td>{rowItem?.planName || ""}</Td>
-                  <Td>{rowItem?.price || ""}</Td>
+                  <Td>{rowItem?.price?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.duration || ""}</Td>
                   <Td
                     onClick={(e) =>
