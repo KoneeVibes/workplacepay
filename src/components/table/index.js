@@ -46,8 +46,8 @@ export const Table = ({
                       "Not Assigned"}
                   </Td>
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
-                  <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
-                  <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
+                  <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
+                  <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
@@ -93,12 +93,12 @@ export const Table = ({
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>
-                    {capitalizeWords(rowItem?.jobInformation.department) ??
+                    {capitalizeWords(rowItem?.jobInformation?.department) ??
                       "Not Assigned"}
                   </Td>
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
-                  <Td>{rowItem?.jobInformation.dateHired || ""}</Td>
-                  <Td>{rowItem?.jobInformation.jobPosition || ""}</Td>
+                  <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
+                  <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
                   <Td>{rowItem?.status || ""}</Td>
                 </Fragment>
               )}

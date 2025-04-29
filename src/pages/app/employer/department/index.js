@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../../../../containers/app/layout";
 import { DepartmentWrapper } from "./styled";
@@ -8,6 +8,9 @@ import Cookies from "universal-cookie";
 import { Table } from "../../../../components/table";
 import { deleteDepartmentService } from "../../../../utils/apis/department/deleteDepartment";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
+import { DepartmentBulkUploadModal } from "../../../../containers/app/modals/departmentbulkuploadmodal";
+import { AddDepartmentModal } from "../../../../containers/app/modals/adddepartmentmodal";
+import { Context } from "../../../../context";
 
 export const Department = () => {
   const cookies = new Cookies();
@@ -17,10 +20,14 @@ export const Department = () => {
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const { setIsAddDepartmentModalOpen, isDepartmentBulkUploadModalOpen, setIsDepartmentBulkUploadModalOpen } =
+    useContext(Context);
+
   const [departments, setDepartments] = useState([]);
   const [activeDepartmentId, setActiveDepartmentId] = useState(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [flag, setFlag] = useState(null);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -32,7 +39,7 @@ export const Department = () => {
       }
     };
     fetchDepartments();
-  }, [TOKEN, COMPANY_ID, activeDepartmentId]);
+  }, [TOKEN, COMPANY_ID, activeDepartmentId, isDepartmentBulkUploadModalOpen]);
 
   const handleDropDownClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -52,11 +59,18 @@ export const Department = () => {
   }, [activeDepartmentId]);
 
   const handleCloseSuccessModal = () => {
+    setFlag(null);
     return setIsSuccessModalOpen(false);
   };
 
   const handlePersistModal = () => {
     return setIsSuccessModalOpen(true);
+  };
+
+  const handleAddDepartmentButtonClick = (e) => {
+    e.stopPropagation();
+    setFlag("add");
+    setIsAddDepartmentModalOpen(true);
   };
 
   const navigateToAddNewDepartment = (e) => {
@@ -77,6 +91,7 @@ export const Department = () => {
         departmentId
       );
       if (response.status === "Success") {
+        setFlag("delete");
         return setIsSuccessModalOpen(true);
       } else {
         setError("Delete department operation failed. Please try again.");
@@ -106,13 +121,33 @@ export const Department = () => {
     return setActiveDepartmentId(null);
   };
 
+  const handleUploadActionItemClick = (e, action) => {
+    e.stopPropagation();
+    switch (action) {
+      case "single-department-upload":
+        navigateToAddNewDepartment(e);
+        break;
+      case "bulk-upload":
+        setIsAddDepartmentModalOpen(false);
+        setIsDepartmentBulkUploadModalOpen(true);
+        break;
+      case "download-template":
+        // window.open(
+        //   "https://res.cloudinary.com/dqj8v4x2h/raw/upload/v1698236485/Employee_Upload_Template"
+        // );
+        break;
+      default:
+        return;
+    };
+  };
+
   return (
     <Layout
       id={"departments"}
       title={"Departments"}
       location={"departments"}
       callToAction={"Add Department"}
-      handleCallToActionClick={navigateToAddNewDepartment}
+      handleCallToActionClick={handleAddDepartmentButtonClick}
     >
       <DepartmentWrapper>
         <SuccessModal
@@ -120,9 +155,17 @@ export const Department = () => {
           handleClickOutside={handlePersistModal}
           className={"delete-department-success-modal"}
           title={"Success"}
-          message={"Department has been deleted successfully"}
+          message={`Department has been ${flag === "delete" ? "deleted" : "added"} successfully`}
           callToAction={"Close"}
           handleCallToActionClick={handleCloseSuccessModal}
+        />
+        <AddDepartmentModal
+          handleActionItemClick={handleUploadActionItemClick}
+        />
+        <DepartmentBulkUploadModal
+          width={"40%"}
+          height={"350px"}
+          setIsSuccessModalOpen={setIsSuccessModalOpen}
         />
         <div className="heading">
           <H3>All Departments</H3>

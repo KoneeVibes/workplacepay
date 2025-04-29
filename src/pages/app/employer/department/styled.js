@@ -49,5 +49,32 @@ export const DepartmentWrapper = styled("div")(() => {
         "& td:last-of-type": {
             borderLeft: "1px solid #000000"
         },
+        "& .add-department-modal": {
+            position: "fixed",
+            top: "var(--topNavHeight)",
+            right: "var(--cardPadding)",
+            maxWidth: "250px",
+            zIndex: 10,
+            backgroundColor: "#FFFFFF",
+            borderRadius: "0.5rem",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+        },
+        "& .department-bulk-upload-modal": {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            borderRadius: "1rem",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+            "@media screen and (max-width: 768px)": {
+                top: "0",
+                bottom: "0",
+                left: "0",
+                right: "0",
+                transform: "unset",
+                borderRadius: "unset"
+            }
+        },
     }
 })
