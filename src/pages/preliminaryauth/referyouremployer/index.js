@@ -59,6 +59,7 @@ export const ReferYourEmployer = () => {
                 </H3>
                 <P>Seamless Payroll management for your buisness all in one place!</P>
                 <PrelimSetup />
+                <P className="foot">POWERED BY: FOCUS GROUP</P>
             </div>
             <div className="refer-form">
                 <H1>Refer your Employer </H1>

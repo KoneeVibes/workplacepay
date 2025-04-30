@@ -20,5 +20,10 @@ export const MainAreaWrapper = styled("div")(() => {
             bottom: 0,
             height: "max-content",
         },
+
+        "&.foot": {
+            position: "fixed",
+            bottom: "0",
+        }
     }
 })

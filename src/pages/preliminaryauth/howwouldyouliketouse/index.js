@@ -14,6 +14,7 @@ export const HowWouldYouLikeToUse = () => {
         <H3>A few clicks from creating your account </H3>
         <P>Seamless Payroll management for your business all in one place!</P>
         <Prelim />
+        <P className="foot">POWERED BY: FOCUS GROUP</P>
       </div>
       <Column className="basebutton-page">
         <P>

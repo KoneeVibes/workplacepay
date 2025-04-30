@@ -137,6 +137,7 @@ export const GetStarted = () => {
         <H3>A few clicks from creating your account </H3>
         <P>Seamless Payroll management for your business all in one place!</P>
         <Prelim />
+        <P className="foot">POWERED BY: FOCUS GROUP</P>
       </div>
       <div className="emailAddress-page">
         <H2>Get started with workPlacePAY</H2>

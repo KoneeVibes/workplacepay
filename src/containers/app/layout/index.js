@@ -12,7 +12,12 @@ export const Layout = ({ id, children, title, location, callToAction, handleCall
         callToAction={callToAction}
         handleCallToActionClick={handleCallToActionClick}
       />
-      <MainAreaWrapper>{children}</MainAreaWrapper>
+
+      <MainAreaWrapper>{children}
+        <div className="foot">Powered by: Focus Group</div>
+      </MainAreaWrapper>
+
+
     </LayoutWrapper>
   );
 };
