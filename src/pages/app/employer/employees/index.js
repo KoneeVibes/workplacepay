@@ -25,7 +25,7 @@ export const Employees = () => {
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  const { setIsAddEmployeeModalOpen, setIsEmployeeBulkUploadModalOpen } =
+  const { setIsAddEmployeeModalOpen, isEmployeeBulkUploadModalOpen, setIsEmployeeBulkUploadModalOpen } =
     useContext(Context);
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -39,8 +39,10 @@ export const Employees = () => {
     jobTitle: "",
     status: "",
   });
+  const [flag, setFlag] = useState(null);
 
   const handleCloseSuccessModal = () => {
+    setFlag(null);
     return setIsSuccessModalOpen(false);
   };
 
@@ -54,7 +56,7 @@ export const Employees = () => {
       .catch((err) => {
         console.error("Failed to fetch employees:", err);
       });
-  }, [TOKEN, COMPANY_ID, filter, activeEmployeeId]);
+  }, [TOKEN, COMPANY_ID, filter, activeEmployeeId, isEmployeeBulkUploadModalOpen]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -95,6 +97,7 @@ export const Employees = () => {
 
   const handleAddEmployeeButtonClick = (e) => {
     e.stopPropagation();
+    setFlag("add");
     setIsAddEmployeeModalOpen(true);
   };
 
@@ -116,6 +119,7 @@ export const Employees = () => {
         employeeId
       );
       if (response.status === "Success") {
+        setFlag("delete");
         return setIsSuccessModalOpen(true);
       } else {
         setError("Delete department operation failed. Please try again.");
@@ -177,7 +181,7 @@ export const Employees = () => {
           handleClickOutside={handlePersistModal}
           className={"delete-employee-success-modal"}
           title={"Success"}
-          message={"Employee has been successfully deleted"}
+          message={`Employee has been successfully ${flag === "delete" ? "deleted" : "added"}`}
           callToAction={"Close"}
           handleCallToActionClick={handleCloseSuccessModal}
         />
