@@ -1,5 +1,6 @@
 import { SideNavigation } from "../../../components/navigation/sidenavigation";
 import { TopNavigation } from "../../../components/navigation/topnavigation";
+import { P } from "../../../components/typography/styled";
 import { LayoutWrapper, MainAreaWrapper } from "./styled";
 
 export const Layout = ({ id, children, title, location, callToAction, handleCallToActionClick }) => {
@@ -14,7 +15,7 @@ export const Layout = ({ id, children, title, location, callToAction, handleCall
       />
 
       <MainAreaWrapper>{children}
-        <div className="foot">Powered by: Focus Group</div>
+        <P>Powered by: Focus Group</P>
       </MainAreaWrapper>
 
 

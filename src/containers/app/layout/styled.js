@@ -21,9 +21,11 @@ export const MainAreaWrapper = styled("div")(() => {
             height: "max-content",
         },
 
-        "&.foot": {
-            position: "fixed",
-            bottom: "0",
+
+        "& P": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         }
     }
 })

@@ -21,6 +21,23 @@ export const Home = () => {
             question: "Can WorkPlacePay handle tax compliance for different regions?",
             answer: "Nope. it's a Nigeria-focused application"
         },
+        {
+            question: "Does the app handle PAYE reports?",
+            answer: "Yes, Clubify generates PAYE reports, helping you manage payroll and tax compliance easily."
+        },
+        {
+            question: "Can i upgrade or downgrade my plan at any time?",
+            answer: " Absolutely! You can change your plan anytime from your account settings."
+        },
+        {
+            question: "How do i reset my password?",
+            answer: "You can reset your password by clicking on the 'Forgot Password' link on the login page. Follow the instructions sent to your email."
+        },
+        {
+            question: "What payment methods do you accept?",
+            answer: "We accept all major credit cards and bank transfers."
+        },
+
     ];
 
     return (
@@ -28,7 +45,7 @@ export const Home = () => {
             <Navbar />
             <Hero />
             <WhyWorkPlacePay />
-            <Features/>
+            <Features />
             <PlansAndPricing />
             <FAQ
                 faqItems={frequentlyAskedQuestions}
