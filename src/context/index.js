@@ -17,6 +17,7 @@ export const ContextProvider = ({ children }) => {
     const [isPlansAndPricingModalOpen, setIsPlansAndPricingModalOpen] = useState(false);
     const [isEmployeeBulkUploadModalOpen, setIsEmployeeBulkUploadModalOpen] = useState(false);
     const [isDepartmentBulkUploadModalOpen, setIsDepartmentBulkUploadModalOpen] = useState(false);
+    const [isManageEmployeeModalOpen, setIsManageEmployeeModalOpen] = useState(false);
 
     return (
         <Context.Provider value={{
@@ -48,6 +49,8 @@ export const ContextProvider = ({ children }) => {
             setIsEmployeeBulkUploadModalOpen,
             isDepartmentBulkUploadModalOpen,
             setIsDepartmentBulkUploadModalOpen,
+            isManageEmployeeModalOpen,
+            setIsManageEmployeeModalOpen,
         }}>
             {children}
         </Context.Provider>

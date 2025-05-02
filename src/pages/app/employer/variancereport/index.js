@@ -15,7 +15,7 @@ import { Context } from "../../../../context";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 
 export const Variance = () => {
-  const startDate = 1990;
+  const startDate = 2020;
   const endDate = 2025;
 
   const currentDate = new Date();
@@ -147,8 +147,8 @@ export const Variance = () => {
           <Table
             columnTitles={[
               "Employee",
-              "January Net Sale",
-              "February Net Sale",
+              `${months[filter.firstMonth - 1]} Net Sale`,
+              `${months[filter.secondMonth - 1]} Net Sale`,
               "Variance",
               "Percentage %",
             ]}

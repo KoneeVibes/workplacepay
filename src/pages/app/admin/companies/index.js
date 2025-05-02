@@ -22,7 +22,7 @@ export const Companies = () => {
   const [companies, setCompanies] = useState([]);
   const [payrollPlans, setPayrollPlans] = useState([]);
   const [filter, setFilter] = useState({
-    companyId: "",
+    companyName: "",
     planType: "",
     usage: "",
   });
@@ -74,9 +74,9 @@ export const Companies = () => {
             <Label>Company Name</Label>
             <BaseInput
               type="text"
-              name="companyId"
+              name="companyName"
               placeholder="Search by Company Name"
-              value={filter.companyId}
+              value={filter.companyName}
               onChange={handleChange}
             />
           </BaseFieldSet>
@@ -100,9 +100,13 @@ export const Companies = () => {
           <BaseFieldSet>
             <Label>Usage</Label>
             <BaseSelect name="usage" onChange={handleChange} value={filter.usage}>
-              <option value="" hidden></option>
-              <option value="2010">2010</option>
-              <option value="2011">2011</option>
+              <option value="">All time</option>
+              <option value="last day">Last one day</option>
+              <option value="last week">Last week</option>
+              <option value="last month">Last month</option>
+              <option value="last three month">Last three months</option>
+              <option value="last six month">Last six months</option>
+              <option value="last year">Last year</option>
             </BaseSelect>
           </BaseFieldSet>
         </Row>

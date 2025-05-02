@@ -63,7 +63,6 @@ export const EmployeeBulkUploadModal = ({ height, width, setIsSuccessModalOpen }
         try {
             const response = await bulkEmployeeUploadService(TOKEN, formData, COMPANY_ID);
             if (response.status === "Success") {
-                console.log(response);
                 setIsLoading(false);
                 setIsEmployeeBulkUploadModalOpen(false);
                 if (fileInputRef.current) {

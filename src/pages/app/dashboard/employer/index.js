@@ -23,8 +23,8 @@ export const EmployerDashboard = () => {
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [filter, setFilter] = useState({
-    username: "",
-    department: "",
+    employeeName: "",
+    departmentId: "",
     jobTitle: "",
   });
 
@@ -88,27 +88,27 @@ export const EmployerDashboard = () => {
         </Row>
         <Row className="card-table-filter">
           <BaseFieldSet>
-            <Label>Username</Label>
+            <Label>Employee Name</Label>
             <BaseInput
               type="text"
-              name="username"
-              placeholder="Search by username"
-              value={filter.username}
+              name="employeeName"
+              placeholder="Search by Employee Name"
+              value={filter.employeeName}
               onChange={handleChange}
             />
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Department</Label>
             <BaseSelect
-              name="department"
+              name="departmentId"
               onChange={handleChange}
-              value={filter.department}
+              value={filter.departmentId}
             >
               <option value="" hidden>
                 Select Department
               </option>
               {departments.map((department, index) => (
-                <option key={index} value={department.id}>
+                <option key={index} value={department.departmentId}>
                   {department.name}
                 </option>
               ))}
@@ -133,7 +133,6 @@ export const EmployerDashboard = () => {
               "Salary",
               "Hire Date",
               "Role",
-              "Status",
             ]}
             rowItems={employees}
             location={"Dashboard Employee Table"}

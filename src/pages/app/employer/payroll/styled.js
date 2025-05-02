@@ -108,6 +108,37 @@ export const PayrollWrapper = styled("div")(() => {
         },
         "& .payroll-confirmation-modal > div:first-of-type": {
             maxWidth: "19.6rem"
+        },
+        "& .manage-employee-modal": {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            borderRadius: "1rem",
+            boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+            "& form": {
+                alignItems: "stretch",
+                justifyContent: "flex-start",
+                height: "-webkit-fill-available"
+            },
+            "@media screen and (max-width: 768px)": {
+                top: "0",
+                bottom: "0",
+                left: "0",
+                right: "0",
+                transform: "unset",
+                borderRadius: "unset"
+            }
+        },
+        "& .save-payroll-button-container": {
+            padding: "0 calc(var(--cardPadding))",
+            marginBlockEnd: "calc(var(--cardPadding)/2)",
+            display: "flex",
+            justifyContent: "flex-end",
+            "& .save-payroll-button-box": {
+                overflow: "hidden",
+            }
         }
     }
 })

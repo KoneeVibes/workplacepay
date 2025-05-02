@@ -14,6 +14,7 @@ export const GeneralReportWrapper = styled("div")(() => {
       overflow: "hidden",
     },
     "& .filter": {
+      gap: "calc(var(--flexGap)/4)",
       padding: "var(--cardPadding)",
       paddingBottom: "0",
       justifyContent: "space-between",

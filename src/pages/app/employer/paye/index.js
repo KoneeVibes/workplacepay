@@ -12,9 +12,10 @@ import { months } from "../../../../helpers/retrieveAllMonths";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { Context } from "../../../../context";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
+import { Label } from "../../../../components/typography/styled";
 
 export const Paye = () => {
-  const startDate = 1990;
+  const startDate = 2020;
   const endDate = 2025;
 
   const currentDate = new Date();
@@ -25,8 +26,10 @@ export const Paye = () => {
   const currentYear = currentDate.getFullYear();
 
   const [filter, setFilter] = useState({
-    year: currentYear,
-    month: currentMonth,
+    endYear: currentYear,
+    endMonth: currentMonth,
+    startYear: currentYear - 1,
+    startMonth: currentMonth - 1,
   });
   const [PayeReport, setPayeReport] = useState([]);
   const [company, setCompany] = useState({});
@@ -39,10 +42,8 @@ export const Paye = () => {
         const res = await retrievePaye(
           TOKEN,
           COMPANY_ID,
-          filter.year,
-          filter.month
+          filter
         );
-
         return setPayeReport(res?.data);
       } catch (err) {
         console.error("Failed to fetch paye report:", err);
@@ -89,7 +90,12 @@ export const Paye = () => {
       <PayeWrapper>
         <Row className="filter">
           <BaseFieldSet>
-            <BaseSelect name="year" onChange={handleChange} value={filter.year}>
+            <Label>Start Year</Label>
+            <BaseSelect
+              name="startYear"
+              onChange={handleChange}
+              value={filter.startYear}
+            >
               {getYearRange(startDate, endDate).map((year, index) => {
                 return (
                   <option key={index} value={year}>
@@ -100,10 +106,43 @@ export const Paye = () => {
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
+            <Label>Start Month</Label>
             <BaseSelect
-              name="month"
+              name="startMonth"
               onChange={handleChange}
-              value={filter.month}
+              value={filter.startMonth}
+            >
+              {months.map((month, index) => {
+                return (
+                  <option key={index} value={index + 1}>
+                    {month}
+                  </option>
+                );
+              })}
+            </BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>End Year</Label>
+            <BaseSelect
+              name="endYear"
+              onChange={handleChange}
+              value={filter.endYear}
+            >
+              {getYearRange(startDate, endDate).map((year, index) => {
+                return (
+                  <option key={index} value={year}>
+                    {year}
+                  </option>
+                );
+              })}
+            </BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>End Month</Label>
+            <BaseSelect
+              name="endMonth"
+              onChange={handleChange}
+              value={filter.endMonth}
             >
               {months.map((month, index) => {
                 return (
@@ -120,8 +159,6 @@ export const Paye = () => {
             columnTitles={[
               "Employee",
               "Tax ID",
-              "Month",
-              "Year",
               "Gross Pay",
               "PAYE",
             ]}

@@ -12,9 +12,10 @@ import { retrievePension } from "../../../../utils/apis/report/retrievePensionRe
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../../context";
+import { Label } from "../../../../components/typography/styled";
 
 export const Pension = () => {
-  const startDate = 1990;
+  const startDate = 2020;
   const endDate = 2025;
 
   const currentDate = new Date();
@@ -25,8 +26,10 @@ export const Pension = () => {
   const currentYear = currentDate.getFullYear();
 
   const [filter, setFilter] = useState({
-    year: currentYear,
-    month: currentMonth,
+    endYear: currentYear,
+    endMonth: currentMonth,
+    startYear: currentYear - 1,
+    startMonth: currentMonth - 1,
   });
   const [PensionReport, setPensionReport] = useState([]);
   const [company, setCompany] = useState({});
@@ -39,8 +42,7 @@ export const Pension = () => {
         const res = await retrievePension(
           TOKEN,
           COMPANY_ID,
-          filter.year,
-          filter.month
+          filter
         );
         return setPensionReport(res?.data);
       } catch (err) {
@@ -88,7 +90,12 @@ export const Pension = () => {
       <PensionWrapper>
         <Row className="filter">
           <BaseFieldSet>
-            <BaseSelect name="year" onChange={handleChange} value={filter.year}>
+            <Label>Start Year</Label>
+            <BaseSelect
+              name="startYear"
+              onChange={handleChange}
+              value={filter.startYear}
+            >
               {getYearRange(startDate, endDate).map((year, index) => {
                 return (
                   <option key={index} value={year}>
@@ -99,10 +106,43 @@ export const Pension = () => {
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
+            <Label>Start Month</Label>
             <BaseSelect
-              name="month"
+              name="startMonth"
               onChange={handleChange}
-              value={filter.month}
+              value={filter.startMonth}
+            >
+              {months.map((month, index) => {
+                return (
+                  <option key={index} value={index + 1}>
+                    {month}
+                  </option>
+                );
+              })}
+            </BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>End Year</Label>
+            <BaseSelect
+              name="endYear"
+              onChange={handleChange}
+              value={filter.endYear}
+            >
+              {getYearRange(startDate, endDate).map((year, index) => {
+                return (
+                  <option key={index} value={year}>
+                    {year}
+                  </option>
+                );
+              })}
+            </BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>End Month</Label>
+            <BaseSelect
+              name="endMonth"
+              onChange={handleChange}
+              value={filter.endMonth}
             >
               {months.map((month, index) => {
                 return (
@@ -116,7 +156,7 @@ export const Pension = () => {
         </Row>
         <div className="pension-table">
           <Table
-            columnTitles={["Employee", "Month", "Year", "PFA", "PFA Account"]}
+            columnTitles={["Employee", "PFA", "PFA Account", "Gross Value", "Pension Value"]}
             rowItems={PensionReport}
             location={"Pension Table"}
           />

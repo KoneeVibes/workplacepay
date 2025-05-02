@@ -15,7 +15,7 @@ import { getUser } from "../../../../utils/apis/user/getUser";
 import { Context } from "../../../../context";
 
 export const EmployeeDashboard = () => {
-  const startDate = 1990;
+  const startDate = 2020;
   const endDate = 2025;
 
   const cookies = new Cookies();

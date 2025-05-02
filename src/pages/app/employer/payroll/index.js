@@ -20,15 +20,19 @@ import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDeta
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { ConfirmationModal } from "../../../../containers/app/modals/confirmationmodal";
 import { savePayrollService } from "../../../../utils/apis/payroll/savePayroll";
+import { ManageEmployeePayslipModal } from "../../../../containers/app/modals/manageemployeepayslip";
+import { DotLoader } from "react-spinners";
+import { updatePayrollService } from "../../../../utils/apis/payroll/updatePayroll";
+import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 
 export const Payroll = () => {
-    const startDate = 1990;
+    const startDate = 2020;
     const endDate = 2025;
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");
     const COMPANY_ID = cookies.get("COMPANY_ID");
 
-    const { setIsRunPayrollModalOpen, setIsPaymentFormModalOpen } = useContext(Context);
+    const { setIsRunPayrollModalOpen, setIsPaymentFormModalOpen, isManageEmployeeModalOpen, setIsManageEmployeeModalOpen } = useContext(Context);
 
     const [error, setError] = useState(null);
     const [isRunPayrollWithSaveLoading, setIsRunPayrollWithSaveLoading] = useState(false);
@@ -38,7 +42,7 @@ export const Payroll = () => {
         "Employee",
         "Department",
         "Salary",
-        "Exemption"
+        "Exemption",
     ]);
     const [departments, setDepartments] = useState([]);
     const [payrollPayload, setPayrollPayload] = useState({
@@ -46,14 +50,19 @@ export const Payroll = () => {
         year: "",
     });
     const [filter, setFilter] = useState({
-        username: "",
+        employeeName: "",
         departmentId: "",
         jobTitle: "",
         status: "",
     });
     const [company, setCompany] = useState({});
     const [flag, setFlag] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [managedVariables, setManagedVariables] = useState([]);
+    const [activePayslipId, setActivePayslipId] = useState(null);
+    const [nonVaryingHeaders, setNonVaryingHeaders] = useState({});
 
     useEffect(() => {
         retrievePayrollSetup(TOKEN, COMPANY_ID)
@@ -61,10 +70,12 @@ export const Payroll = () => {
                 const capitalizedVariables = data.payrollVariables.map(variable =>
                     variable.name.charAt(0).toUpperCase() + variable.name.slice(1)
                 );
+                const filteredVariables = data.payrollVariables.filter(variable => variable.stake === "money");
                 setPayrollTableHeaders(prevHeaders => {
-                    const uniqueHeaders = [...new Set([...prevHeaders, ...capitalizedVariables])];
+                    const uniqueHeaders = [...new Set([...prevHeaders, ...capitalizedVariables, "Action"])];
                     return uniqueHeaders;
                 });
+                setManagedVariables(filteredVariables);
             })
             .catch((err) => console.error(err));
     }, [TOKEN, COMPANY_ID]);
@@ -92,6 +103,12 @@ export const Payroll = () => {
         };
         fetchCompanyDetails();
     }, [TOKEN, COMPANY_ID]);
+
+    useEffect(() => {
+        if (!isManageEmployeeModalOpen) {
+            setActivePayslipId(null);
+        }
+    }, [isManageEmployeeModalOpen]);
 
     const handleChange = (e, target) => {
         const { name, value } = e.target;
@@ -133,6 +150,32 @@ export const Payroll = () => {
         return setIsConfirmationModalOpen(false);
     };
 
+    const handlePersistSuccessModal = () => {
+        return setIsSuccessModalOpen(true);
+    };
+
+    const handleCloseSuccessModal = () => {
+        return setIsSuccessModalOpen(false);
+    };
+
+    const handleExemptionCheckboxChange = (e, employeeId) => {
+        e.stopPropagation();
+        setEmployees((prevEmployees) =>
+            prevEmployees.map((employee) =>
+                employee.employeeId === employeeId
+                    ? { ...employee, isExempted: !employee.isExempted }
+                    : employee
+            )
+        );
+    };
+
+    const handleManagePayslipClick = (e, payslipId) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setActivePayslipId(payslipId)
+        setIsManageEmployeeModalOpen(true);
+    };
+
     const handleRunPayroll = async (e, option) => {
         e.stopPropagation();
         e.preventDefault();
@@ -151,7 +194,9 @@ export const Payroll = () => {
             if (response) {
                 if (option === "callToActionI") {
                     await savePayrollService(TOKEN, response.payrollId, COMPANY_ID);
-                }
+                };
+                const { employeePayslips, ...rest } = response;
+                setNonVaryingHeaders(rest);
                 setIsRunPayrollWithSaveLoading(false);
                 setIsRunPayrollWithoutSaveLoading(false);
                 setEmployees(response.employeePayslips);
@@ -173,6 +218,43 @@ export const Payroll = () => {
             console.error('Run payroll operation failed:', error);
             return setIsConfirmationModalOpen(false);
         }
+    };
+
+    const handleSavePayroll = async (e) => {
+        e.preventDefault();
+        if (!nonVaryingHeaders.payrollId) return;
+        setError(null);
+        setIsLoading(true);
+        const payload = {
+            "employees": employees.map(employee => ({
+                employeeId: employee.employeeId,
+                isExempted: employee.isExempted,
+                variables: employee.payrollVariables.map(variable => ({
+                    variableName: variable.name,
+                    value: variable.value
+                }))
+            }))
+        };
+        try {
+            const response = await updatePayrollService(
+                TOKEN,
+                nonVaryingHeaders.payrollId,
+                COMPANY_ID,
+                payload,
+            );
+            if (response.status === "Success") {
+                setIsLoading(false);
+                setIsSuccessModalOpen(true);
+            } else {
+                setIsLoading(false);
+                setError("Payroll failed to save.");
+                console.error("Payroll failed to save.");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError(`Payroll failed to save. ${error.message}`);
+            console.error("Payroll failed to save:", error);
+        }
     }
 
     return (
@@ -184,6 +266,23 @@ export const Payroll = () => {
             handleCallToActionClick={handleOpenCreditPurchaseModal}
         >
             <PayrollWrapper>
+                <SuccessModal
+                    open={isSuccessModalOpen}
+                    handleClickOutside={handlePersistSuccessModal}
+                    className={"save-payroll-success-modal"}
+                    title={"Success"}
+                    message={"Payroll has been successfully saved"}
+                    callToAction={"Close"}
+                    handleCallToActionClick={handleCloseSuccessModal}
+                />
+                <ManageEmployeePayslipModal
+                    width={"40%"}
+                    height={"320px"}
+                    variables={managedVariables}
+                    payroll={employees}
+                    setPayroll={setEmployees}
+                    activePayslipId={activePayslipId}
+                />
                 <form
                     onSubmit={handleSubmit}
                 >
@@ -264,7 +363,7 @@ export const Payroll = () => {
                             {departments.map((department, index) => (
                                 <option
                                     key={index}
-                                    value={department.id}
+                                    value={department.departmentId}
                                 >
                                     {department.name.replace(/\b\w/g, char => char.toUpperCase())}
                                 </option>
@@ -288,12 +387,33 @@ export const Payroll = () => {
                             onChange={handleChange}
                             value={filter.status}
                         >
-                            <option value="" hidden>Select Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="">Select Status</option>
+                            <option value="exempted">Exempted</option>
+                            <option value="not exempted">Not Exempted</option>
                         </BaseSelect>
                     </BaseFieldSet>
                 </Row>
+                {employees.length > 0 && (
+                    <div
+                        className="save-payroll-button-container"
+                    >
+                        <div
+                            className="save-payroll-button-box"
+                        >
+                            <BaseButton
+                                backgroundcolor={"#4E57BB"}
+                                width={"fit-content"}
+                                onClick={handleSavePayroll}
+                            >
+                                {isLoading ? (
+                                    <DotLoader size={20} color="white" className="dotLoader" />
+                                ) : (
+                                    <Span>Save Payroll</Span>
+                                )}
+                            </BaseButton>
+                        </div>
+                    </div>
+                )}
                 <div
                     className="payroll-table"
                 >
@@ -301,6 +421,8 @@ export const Payroll = () => {
                         columnTitles={payrollTableHeaders}
                         rowItems={employees}
                         location={"Payroll Table"}
+                        handleChange={handleExemptionCheckboxChange}
+                        handleRowItemClick={handleManagePayslipClick}
                     />
                 </div>
                 <PaymentModal />

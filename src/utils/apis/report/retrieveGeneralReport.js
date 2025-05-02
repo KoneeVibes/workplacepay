@@ -3,14 +3,18 @@ import { BASE_ENDPOINT } from "../../endpoint";
 export const retrieveGeneral = async (
   TOKEN,
   companyId,
-  year,
-  month,
-  departmentId
+  { endYear,
+    endMonth,
+    startYear,
+    startMonth,
+    departmentId }
 ) => {
   try {
     const queryParams = new URLSearchParams();
-    if (year) queryParams.append("year", year);
-    if (month) queryParams.append("month", month);
+    if (endYear) queryParams.append("endYear", endYear);
+    if (endMonth) queryParams.append("endMonth", endMonth);
+    if (startYear) queryParams.append("startYear", startYear);
+    if (startMonth) queryParams.append("startMonth", startMonth);
     if (departmentId) queryParams.append("departmentId", departmentId);
 
     const url =

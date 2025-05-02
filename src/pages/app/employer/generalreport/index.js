@@ -13,9 +13,10 @@ import { months } from "../../../../helpers/retrieveAllMonths";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../../context";
+import { Label } from "../../../../components/typography/styled";
 
 export const GeneralReport = () => {
-  const startDate = 1990;
+  const startDate = 2020;
   const endDate = 2025;
 
   const currentDate = new Date();
@@ -28,8 +29,10 @@ export const GeneralReport = () => {
   const currentYear = currentDate.getFullYear();
 
   const [filter, setFilter] = useState({
-    year: currentYear,
-    month: currentMonth,
+    endYear: currentYear,
+    endMonth: currentMonth,
+    startYear: currentYear - 1,
+    startMonth: currentMonth - 1,
     departmentId: "",
   });
   const [generalReport, setGeneralReport] = useState([]);
@@ -55,9 +58,7 @@ export const GeneralReport = () => {
         const res = await retrieveGeneral(
           TOKEN,
           COMPANY_ID,
-          filter.year,
-          filter.month,
-          filter.departmentId
+          filter
         );
         return setGeneralReport(res?.data);
       } catch (err) {
@@ -104,7 +105,12 @@ export const GeneralReport = () => {
       <GeneralReportWrapper>
         <Row className="filter">
           <BaseFieldSet>
-            <BaseSelect name="year" onChange={handleChange} value={filter.year}>
+            <Label>Start Year</Label>
+            <BaseSelect
+              name="startYear"
+              onChange={handleChange}
+              value={filter.startYear}
+            >
               {getYearRange(startDate, endDate).map((year, index) => {
                 return (
                   <option key={index} value={year}>
@@ -115,10 +121,11 @@ export const GeneralReport = () => {
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
+            <Label>Start Month</Label>
             <BaseSelect
-              name="month"
+              name="startMonth"
               onChange={handleChange}
-              value={filter.month}
+              value={filter.startMonth}
             >
               {months.map((month, index) => {
                 return (
@@ -130,17 +137,52 @@ export const GeneralReport = () => {
             </BaseSelect>
           </BaseFieldSet>
           <BaseFieldSet>
+            <Label>End Year</Label>
+            <BaseSelect
+              name="endYear"
+              onChange={handleChange}
+              value={filter.endYear}
+            >
+              {getYearRange(startDate, endDate).map((year, index) => {
+                return (
+                  <option key={index} value={year}>
+                    {year}
+                  </option>
+                );
+              })}
+            </BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>End Month</Label>
+            <BaseSelect
+              name="endMonth"
+              onChange={handleChange}
+              value={filter.endMonth}
+            >
+              {months.map((month, index) => {
+                return (
+                  <option key={index} value={index + 1}>
+                    {month}
+                  </option>
+                );
+              })}
+            </BaseSelect>
+          </BaseFieldSet>
+          <BaseFieldSet>
+            <Label>Department</Label>
             <BaseSelect
               name="departmentId"
               onChange={handleChange}
               value={filter.departmentId}
             >
-              <option value="" hidden>
-                Select Department
-              </option>
+              <option value="">Select Department</option>
               {departments.map((department, index) => (
-                <option key={index} value={department.id}>
-                  {department.name}
+                <option key={index} value={department.departmentId}>
+                  {department.name
+                    .toLowerCase()
+                    .split(" ")
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
                 </option>
               ))}
             </BaseSelect>
@@ -151,8 +193,6 @@ export const GeneralReport = () => {
             columnTitles={[
               "Employee",
               "Department",
-              "Month",
-              "Year",
               "Bank",
               "Bank Account",
               "PFA",
@@ -165,6 +205,8 @@ export const GeneralReport = () => {
               "PAYE",
               "Employer Pension Contribution",
               "Employee Pension Contribution",
+              "PAYE",
+              "Other Deductions",
               "Total Earnings",
               "Total Deductions",
               "Gross",

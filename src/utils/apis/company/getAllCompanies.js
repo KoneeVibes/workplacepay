@@ -2,12 +2,13 @@ import { BASE_ENDPOINT } from "../../endpoint";
 
 export const getAllCompanies = async (
   TOKEN,
-  { companyId, planType }
+  { companyName, planType, usage }
 ) => {
   try {
     const queryParams = new URLSearchParams();
-    if (companyId) queryParams.append("companyId", companyId);
+    if (companyName) queryParams.append("companyName", companyName);
     if (planType) queryParams.append("planType", planType);
+    if (usage) queryParams.append("usage", usage);
 
     const url =
       `${BASE_ENDPOINT}/api/companies` +
@@ -25,7 +26,7 @@ export const getAllCompanies = async (
       console.error("Error:", res);
       throw new Error(res.message);
     }
-    
+
     return res.data;
   } catch (error) {
     console.error("API fetch error:", error);

@@ -63,7 +63,7 @@ export const AddDepartment = () => {
         COMPANY_ID,
         formDetails
       );
-      if (response.status) {
+      if (response.status === "Success") {
         setIsLoading(false);
         setIsSuccessModalOpen(true);
       } else {

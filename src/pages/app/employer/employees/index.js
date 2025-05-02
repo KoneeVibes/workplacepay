@@ -34,10 +34,9 @@ export const Employees = () => {
   const [departments, setDepartments] = useState([]);
   const [activeEmployeeId, setActiveEmployeeId] = useState(null);
   const [filter, setFilter] = useState({
-    username: "",
+    employeeName: "",
     departmentId: "",
     jobTitle: "",
-    status: "",
   });
   const [flag, setFlag] = useState(null);
 
@@ -202,9 +201,9 @@ export const Employees = () => {
             <Label>Employee</Label>
             <BaseInput
               type="text"
-              name="username"
+              name="employeeName"
               placeholder="Search by Employee"
-              value={filter.username}
+              value={filter.employeeName}
               onChange={handleChange}
             />
           </BaseFieldSet>
@@ -219,7 +218,7 @@ export const Employees = () => {
                 Select Department
               </option>
               {departments.map((department, index) => (
-                <option key={index} value={department.id}>
+                <option key={index} value={department.departmentId}>
                   {department.name.replace(/\b\w/g, (char) =>
                     char.toUpperCase()
                   )}
@@ -237,20 +236,6 @@ export const Employees = () => {
               onChange={handleChange}
             />
           </BaseFieldSet>
-          <BaseFieldSet>
-            <Label>Status</Label>
-            <BaseSelect
-              name="status"
-              onChange={handleChange}
-              value={filter.status}
-            >
-              <option value="" hidden>
-                Select Status
-              </option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </BaseSelect>
-          </BaseFieldSet>
         </Row>
         <div className="employees-table">
           <Table
@@ -260,7 +245,6 @@ export const Employees = () => {
               "Salary",
               "Hire Date",
               "Role",
-              "Status",
               "Action",
             ]}
             rowItems={employees}

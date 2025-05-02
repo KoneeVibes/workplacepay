@@ -1,10 +1,15 @@
 import { BASE_ENDPOINT } from "../../endpoint";
 
-export const retrievePension = async (TOKEN, companyId, year, month) => {
+export const retrievePension = async (TOKEN, companyId, { endYear,
+  endMonth,
+  startYear,
+  startMonth, }) => {
   try {
     const queryParams = new URLSearchParams();
-    if (year) queryParams.append("year", year);
-    if (month) queryParams.append("month", month);
+    if (endYear) queryParams.append("endYear", endYear);
+    if (endMonth) queryParams.append("endMonth", endMonth);
+    if (startYear) queryParams.append("startYear", startYear);
+    if (startMonth) queryParams.append("startMonth", startMonth);
 
     const url =
       `${BASE_ENDPOINT}/api/reports/pension/${companyId}` +

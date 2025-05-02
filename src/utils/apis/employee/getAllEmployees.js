@@ -3,14 +3,13 @@ import { BASE_ENDPOINT } from "../../endpoint";
 export const getAllEmployees = async (
   TOKEN,
   companyId,
-  { username, departmentId, jobTitle, status }
+  { employeeName, departmentId, jobTitle }
 ) => {
   try {
     const queryParams = new URLSearchParams();
-    if (username) queryParams.append("username", username);
+    if (employeeName) queryParams.append("employeeName", employeeName);
     if (departmentId) queryParams.append("departmentId", departmentId);
     if (jobTitle) queryParams.append("jobTitle", jobTitle);
-    if (status) queryParams.append("status", status);
 
     const url =
       `${BASE_ENDPOINT}/api/users/employees/${companyId}` +
@@ -28,7 +27,7 @@ export const getAllEmployees = async (
       console.error("Error:", res);
       throw new Error(res.message);
     }
-    
+
     return res.data;
   } catch (error) {
     console.error("API fetch error:", error);

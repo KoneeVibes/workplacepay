@@ -14,7 +14,7 @@ import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../../context";
 
 export const Summary = () => {
-    const startDate = 1990;
+    const startDate = 2020;
     const endDate = 2025;
 
     const cookies = new Cookies();

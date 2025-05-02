@@ -13,6 +13,7 @@ export const Table = ({
   activeRowId,
   handleRowItemClick,
   handleRowItemActionClick,
+  handleChange,
   dropdownRef
 }) => {
   const navigate = useNavigate();
@@ -48,7 +49,6 @@ export const Table = ({
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
-                  <Td>{rowItem?.status || ""}</Td>
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
                   >
@@ -99,7 +99,6 @@ export const Table = ({
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
-                  <Td>{rowItem?.status || ""}</Td>
                 </Fragment>
               )}
               {location === "Payroll Table" && (
@@ -115,11 +114,17 @@ export const Table = ({
                         width: "auto",
                         flexShrink: 0,
                       }}
+                      onChange={(e) => handleChange(e, rowItem?.employeeId)}
                     />
                   </Td>
                   {rowItem?.payrollVariables?.map((variable, index) => (
                     <Td key={index}>{variable?.value}</Td>
                   ))}
+                  <Td
+                    onClick={(e) => handleRowItemClick(e, rowItem?.payslipId)}
+                  >
+                    Manage Employee
+                  </Td>
                 </Fragment>
               )}
               {location === "Summary Table" && (
@@ -247,6 +252,66 @@ export const Table = ({
                   >
                     Manage Detail
                   </Td>
+                </Fragment>
+              )}
+              {location === "Billing Table" && (
+                <Fragment>
+                  <Td>{rowItem?.companyName}</Td>
+                  <Td>{rowItem?.employerEmail}</Td>
+                  <Td>{rowItem?.creditAmount}</Td>
+                  <Td>{rowItem?.creditCost}</Td>
+                  <Td>{rowItem?.dateInitiated}</Td>
+                  <Td>{rowItem?.dateCompleted}</Td>
+                  <Td>{rowItem?.payrollPlan}</Td>
+                </Fragment>
+              )}
+              {location === "General Table" && (
+                <Fragment>
+                  <Td>{rowItem?.employeeFullName}</Td>
+                  <Td>{rowItem?.department}</Td>
+                  <Td>{rowItem?.salaryBankName}</Td>
+                  <Td>{rowItem?.salaryBankAccount}</Td>
+                  <Td>{rowItem?.pensionFirmName}</Td>
+                  <Td>{rowItem?.pensionAccount}</Td>
+                  {rowItem?.earnings?.map((variable, index) => (
+                    <Td key={index}>{variable?.value}</Td>
+                  ))}
+                  {rowItem?.deductions?.map((variable, index) => (
+                    <Td key={index}>{variable?.value}</Td>
+                  ))}
+                  <Td>{rowItem?.totalEarnings}</Td>
+                  <Td>{rowItem?.totalDeductions}</Td>
+                  <Td>{rowItem?.grossPay || "0"}</Td>
+                  <Td>{rowItem?.netPay || "0"}</Td>
+                </Fragment>
+              )}
+              {location === "Paye Table" && (
+                <Fragment>
+                  <Td>
+                    {rowItem?.employeeFullName
+                      .toLowerCase()
+                      .split(" ")
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(" ")}
+                  </Td>
+                  <Td>{rowItem?.taxNumber}</Td>
+                  <Td>{rowItem?.grossPay || 0}</Td>
+                  <Td>{rowItem?.payeValue}</Td>
+                </Fragment>
+              )}
+              {location === "Pension Table" && (
+                <Fragment>
+                  <Td>
+                    {rowItem?.employeeFullName
+                      .toLowerCase()
+                      .split(" ")
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(" ")}
+                  </Td>
+                  <Td>{rowItem?.pensionFirmName}</Td>
+                  <Td>{rowItem?.pensionAccount}</Td>
+                  <Td>{rowItem?.grossPay || 0}</Td>
+                  <Td>{rowItem?.pensionValue}</Td>
                 </Fragment>
               )}
             </tr>
