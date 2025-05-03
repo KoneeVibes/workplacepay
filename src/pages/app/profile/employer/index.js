@@ -18,11 +18,13 @@ import { Context } from "../../../../context";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
+import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
     const TOKEN = cookies.getAll().TOKEN;
     const COMPANY_ID = cookies.get("COMPANY_ID");
+    const REACT_APP_PAYSTACK_SK = process.env.REACT_APP_PAYSTACK_SK;
 
     const initialFormDetails = useMemo(
         () => ({
@@ -75,6 +77,7 @@ export const EmployerProfile = () => {
     const Navigate = useNavigate();
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [company, setCompany] = useState({});
+    const [banks, setBanks] = useState([]);
 
     function formatDateForInput(dateString) {
         if (!dateString) return '';
@@ -180,6 +183,18 @@ export const EmployerProfile = () => {
         };
         fetchCompanyDetails();
     }, [TOKEN, COMPANY_ID]);
+
+    useEffect(() => {
+        const fetchAllBanks = async () => {
+            try {
+                const response = await retrieveAllBanks(REACT_APP_PAYSTACK_SK);
+                return setBanks(response);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchAllBanks();
+    }, [REACT_APP_PAYSTACK_SK]);
 
     const handleChange = (e, section) => {
         const { name, value } = e.target;
@@ -349,7 +364,7 @@ export const EmployerProfile = () => {
                             <BaseSelect
                                 required
                                 name="departmentName"
-                                value={profile.jobInfo.departmentName?.replace(/\b\w/g, (char) => char.toUpperCase())}
+                                value={profile.jobInfo.departmentName}
                                 onChange={(e) => handleChange(e, "jobInfo")}
                             >
                                 <option value={null}>Select Department</option>
@@ -404,9 +419,15 @@ export const EmployerProfile = () => {
                                 value={profile.payrollSetup.salaryBankName?.replace(/\b\w/g, (char) => char.toUpperCase())}
                                 onChange={(e) => handleChange(e, "payrollSetup")}
                             >
-                                <option value="" hidden></option>
-                                <option value="Bank A">Bank A</option>
-                                <option value="Bank B">Bank B</option>
+                                <option value="">Select Bank</option>
+                                {banks?.map((bank, index) => (
+                                    <option
+                                        key={index}
+                                        value={bank.name}
+                                    >
+                                        {bank.name}
+                                    </option>
+                                ))}
                             </BaseSelect>
                         </BaseFieldSet>
                     </ProfileRow>
@@ -428,9 +449,15 @@ export const EmployerProfile = () => {
                                 value={profile.payrollSetup.pensionFirmName?.replace(/\b\w/g, (char) => char.toUpperCase())}
                                 onChange={(e) => handleChange(e, "payrollSetup")}
                             >
-                                <option value="" hidden></option>
-                                <option value="Pension Firm A">Pension Firm A</option>
-                                <option value="Pension Firm B">Pension Firm B</option>
+                                <option value="">Select Bank</option>
+                                {banks?.map((bank, index) => (
+                                    <option
+                                        key={index}
+                                        value={bank.name}
+                                    >
+                                        {bank.name}
+                                    </option>
+                                ))}
                             </BaseSelect>
                         </BaseFieldSet>
                     </ProfileRow>

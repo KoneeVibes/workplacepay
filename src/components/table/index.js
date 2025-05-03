@@ -48,7 +48,7 @@ export const Table = ({
                   </Td>
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
-                  <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.jobInformation?.jobPosition) || ""}</Td>
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
                   >
@@ -91,19 +91,19 @@ export const Table = ({
               )}
               {(location === "Dashboard Employee Table") && (
                 <Fragment>
-                  <Td>{rowItem?.fullName || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.fullName) || ""}</Td>
                   <Td>
                     {capitalizeWords(rowItem?.jobInformation?.department) ??
                       "Not Assigned"}
                   </Td>
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
-                  <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.jobInformation?.jobPosition) || ""}</Td>
                 </Fragment>
               )}
               {location === "Payroll Table" && (
                 <Fragment>
-                  <Td>{rowItem?.fullName || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.fullName) || ""}</Td>
                   <Td>{capitalizeWords(rowItem?.department) || ""}</Td>
                   <Td>{rowItem?.monthlySalary?.toLocaleString() || ""}</Td>
                   <Td>
@@ -118,7 +118,7 @@ export const Table = ({
                     />
                   </Td>
                   {rowItem?.payrollVariables?.map((variable, index) => (
-                    <Td key={index}>{variable?.value}</Td>
+                    <Td key={index}>{variable?.value?.toLocaleString()}</Td>
                   ))}
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.payslipId)}
@@ -129,7 +129,7 @@ export const Table = ({
               )}
               {location === "Summary Table" && (
                 <Fragment>
-                  <Td>{rowItem?.employeeFullName || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.employeeFullName || "")}</Td>
                   <Td>{rowItem?.totalEarnings?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.totalDeductions?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.netPay?.toLocaleString() || ""}</Td>
@@ -155,17 +155,17 @@ export const Table = ({
               )}
               {location === "User Summary Table" && (
                 <Fragment>
-                  <Td>{rowItem?.name || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.name || "")}</Td>
                   <Td>{rowItem?.value || ""}</Td>
                 </Fragment>
               )}
               {location === "Variance Table" && (
                 <Fragment>
-                  <Td>{rowItem?.employeeFullName || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.employeeFullName) || ""}</Td>
                   <Td>{rowItem?.firstMonthValue?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.secondMonthValue?.toLocaleString() || ""}</Td>
-                  <Td>{rowItem?.variance || ""}</Td>
-                  <Td>{rowItem?.percentage || ""}</Td>
+                  <Td>{rowItem?.variance || "0"}</Td>
+                  <Td>{rowItem?.percentage || "0"}</Td>
                 </Fragment>
               )}
               {location === "Departments Table" && (
@@ -215,9 +215,9 @@ export const Table = ({
               )}
               {location === "Company Table" && (
                 <Fragment>
-                  <Td>{rowItem?.companyName || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.companyName || "")}</Td>
                   <Td>{rowItem?.employerEmail || ""}</Td>
-                  <Td>{rowItem?.planType || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.planType || "")}</Td>
                   <Td>{rowItem?.creditBalance || ""}</Td>
                   <Td>{rowItem?.lastUsedDate || ""}</Td>
                   <Td
@@ -231,17 +231,17 @@ export const Table = ({
               )}
               {location === "Referrals Table" && (
                 <Fragment>
-                  <Td>{rowItem?.refererFullname}</Td>
-                  <Td>{rowItem?.employerFullname}</Td>
-                  <Td>{rowItem?.companyName}</Td>
+                  <Td>{capitalizeWords(rowItem?.refererFullname)}</Td>
+                  <Td>{capitalizeWords(rowItem?.employerFullname)}</Td>
+                  <Td>{capitalizeWords(rowItem?.companyName)}</Td>
                   <Td>{rowItem?.companyEmail}</Td>
                   <Td>{rowItem?.dateReferred}</Td>
-                  <Td>{rowItem?.status}</Td>
+                  <Td>{capitalizeWords(rowItem?.status)}</Td>
                 </Fragment>
               )}
               {location === "Plans & Pricing" && (
                 <Fragment>
-                  <Td>{rowItem?.title?.charAt(0)?.toUpperCase() + rowItem?.title?.slice(1)}</Td>
+                  <Td>{capitalizeWords(rowItem?.title)}</Td>
                   <Td>{rowItem?.lowerLimit}</Td>
                   <Td>{rowItem?.upperLimit}</Td>
                   <Td>{rowItem?.creditCostPerEmployee}</Td>
@@ -256,62 +256,54 @@ export const Table = ({
               )}
               {location === "Billing Table" && (
                 <Fragment>
-                  <Td>{rowItem?.companyName}</Td>
+                  <Td>{capitalizeWords(rowItem?.companyName)}</Td>
                   <Td>{rowItem?.employerEmail}</Td>
                   <Td>{rowItem?.creditAmount}</Td>
-                  <Td>{rowItem?.creditCost}</Td>
+                  <Td>{rowItem?.creditCost?.toLocaleString()}</Td>
                   <Td>{rowItem?.dateInitiated}</Td>
                   <Td>{rowItem?.dateCompleted}</Td>
-                  <Td>{rowItem?.payrollPlan}</Td>
+                  <Td>{capitalizeWords(rowItem?.payrollPlan)}</Td>
                 </Fragment>
               )}
               {location === "General Table" && (
                 <Fragment>
-                  <Td>{rowItem?.employeeFullName}</Td>
-                  <Td>{rowItem?.department}</Td>
+                  <Td>{capitalizeWords(rowItem?.employeeFullName)}</Td>
+                  <Td>{capitalizeWords(rowItem?.department)}</Td>
                   <Td>{rowItem?.salaryBankName}</Td>
                   <Td>{rowItem?.salaryBankAccount}</Td>
                   <Td>{rowItem?.pensionFirmName}</Td>
                   <Td>{rowItem?.pensionAccount}</Td>
                   {rowItem?.earnings?.map((variable, index) => (
-                    <Td key={index}>{variable?.value}</Td>
+                    <Td key={index}>{variable?.value?.toLocaleString()}</Td>
                   ))}
                   {rowItem?.deductions?.map((variable, index) => (
-                    <Td key={index}>{variable?.value}</Td>
+                    <Td key={index}>{variable?.value?.toLocaleString()}</Td>
                   ))}
-                  <Td>{rowItem?.totalEarnings}</Td>
-                  <Td>{rowItem?.totalDeductions}</Td>
-                  <Td>{rowItem?.grossPay || "0"}</Td>
-                  <Td>{rowItem?.netPay || "0"}</Td>
+                  <Td>{rowItem?.totalEarnings?.toLocaleString()}</Td>
+                  <Td>{rowItem?.totalDeductions?.toLocaleString()}</Td>
+                  <Td>{rowItem?.grossPay?.toLocaleString() || "0"}</Td>
+                  <Td>{rowItem?.netPay?.toLocaleString() || "0"}</Td>
                 </Fragment>
               )}
               {location === "Paye Table" && (
                 <Fragment>
                   <Td>
-                    {rowItem?.employeeFullName
-                      .toLowerCase()
-                      .split(" ")
-                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                      .join(" ")}
+                    {capitalizeWords(rowItem?.employeeFullName)}
                   </Td>
                   <Td>{rowItem?.taxNumber}</Td>
-                  <Td>{rowItem?.grossPay || 0}</Td>
-                  <Td>{rowItem?.payeValue}</Td>
+                  <Td>{rowItem?.grossPay?.toLocaleString() || 0}</Td>
+                  <Td>{rowItem?.payeValue?.toLocaleString()}</Td>
                 </Fragment>
               )}
               {location === "Pension Table" && (
                 <Fragment>
                   <Td>
-                    {rowItem?.employeeFullName
-                      .toLowerCase()
-                      .split(" ")
-                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                      .join(" ")}
+                    {capitalizeWords(rowItem?.employeeFullName)}
                   </Td>
                   <Td>{rowItem?.pensionFirmName}</Td>
                   <Td>{rowItem?.pensionAccount}</Td>
-                  <Td>{rowItem?.grossPay || 0}</Td>
-                  <Td>{rowItem?.pensionValue}</Td>
+                  <Td>{rowItem?.grossPay?.toLocaleString() || 0}</Td>
+                  <Td>{rowItem?.pensionValue?.toLocaleString()}</Td>
                 </Fragment>
               )}
             </tr>

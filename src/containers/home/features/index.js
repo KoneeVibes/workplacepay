@@ -1,7 +1,8 @@
 import { FeaturesWrapper } from "./styled";
 import featuresImage from "../../../assets/images/payroll 1.png";
 import { Column, Row } from "../../../components/flex/styled";
-import { H2, H3 } from "../../../components/typography/styled";
+import { H2 } from "../../../components/typography/styled";
+import { features } from "../../../config/home/features";
 
 export const Features = () => {
     return (
@@ -15,15 +16,10 @@ export const Features = () => {
                 tocolumn
             >
                 <Column className="feature-text">
-                    <H3>Features</H3>
                     <ul>
-                        <li>Automates salary calculations, tax deductions, and compliance tracking</li>
-                        <li>Ensures accuracy and efficiency in payroll management</li>
-                        <li>Supports multiple currencies and local tax regulations</li>
-                        <li>Simplifies payroll for businesses operating in different regions</li>
-                        <li>Eliminates manual transactions and saves time</li>
-                        <li>Reduces HR workload through employee self-service</li>
-                        <li>Allows direct salary payments to employees’ bank accounts</li>
+                        {features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                        ))}
                     </ul>
                 </Column>
                 <div className="feature-img">

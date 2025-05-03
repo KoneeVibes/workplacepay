@@ -23,7 +23,7 @@ export const EmployeeProfileWrapper = styled("div")(() => {
             borderRadius: "1rem",
             boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
         },
-        "& input": {
+        "& input, & select": {
             padding: "calc(var(--cardPadding) / 4) var(--cardPadding)",
             outline: "none",
             backgroundColor: "transparent",

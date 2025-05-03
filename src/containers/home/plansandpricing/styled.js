@@ -35,10 +35,22 @@ export const PlansAndPricingWrapper = styled('div')(() => {
             padding: "var(--cardPadding)"
         },
 
+        "& .introduction": {
+            "& h2": {
+                marginBlockEnd: 0,
+            },
+            "& p": {
+                marginBlockStart: 0,
+                marginBlockEnd: "calc(var(--flexGap)/1)",
+            },
+        },
+
         "@media screen and (min-width: 1024px)": {
             margin: "calc(var(--sectionMargin) * 3) 0",
-            "h2": {
-                textAlign: "center",
+            "& .introduction": {
+                "& h2, & p": {
+                    textAlign: "center",
+                },
             },
         }
     }

@@ -20,9 +20,7 @@ export const MainAreaWrapper = styled("div")(() => {
             bottom: 0,
             height: "max-content",
         },
-
-
-        "& P": {
+        "& .footnote": {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

@@ -13,10 +13,13 @@ import { updateBankDetailsService } from "../../../../utils/apis/user/updateBank
 import { updateContactDetailsService } from "../../../../utils/apis/user/updateContactDetails";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
+import { BaseSelect } from "../../../../components/form/select/styled";
+import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 
 export const EmployeeProfile = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.getAll().TOKEN;
+  const REACT_APP_PAYSTACK_SK = process.env.REACT_APP_PAYSTACK_SK;
 
   const [user, setUser] = useState({});
   const [matches, setMatches] = useState(false);
@@ -37,6 +40,7 @@ export const EmployeeProfile = () => {
     address: "",
     phone: "",
   });
+  const [banks, setBanks] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -71,6 +75,18 @@ export const EmployeeProfile = () => {
         console.error(err);
       });
   }, [TOKEN]);
+
+  useEffect(() => {
+    const fetchAllBanks = async () => {
+      try {
+        const response = await retrieveAllBanks(REACT_APP_PAYSTACK_SK);
+        return setBanks(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAllBanks();
+  }, [REACT_APP_PAYSTACK_SK]);
 
   const handleBankDetailsChange = (e) => {
     const { name, value } = e.target;
@@ -210,13 +226,22 @@ export const EmployeeProfile = () => {
               <Label>Bank Name</Label>
             </div>
             <div className="detail-field">
-              <BaseInput
-                type="text"
+              <BaseSelect
                 name="salaryBankName"
                 value={bankDetails.salaryBankName}
                 onChange={handleBankDetailsChange}
                 required
-              />
+              >
+                <option value="">Select Bank</option>
+                {banks?.map((bank, index) => (
+                  <option
+                    key={index}
+                    value={bank.name}
+                  >
+                    {bank.name}
+                  </option>
+                ))}
+              </BaseSelect>
             </div>
           </Row>
           <Row>
@@ -238,13 +263,22 @@ export const EmployeeProfile = () => {
               <Label>Pension Firm Name</Label>
             </div>
             <div className="detail-field">
-              <BaseInput
-                type="text"
+              <BaseSelect
                 name="pensionFirmName"
                 value={bankDetails.pensionFirmName}
                 onChange={handleBankDetailsChange}
                 required
-              />
+              >
+                <option value="">Select Bank</option>
+                {banks?.map((bank, index) => (
+                  <option
+                    key={index}
+                    value={bank.name}
+                  >
+                    {bank.name}
+                  </option>
+                ))}
+              </BaseSelect>
             </div>
           </Row>
           <Row>

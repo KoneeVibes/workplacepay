@@ -70,7 +70,7 @@ export const PaymentModal = () => {
                 payload
             );
             if (response?.status === "Success") {
-                console.log("credited successfully", response);
+                // console.log("credited successfully", response);
                 navigate("/dashboard");
             } else {
                 console.error("Server failed to verify purchase. Please contact support.");
@@ -81,7 +81,7 @@ export const PaymentModal = () => {
     };
 
     const handlePaystackCloseAction = () => {
-        console.log('closed')
+        // console.log('closed')
     };
 
     const config = {

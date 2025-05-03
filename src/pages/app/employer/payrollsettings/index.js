@@ -4,7 +4,6 @@ import { InputRow, PayrollSettingsWrapper } from "./styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { H2, H3, Label, P, Span } from "../../../../components/typography/styled";
-import { BaseSelect } from "../../../../components/form/select/styled";
 import { BaseFlex, Row } from "../../../../components/flex/styled";
 import { setupPayrollService } from "../../../../utils/apis/payroll/setupPayroll";
 import Cookies from "universal-cookie";
@@ -252,6 +251,7 @@ export const PayrollSettings = () => {
                   value={
                     formDetails.payrollVariables.find((variable) => variable.name === "basic salary")?.value || ""
                   }
+                  required
                   onChange={handleChange}
                 />
                 <Span>%</Span>
@@ -271,20 +271,17 @@ export const PayrollSettings = () => {
               justifycontent={"space-between"}
             >
               <InputRow>
-                <BaseSelect
+                <BaseInput
                   id="housing allowance"
+                  type="number"
                   name="housing allowance"
-                  required
+                  max={100}
                   value={
                     formDetails.payrollVariables.find((variable) => variable.name === "housing allowance")?.value || ""
                   }
+                  required
                   onChange={handleChange}
-                >
-                  <option value="" hidden></option>
-                  <option value="10">10%</option>
-                  <option value="20">20%</option>
-                  <option value="30">30%</option>
-                </BaseSelect>
+                />
                 <Span>%</Span>
               </InputRow>
               <BaseInput
@@ -302,20 +299,17 @@ export const PayrollSettings = () => {
               justifycontent={"space-between"}
             >
               <InputRow>
-                <BaseSelect
+                <BaseInput
                   id="transport allowance"
+                  type="number"
                   name="transport allowance"
-                  required
+                  max={100}
                   value={
                     formDetails.payrollVariables.find((variable) => variable.name === "transport allowance")?.value || ""
                   }
+                  required
                   onChange={handleChange}
-                >
-                  <option value="" hidden></option>
-                  <option value="10">10%</option>
-                  <option value="20">20%</option>
-                  <option value="30">30%</option>
-                </BaseSelect>
+                />
                 <Span>%</Span>
               </InputRow>
               <BaseInput

@@ -20,16 +20,6 @@ export const EmployerDashboardWrapper = styled("div")(() => {
         fontSize: "16px",
       },
     },
-    // "& .reset-password-modal": {
-    //   padding: "var(--cardPadding)",
-    //   background: "#FFFFFF",
-    //   position: "fixed",
-    //   top: "50%",
-    //   left: "50%",
-    //   transform: "translate(-50%, -50%)",
-    //   borderRadius: "1rem",
-    //   boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
-    // },
     "& .upcoming-salary-amount-card": {
       backgroundColor: "#F5F8FC",
       color: "#040507",
@@ -96,6 +86,33 @@ export const EmployerDashboardWrapper = styled("div")(() => {
     },
     "& td": {
       minWidth: "200px",
+    },
+    "& .add-employee-modal": {
+      position: "fixed",
+      top: "var(--topNavHeight)",
+      right: "var(--cardPadding)",
+      maxWidth: "250px",
+      zIndex: 10,
+      backgroundColor: "#FFFFFF",
+      borderRadius: "0.5rem",
+      boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+    },
+    "& .employee-bulk-upload-modal": {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "#FFFFFF",
+      borderRadius: "1rem",
+      boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+      "@media screen and (max-width: 768px)": {
+        top: "0",
+        bottom: "0",
+        left: "0",
+        right: "0",
+        transform: "unset",
+        borderRadius: "unset"
+      }
     },
     "@media screen and (max-width: 768px)": {
       "& .cards-group": {

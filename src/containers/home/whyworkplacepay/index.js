@@ -16,13 +16,9 @@ export const WhyWorkPlacePay = () => {
       </div>
       <Column className="hero-text">
         <H2>why workPlacePAY?</H2>
-        <H3>Empower your business with seamless payroll management</H3>
+        <H3>Empower your business with our hassle-free payroll management solution</H3>
         <P>
-          WorkPlacePay is a comprehensive payroll management solution that automates salary calculations,
-          tax deductions, and compliance tracking. Designed for global operations, it supports multiple
-          currencies and local tax regulations. Employees can access payslips, tax documents, and leave
-          requests via a self-service portal, reducing HR workload. With direct bank payments and detailed
-          reporting, WorkPlacePay streamlines payroll processes, enhances accuracy, and saves time.
+          workPlacePay is a comprehensive payroll management solution that automates salary calculations and tax deductions in compliance with local regulations. It features a self-service portal where employees can access payslips, retrieve tax documents, and manage their bank information. With support for direct bank payments and detailed reporting, workPlacePay simplifies payroll processes, improves accuracy, and saves valuable time.
         </P>
         <BaseButton width={"fit-content"}>Get Started</BaseButton>
       </Column>

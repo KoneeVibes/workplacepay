@@ -67,7 +67,7 @@ export const Companies = () => {
       <CompaniesWrapper>
         <Row className="heading-row" justifycontent={"space-between"}>
           <Span>Company List</Span>
-          <Span>Show all</Span>
+          {/* <Span>Show all</Span> */}
         </Row>
         <Row className="filter">
           <BaseFieldSet>

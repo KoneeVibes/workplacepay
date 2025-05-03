@@ -53,7 +53,7 @@ export const Footer = () => {
       <Row
         className="bottom-row"
       >
-        <P>© 2023 workplacePay. All rights reserved.</P>
+        <P>© 2025 workplacePay. All rights reserved.</P>
         <P>Powered by: Focus Group</P>
       </Row>
     </FooterWrapper >

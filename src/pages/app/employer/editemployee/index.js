@@ -15,14 +15,16 @@ import { formatDateToDDMMYYYY } from "../../../../config/app/dateFormatter";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
 import { EditEmployeeRow } from "./styled";
 import { getEmployee } from "../../../../utils/apis/employee/getEmployee";
-import {useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { updateEmployeeService } from "../../../../utils/apis/employee/updateEmployee";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
+import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 
 export const EditEmployee = () => {
   const cookies = new Cookies();
   const COMPANY_ID = cookies.get("COMPANY_ID");
   const TOKEN = cookies.getAll().TOKEN;
+  const REACT_APP_PAYSTACK_SK = process.env.REACT_APP_PAYSTACK_SK;
 
   const { id } = useParams();
 
@@ -70,13 +72,14 @@ export const EditEmployee = () => {
 
   const [employee, setEmployee] = useState(initialFormDetails);
   const [step, setStep] = useState(1);
-   const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const [matches, setMatches] = useState(false);
   const [isFormReset, setIsFormReset] = useState(false);
   const [error, setError] = useState(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
+  const [banks, setBanks] = useState([]);
 
   function formatDateForInput(dateString) {
     if (!dateString) return "";
@@ -187,6 +190,18 @@ export const EditEmployee = () => {
     };
     fetchDepartments();
   }, [TOKEN, COMPANY_ID]);
+
+  useEffect(() => {
+    const fetchAllBanks = async () => {
+      try {
+        const response = await retrieveAllBanks(REACT_APP_PAYSTACK_SK);
+        return setBanks(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAllBanks();
+  }, [REACT_APP_PAYSTACK_SK]);
 
   const handleChange = (e, section) => {
     const { name, value } = e.target;
@@ -444,15 +459,18 @@ export const EditEmployee = () => {
                     <Label>Salary Bank Name</Label>
                     <BaseSelect
                       name="salaryBankName"
-                      value={employee.payrollSetup.salaryBankName?.replace(
-                        /\b\w/g,
-                        (char) => char.toUpperCase()
-                      )}
+                      value={employee.payrollSetup.salaryBankName}
                       onChange={(e) => handleChange(e, "payrollSetup")}
                     >
-                      <option value="" hidden></option>
-                      <option value="Bank A">Bank A</option>
-                      <option value="Bank B">Bank B</option>
+                      <option value="">Select Bank</option>
+                      {banks?.map((bank, index) => (
+                        <option
+                          key={index}
+                          value={bank.name}
+                        >
+                          {bank.name}
+                        </option>
+                      ))}
                     </BaseSelect>
                   </BaseFieldSet>
                 </EditEmployeeRow>
@@ -471,15 +489,18 @@ export const EditEmployee = () => {
                     <Label>Pension Firm Name</Label>
                     <BaseSelect
                       name="pensionFirmName"
-                      value={employee.payrollSetup.pensionFirmName?.replace(
-                        /\b\w/g,
-                        (char) => char.toUpperCase()
-                      )}
+                      value={employee.payrollSetup.pensionFirmName}
                       onChange={(e) => handleChange(e, "payrollSetup")}
                     >
-                      <option value="" hidden></option>
-                      <option value="Pension Firm A">Pension Firm A</option>
-                      <option value="Pension Firm B">Pension Firm B</option>
+                      <option value="">Select Bank</option>
+                      {banks?.map((bank, index) => (
+                        <option
+                          key={index}
+                          value={bank.name}
+                        >
+                          {bank.name}
+                        </option>
+                      ))}
                     </BaseSelect>
                   </BaseFieldSet>
                 </EditEmployeeRow>

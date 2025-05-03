@@ -13,12 +13,9 @@ export const Layout = ({ id, children, title, location, callToAction, handleCall
         callToAction={callToAction}
         handleCallToActionClick={handleCallToActionClick}
       />
-
       <MainAreaWrapper>{children}
-        <P>Powered by: Focus Group</P>
+        <P className="footnote">Powered by: Focus Group</P>
       </MainAreaWrapper>
-
-
     </LayoutWrapper>
   );
 };

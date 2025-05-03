@@ -23,12 +23,15 @@ import { DotLoader } from "react-spinners";
 import Cookies from "universal-cookie";
 import { formatDateToDDMMYYYY } from "../../../../config/app/dateFormatter";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
+import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 
 export const AddNewEmployee = () => {
   const cookies = new Cookies();
   const COMPANY_ID = cookies.get("COMPANY_ID");
   const TOKEN = cookies.getAll().TOKEN;
+  const REACT_APP_PAYSTACK_SK = process.env.REACT_APP_PAYSTACK_SK;
 
+  const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
   const initialFormDetails = useMemo(
     () => ({
       personalInfo: {
@@ -77,8 +80,7 @@ export const AddNewEmployee = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
-
-  const { setIsAddEmployeeSuccessModalOpen } = useContext(Context);
+  const [banks, setBanks] = useState([]);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
 
   const handleChange = (e, section) => {
@@ -183,6 +185,18 @@ export const AddNewEmployee = () => {
     };
     fetchDepartments();
   }, [TOKEN, COMPANY_ID]);
+
+  useEffect(() => {
+    const fetchAllBanks = async () => {
+      try {
+        const response = await retrieveAllBanks(REACT_APP_PAYSTACK_SK);
+        return setBanks(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAllBanks();
+  }, [REACT_APP_PAYSTACK_SK]);
 
   return (
     <Layout id={"employees"} title={"Add new employee"}>
@@ -346,9 +360,15 @@ export const AddNewEmployee = () => {
                       value={formDetails.payrollSetup.salaryBankName}
                       onChange={(e) => handleChange(e, "payrollSetup")}
                     >
-                      <option value="" hidden></option>
-                      <option value="Bank A">Bank A</option>
-                      <option value="Bank B">Bank B</option>
+                      <option value="">Select Bank</option>
+                      {banks?.map((bank, index) => (
+                        <option
+                          key={index}
+                          value={bank.name}
+                        >
+                          {bank.name}
+                        </option>
+                      ))}
                     </BaseSelect>
                   </BaseFieldSet>
                 </AddNewEmployeeRow>
@@ -370,9 +390,15 @@ export const AddNewEmployee = () => {
                       value={formDetails.payrollSetup.pensionFirmName}
                       onChange={(e) => handleChange(e, "payrollSetup")}
                     >
-                      <option value="" hidden></option>
-                      <option value="Pension Firm A">Pension Firm A</option>
-                      <option value="Pension Firm B">Pension Firm B</option>
+                      <option value="">Select Bank</option>
+                      {banks?.map((bank, index) => (
+                        <option
+                          key={index}
+                          value={bank.name}
+                        >
+                          {bank.name}
+                        </option>
+                      ))}
                     </BaseSelect>
                   </BaseFieldSet>
                 </AddNewEmployeeRow>

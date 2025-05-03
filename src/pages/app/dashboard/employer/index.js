@@ -14,8 +14,10 @@ import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
 import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
+import { SuccessModal } from "../../../../containers/app/modals/successmodal";
+import { EmployeeBulkUploadModal } from "../../../../containers/app/modals/employeebulkuploadmodal";
 
-export const EmployerDashboard = () => {
+export const EmployerDashboard = ({ addEmployeeModal }) => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const COMPANY_ID = cookies.get("COMPANY_ID");
@@ -27,6 +29,7 @@ export const EmployerDashboard = () => {
     departmentId: "",
     jobTitle: "",
   });
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   useEffect(() => {
     getAllEmployees(TOKEN, COMPANY_ID, filter)
@@ -56,8 +59,31 @@ export const EmployerDashboard = () => {
     }));
   };
 
+  const handleCloseSuccessModal = () => {
+    return setIsSuccessModalOpen(false);
+  };
+
+  const handlePersistModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
   return (
     <EmployerDashboardWrapper>
+      <SuccessModal
+        open={isSuccessModalOpen}
+        handleClickOutside={handlePersistModal}
+        className={"delete-employee-success-modal"}
+        title={"Success"}
+        message={`Employee has been successfully added`}
+        callToAction={"Close"}
+        handleCallToActionClick={handleCloseSuccessModal}
+      />
+      {addEmployeeModal}
+      <EmployeeBulkUploadModal
+        width={"40%"}
+        height={"350px"}
+        setIsSuccessModalOpen={setIsSuccessModalOpen}
+      />
       <Row className="cards-group">
         <Card className={"upcoming-salary-date-card"}>
           <Row className="card-title">
@@ -84,7 +110,7 @@ export const EmployerDashboard = () => {
       <Card className={"employee-table-card"}>
         <Row className="card-title">
           <H3>Employee List</H3>
-          <H3>Show all</H3>
+          {/* <H3>Show all</H3> */}
         </Row>
         <Row className="card-table-filter">
           <BaseFieldSet>

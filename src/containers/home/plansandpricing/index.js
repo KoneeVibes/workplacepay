@@ -7,7 +7,12 @@ export const PlansAndPricing = () => {
             id="plans"
         >
             {/* Awele, your html code should begin below this line */}
-            <H2>Plans and Pricing</H2>
+            <div
+                className="introduction"
+            >
+                <H2>Plans and Pricing</H2>
+                <P>Choose the plan that fits your business needs. Only pay when you run payroll</P>
+            </div>
             <PlansAndPricingRow className="pricingRow"
                 tocolumn={true}
             >

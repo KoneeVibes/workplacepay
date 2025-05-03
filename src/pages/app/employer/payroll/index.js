@@ -102,7 +102,7 @@ export const Payroll = () => {
             }
         };
         fetchCompanyDetails();
-    }, [TOKEN, COMPANY_ID]);
+    }, [TOKEN, COMPANY_ID, isConfirmationModalOpen]);
 
     useEffect(() => {
         if (!isManageEmployeeModalOpen) {
