@@ -15,7 +15,7 @@ export const WhyWorkPlacePay = () => {
         <img src={heroImage} alt="diplomatic agreement" />
       </div>
       <Column className="hero-text">
-        <H2>why workPlacePay?</H2>
+        <H2>why workPlacePAY?</H2>
         <H3>Empower your business with seamless payroll management</H3>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in
