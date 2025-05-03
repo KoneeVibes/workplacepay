@@ -12,9 +12,9 @@ export const TableWrapper = styled("table")(() => {
             padding: "calc(var(--cardPadding)/2)",
             borderBottom: "1px solid #000000",
             minWidth: "150px",
-            fontSize: "24px",
+            fontSize: "18px",
             fontWeight: 600,
-            color: "#CCCCCC",
+            color: "#FFFFFF",
             userSelect: "none",
         },
         "& td": {
@@ -22,7 +22,7 @@ export const TableWrapper = styled("table")(() => {
             border: "1px solid #000000",
             padding: "calc(var(--cardPadding)/2)",
             minWidth: "150px",
-            color: "#CCCCCC",
+            color: "#222222",
         },
         "& tbody tr td:nth-child(1)": {
             textAlign: "left",

@@ -195,7 +195,7 @@ export const Employees = () => {
         />
         <Row className="heading-row" justifycontent={"space-between"}>
           <Span>Employee List</Span>
-          <Span>See all</Span>
+          <Span>Show all</Span>
         </Row>
         <Row className="filter">
           <BaseFieldSet>
