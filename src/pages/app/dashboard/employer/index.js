@@ -84,7 +84,7 @@ export const EmployerDashboard = () => {
       <Card className={"employee-table-card"}>
         <Row className="card-title">
           <H3>Employee List</H3>
-          <H3>See all</H3>
+          <H3>Show all</H3>
         </Row>
         <Row className="card-table-filter">
           <BaseFieldSet>

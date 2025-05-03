@@ -46,9 +46,10 @@ export const Table = ({
                     {capitalizeWords(rowItem?.jobInformation?.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
+                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
+                  <Td>{rowItem?.status || ""}</Td>
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
                   >
@@ -96,7 +97,7 @@ export const Table = ({
                     {capitalizeWords(rowItem?.jobInformation?.department) ??
                       "Not Assigned"}
                   </Td>
-                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay || ""}</Td>
+                  <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
                 </Fragment>
@@ -105,7 +106,7 @@ export const Table = ({
                 <Fragment>
                   <Td>{rowItem?.fullName || ""}</Td>
                   <Td>{capitalizeWords(rowItem?.department) || ""}</Td>
-                  <Td>{rowItem?.monthlySalary || ""}</Td>
+                  <Td>{rowItem?.monthlySalary?.toLocaleString() || ""}</Td>
                   <Td>
                     <BaseInput
                       type="checkbox"
@@ -130,9 +131,9 @@ export const Table = ({
               {location === "Summary Table" && (
                 <Fragment>
                   <Td>{rowItem?.employeeFullName || ""}</Td>
-                  <Td>{rowItem?.totalEarnings || ""}</Td>
-                  <Td>{rowItem?.totalDeductions || ""}</Td>
-                  <Td>{rowItem?.netPay || ""}</Td>
+                  <Td>{rowItem?.totalEarnings?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.totalDeductions?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.netPay?.toLocaleString() || ""}</Td>
                   <Td
                     onClick={() =>
                       navigate(`/reportsummary/summary/${rowItem?.payslipId}`)
@@ -162,8 +163,8 @@ export const Table = ({
               {location === "Variance Table" && (
                 <Fragment>
                   <Td>{rowItem?.employeeFullName || ""}</Td>
-                  <Td>{rowItem?.firstMonthValue || ""}</Td>
-                  <Td>{rowItem?.secondMonthValue || ""}</Td>
+                  <Td>{rowItem?.firstMonthValue?.toLocaleString() || ""}</Td>
+                  <Td>{rowItem?.secondMonthValue?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.variance || ""}</Td>
                   <Td>{rowItem?.percentage || ""}</Td>
                 </Fragment>

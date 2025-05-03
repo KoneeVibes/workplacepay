@@ -68,6 +68,7 @@ export const PayrollWrapper = styled("div")(() => {
             color: "#FFFFFF",
             background: "#4E57BB",
             minWidth: "200px",
+            fontSize: "18px",
         },
         "& td": {
             minWidth: "200px",
