@@ -31,7 +31,7 @@ export const Footer = () => {
         <P>Contact</P>
       </Column>
       <Column className="contact">
-        <P>workplacePay</P>
+        <P>workPlacePAY</P>
         <P>workplacepay@focusgroupng.com</P>
         <P>+2348021810040</P>
       </Column>
