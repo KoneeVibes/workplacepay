@@ -10,16 +10,16 @@ import { Features } from "../../containers/home/features";
 export const Home = () => {
     const frequentlyAskedQuestions = [
         {
-            question: "What is WorkPlacePay?",
-            answer: "WorkplacePay automates payroll processing,tax deductions and employee payments while ensuring compliance with local regulations"
+            question: "What is workplacePAY?",
+            answer: "workplacePAY automates payroll processing,tax deductions and employee payments while ensuring compliance with local regulations"
         },
         {
-            question: "How does WorkPlacePay help my business?",
+            question: "How does workPlacePAY help my business?",
             answer: "It streamlines payroll operations by reducing manual work and eliminating errors"
         },
         {
-            question: "Can WorkPlacePay handle tax compliance for different regions?",
-            answer: "Nope. it's a Nigeria-focused application"
+            question: "Can workPlacePAY handle tax compliance for different sectors?",
+            answer: "Absolutely. workPlacePAY is sector-agnostic and built to scale, ensuring your business stays compliant with tax regulations across industries."
         },
         {
             question: "Does the app handle PAYE reports?",

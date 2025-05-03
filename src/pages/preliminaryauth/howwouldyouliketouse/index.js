@@ -10,15 +10,15 @@ export const HowWouldYouLikeToUse = () => {
   return (
     <HowWouldYouLikeToUseWrapper tocolumn={true}>
       <div className="image-page">
-        <H1>WorkPlacePay</H1>
+        <H1>workPlacePAY</H1>
         <H3>A few clicks from creating your account </H3>
-        <P>Seamless Payroll management for your business all in one place!</P>
+        <P>Simple payroll management for your business, all within one platform!</P>
         <Prelim />
         <P className="foot">POWERED BY: FOCUS GROUP</P>
       </div>
       <Column className="basebutton-page">
         <P>
-          How would you like to use workPlacePAY You can create your company
+          How would you like to use workPlacePAY? You can create your company
           account right away if you're an employer or refer your employer if
           you're an employee.
         </P>

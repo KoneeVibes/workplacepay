@@ -133,9 +133,9 @@ export const GetStarted = () => {
   return (
     <GetStartedWrapper tocolumn={true}>
       <div className="first-section">
-        <H1>WorkPlacePay</H1>
+        <H1>workPlacePAY</H1>
         <H3>A few clicks from creating your account </H3>
-        <P>Seamless Payroll management for your business all in one place!</P>
+        <P>Easy Payroll management for your business all in one place!</P>
         <Prelim />
         <P className="foot">POWERED BY: FOCUS GROUP</P>
       </div>
