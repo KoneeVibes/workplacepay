@@ -1,21 +1,21 @@
 import { Context } from "../../../../context";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BaseModal } from "../../../../components/modal";
-import { EmployeeBulkUploadModalWrapper } from "./styled";
+import { DepartmentBulkUploadModalWrapper } from "./styled";
 import Cookies from "universal-cookie";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { Label, P, Span } from "../../../../components/typography/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { DotLoader } from "react-spinners";
-import { bulkEmployeeUploadService } from "../../../../utils/apis/employee/bulkUpload";
+import { bulkDepartmentUploadService } from "../../../../utils/apis/department/bulkUpload";
 
-export const EmployeeBulkUploadModal = ({ height, width, setIsSuccessModalOpen }) => {
+export const DepartmentBulkUploadModal = ({ height, width, setIsSuccessModalOpen }) => {
     const cookies = new Cookies();
     const { TOKEN, COMPANY_ID } = cookies.getAll() ?? {};
 
     const fileInputRef = useRef(null);
-    const { isEmployeeBulkUploadModalOpen, setIsEmployeeBulkUploadModalOpen } = useContext(Context);
+    const { isDepartmentBulkUploadModalOpen, setIsDepartmentBulkUploadModalOpen } = useContext(Context);
 
     const [matches, setMatches] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +42,7 @@ export const EmployeeBulkUploadModal = ({ height, width, setIsSuccessModalOpen }
         if (fileInputRef.current) {
             fileInputRef.current.value = null;
         }
-        return setIsEmployeeBulkUploadModalOpen(false);
+        return setIsDepartmentBulkUploadModalOpen(false);
     };
 
     const handleChange = (e) => {
@@ -61,11 +61,10 @@ export const EmployeeBulkUploadModal = ({ height, width, setIsSuccessModalOpen }
         const formData = new FormData();
         formData.append(`File`, formDetails.csvFile);
         try {
-            const response = await bulkEmployeeUploadService(TOKEN, formData, COMPANY_ID);
+            const response = await bulkDepartmentUploadService(TOKEN, formData, COMPANY_ID);
             if (response.status === "Success") {
-                console.log(response);
                 setIsLoading(false);
-                setIsEmployeeBulkUploadModalOpen(false);
+                setIsDepartmentBulkUploadModalOpen(false);
                 if (fileInputRef.current) {
                     fileInputRef.current.value = null;
                 }
@@ -84,13 +83,13 @@ export const EmployeeBulkUploadModal = ({ height, width, setIsSuccessModalOpen }
 
     return (
         <BaseModal
-            open={isEmployeeBulkUploadModalOpen}
+            open={isDepartmentBulkUploadModalOpen}
             onClose={handleCloseModal}
-            className={"employee-bulk-upload-modal"}
+            className={"department-bulk-upload-modal"}
             height={matches ? "auto" : height || "auto"}
             width={matches ? "auto" : width || "50%"}
         >
-            <EmployeeBulkUploadModalWrapper
+            <DepartmentBulkUploadModalWrapper
                 onSubmit={handleBulkUpload}
             >
                 <div
@@ -135,7 +134,7 @@ export const EmployeeBulkUploadModal = ({ height, width, setIsSuccessModalOpen }
                         )}
                     </BaseButton>
                 </div>
-            </EmployeeBulkUploadModalWrapper>
+            </DepartmentBulkUploadModalWrapper>
         </BaseModal>
     )
 }
