@@ -49,7 +49,6 @@ export const Table = ({
                   <Td>{rowItem?.payrollSetupInformation?.annualGrossPay?.toLocaleString() || ""}</Td>
                   <Td>{rowItem?.jobInformation?.dateHired || ""}</Td>
                   <Td>{rowItem?.jobInformation?.jobPosition || ""}</Td>
-                  <Td>{rowItem?.status || ""}</Td>
                   <Td
                     onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
                   >
