@@ -21,6 +21,23 @@ export const Home = () => {
             question: "Can workPlacePAY handle tax compliance for different sectors?",
             answer: "Absolutely. workPlacePAY is sector-agnostic and built to scale, ensuring your business stays compliant with tax regulations across industries."
         },
+        {
+            question: "Does the app handle PAYE reports?",
+            answer: "Yes, Clubify generates PAYE reports, helping you manage payroll and tax compliance easily."
+        },
+        {
+            question: "Can i upgrade or downgrade my plan at any time?",
+            answer: " Absolutely! You can change your plan anytime from your account settings."
+        },
+        {
+            question: "How do i reset my password?",
+            answer: "You can reset your password by clicking on the 'Forgot Password' link on the login page. Follow the instructions sent to your email."
+        },
+        {
+            question: "What payment methods do you accept?",
+            answer: "We accept all major credit cards and bank transfers."
+        },
+
     ];
 
     return (
@@ -28,7 +45,7 @@ export const Home = () => {
             <Navbar />
             <Hero />
             <WhyWorkPlacePay />
-            <Features/>
+            <Features />
             <PlansAndPricing />
             <FAQ
                 faqItems={frequentlyAskedQuestions}

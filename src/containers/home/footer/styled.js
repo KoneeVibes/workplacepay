@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { Row } from "../../../components/flex/styled";
+import { Column } from "../../../components/flex/styled";
 import { useContext } from "react";
 import { Context } from "../../../context";
 
-export const FooterWrapper = styled(Row)(() => {
+export const FooterWrapper = styled(Column)(() => {
   const { isMenuOpen } = useContext(Context);
   return {
     position: "relative",
@@ -13,8 +13,17 @@ export const FooterWrapper = styled(Row)(() => {
     padding: "0 var(--pagePadding)",
     backgroundColor: "#5F69DC",
     color: "white",
-    gap: "calc(var(--flexGap)*6)",
-    justifyContent: "space-between",
+    gap: 0,
+
+    "& .top-row": {
+      gap: "calc(var(--flexGap)*3)",
+      justifyContent: "space-between",
+    },
+
+    "& .bottom-row": {
+      padding: "0 0 calc(var(--pagePadding)/2) 0",
+      justifyContent: "space-between",
+    },
 
     ".footer-form": {
       flex: 1,
@@ -27,6 +36,10 @@ export const FooterWrapper = styled(Row)(() => {
       flex: 1,
       padding: "var(--cardPadding) 0 calc(var(--cardPadding) * 2)",
       gap: "0",
+      "& a": {
+        textDecoration: "none",
+        color: "white",
+      }
     },
 
     ".contact": {
@@ -40,8 +53,10 @@ export const FooterWrapper = styled(Row)(() => {
     },
 
     "@media screen and (max-width: 1024px)": {
-      flexDirection: "column",
-      gap: "calc(var(--flexGap))",
+      "& .top-row": {
+        flexDirection: "column",
+        gap: "calc(var(--flexGap))",
+      },
       ".footer-form": {
         padding: "var(--cardPadding) 0 0",
       },
@@ -54,5 +69,13 @@ export const FooterWrapper = styled(Row)(() => {
         padding: "0 0 var(--cardPadding)",
       },
     },
+    "@media screen and (max-width: 768px)": {
+      "& .bottom-row": {
+        flexDirection: "column",
+        gap: "0",
+      },
+
+
+    }
   }
 });

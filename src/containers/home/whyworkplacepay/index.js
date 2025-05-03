@@ -7,8 +7,8 @@ import { Column } from "../../../components/flex/styled";
 export const WhyWorkPlacePay = () => {
   return (
     <WhyWorkPlacePayWrapper
-    id="why"
-    tocolumn={true}
+      id="why"
+      tocolumn={true}
     >
       {/* Ibukun your html code should begin below this line */}
       <div className="hero-img">
@@ -18,12 +18,11 @@ export const WhyWorkPlacePay = () => {
         <H2>why workPlacePAY?</H2>
         <H3>Empower your business with seamless payroll management</H3>
         <P>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in
-          sem orci. Nunc a sagittis lacus. Nunc turpis augue, sodales quis
-          fermentum vitae, vestibulum a orci. Donec vitae ultrices odio. Mauris
-          condimentum id arcu sit amet venenatis. Quisque vitae nisi egestas,
-          varius lorem eget, aliquam neque. Donec ornare egestas lacinia. Nulla
-          pellentesque eleifend ullamcorper.
+          WorkPlacePay is a comprehensive payroll management solution that automates salary calculations,
+          tax deductions, and compliance tracking. Designed for global operations, it supports multiple
+          currencies and local tax regulations. Employees can access payslips, tax documents, and leave
+          requests via a self-service portal, reducing HR workload. With direct bank payments and detailed
+          reporting, WorkPlacePay streamlines payroll processes, enhances accuracy, and saves time.
         </P>
         <BaseButton width={"fit-content"}>Get Started</BaseButton>
       </Column>

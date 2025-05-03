@@ -14,6 +14,11 @@ export const RunPayrollModalWrapper = styled("div")(() => {
                     color: "#FFFFFF",
                 }
             }
-        }
+        },
+        "& .separate": {
+            height: "2px",
+            width: "100%",
+            backgroundColor: "#D3D3D3",
+        },
     }
 })

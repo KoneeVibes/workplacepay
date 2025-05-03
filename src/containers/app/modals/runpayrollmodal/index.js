@@ -27,6 +27,7 @@ export const RunPayrollModal = ({ handleActionItemClick }) => {
                 >
                     <P>Run with employer</P>
                 </div>
+                <div className="separate"></div>
                 <div
                     className="option"
                     onClick={(e) => handleActionItemClick(e, "without-employer")}
