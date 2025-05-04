@@ -38,7 +38,7 @@ export const PensionWrapper = styled("div")(() => {
       left: "50%",
       transform: "translate(-50%, -50%)",
       backgroundColor: "#FFFFFF",
-      padding: "calc(var(--cardPadding) * 2)",
+      padding: "calc(var(--cardPadding) * 1)",
       borderRadius: "1rem",
       boxShadow: "0px 20px 24px -4px #10182814",
       "& .payment-form": {

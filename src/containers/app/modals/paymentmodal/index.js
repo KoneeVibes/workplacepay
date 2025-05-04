@@ -5,7 +5,7 @@ import { PaymentModalWrapper } from "./styled";
 import { Context } from "../../../../context";
 import { Column, Row } from "../../../../components/flex/styled";
 import { BaseInput } from "../../../../components/form/input/styled";
-import { CreditCards, GreenTick, PaystackLogo } from "../../../../assets";
+import { GreenTickII, PaystackLogo } from "../../../../assets";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +19,8 @@ import { PaystackButton } from 'react-paystack';
 import { verifyPurchaseService } from "../../../../utils/apis/credit/verfiyPurchase";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../../../utils/apis/user/getUser";
+import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
+import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
 
 export const PaymentModal = () => {
     const cookies = new Cookies();
@@ -39,6 +41,7 @@ export const PaymentModal = () => {
     const [error, setError] = useState(null);
     const [generatedInvoice, setGeneratedInvoice] = useState(null);
     const [loggedInUser, setLoggedInUser] = useState({});
+    const [creditInfo, setCreditInfo] = useState({});
 
     useEffect(() => {
         const fetchCompanies = async () => {
@@ -60,7 +63,28 @@ export const PaymentModal = () => {
             .catch((err) => {
                 console.error(err);
             })
-    }, [TOKEN])
+    }, [TOKEN]);
+
+    useEffect(() => {
+        if (!formDetails.companyId) return setCreditInfo({});
+        const fetchCompanyCreditInfo = async () => {
+            try {
+                const response = await getCompanyDetails(TOKEN, formDetails.companyId);
+                const employees = await getAllEmployees(TOKEN, formDetails.companyId, {
+                    employeeName: "",
+                    departmentId: "",
+                    jobTitle: "",
+                });
+                return setCreditInfo({
+                    employeeCount: employees.length,
+                    ...response?.data
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchCompanyCreditInfo();
+    }, [TOKEN, formDetails, isPaymentFormModalOpen]);
 
     const handlePaystackSuccessCredit = async (reference) => {
         const payload = { reference: String(reference?.reference) };
@@ -155,6 +179,10 @@ export const PaymentModal = () => {
 
     const handleCloseModal = () => {
         setIsPaymentSuccessModal(false);
+        setFormDetails({
+            companyId: "",
+            creditAmount: ""
+        });
         setIsPaymentFormModalOpen(false);
     };
 
@@ -174,8 +202,8 @@ export const PaymentModal = () => {
             open={isPaymentFormModalOpen}
             onClose={handleCloseModal}
             className={"payment-modal"}
-            height={matches ? "auto" : "50%"}
-            width={matches ? "auto" : "50%"}
+            height={matches ? "auto" : "60%"}
+            width={matches ? "auto" : "40%"}
         >
             <PaymentModalWrapper>
                 {(!isPaymentSuccessModal) ? (
@@ -189,56 +217,13 @@ export const PaymentModal = () => {
                                 <FontAwesomeIcon icon={faXmark} color="#FFFFFF" />
                             </BaseButton>
                         </Row>
-                        <Row
-                            className="payment-details"
-                        >
-                            <Column
-                                style={{
-                                    flex: 1,
-                                    width: "100%",
-                                }}
-                            >
-                                <H3>Payment Details</H3>
-                                <P>Gold</P>
-                                <P>70-100 Employees</P>
-                            </Column>
-                            <Column
-                                style={{
-                                    flex: 1,
-                                    width: "100%",
-                                }}
-                            >
-                                <H3>Amount</H3>
-                                <P>N50,000</P>
-                            </Column>
-                        </Row>
                         <form
                             onSubmit={handleSubmit}
                             className="payment-form"
                         >
-                            <Label
-                                className="paystack-option"
-                            >
-                                <BaseInput
-                                    type="checkbox"
-                                    name="fundWithPaystack"
-                                    checked={true}
-                                    onChange={(e) => handleChange(e)}
-                                    style={{
-                                        width: "auto",
-                                        flexShrink: 0
-                                    }}
-                                />
-                                <PaystackLogo />
-                            </Label>
-                            <Row
-                                className="legend-row"
-                            >
-                                <H3>Credit Card</H3>
-                                <CreditCards />
-                            </Row>
                             <Row
                                 tocolumn={true}
+                                className="select-company"
                             >
                                 <BaseFieldSet>
                                     <Label>Select Company</Label>
@@ -264,7 +249,7 @@ export const PaymentModal = () => {
                                     </BaseSelect>
                                 </BaseFieldSet>
                                 <BaseFieldSet>
-                                    <Label>Wallet Amount</Label>
+                                    <Label>Amount</Label>
                                     <BaseInput
                                         name="creditAmount"
                                         value={formDetails.creditAmount}
@@ -272,6 +257,62 @@ export const PaymentModal = () => {
                                     />
                                 </BaseFieldSet>
                             </Row>
+                            {(creditInfo.payrollPlan && creditInfo.creditCostPerEmployee) && (
+                                <Fragment>
+                                    <div>
+                                        <P style={{ color: "red", marginBlock: 0 }}>
+                                            You may consider purchasing atleast {Number(creditInfo.creditCostPerEmployee) * Number(creditInfo.employeeCount)} credits to run full payroll for
+                                            your {creditInfo.employeeCount} staff.
+                                        </P>
+                                    </div>
+                                    <Row
+                                        className="payment-details"
+                                    >
+                                        <Column
+                                            style={{
+                                                flex: 1,
+                                                width: "100%",
+                                                gap: "calc(var(--flexGap)/3)"
+                                            }}
+                                        >
+                                            <H3>Plan Details</H3>
+                                            <P>{creditInfo?.payrollPlan}</P>
+                                            <P>70-100 Employees</P>
+                                        </Column>
+                                        <Column
+                                            style={{
+                                                flex: 1,
+                                                width: "100%",
+                                                gap: "calc(var(--flexGap)/3)"
+                                            }}
+                                        >
+                                            <H3>Cost to run payroll per employee</H3>
+                                            <P>{`N${creditInfo?.creditCostPerEmployee}`}</P>
+                                        </Column>
+                                    </Row>
+                                </Fragment>
+                            )}
+                            <Label
+                                className="paystack-option"
+                            >
+                                <BaseInput
+                                    type="checkbox"
+                                    name="fundWithPaystack"
+                                    checked={true}
+                                    onChange={(e) => handleChange(e)}
+                                    style={{
+                                        width: "auto",
+                                        flexShrink: 0
+                                    }}
+                                />
+                                <PaystackLogo />
+                            </Label>
+                            {/* <Row
+                                className="legend-row"
+                            >
+                                <H3>Supported</H3>
+                                <CreditCards />
+                            </Row> */}
                             <Row
                                 className="form-action-row"
                             >
@@ -309,7 +350,7 @@ export const PaymentModal = () => {
                             className="confirm-invoice-title"
                         >
                             <H2>Confirm Details</H2>
-                            <GreenTick />
+                            <GreenTickII />
                         </Column>
                         <Row
                             tocolumn={true}
@@ -383,6 +424,6 @@ export const PaymentModal = () => {
                     </Fragment>
                 )}
             </PaymentModalWrapper>
-        </BaseModal>
+        </BaseModal >
     )
 }

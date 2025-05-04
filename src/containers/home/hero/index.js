@@ -10,7 +10,7 @@ export const Hero = () => {
     e.preventDefault();
     e.stopPropagation();
     return navigate(destination);
-  }
+  };
 
   return (
     <HeroWrapper>

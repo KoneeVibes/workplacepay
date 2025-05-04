@@ -29,6 +29,9 @@ export const PaymentModalWrapper = styled(Column)(() => {
                 }
             },
         },
+        "& .select-company": {
+            gap: "calc(var(--flexGap)/2)",
+        },
         "& .payment-details": {
             border: "1px solid #4E57BB",
             borderRadius: "0.5rem",
@@ -89,9 +92,10 @@ export const PaymentModalWrapper = styled(Column)(() => {
             fontWeight: "400",
         },
         "& .form-action-row": {
-            padding: "calc(var(--cardPadding)/2) 0",
+            padding: "calc(var(--cardPadding)/2) 0 0",
             "@media screen and (max-width: 768px)": {
                 flexDirection: "column",
+                gap: "calc(var(--flexGap)/2)",
             }
         },
         "& .confirm-invoice-details>p": {
@@ -128,6 +132,9 @@ export const PaymentModalWrapper = styled(Column)(() => {
             "& .confirm-invoice-title": {
                 alignItems: "flex-start",
             },
+            "& .select-company": {
+                gap: 0
+            }
         },
     }
 });
