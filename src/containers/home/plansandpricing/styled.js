@@ -13,27 +13,31 @@ export const PlansAndPricingWrapper = styled('div')(() => {
         margin: "calc(var(--sectionMargin) * 2) 0",
         ".pricingRow": {
             overflow: "hidden",
+            "& H3": {
+                textAlign: "center",
+            },
         },
-        '.bronze': {
+        '.basic': {
             flex: 1,
             backgroundColor: '#D3D5F0',
             borderRadius: "1rem",
             padding: "var(--cardPadding)",
         },
 
-        ".silver": {
+        ".medium": {
             flex: 1,
             backgroundColor: '#8A90DC',
             borderRadius: "1rem",
             padding: "var(--cardPadding)",
         },
 
-        ".gold": {
+        ".premium": {
             flex: 1,
             backgroundColor: '#D3D5F0',
             borderRadius: "1rem",
             padding: "var(--cardPadding)"
         },
+
 
         "& .introduction": {
             "& h2": {
