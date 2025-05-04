@@ -37,7 +37,7 @@ export const Pricing = () => {
         };
     }, [isSuccessModalOpen, setIsPlansAndPricingModalOpen]);
 
-    const handleOpenPlanSetupModal = (e, planId) => {
+    const handleOpenPlanSetupModal = (e) => {
         e.stopPropagation();
         setFlag("create");
         setSelectedPlanId(null);

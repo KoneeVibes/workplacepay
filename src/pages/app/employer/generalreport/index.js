@@ -13,7 +13,7 @@ import { months } from "../../../../helpers/retrieveAllMonths";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../../context";
-import { Label } from "../../../../components/typography/styled";
+import { Label, P } from "../../../../components/typography/styled";
 
 export const GeneralReport = () => {
   const startDate = 2020;
@@ -35,6 +35,7 @@ export const GeneralReport = () => {
     startMonth: currentMonth - 1,
     departmentId: "",
   });
+  const [error, setError] = useState(null);
   const [generalReport, setGeneralReport] = useState([]);
   const [company, setCompany] = useState({});
 
@@ -53,7 +54,10 @@ export const GeneralReport = () => {
   }, [TOKEN, COMPANY_ID]);
 
   useEffect(() => {
+    if (!COMPANY_ID || !filter.endMonth || !filter.endYear || !filter.startMonth || !filter.startYear) return setError("Please select filter. If error persists, contact support.");
     const fetchGeneralReport = async () => {
+      setError(null);
+      setGeneralReport([]);
       try {
         const res = await retrieveGeneral(
           TOKEN,
@@ -62,6 +66,7 @@ export const GeneralReport = () => {
         );
         return setGeneralReport(res?.data);
       } catch (err) {
+        setError(err.message);
         console.error("Failed to fetch general report:", err);
       }
     };
@@ -103,6 +108,13 @@ export const GeneralReport = () => {
       handleCallToActionClick={handleOpenCreditPurchaseModal}
     >
       <GeneralReportWrapper>
+        {error && (
+          <div
+            className="error-box"
+          >
+            <P style={{ color: "red" }}>{error}</P>
+          </div>
+        )}
         <Row className="filter">
           <BaseFieldSet>
             <Label>Start Year</Label>

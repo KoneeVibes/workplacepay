@@ -13,13 +13,19 @@ export const BillingWrapper = styled("div")(() => {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "var(--cardPadding)",
+            "@media screen and (max-width: 768px)": {
+                flexDirection: "column",
+                alignItems: "flex-start",
+            }
         },
         "& .filter": {
             display: "flex",
-            "& select": {
+            gap: "calc(var(--flexGap)/2)",
+            "& select, & input": {
                 padding: "calc(var(--cardPadding)/2)",
                 borderRadius: "10px",
                 fontWeight: "400",
+                border: "1px solid #000000",
             },
             "& label": {
                 fontFamily: "Poppins",

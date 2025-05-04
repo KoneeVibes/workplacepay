@@ -14,49 +14,28 @@ export const PlansAndPricing = () => {
                 <H2>Plans and Pricing</H2>
                 <P>Choose the plan that fits your business needs. Only pay when you run payroll</P>
             </div>
-            <PlansAndPricingRow className="pricingRow"
+            <PlansAndPricingRow
                 tocolumn={true}
             >
-                <div className='basic'>
-                    {pricing.filter(plan => plan.name === "Basic").map((plan, index) => (
-                        <div key={index} className="plan-card">
+                {pricing.map((plan, index) => {
+                    return (
+                        <div
+                            key={index}
+                            className='card'
+                            style={{ backgroundColor: plan.bgColor }}
+                        >
                             <H3>{plan.name}</H3>
+                            <i>₦0/month</i>
+                            <P>{plan.subtitle}</P>
                             <ul>
                                 {plan.features.map((feature, i) => (
                                     <li key={i}>{feature}</li>
                                 ))}
                             </ul>
                         </div>
-                    ))
-                    }
-
-                </div>
-                <div className='medium'>
-                    {pricing.filter(plan => plan.name === "Medium").map((plan, index) => (
-                        <div key={index} className="plan-card">
-                            <H3>{plan.name}</H3>
-                            <ul>
-                                {plan.features.map((feature, i) => (
-                                    <li key={i}>{feature}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-
-                </div>
-                <div className='premium'>
-                    {pricing.filter(plan => plan.name === "Premium").map((plan, index) => (
-                        <div key={index} className="plan-card">
-                            <H3>{plan.name}</H3>
-                            <ul>
-                                {plan.features.map((feature, i) => (
-                                    <li key={i}>{feature}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
+                    )
+                })}
             </PlansAndPricingRow>
-        </PlansAndPricingWrapper>
+        </PlansAndPricingWrapper >
     )
 }

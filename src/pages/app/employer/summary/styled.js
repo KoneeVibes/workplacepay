@@ -66,5 +66,11 @@ export const SummaryWrapper = styled("div")(() => {
                 borderRadius: 0,
             }
         },
+        "& .error-box": {
+            padding: "0 calc(var(--cardPadding))",
+            "& p": {
+                marginBlock: 0
+            },
+        }
     }
 })

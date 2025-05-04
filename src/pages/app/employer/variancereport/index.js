@@ -4,7 +4,7 @@ import { VarianceWrapper } from "./styled";
 import { Row } from "../../../../components/flex/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
 import { BaseSelect } from "../../../../components/form/select/styled";
-import { H3 } from "../../../../components/typography/styled";
+import { H3, P } from "../../../../components/typography/styled";
 import { Table } from "../../../../components/table";
 import { getYearRange } from "../../../../helpers/retrieveAllYearsToDate";
 import { months } from "../../../../helpers/retrieveAllMonths";
@@ -25,11 +25,13 @@ export const Variance = () => {
 
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
+
   const [filter, setFilter] = useState({
     year: currentYear,
     firstMonth: currentMonth - 1,
     secondMonth: currentMonth,
   });
+  const [error, setError] = useState(null);
   const [varianceReport, setVarianceReport] = useState([]);
   const [company, setCompany] = useState({});
 
@@ -50,11 +52,15 @@ export const Variance = () => {
   };
 
   useEffect(() => {
+    if (!COMPANY_ID || !filter.firstMonth || !filter.secondMonth || !filter.year) return setError("Please select filter. If error persists, contact support.");
     const fetchVarianceReport = async () => {
+      setError(null);
+      setVarianceReport([]);
       try {
         const res = await retrieveVariance(TOKEN, COMPANY_ID, filter.firstMonth, filter.secondMonth, filter.year);
         return setVarianceReport(res?.data);
       } catch (err) {
+        setError(err.message);
         console.error("Failed to fetch variance report:", err);
       }
     };
@@ -87,6 +93,13 @@ export const Variance = () => {
         >
           <H3>The difference between net salary of two distinct months</H3>
         </div>
+        {error && (
+          <div
+            className="error-box"
+          >
+            <P style={{ color: "red" }}>{error}</P>
+          </div>
+        )}
         <Row className="filter">
           <BaseFieldSet>
             <BaseSelect

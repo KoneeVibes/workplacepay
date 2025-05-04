@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Context } from "../../../context";
 import { Column } from "../../flex/styled";
 
-export const SideNavigationWrapper = styled(Column)(({ USERROLE }) => {
+export const SideNavigationWrapper = styled(Column)(({ USERROLE, location }) => {
     const { isSideNavigationOpen, setIsSideNavigationOpen } = useContext(Context);
     const [matches, setMatches] = useState(false);
     useEffect(() => {
@@ -111,6 +111,38 @@ export const SideNavigationWrapper = styled(Column)(({ USERROLE }) => {
         },
         "& .user-companies-dropdown": {
             marginBlockStart: "calc(var(--flexGap)/3)",
+        },
+        "& .call-to-action-buttons": {
+            padding: "0 calc(var(--cardPadding)/1)",
+            "& span": {
+                whiteSpace: "nowrap",
+            },
+            "& button": {
+                width: "fit-content",
+                borderRadius: "40px",
+            },
+            "& .add-employee-button": {
+                display: "none",
+                alignItems: "center",
+                gap: "1rem",
+                "& svg": {
+                    padding: "0.5rem",
+                    background: "#FFFFFF",
+                    borderRadius: "50%",
+                    flexShrink: 0,
+                },
+                "@media screen and (max-width: 768px)": {
+                    display:
+                        location === "dashboard" || location === "employees" || location === "departments" || location === "employer-profile" || location === "payroll" || location === "summary" || location === "variance" || location === "general-report" || location === "paye" || location === "pension" || location === "pricing"
+                            ? "inline-flex"
+                            : "none",
+                },
+            },
+            "@media screen and (max-width: 450px)": {
+                "& button": {
+                    width: "-webkit-fill-available",
+                },
+            },
         },
         "@media screen and (min-width: 1024px)": {
             left: "auto",

@@ -8,30 +8,50 @@ export const EmployerDashboardWrapper = styled("div")(() => {
       fontWeight: 600,
       fontSize: "24px",
     },
-    "& .upcoming-salary-date-card": {
+    "& .company-streak-card": {
       backgroundColor: "#5F69DC",
       color: "#F5F8FC",
       "& .card-title": {
         borderBottom: "1px solid #FFFFFF",
         paddingBottom: "1rem",
       },
-      "& .card-body>p": {
-        fontWeight: 700,
-        fontSize: "16px",
+      "& .card-body": {
+        gap: 0
       },
+      "& .card-body-introduction": {
+        padding: "calc(var(--cardPadding)/2) 0",
+        "p": {
+          fontWeight: 700,
+          fontSize: "16px",
+        },
+      },
+      "& .card-body-list": {
+        listStylePosition: "inside",
+        paddingInline: 0,
+        overflow: "hidden",
+        "& li": {
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+        }
+      },
+      "& p": {
+        marginBlock: 0
+      }
     },
-    "& .upcoming-salary-amount-card": {
+    "& .last-payroll-card": {
       backgroundColor: "#F5F8FC",
       color: "#040507",
       "& .card-title": {
         borderBottom: "1px solid #040507",
         paddingBottom: "1rem",
+        alignItems: "center",
+        gap: "calc(var(--flexGap)/2)"
       },
       "& .card-body>p:nth-child(1)": {
         fontWeight: 700,
         fontSize: "32px",
       },
-      "& .card-body>p:nth-child(2)": {
+      "& .card-body div>p:nth-child(1)": {
         fontWeight: 500,
         fontSize: "16px",
         color: "#D9D9D9",

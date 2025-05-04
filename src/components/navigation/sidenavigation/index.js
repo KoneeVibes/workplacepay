@@ -5,7 +5,7 @@ import { BaseButton } from "../../button/styled";
 import { P, Span } from "../../typography/styled";
 import { SideNavigationWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretRight, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretRight, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "../../../assets";
 import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import Cookies from "universal-cookie";
 import { getCompanies } from "../../../utils/apis/company/getCompanies";
 import { getUser } from "../../../utils/apis/user/getUser";
 
-export const SideNavigation = () => {
+export const SideNavigation = ({ location, callToAction, handleCallToActionClick }) => {
     const cookie = new Cookies();
     const { ROLE, TOKEN, COMPANY_ID } = cookie.getAll() ?? {};
 
@@ -113,6 +113,7 @@ export const SideNavigation = () => {
     return (
         <SideNavigationWrapper
             USERROLE={ROLE}
+            location={location}
         >
             <div
                 className="side-navigation-upper-section"
@@ -148,7 +149,7 @@ export const SideNavigation = () => {
                             <ul
                                 className="sub-items user-companies-dropdown"
                             >
-                                {userCompanies.map((company, index) => {
+                                {userCompanies?.map((company, index) => {
                                     return (
                                         <li key={index}>
                                             <P
@@ -192,7 +193,7 @@ export const SideNavigation = () => {
                                 <ul
                                     className="sub-items"
                                 >
-                                    {navLink.subItems.map((subItem, index) => {
+                                    {navLink?.subItems?.map((subItem, index) => {
                                         return (
                                             <li
                                                 key={index}
@@ -211,6 +212,19 @@ export const SideNavigation = () => {
                     )
                 })}
             </Column>
+            {handleCallToActionClick && (
+                <Row className="call-to-action-buttons">
+                    <BaseButton
+                        className="add-employee-button"
+                        onClick={handleCallToActionClick}
+                    >
+                        <FontAwesomeIcon icon={faPlus} color="#448DEF" />
+                        <Span>
+                            {callToAction ?? "Add Employee"}
+                        </Span>
+                    </BaseButton>
+                </Row>
+            )}
             <Column
                 className="nav-avatar-area"
             >
@@ -222,14 +236,18 @@ export const SideNavigation = () => {
                     style={{ cursor: "pointer" }}
                 >
                     <Avatar />
-                    <Span>{loggedInUser?.fullName?.split(" ")[1].replace(/\b\w/g, char => char.toUpperCase())}</Span>
+                    {ROLE !== "admin" ? (
+                        < Span> {loggedInUser?.fullName?.split(" ")[1].replace(/\b\w/g, char => char.toUpperCase())}</Span>
+                    ) : (
+                        < Span>Admin</Span>
+                    )}
                     <FontAwesomeIcon icon={isSubItemsOpen ? faCaretDown : faCaretRight} />
                 </Row>
                 {(isUserProfileDropdownOpen) && (
                     <ul
                         className="sub-items"
                     >
-                        {navAvatarAreaLinks[ROLE].map((subItem, index) => {
+                        {navAvatarAreaLinks?.[ROLE]?.map((subItem, index) => {
                             return (
                                 <li
                                     key={index}

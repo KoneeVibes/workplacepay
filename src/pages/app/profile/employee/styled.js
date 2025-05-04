@@ -45,6 +45,13 @@ export const EmployeeProfileWrapper = styled("div")(() => {
                 flex: 1,
                 overflow: "hidden",
             },
+            "@media screen and (max-width: 425px)": {
+                gap: "calc(var(--cardPadding) / 2)",
+                "& div": {
+                    flexDirection: "column",
+                    gap: "calc(var(--cardPadding) / 4)",
+                }
+            }
         }
     };
 });

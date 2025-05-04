@@ -8,6 +8,7 @@ import Cookies from "universal-cookie"
 import { Row } from "../../../../components/flex/styled"
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled"
 import { BaseSelect } from "../../../../components/form/select/styled"
+import { BaseInput } from "../../../../components/form/input/styled"
 
 export const Billing = () => {
     const cookies = new Cookies();
@@ -53,6 +54,15 @@ export const Billing = () => {
                     <div
                         className="filter"
                     >
+                        <BaseFieldSet>
+                            <BaseInput
+                                type="text"
+                                name="companyName"
+                                placeholder="Search by Company Name"
+                                value={filter.companyName}
+                                onChange={handleChange}
+                            />
+                        </BaseFieldSet>
                         <BaseFieldSet>
                             <BaseSelect
                                 name="value"

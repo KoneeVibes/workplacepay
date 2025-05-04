@@ -140,6 +140,12 @@ export const PayrollWrapper = styled("div")(() => {
             "& .save-payroll-button-box": {
                 overflow: "hidden",
             }
+        },
+        "& .error-box": {
+            padding: "0 calc(var(--cardPadding))",
+            "& p": {
+                marginBlock: 0
+            },
         }
     }
 })

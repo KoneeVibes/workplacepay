@@ -65,5 +65,11 @@ export const PayeWrapper = styled("div")(() => {
         borderRadius: 0,
       }
     },
+    "& .error-box": {
+      padding: "calc(var(--cardPadding)) calc(var(--cardPadding)) 0",
+      "& p": {
+        marginBlock: 0
+      },
+    }
   };
 });

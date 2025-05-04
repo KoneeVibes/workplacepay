@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SalaryAmount, SalaryDate } from "../../../../assets";
 import { Card } from "../../../../components/card";
-import { Row } from "../../../../components/flex/styled";
+import { Column, Row } from "../../../../components/flex/styled";
 import { H3, Label, P } from "../../../../components/typography/styled";
 import { EmployerDashboardWrapper } from "./styled";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +16,7 @@ import { getDepartments } from "../../../../utils/apis/department/getDepartments
 import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { EmployeeBulkUploadModal } from "../../../../containers/app/modals/employeebulkuploadmodal";
+import { getDashboard } from "../../../../utils/apis/dashboard/getDashboard";
 
 export const EmployerDashboard = ({ addEmployeeModal }) => {
   const cookies = new Cookies();
@@ -30,6 +31,19 @@ export const EmployerDashboard = ({ addEmployeeModal }) => {
     jobTitle: "",
   });
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [overview, setOverview] = useState({});
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const sortedPayrollSalaries = [...overview?.payrollSalaries || []]
+    .sort((a, b) => a.month - b.month)
+    .map(item => ({
+      ...item,
+      month: monthNames[item.month - 1]
+    }));
 
   useEffect(() => {
     getAllEmployees(TOKEN, COMPANY_ID, filter)
@@ -38,6 +52,14 @@ export const EmployerDashboard = ({ addEmployeeModal }) => {
         console.error("Failed to fetch employees:", err);
       });
   }, [TOKEN, COMPANY_ID, filter]);
+
+  useEffect(() => {
+    getDashboard(TOKEN, COMPANY_ID)
+      .then((data) => setOverview(data))
+      .catch((err) => {
+        console.error("Failed to fetch overview:", err);
+      });
+  }, [TOKEN, COMPANY_ID]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -85,28 +107,55 @@ export const EmployerDashboard = ({ addEmployeeModal }) => {
         setIsSuccessModalOpen={setIsSuccessModalOpen}
       />
       <Row className="cards-group">
-        <Card className={"upcoming-salary-date-card"}>
+        <Card className={"company-streak-card"}>
           <Row className="card-title">
             <SalaryDate />
-            <H3>Upcoming Salary Date</H3>
+            <H3>Company Streak</H3>
           </Row>
-          <div className="card-body">
-            <P>Fill employee Details</P>
-            <FontAwesomeIcon icon={faChartSimple} style={{ float: "right" }} />
-          </div>
+          <Column className="card-body">
+            <Row
+              alignitems={"center"}
+              justifycontent={"space-between"}
+              className="card-body-introduction"
+            >
+              <P>Details</P>
+              <FontAwesomeIcon icon={faChartSimple} />
+            </Row>
+            <ul
+              className="card-body-list"
+            >
+              <li>Total employee count of {overview?.totalEmployees}</li>
+              <li>Processed ₦{overview?.totalPayrollSalary?.toLocaleString()} in {overview.totalPayrollCount} saved runs till date</li>
+            </ul>
+          </Column>
         </Card>
-        <Card className={"upcoming-salary-amount-card"}>
+        <Card className={"last-payroll-card"}>
           <Row className="card-title">
             <SalaryAmount />
-            <H3>Upcoming Salary Amount</H3>
+            <H3>Last Payroll Ran</H3>
           </Row>
           <div className="card-body">
-            <P>N0.00</P>
-            <P>0 employees</P>
+            <P>{"₦" + (overview?.lastPayrollSalary?.toLocaleString()) || 0}</P>
+            <Row
+              alignitems={"center"}
+              justifycontent={"space-between"}
+            >
+              <P>{overview?.lastPayrollEmployees} employees</P>
+              <P>{overview?.lastPayrollDate}</P>
+            </Row>
           </div>
         </Card>
       </Row>
-      <LineGraph title={"Payment History"} labels={[]} datasets={[]} />
+      <LineGraph
+        title={"Payment History"}
+        labels={sortedPayrollSalaries.map(salary => salary.month)}
+        datasets={[
+          {
+            label: "Payroll Run",
+            data: sortedPayrollSalaries.map(salary => salary.value),
+          },
+        ]}
+      />
       <Card className={"employee-table-card"}>
         <Row className="card-title">
           <H3>Employee List</H3>
@@ -165,6 +214,6 @@ export const EmployerDashboard = ({ addEmployeeModal }) => {
           />
         </div>
       </Card>
-    </EmployerDashboardWrapper>
+    </EmployerDashboardWrapper >
   );
 };

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { BaseButton } from "../../../../components/button/styled";
 import { Row } from "../../../../components/flex/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
@@ -63,6 +63,32 @@ export const Payroll = () => {
     const [managedVariables, setManagedVariables] = useState([]);
     const [activePayslipId, setActivePayslipId] = useState(null);
     const [nonVaryingHeaders, setNonVaryingHeaders] = useState({});
+    const [filteredPayroll, setFilteredPayroll] = useState([]);
+
+    useEffect(() => {
+        const filtered = employees?.filter((item) => {
+            const nameMatch = filter.employeeName
+                ? item.fullName?.toLowerCase()?.includes(filter.employeeName.toLowerCase())
+                : true;
+
+            const departmentMatch = filter.departmentId
+                ? item.department?.toLowerCase() === filter.departmentId?.toLowerCase()
+                : true;
+
+            const jobTitleMatch = filter.jobTitle
+                ? item.jobTitle?.toLowerCase() === filter.jobTitle?.toLowerCase()
+                : true;
+
+            const statusMatch = filter.status
+                ? (filter.status?.toLowerCase() === "exempted"
+                    ? item.isExempted === true
+                    : item.isExempted === false)
+                : true;
+
+            return nameMatch && departmentMatch && jobTitleMatch && statusMatch;
+        });
+        setFilteredPayroll(filtered);
+    }, [filter, employees]);
 
     useEffect(() => {
         retrievePayrollSetup(TOKEN, COMPANY_ID)
@@ -127,7 +153,7 @@ export const Payroll = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return;
+        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return setError("Please select a month and year");
         return setIsRunPayrollModalOpen(true);
     };
 
@@ -179,6 +205,14 @@ export const Payroll = () => {
     const handleRunPayroll = async (e, option) => {
         e.stopPropagation();
         e.preventDefault();
+        setError(null);
+        setEmployees([]);
+        setFilter({
+            employeeName: "",
+            departmentId: "",
+            jobTitle: "",
+            status: "",
+        })
         if (!flag.trim()) return;
         if (option === "callToActionI") {
             setIsRunPayrollWithSaveLoading(true);
@@ -339,87 +373,94 @@ export const Payroll = () => {
                         />
                     </div>
                 </form>
-                <Row
-                    className="filter"
+                <div
+                    className="error-box"
                 >
-                    <BaseFieldSet>
-                        <Label>Employee</Label>
-                        <BaseInput
-                            type="text"
-                            name="username"
-                            placeholder="Search by Employee"
-                            value={filter.username}
-                            onChange={handleChange}
-                        />
-                    </BaseFieldSet>
-                    <BaseFieldSet>
-                        <Label>Department</Label>
-                        <BaseSelect
-                            name="departmentId"
-                            onChange={(e) => handleChange(e, "filter")}
-                            value={filter.departmentId}
-                        >
-                            <option value="" hidden>Select Department</option>
-                            {departments.map((department, index) => (
-                                <option
-                                    key={index}
-                                    value={department.departmentId}
-                                >
-                                    {department.name.replace(/\b\w/g, char => char.toUpperCase())}
-                                </option>
-                            ))}
-                        </BaseSelect>
-                    </BaseFieldSet>
-                    <BaseFieldSet>
-                        <Label>Job Title</Label>
-                        <BaseInput
-                            type="text"
-                            name="jobTitle"
-                            placeholder="Search by jobtitle"
-                            value={filter.jobTitle}
-                            onChange={handleChange}
-                        />
-                    </BaseFieldSet>
-                    <BaseFieldSet>
-                        <Label>Status</Label>
-                        <BaseSelect
-                            name="status"
-                            onChange={handleChange}
-                            value={filter.status}
-                        >
-                            <option value="">Select Status</option>
-                            <option value="exempted">Exempted</option>
-                            <option value="not exempted">Not Exempted</option>
-                        </BaseSelect>
-                    </BaseFieldSet>
-                </Row>
+                    {error && <P style={{ color: "red", marginBlockEnd: employees.length > 0 ? 0 : "var(--cardPadding)" }}>{error}</P>}
+                </div>
                 {employees.length > 0 && (
-                    <div
-                        className="save-payroll-button-container"
-                    >
-                        <div
-                            className="save-payroll-button-box"
+                    <Fragment>
+                        <Row
+                            className="filter"
                         >
-                            <BaseButton
-                                backgroundcolor={"#4E57BB"}
-                                width={"fit-content"}
-                                onClick={handleSavePayroll}
+                            <BaseFieldSet>
+                                <Label>Employee</Label>
+                                <BaseInput
+                                    type="text"
+                                    name="employeeName"
+                                    placeholder="Search by Employee"
+                                    value={filter.employeeName}
+                                    onChange={handleChange}
+                                />
+                            </BaseFieldSet>
+                            <BaseFieldSet>
+                                <Label>Department</Label>
+                                <BaseSelect
+                                    name="departmentId"
+                                    onChange={(e) => handleChange(e, "filter")}
+                                    value={filter.departmentId}
+                                >
+                                    <option value="" hidden>Select Department</option>
+                                    {departments.map((department, index) => (
+                                        <option
+                                            key={index}
+                                            value={department.name}
+                                        >
+                                            {department.name.replace(/\b\w/g, char => char.toUpperCase())}
+                                        </option>
+                                    ))}
+                                </BaseSelect>
+                            </BaseFieldSet>
+                            <BaseFieldSet>
+                                <Label>Job Title</Label>
+                                <BaseInput
+                                    type="text"
+                                    name="jobTitle"
+                                    placeholder="Search by jobtitle"
+                                    value={filter.jobTitle}
+                                    onChange={handleChange}
+                                />
+                            </BaseFieldSet>
+                            <BaseFieldSet>
+                                <Label>Status</Label>
+                                <BaseSelect
+                                    name="status"
+                                    onChange={handleChange}
+                                    value={filter.status}
+                                >
+                                    <option value="">Select Status</option>
+                                    <option value="exempted">Exempted</option>
+                                    <option value="not exempted">Not Exempted</option>
+                                </BaseSelect>
+                            </BaseFieldSet>
+                        </Row>
+                        <div
+                            className="save-payroll-button-container"
+                        >
+                            <div
+                                className="save-payroll-button-box"
                             >
-                                {isLoading ? (
-                                    <DotLoader size={20} color="white" className="dotLoader" />
-                                ) : (
-                                    <Span>Save Payroll</Span>
-                                )}
-                            </BaseButton>
+                                <BaseButton
+                                    backgroundcolor={"#4E57BB"}
+                                    width={"fit-content"}
+                                    onClick={handleSavePayroll}
+                                >
+                                    {isLoading ? (
+                                        <DotLoader size={20} color="white" className="dotLoader" />
+                                    ) : (
+                                        <Span>Save Payroll</Span>
+                                    )}
+                                </BaseButton>
+                            </div>
                         </div>
-                    </div>
+                    </Fragment>
                 )}
                 <div
                     className="payroll-table"
                 >
                     <Table
                         columnTitles={payrollTableHeaders}
-                        rowItems={employees}
+                        rowItems={filteredPayroll}
                         location={"Payroll Table"}
                         handleChange={handleExemptionCheckboxChange}
                         handleRowItemClick={handleManagePayslipClick}
@@ -431,7 +472,6 @@ export const Payroll = () => {
                     handleClickOutside={handlePersistModal}
                     className={"payroll-confirmation-modal"}
                     title={"Are you sure?"}
-                    message={error && <P style={{ color: 'red', marginBlockStart: 0 }}>{error}</P>}
                     callToActionI={"Proceed & Save"}
                     callToActionII={"Proceed"}
                     isLoadingI={isRunPayrollWithSaveLoading}

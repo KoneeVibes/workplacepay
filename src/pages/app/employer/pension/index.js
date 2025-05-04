@@ -12,7 +12,7 @@ import { retrievePension } from "../../../../utils/apis/report/retrievePensionRe
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../../context";
-import { Label } from "../../../../components/typography/styled";
+import { Label, P } from "../../../../components/typography/styled";
 
 export const Pension = () => {
   const startDate = 2020;
@@ -31,13 +31,17 @@ export const Pension = () => {
     startYear: currentYear - 1,
     startMonth: currentMonth - 1,
   });
+  const [error, setError] = useState(null);
   const [PensionReport, setPensionReport] = useState([]);
   const [company, setCompany] = useState({});
 
   const { setIsPaymentFormModalOpen } = useContext(Context);
 
   useEffect(() => {
+    if (!COMPANY_ID || !filter.endMonth || !filter.endYear || !filter.startMonth || !filter.startYear) return setError("Please select filter. If error persists, contact support.");
     const fetchPensionReport = async () => {
+      setError(null);
+      setPensionReport([]);
       try {
         const res = await retrievePension(
           TOKEN,
@@ -46,6 +50,7 @@ export const Pension = () => {
         );
         return setPensionReport(res?.data);
       } catch (err) {
+        setError(err.message);
         console.error("Failed to fetch pension report:", err);
       }
     };
@@ -88,6 +93,13 @@ export const Pension = () => {
       handleCallToActionClick={handleOpenCreditPurchaseModal}
     >
       <PensionWrapper>
+        {error && (
+          <div
+            className="error-box"
+          >
+            <P style={{ color: "red" }}>{error}</P>
+          </div>
+        )}
         <Row className="filter">
           <BaseFieldSet>
             <Label>Start Year</Label>

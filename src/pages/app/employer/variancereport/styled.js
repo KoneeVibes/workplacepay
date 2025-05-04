@@ -64,5 +64,11 @@ export const VarianceWrapper = styled("div")(() => {
         borderRadius: 0,
       }
     },
+    "& .error-box": {
+      padding: "0 calc(var(--cardPadding)) calc(var(--cardPadding))",
+      "& p": {
+        marginBlock: 0
+      },
+    }
   };
 });

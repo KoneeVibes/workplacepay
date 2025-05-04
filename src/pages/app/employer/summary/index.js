@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Table } from "../../../../components/table";
-import { H3, Label } from "../../../../components/typography/styled";
+import { H3, Label, P } from "../../../../components/typography/styled";
 import { Layout } from "../../../../containers/app/layout";
 import { SummaryWrapper } from "./styled";
 import Cookies from "universal-cookie";
@@ -27,6 +27,7 @@ export const Summary = () => {
     const { setIsPaymentFormModalOpen } = useContext(Context);
 
     const [payslips, setPayslips] = useState([]);
+    const [error, setError] = useState(null);
     const [filter, setFilter] = useState({
         month: currentMonth,
         year: currentYear,
@@ -60,11 +61,15 @@ export const Summary = () => {
     }, [TOKEN, COMPANY_ID]);
 
     useEffect(() => {
+        if (!COMPANY_ID || !filter.month || !filter.year) return setError("Please select filter. If error persists, contact support.");
         const fetchPayslips = async () => {
+            setError(null);
+            setPayslips([]);
             try {
                 const res = await retrievePayrollByDate(TOKEN, COMPANY_ID, filter.month, filter.year);
                 setPayslips(res?.data);
             } catch (err) {
+                setError(err.message);
                 console.error("Failed to fetch employee payslips:", err);
             }
         };
@@ -84,6 +89,11 @@ export const Summary = () => {
                     className="heading-row"
                 >
                     <H3>Report for {months[filter.month - 1]}, {filter.year}</H3>
+                </div>
+                <div
+                    className="error-box"
+                >
+                    {error && <P style={{ color: "red" }}>{error}</P>}
                 </div>
                 <form>
                     <BaseFieldSet>

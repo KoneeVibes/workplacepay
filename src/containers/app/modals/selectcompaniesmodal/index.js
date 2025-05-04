@@ -23,6 +23,7 @@ export const SelectCompaniesModal = ({ height, width }) => {
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
 
   useEffect(() => {
+    if (!TOKEN) return;
     const fetchCompanies = async () => {
       try {
         const response = await getCompanies(TOKEN);

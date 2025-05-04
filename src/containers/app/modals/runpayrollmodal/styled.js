@@ -6,7 +6,8 @@ export const RunPayrollModalWrapper = styled("div")(() => {
             cursor: "pointer",
             padding: "calc(var(--cardPadding) / 4) calc(var(--cardPadding) / 2)",
             "& p": {
-                marginBlock: 0
+                marginBlock: 0,
+                fontSize: "14px",
             },
             "&:hover": {
                 backgroundColor: "#8A90DC",
