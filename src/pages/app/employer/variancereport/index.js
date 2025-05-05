@@ -160,8 +160,8 @@ export const Variance = () => {
           <Table
             columnTitles={[
               "Employee",
-              `${months[filter.firstMonth - 1]} Net Sale`,
-              `${months[filter.secondMonth - 1]} Net Sale`,
+              `${months[filter.firstMonth - 1]} Net Salary`,
+              `${months[filter.secondMonth - 1]} Net Salary`,
               "Variance",
               "Percentage %",
             ]}

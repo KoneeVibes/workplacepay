@@ -43,7 +43,7 @@ export const SideNavigation = ({ location, callToAction, handleCallToActionClick
             matches && setIsSideNavigationOpen(false);
             return setIsResetPasswordModalOpen(true);
         }
-        setIsSideNavigationOpen(false);
+        matches && setIsSideNavigationOpen(false);
         return navigate(destination);
     };
 
