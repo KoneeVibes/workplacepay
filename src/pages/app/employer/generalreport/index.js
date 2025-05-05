@@ -38,8 +38,15 @@ export const GeneralReport = () => {
   const [error, setError] = useState(null);
   const [generalReport, setGeneralReport] = useState([]);
   const [company, setCompany] = useState({});
+  const [earningsHeadings, setEarningsHeadings] = useState([]);
+  const [deductionsHeadings, setDeductionsHeadings] = useState([]);
 
   const { setIsPaymentFormModalOpen } = useContext(Context);
+
+  const getUniqueVariableNames = (data, key) => {
+    const allNames = data.flatMap(item => item[key] || []).map(v => v.name);
+    return [...new Set(allNames)];
+  };
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -64,6 +71,8 @@ export const GeneralReport = () => {
           COMPANY_ID,
           filter
         );
+        setEarningsHeadings(getUniqueVariableNames(res?.data, "earnings"));
+        setDeductionsHeadings(getUniqueVariableNames(res?.data, "deductions"));
         return setGeneralReport(res?.data);
       } catch (err) {
         setError(err.message);
@@ -209,16 +218,8 @@ export const GeneralReport = () => {
               "Bank Account",
               "PFA",
               "PFA Account",
-              "Basic",
-              "Housing",
-              "Transport",
-              "Overtime",
-              "Bonus",
-              "PAYE",
-              "Employer Pension Contribution",
-              "Employee Pension Contribution",
-              "PAYE",
-              "Other Deductions",
+              ...earningsHeadings,
+              ...deductionsHeadings,
               "Total Earnings",
               "Total Deductions",
               "Gross",
