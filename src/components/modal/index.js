@@ -13,7 +13,7 @@ export const BaseModal = ({ children, open, onClose, height, width, className })
         }
         const handleClickOutside = (e) => {
             if (open && modalRef.current && !modalRef.current.contains(e.target)) {
-                onClose();
+                onClose(e);
             }
         };
         window.addEventListener("click", handleClickOutside);
