@@ -125,7 +125,7 @@ export const EmployerDashboard = ({ addEmployeeModal }) => {
               className="card-body-list"
             >
               <li>Total employee count of {overview?.totalEmployees}</li>
-              <li>Processed ₦{overview?.totalPayrollSalary?.toLocaleString()} in {overview.totalPayrollCount} saved runs till date</li>
+              <li>Processed {overview?.totalPayrollSalary?.toLocaleString()} in {overview.totalPayrollCount} saved runs till date</li>
             </ul>
           </Column>
         </Card>
@@ -135,7 +135,7 @@ export const EmployerDashboard = ({ addEmployeeModal }) => {
             <H3>Last Payroll Ran</H3>
           </Row>
           <div className="card-body">
-            <P>{"₦" + (overview?.lastPayrollSalary?.toLocaleString()) || 0}</P>
+            <P>{"" + (overview?.lastPayrollSalary?.toLocaleString()) || 0}</P>
             <Row
               alignitems={"center"}
               justifycontent={"space-between"}
