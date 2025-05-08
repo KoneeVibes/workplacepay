@@ -234,10 +234,12 @@ export const Employees = () => {
               style={{ display: "inline-flex", color: "#000" }}
             >
               {payrollPlan?.title?.toUpperCase()}
-            </Span> plan which allows for a maximum of {payrollPlan?.upperLimit} employees. To make plan change, click <Span
-              style={{ display: "inline-flex", color: "blue", cursor: "pointer" }}
-              onClick={handleOpenEditPlanModal}
-            >
+            </Span> plan which allows for {payrollPlan?.title?.toUpperCase() === "ENTERPRISE"
+              ? "unlimited employee onboarding"
+              : `a maximum of ${payrollPlan?.upperLimit} employees`}. To make plan change, click <Span
+                style={{ display: "inline-flex", color: "blue", cursor: "pointer" }}
+                onClick={handleOpenEditPlanModal}
+              >
               here.
             </Span>
           </P>
