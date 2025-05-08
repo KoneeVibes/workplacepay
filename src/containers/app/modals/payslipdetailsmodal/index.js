@@ -188,7 +188,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                         <H2 className="bottom">{`₦ ${payslipDetail?.netSalary?.toLocaleString()}`}</H2>
                     </div>
                     <div>
-                        <H2>{`PAID ${payslipDetail.datePaid}`}</H2>
+                        <H2>{`GENERATED ${payslipDetail.datePaid}`}</H2>
                     </div>
                 </Row>
             </PayslipDetailsModalWrapper>

@@ -5,7 +5,7 @@ export const SummaryWrapper = styled("div")(() => {
         borderRadius: "1rem",
         backgroundColor: "#FFFFFF",
         "& .heading-row": {
-            padding: "var(--cardPadding)",
+            padding: "var(--cardPadding) var(--cardPadding) 0",
             "& h3": {
                 marginBlock: 0,
             }
@@ -69,7 +69,8 @@ export const SummaryWrapper = styled("div")(() => {
         "& .error-box": {
             padding: "0 calc(var(--cardPadding))",
             "& p": {
-                marginBlock: 0
+                marginBlockStart: "calc(var(--sectionMargin))",
+                marginBlockEnd: 0
             },
         }
     }

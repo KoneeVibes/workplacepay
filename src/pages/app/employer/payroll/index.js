@@ -41,7 +41,7 @@ export const Payroll = () => {
     const [payrollTableHeaders, setPayrollTableHeaders] = useState([
         "Employee",
         "Department",
-        "Salary",
+        "Gross Monthly Salary",
         "Exemption",
     ]);
     const [departments, setDepartments] = useState([]);

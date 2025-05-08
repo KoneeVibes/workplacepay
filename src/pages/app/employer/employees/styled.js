@@ -23,13 +23,15 @@ export const EmployeesWrapper = styled("div")(() => {
     },
     "& .heading-row": {
       padding: "var(--cardPadding)",
-      marginBlockEnd: "var(--sectionMargin)",
       "& span": {
         fontFamily: "Poppins",
         fontWeight: 500,
         fontSize: 18,
         color: "#000000",
       },
+    },
+    "& .information-box": {
+      padding: "0 var(--cardPadding) var(--cardPadding)",
     },
     "& .filter": {
       padding: "0 var(--cardPadding)",
@@ -86,6 +88,23 @@ export const EmployeesWrapper = styled("div")(() => {
       boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
     },
     "& .employee-bulk-upload-modal": {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "#FFFFFF",
+      borderRadius: "1rem",
+      boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+      "@media screen and (max-width: 768px)": {
+        top: "0",
+        bottom: "0",
+        left: "0",
+        right: "0",
+        transform: "unset",
+        borderRadius: "unset"
+      }
+    },
+    "& .edit-plan-modal": {
       position: "fixed",
       top: "50%",
       left: "50%",

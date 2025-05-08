@@ -1,17 +1,28 @@
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 import { BaseModal } from "../../../../components/modal";
 import { Context } from "../../../../context";
 import { AddEmployeeModalWrapper } from "./styled";
 import { P } from "../../../../components/typography/styled";
 import { Column, Row } from "../../../../components/flex/styled";
+import { useEffect } from "react";
 
 export const AddEmployeeModal = ({ handleActionItemClick }) => {
     const { isAddEmployeeModalOpen, setIsAddEmployeeModalOpen } =
         useContext(Context);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsAddEmployeeModalOpen(false);
-    };
+    }, [setIsAddEmployeeModalOpen]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            handleCloseModal();
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [handleCloseModal]);
 
     return (
         <BaseModal

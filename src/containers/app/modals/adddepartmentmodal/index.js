@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { BaseModal } from "../../../../components/modal";
 import { Context } from "../../../../context";
 import { AddDepartmentModalWrapper } from "./styled";
@@ -9,9 +9,19 @@ export const AddDepartmentModal = ({ handleActionItemClick }) => {
     const { isAddDepartmentModalOpen, setIsAddDepartmentModalOpen } =
         useContext(Context);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsAddDepartmentModalOpen(false);
-    };
+    }, [setIsAddDepartmentModalOpen]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            handleCloseModal();
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [handleCloseModal]);
 
     return (
         <BaseModal

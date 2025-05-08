@@ -17,6 +17,9 @@ import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { AddEmployeeModal } from "../../../../containers/app/modals/addemployeemodal";
 import { Context } from "../../../../context";
 import { EmployeeBulkUploadModal } from "../../../../containers/app/modals/employeebulkuploadmodal";
+import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
+import { getPlanService } from "../../../../utils/apis/plansandpricing/getPlan";
+import { EditPlanModal } from "../../../../containers/app/modals/editplanmodal";
 
 export const Employees = () => {
   const cookies = new Cookies();
@@ -25,8 +28,7 @@ export const Employees = () => {
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  const { setIsAddEmployeeModalOpen, isEmployeeBulkUploadModalOpen, setIsEmployeeBulkUploadModalOpen } =
-    useContext(Context);
+  const { isEditPlanModalOpen, setIsEditPlanModalOpen, setIsAddEmployeeModalOpen, isEmployeeBulkUploadModalOpen, setIsEmployeeBulkUploadModalOpen } = useContext(Context);
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [error, setError] = useState(null);
@@ -39,6 +41,7 @@ export const Employees = () => {
     jobTitle: "",
   });
   const [flag, setFlag] = useState(null);
+  const [payrollPlan, setPayrollPlan] = useState(null);
 
   const handleCloseSuccessModal = () => {
     setFlag(null);
@@ -67,6 +70,19 @@ export const Employees = () => {
       }
     };
     fetchDepartments();
+  }, [TOKEN, COMPANY_ID]);
+
+  useEffect(() => {
+    const fetchCompanyPlan = async () => {
+      try {
+        const company = await getCompanyDetails(TOKEN, COMPANY_ID);
+        const payrollPlan = await getPlanService(TOKEN, company?.data?.planId);
+        return setPayrollPlan(payrollPlan?.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCompanyPlan();
   }, [TOKEN, COMPANY_ID]);
 
   const handleChange = (e) => {
@@ -108,6 +124,11 @@ export const Employees = () => {
   const handleRowItemClick = (e, employeeId) => {
     e.stopPropagation();
     return setActiveEmployeeId(employeeId);
+  };
+
+  const handleOpenEditPlanModal = (e) => {
+    e.stopPropagation();
+    return !isEditPlanModalOpen && setIsEditPlanModalOpen(true)
   };
 
   const deleteEmployee = async (employeeId) => {
@@ -180,7 +201,11 @@ export const Employees = () => {
           handleClickOutside={handlePersistModal}
           className={"delete-employee-success-modal"}
           title={"Success"}
-          message={`Employee has been successfully ${flag === "delete" ? "deleted" : "added"}`}
+          message={
+            flag === "manage plan"
+              ? "Plan has been successfully updated"
+              : `Employee has been successfully ${flag === "delete" ? "deleted" : "added"}`
+          }
           callToAction={"Close"}
           handleCallToActionClick={handleCloseSuccessModal}
         />
@@ -192,10 +217,31 @@ export const Employees = () => {
           height={"350px"}
           setIsSuccessModalOpen={setIsSuccessModalOpen}
         />
+        <EditPlanModal
+          width={"35%"}
+          height={"240px"}
+          currentPlanId={payrollPlan?.title}
+          setFlag={setFlag}
+          setIsSuccessModalOpen={setIsSuccessModalOpen}
+        />
         <Row className="heading-row" justifycontent={"space-between"}>
           <Span>Employee List</Span>
           {/* <Span>Show all</Span> */}
         </Row>
+        <div className="information-box">
+          <P style={{ color: "red", marginBlock: 0 }}>
+            You are currently on the <Span
+              style={{ display: "inline-flex", color: "#000" }}
+            >
+              {payrollPlan?.title?.toUpperCase()}
+            </Span> plan which allows for a maximum of {payrollPlan?.upperLimit} employees. To make plan change, click <Span
+              style={{ display: "inline-flex", color: "blue", cursor: "pointer" }}
+              onClick={handleOpenEditPlanModal}
+            >
+              here.
+            </Span>
+          </P>
+        </div>
         <Row className="filter">
           <BaseFieldSet>
             <Label>Employee</Label>

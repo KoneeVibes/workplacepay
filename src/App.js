@@ -52,8 +52,8 @@ function App() {
         <Route path="/passwordreset" element={<PasswordResetArea />} />
         <Route path="/reportsummary/variance" element={<Variance />} />
         <Route path="/reportsummary/general" element={<GeneralReport />} />
-        <Route path="/reportsummary/payeoutput" element={<Paye />} />
-        <Route path="/reportsummary/pensionoutput" element={<Pension />} />
+        <Route path="/reportsummary/paye" element={<Paye />} />
+        <Route path="/reportsummary/pension" element={<Pension />} />
         <Route path="/reportsummary/summary" element={<Summary />} />
         <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
         <Route path="/admin/companies/:id" element={<CompanyDetails />} />

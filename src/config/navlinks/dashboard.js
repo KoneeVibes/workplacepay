@@ -33,12 +33,12 @@ export const navLinks = {
           url: "/reportsummary/general",
         },
         {
-          name: "Paye Output",
-          url: "/reportsummary/payeoutput",
+          name: "Paye",
+          url: "/reportsummary/paye",
         },
         {
-          name: "Pension Output",
-          url: "/reportsummary/pensionoutput",
+          name: "Pension",
+          url: "/reportsummary/pension",
         },
       ],
     },

@@ -91,7 +91,7 @@ export const Variance = () => {
         <div
           className="heading"
         >
-          <H3>The difference between net salary of two distinct months</H3>
+          <H3>The difference between net salary of two distinct months in a given year</H3>
         </div>
         {error && (
           <div
