@@ -79,8 +79,14 @@ export const PlansAndPricingModal = ({ height, width, planId, setIsSuccessModalO
         if (!planId) return;
         setError(null);
         setIsLoading(true);
+        const transformedPayload = {
+            title: formDetails.title,
+            creditCostPerEmployee: formDetails.creditCostPerEmployee,
+            lowerLimit: Number(formDetails.lowerLimit),
+            upperLimit: Number(formDetails.upperLimit),
+        };
         try {
-            const response = await updatePlanService(TOKEN, planId, formDetails);
+            const response = await updatePlanService(TOKEN, planId, transformedPayload);
             if (response.status === "Success") {
                 setIsLoading(false);
                 setIsSuccessModalOpen(true);
