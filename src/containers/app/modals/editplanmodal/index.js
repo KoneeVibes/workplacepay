@@ -104,6 +104,16 @@ export const EditPlanModal = ({ currentPlanId, height, width, setIsSuccessModalO
             <EditPlanModalWrapper
                 onSubmit={handleUpdatePlan}
             >
+                <div
+                    className="close-modal-button-area"
+                >
+                    <BaseButton
+                        type="button"
+                        className="close-modal-button"
+                        onClick={handleCloseModal}>
+                        <Span>X</Span>
+                    </BaseButton>
+                </div>
                 <BaseFieldSet>
                     <Label>Plan Type</Label>
                     <BaseSelect

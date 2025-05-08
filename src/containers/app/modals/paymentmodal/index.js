@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { getUser } from "../../../../utils/apis/user/getUser";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
+import { getPlanService } from "../../../../utils/apis/plansandpricing/getPlan";
 
 export const PaymentModal = () => {
     const cookies = new Cookies();
@@ -70,6 +71,7 @@ export const PaymentModal = () => {
         const fetchCompanyCreditInfo = async () => {
             try {
                 const response = await getCompanyDetails(TOKEN, formDetails.companyId);
+                const planInformation = await getPlanService(TOKEN, response?.data?.planId);
                 const employees = await getAllEmployees(TOKEN, formDetails.companyId, {
                     employeeName: "",
                     departmentId: "",
@@ -77,6 +79,8 @@ export const PaymentModal = () => {
                 });
                 return setCreditInfo({
                     employeeCount: employees.length,
+                    planUpperLimit: planInformation?.data?.upperLimit,
+                    planLowerLimit: planInformation?.data?.lowerLimit,
                     ...response?.data
                 });
             } catch (error) {
@@ -275,19 +279,10 @@ export const PaymentModal = () => {
                                                 gap: "calc(var(--flexGap)/3)"
                                             }}
                                         >
-                                            <H3>Plan Details</H3>
-                                            <P>{creditInfo?.payrollPlan}</P>
-                                            <P>70-100 Employees</P>
-                                        </Column>
-                                        <Column
-                                            style={{
-                                                flex: 1,
-                                                width: "100%",
-                                                gap: "calc(var(--flexGap)/3)"
-                                            }}
-                                        >
-                                            <H3>Cost to run payroll per employee</H3>
-                                            <P>{`N${creditInfo?.creditCostPerEmployee}`}</P>
+                                            <H3>Plan and Pricing Details</H3>
+                                            <P>{creditInfo?.payrollPlan} Plan</P>
+                                            <P>Allows for {creditInfo?.planLowerLimit}-{creditInfo?.planUpperLimit} Employees</P>
+                                            <P>Costs {`${creditInfo?.creditCostPerEmployee} credits`} to run payroll for a single employee</P>
                                         </Column>
                                     </Row>
                                 </Fragment>
@@ -307,12 +302,6 @@ export const PaymentModal = () => {
                                 />
                                 <PaystackLogo />
                             </Label>
-                            {/* <Row
-                                className="legend-row"
-                            >
-                                <H3>Supported</H3>
-                                <CreditCards />
-                            </Row> */}
                             <Row
                                 className="form-action-row"
                             >

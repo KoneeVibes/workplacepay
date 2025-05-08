@@ -35,18 +35,18 @@ export const PaymentModalWrapper = styled(Column)(() => {
         "& .payment-details": {
             border: "1px solid #4E57BB",
             borderRadius: "0.5rem",
-            padding: "var(--cardPadding)",
+            padding: "calc(var(--cardPadding)/2)",
             justifyContent: "space-between",
             flexWrap: "wrap",
             "& h3": {
                 fontFamily: "Inter",
-                fontWeight: 300,
+                fontWeight: 700,
                 fontSize: "16px",
                 marginBlock: 0,
             },
             "& p": {
                 fontFamily: "Inter",
-                fontWeight: 700,
+                fontWeight: 300,
                 fontSize: "16px",
                 marginBlock: 0,
             }
