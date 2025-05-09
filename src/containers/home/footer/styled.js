@@ -25,11 +25,15 @@ export const FooterWrapper = styled(Column)(() => {
       justifyContent: "space-between",
     },
 
-    ".footer-form": {
+    "& .footer-form": {
       flex: 1,
       overflow: "hidden",
       padding: "var(--cardPadding) 0 calc(var(--cardPadding) * 2)",
       gap: "calc(var(--flexGap)/3)",
+    },
+
+    "& input": {
+      fontWeight: "400",
     },
 
     ".site-map": {

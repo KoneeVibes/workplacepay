@@ -117,7 +117,7 @@ export const UserSummary = () => {
                         <div
                             className="table-footer-value"
                         >
-                            <H3>{payslipDetail.totalEarnings}</H3>
+                            <H3>{payslipDetail?.totalEarnings?.toLocaleString()}</H3>
                         </div>
                     </Row>
                 </div>
@@ -143,7 +143,7 @@ export const UserSummary = () => {
                         <div
                             className="table-footer-value"
                         >
-                            <H3>{payslipDetail.totalDeductions}</H3>
+                            <H3>{payslipDetail?.totalDeductions?.toLocaleString()}</H3>
                         </div>
                     </Row>
                 </div>
@@ -163,7 +163,7 @@ export const UserSummary = () => {
                         <div
                             className="net-payable-amount"
                         >
-                            <H3>{payslipDetail.netSalary}</H3>
+                            <H3>{payslipDetail?.netSalary?.toLocaleString()}</H3>
                         </div>
                     </Row>
                 </div>

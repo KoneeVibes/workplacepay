@@ -14,7 +14,7 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
       }
     },
     "& select": {
-      padding: "calc(var(--cardPadding)/2)",
+      padding: "calc(var(--cardPadding)/4)",
       borderRadius: "10px",
       fontWeight: "400",
     },

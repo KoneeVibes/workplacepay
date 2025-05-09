@@ -23,6 +23,11 @@ export const GeneralReportWrapper = styled("div")(() => {
         flexDirection: "column",
       },
     },
+    "& label": {
+      fontFamily: "Poppins",
+      fontWeight: 600,
+      fontSize: 20,
+    },
     "& .general-report-table": {
       overflow: "auto",
     },
