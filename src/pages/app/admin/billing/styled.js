@@ -59,5 +59,19 @@ export const BillingWrapper = styled("div")(() => {
         "& td:first-of-type": {
             borderLeft: "none",
         },
+        "& .billing-card": {
+            background: "#F5F5F5",
+            borderRadius: "1rem",
+            padding: "var(--cardPadding)",
+            marginBottom: "var(--cardMargin)",
+            "& .card-title": {
+                marginBottom: "var(--cardMargin)",
+                "& h3": {
+                    fontSize: 20,
+                    fontWeight: 600,
+                    color: "#000000",
+                },
+            },
+        },
     }
 });
