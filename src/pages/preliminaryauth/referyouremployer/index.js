@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { H1, H2, H3, P, Label, Span } from "../../../components/typography/styled";
+import { H1, H3, P, Label, Span } from "../../../components/typography/styled";
 import { ReferYourEmployerWrapper, ReferYourEmployerRow } from "./styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
-import { PrelimSetup } from "../../../assets";
+import { Logo, PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
 import { referEmployer } from "../../../utils/apis/referral/referEmployer";
 import { DotLoader } from "react-spinners";
@@ -52,14 +52,18 @@ export const ReferYourEmployer = () => {
     return (
         <ReferYourEmployerWrapper tocolumn={true}>
             <div className="refer-text">
-                <H2>workPlacePAY</H2>
-                <H3>The #1 Employee
-                    Payroll Solution for
-                    Small and medium Businesses
-                </H3>
-                <P>Seamless Payroll management for your buisness all in one place!</P>
-                <PrelimSetup />
-                <P className="foot">POWERED BY: FOCUS GROUP</P>
+                <div className="logo-box-area">
+                    <Logo />
+                </div>
+                <div>
+                    <H3>The #1 Employee
+                        Payroll Solution for
+                        Small and medium Businesses
+                    </H3>
+                    <P>Seamless Payroll management for your buisness all in one place!</P>
+                    <PrelimSetup style={{ width: "100%", height: "auto" }} />
+                    <P className="foot">POWERED BY: FOCUS GROUP</P>
+                </div>
             </div>
             <div className="refer-form">
                 <H1>Refer your Employer </H1>

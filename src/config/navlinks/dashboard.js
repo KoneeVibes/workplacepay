@@ -33,7 +33,7 @@ export const navLinks = {
           url: "/reportsummary/general",
         },
         {
-          name: "Paye",
+          name: "PAYE",
           url: "/reportsummary/paye",
         },
         {

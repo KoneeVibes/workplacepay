@@ -166,7 +166,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                         className="cardRow"
                                     >
                                         <div>
-                                            <Span>{deduction.name}</Span>
+                                            <Span>{deduction.name.toLowerCase() === "paye" ? "PAYE" : deduction.name}</Span>
                                         </div>
                                         <div>
                                             <Span className="span">{`${deduction?.value?.toLocaleString()}`}</Span>

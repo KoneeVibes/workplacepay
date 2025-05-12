@@ -129,7 +129,12 @@ export const UserSummary = () => {
                         columnTitles={[
                             "Deductions", "Amount"
                         ]}
-                        rowItems={payslipDetail.deductions ?? []}
+                        rowItems={
+                            (payslipDetail.deductions ?? []).map(deduction => ({
+                                ...deduction,
+                                name: deduction.name?.toLowerCase() === "paye" ? "PAYE" : deduction.name,
+                            }))
+                        }
                     />
                     <Row
                         gap={"0"}

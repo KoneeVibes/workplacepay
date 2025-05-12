@@ -72,7 +72,11 @@ export const GeneralReport = () => {
           filter
         );
         setEarningsHeadings(getUniqueVariableNames(res?.data, "earnings"));
-        setDeductionsHeadings(getUniqueVariableNames(res?.data, "deductions"));
+        setDeductionsHeadings(
+          getUniqueVariableNames(res?.data, "deductions").map(name =>
+            name.toLowerCase() === "paye" ? "PAYE" : name
+          )
+        );
         return setGeneralReport(res?.data);
       } catch (err) {
         setError(err.message);

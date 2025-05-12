@@ -49,6 +49,9 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
             fontWeight: 400,
             borderRadius: "8px",
         },
+        "& .logo-box-area": {
+            marginBlockEnd: "calc(var(--cardPadding)/1)",
+        },
         "@media screen and (max-width: 425px)": {
             "& .refer-text": {
                 padding: "calc(var(--cardPadding))",
@@ -64,13 +67,21 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
             "& form": {
                 gap: "var(--flexGap)",
             },
+            "& .logo-box-area": {
+                maxWidth: "50%",
+                marginBlockEnd: "0",
+                "& svg": {
+                    width: "100%",
+                    height: "auto",
+                }
+            }
         },
     }
 })
 
 export const ReferYourEmployerRow = styled(Row)(() => {
     return {
-       "@media screen and (max-width: 768px)": {
+        "@media screen and (max-width: 768px)": {
             flexDirection: "column",
         }
     }

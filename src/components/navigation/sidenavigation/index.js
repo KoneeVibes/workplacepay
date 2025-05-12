@@ -6,7 +6,7 @@ import { P, Span } from "../../typography/styled";
 import { SideNavigationWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretRight, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Avatar } from "../../../assets";
+import { Avatar, Logo } from "../../../assets";
 import { Column, Row } from "../../flex/styled";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -121,7 +121,12 @@ export const SideNavigation = ({ location, callToAction, handleCallToActionClick
                 <div
                     className="nav-logo"
                 >
-                    <P onClick={handleLogoClick}>workPlacePAY</P>
+                    <div
+                        className="logo-box-area"
+                        onClick={handleLogoClick}
+                    >
+                        <Logo />
+                    </div>
                     <BaseButton
                         onClick={() => setIsSideNavigationOpen(false)}
                     >

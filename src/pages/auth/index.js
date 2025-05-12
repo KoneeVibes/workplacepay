@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
-import { Login } from "../../assets";
+import { Login, LogoII } from "../../assets";
 import { Row } from "../../components/flex/styled";
 import { BaseInput } from "../../components/form/input/styled";
-import { H1, Label, P, Span } from "../../components/typography/styled";
+import { Label, P, Span } from "../../components/typography/styled";
 import { AuthWrapper } from "./styled";
 import { BaseButton } from "../../components/button/styled";
 import { BaseFieldSet } from "../../components/form/fieldset/styled";
@@ -108,7 +108,9 @@ export const Auth = () => {
 
   return (
     <AuthWrapper>
-      <H1>workPlacePAY</H1>
+      <div className="logo-box-area">
+        <LogoII />
+      </div>
       <Row tocolumn={true} className="main-area">
         <div className="auth-img">
           <Login />

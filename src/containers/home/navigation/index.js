@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../../../context/index";
 import { HashLink } from "react-router-hash-link";
-import { Logo } from "../../../assets";
+import { LogoII } from "../../../assets";
 import { navLinks } from "../../../config/navlinks/home";
 import { NavbarWrapper, NavLinksWrapper } from "./styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +17,7 @@ export const Navbar = () => {
         <NavbarWrapper>
             {/* Ofofon, you html should begin below this line */}
             <div className="logo-box-area">
-                <Logo />
+                <LogoII />
             </div>
             <NavLinksWrapper>
                 {navLinks.map((navLink, index) => {

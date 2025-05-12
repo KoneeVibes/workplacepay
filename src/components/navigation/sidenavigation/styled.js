@@ -144,6 +144,13 @@ export const SideNavigationWrapper = styled(Column)(({ USERROLE, location }) => 
                 },
             },
         },
+        "& .logo-box-area": {
+            maxWidth: "100%",
+            "& svg": {
+                width: "100%",
+                height: "auto"
+            }
+        },
         "@media screen and (min-width: 1024px)": {
             left: "auto",
             right: "auto",

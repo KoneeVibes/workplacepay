@@ -1,4 +1,5 @@
 export { ReactComponent as Logo } from "./logo.svg";
+export { ReactComponent as LogoII } from "./logoII.svg";
 export { ReactComponent as Prelim } from "./images/prelim.svg";
 export { ReactComponent as PrelimSetup } from "./images/prelim-setup.svg";
 export { ReactComponent as PaystackLogo } from "./images/paystack.svg";

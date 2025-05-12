@@ -1,7 +1,7 @@
-import { Prelim } from "../../../assets";
+import { Logo, Prelim } from "../../../assets";
 import { Column } from "../../../components/flex/styled";
 import { BaseButton } from "../../../components/button/styled";
-import { H1, H3, P } from "../../../components/typography/styled";
+import { H3, P } from "../../../components/typography/styled";
 import { HowWouldYouLikeToUseWrapper } from "./styled";
 import { useNavigate } from "react-router-dom";
 
@@ -10,11 +10,15 @@ export const HowWouldYouLikeToUse = () => {
   return (
     <HowWouldYouLikeToUseWrapper tocolumn={true}>
       <div className="image-page">
-        <H1>workPlacePAY</H1>
-        <H3>A few clicks from creating your account </H3>
-        <P>Simple payroll management for your business, all within one platform!</P>
-        <Prelim />
-        <P className="foot">POWERED BY: FOCUS GROUP</P>
+        <div className="logo-box-area">
+          <Logo />
+        </div>
+        <div>
+          <H3>A few clicks from creating your account </H3>
+          <P>Simple payroll management for your business, all within one platform!</P>
+          <Prelim style={{ width: "100%", height: "auto" }} />
+          <P className="foot">POWERED BY: FOCUS GROUP</P>
+        </div>
       </div>
       <Column className="basebutton-page">
         <P>

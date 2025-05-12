@@ -93,9 +93,12 @@ export const Payroll = () => {
     useEffect(() => {
         retrievePayrollSetup(TOKEN, COMPANY_ID)
             .then((data) => {
-                const capitalizedVariables = data.payrollVariables.map(variable =>
-                    variable.name.charAt(0).toUpperCase() + variable.name.slice(1)
-                );
+                const capitalizedVariables = data.payrollVariables.map(variable => {
+                    const name = variable.name.toLowerCase();
+                    return name === "paye"
+                        ? "PAYE"
+                        : name.charAt(0).toUpperCase() + name.slice(1);
+                });
                 const filteredVariables = data.payrollVariables.filter(variable => variable.stake === "money");
                 setPayrollTableHeaders(prevHeaders => {
                     const uniqueHeaders = [...new Set([...prevHeaders, ...capitalizedVariables, "Action"])];

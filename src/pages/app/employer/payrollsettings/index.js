@@ -416,15 +416,6 @@ export const PayrollSettings = () => {
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
             <Label htmlFor="paye">PAYE</Label>
-            {/* <BaseInput
-              id="paye"
-              type="checkbox"
-              name="paye"
-              onChange={handleCheckboxChange}
-              checked={
-                formDetails.payrollVariables.find((variable) => variable.name === "paye")?.isChecked || ""
-              }
-            /> */}
             <BaseInput
               type="checkbox"
               checked

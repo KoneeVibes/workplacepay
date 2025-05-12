@@ -71,6 +71,9 @@ export const SetUpYourCompanyWrapper = styled("div")(() => {
                 padding: "unset"
             }
         },
+        "& .logo-box-area": {
+            marginBlockEnd: "calc(var(--cardPadding)/1)",
+        },
         "@media screen and (max-width: 425px)": {
             "& .image-container": {
                 padding: "calc(var(--cardPadding))",
@@ -99,6 +102,14 @@ export const SetUpYourCompanyWrapper = styled("div")(() => {
             "& form": {
                 gap: "var(--flexGap)",
             },
+            "& .logo-box-area": {
+                maxWidth: "50%",
+                marginBlockEnd: "0",
+                "& svg": {
+                    width: "100%",
+                    height: "auto",
+                }
+            }
         },
         "@media screen and (min-width: 1440px)": {
             "& .form-container button": {

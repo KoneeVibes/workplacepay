@@ -80,5 +80,13 @@ export const AuthWrapper = styled("div")(() => {
         "@media screen and (min-width: 768px)": {
             padding: "calc(var(--cardPadding) * 2)",
         },
+        "& .logo-box-area": {
+            maxWidth: "30%",
+            marginBlockEnd: "calc(var(--cardPadding)/2)",
+            "& svg": {
+                width: "100%",
+                height: "auto",
+            }
+        }
     }
 })

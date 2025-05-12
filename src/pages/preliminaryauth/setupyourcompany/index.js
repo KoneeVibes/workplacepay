@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { PrelimSetup } from "../../../assets";
+import { Logo, PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
 import { BaseInput } from "../../../components/form/input/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
-import { H1, H2, H3, Label, P, Span } from "../../../components/typography/styled";
+import { H2, H3, Label, P, Span } from "../../../components/typography/styled";
 import { FieldSetRow, SetUpYourCompanyWrapper } from "./styled";
 import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
 import { Context } from "../../../context";
@@ -85,10 +85,14 @@ export const SetUpYourCompany = () => {
                 className="setup-main-area"
             >
                 <div className="image-container">
-                    <H1>workPlacePAY</H1>
-                    <H3>The #1 Employee Payroll Solution for Small and medium Businesses</H3>
-                    <P>Seamless Payroll management for your buisnessall in one place!</P>
-                    <PrelimSetup />
+                    <div className="logo-box-area">
+                        <Logo />
+                    </div>
+                    <div>
+                        <H3>The #1 Employee Payroll Solution for Small and Medium Businesses</H3>
+                        <P>Seamless Payroll management for all your businesses in one place!</P>
+                        <PrelimSetup style={{ width: "100%", height: "auto" }} />
+                    </div>
                 </div>
                 <div className="form-container">
                     <H2>Set up your company</H2>

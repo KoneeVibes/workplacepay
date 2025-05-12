@@ -1,9 +1,8 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Prelim } from "../../../assets";
+import { Logo, Prelim } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
 import {
-  H1,
   H3,
   P,
   Label,
@@ -133,11 +132,15 @@ export const GetStarted = () => {
   return (
     <GetStartedWrapper tocolumn={true}>
       <div className="first-section">
-        <H1>workPlacePAY</H1>
-        <H3>A few clicks from creating your account </H3>
-        <P>Easy Payroll management for your business all in one place!</P>
-        <Prelim />
-        <P className="foot">POWERED BY: FOCUS GROUP</P>
+        <div className="logo-box-area">
+          <Logo />
+        </div>
+        <div>
+          <H3>A few clicks from creating your account </H3>
+          <P>Easy Payroll management for your business all in one place!</P>
+          <Prelim style={{ width: "100%", height: "auto" }} />
+          <P className="foot">POWERED BY: FOCUS GROUP</P>
+        </div>
       </div>
       <div className="emailAddress-page">
         <H2>Get started with workPlacePAY</H2>

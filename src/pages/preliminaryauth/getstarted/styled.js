@@ -54,6 +54,9 @@ export const GetStartedWrapper = styled(Row)(() => {
       borderRadius: "1rem",
       boxShadow: "0px 20px 24px -4px #10182814",
     },
+    "& .logo-box-area": {
+      marginBlockEnd: "calc(var(--cardPadding)/1)",
+    },
     "@media screen and (max-width: 425px)": {
       "& .first-section": {
         padding: "calc(var(--cardPadding))",
@@ -65,6 +68,14 @@ export const GetStartedWrapper = styled(Row)(() => {
     "@media screen and (max-width: 1024px)": {
       "& h2": {
         marginBlock: 0,
+      },
+      "& .logo-box-area": {
+        maxWidth: "50%",
+        marginBlockEnd: 0,
+        "& svg": {
+          width: "100%",
+          height: "auto",
+        }
       }
     },
   };
