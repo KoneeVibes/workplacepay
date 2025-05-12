@@ -13,6 +13,11 @@ export const PayeWrapper = styled("div")(() => {
       flex: 1,
       overflow: "hidden",
     },
+    "& label": {
+      fontFamily: "Poppins",
+      fontWeight: 600,
+      fontSize: 20,
+    },
     "& .heading-row": {
       padding: "var(--cardPadding)",
       marginBlockEnd: "var(--sectionMargin)",

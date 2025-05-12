@@ -18,13 +18,18 @@ export const SummaryWrapper = styled("div")(() => {
             padding: "var(--cardPadding)",
             // marginBlockEnd: "calc(var(--sectionMargin) * 3)",
             "& select": {
-                padding: "calc(var(--cardPadding)/2.7)",
+                padding: "calc(var(--cardPadding)/4)",
                 borderRadius: "10px",
                 fontWeight: "400",
             },
             "& fieldset": {
                 flex: 1,
                 overflow: "hidden",
+            },
+            "& label": {
+                fontFamily: "Poppins",
+                fontWeight: 600,
+                fontSize: 20,
             },
             "@media screen and (max-width: 500px)": {
                 alignItems: "stretch",

@@ -9,7 +9,7 @@ export const AdminDashboardWrapper = styled("div")(() => {
             display: "flex",
             marginBlockEnd: "var(--sectionMargin)",
             "& select": {
-                padding: "calc(var(--cardPadding)/2)",
+                padding: "calc(var(--cardPadding)/4)",
                 borderRadius: "10px",
                 fontWeight: "400",
             },

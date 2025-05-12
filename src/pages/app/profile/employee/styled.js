@@ -8,7 +8,7 @@ export const EmployeeProfileWrapper = styled("div")(() => {
         overflow: "hidden",
         "p": {
             flex: 1,
-            color: "#808080",
+            color: "#000000",
         },
         "h2": {
             flex: 1,

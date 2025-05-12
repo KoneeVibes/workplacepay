@@ -42,7 +42,7 @@ export const ReferYourEmployerWrapper = styled(Row)(() => {
             color: "#000000"
         },
         "& .refer-form input": {
-            padding: "calc(var(--cardPadding) / 2) var(--cardPadding)",
+            padding: "calc(var(--cardPadding) / 4) var(--cardPadding)",
             outline: "none",
             border: "none",
             backgroundColor: "#F2F2F8",

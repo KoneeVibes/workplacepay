@@ -35,7 +35,7 @@ export const PaymentModalWrapper = styled(Column)(() => {
         "& .payment-details": {
             border: "1px solid #4E57BB",
             borderRadius: "0.5rem",
-            padding: "calc(var(--cardPadding)/2)",
+            padding: "calc(var(--cardPadding)/4)",
             justifyContent: "space-between",
             flexWrap: "wrap",
             "& h3": {

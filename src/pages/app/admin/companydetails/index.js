@@ -52,7 +52,7 @@ export const CompanyDetails = () => {
           </Row>
           <Row className="heading-row" gap={"5rem"}>
             <Span>Credit Naira Value</Span>
-            <Span>{`₦${company?.creditNairaValue}`}</Span>
+            <Span>{`${company?.creditNairaValue?.toLocaleString()}`}</Span>
           </Row>
         </div>
         <div className="company-information">

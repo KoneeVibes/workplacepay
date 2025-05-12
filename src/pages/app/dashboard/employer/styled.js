@@ -78,6 +78,9 @@ export const EmployerDashboardWrapper = styled("div")(() => {
       },
       "& .card-table-filter label": {
         color: "#000000",
+        fontFamily: "Poppins",
+        fontWeight: 600,
+        fontSize: 20,
         lineHeight: 2,
       },
       "& .card-table-filter input": {
