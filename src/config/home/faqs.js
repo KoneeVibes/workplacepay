@@ -15,4 +15,11 @@ export const frequentlyAskedQuestions = [
         question: "Does workPlacePay handle PAYE reports?",
         answer: "Yes, workPlacePay generates PAYE, pension, general payroll, summary, and variance reports to help you stay compliant and manage payroll with ease"
     },
+    {
+        question: "How do I run payroll with WorkplacePAY?",
+        answer: "To run payroll, select the year and month, click Run Payroll, then choose Proceed to review the employee data and manually process and save the payroll later, or Proceed and Save to process and save the payroll immediately.",
+    },
+
 ];
+
+
