@@ -5,7 +5,7 @@ export const CompaniesWrapper = styled("div")(() => {
     borderRadius: "1rem",
     backgroundColor: "#FFFFFF",
     "& select, & input": {
-      padding: "calc(var(--cardPadding)/2)",
+      padding: "calc(var(--cardPadding)/4)",
       borderRadius: "10px",
       border: "1px solid #000000",
       fontWeight: "400",

@@ -20,6 +20,11 @@ export const PensionWrapper = styled("div")(() => {
         flexDirection: "column",
       },
     },
+    "& label": {
+      fontFamily: "Poppins",
+      fontWeight: 600,
+      fontSize: 20,
+    },
     "& .pension-table": {
       overflow: "auto",
     },

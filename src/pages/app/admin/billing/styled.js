@@ -22,7 +22,7 @@ export const BillingWrapper = styled("div")(() => {
             display: "flex",
             gap: "calc(var(--flexGap)/2)",
             "& select, & input": {
-                padding: "calc(var(--cardPadding)/2)",
+                padding: "calc(var(--cardPadding)/4)",
                 borderRadius: "10px",
                 fontWeight: "400",
                 border: "1px solid #000000",

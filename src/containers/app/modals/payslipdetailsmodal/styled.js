@@ -104,6 +104,7 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
             alignItems: "center",
             "& h2": {
                 fontWeight: "450",
+                fontSize: 20,
                 marginBlock: 0,
             },
             "& .bottom": {

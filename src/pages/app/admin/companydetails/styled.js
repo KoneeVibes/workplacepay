@@ -6,7 +6,7 @@ export const CompanyDetailsWrapper = styled(Column)(() => {
     "& .heading-row": {
       padding: "calc(var(--cardPadding)/2)",
       "& span:nth-child(2)": {
-        color: "#808080",
+        color: "#222222",
       },
     },
     "& span": {

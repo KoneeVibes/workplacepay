@@ -23,7 +23,7 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             },
         },
         "& .employeeForm input, & .employeeForm select": {
-            padding: "calc(var(--cardPadding) / 2) var(--cardPadding)",
+            padding: "calc(var(--cardPadding) / 4) var(--cardPadding)",
             outline: "none",
             border: "none",
             backgroundColor: "#F2F2F8",
@@ -43,7 +43,7 @@ export const AddNewEmployeeWrapper = styled("div")(() => {
             flexDirection: "column",
             justifyContent: "space-between",
         },
-        "& .employeeForm .address": {
+        "& .employeeForm textarea": {
             overflow: "hidden",
             textOverflow: "ellipsis",
             width: "-webkit-fill-available",

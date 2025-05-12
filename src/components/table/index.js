@@ -156,7 +156,7 @@ export const Table = ({
               {location === "User Summary Table" && (
                 <Fragment>
                   <Td>{capitalizeWords(rowItem?.name || "")}</Td>
-                  <Td>{rowItem?.value || ""}</Td>
+                  <Td>{rowItem?.value?.toLocaleString() || ""}</Td>
                 </Fragment>
               )}
               {location === "Variance Table" && (

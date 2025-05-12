@@ -48,7 +48,7 @@ export const AuthWrapper = styled("div")(() => {
             "&  input": {
                 fontSize: "20px",
                 fontWeight: "400",
-                padding: "calc(var(--cardPadding) / 2) var(--cardPadding)",
+                padding: "calc(var(--cardPadding) / 4) var(--cardPadding)",
                 outline: "none",
                 border: "1px solid #4E57BB",
                 backgroundColor: "transparent",
