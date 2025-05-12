@@ -24,7 +24,7 @@ export const WhyWorkPlacePay = () => {
         <img src={heroImage} alt="diplomatic agreement" />
       </div>
       <Column className="hero-text">
-        <H2>why workPlacePAY?</H2>
+        <H2>Why workPlacePAY?</H2>
         <H3>Empower your business with our hassle-free payroll management solution</H3>
         <P>
           workPlacePay is a comprehensive payroll management solution that automates salary calculations and tax deductions in compliance with local regulations. It features a self-service portal where employees can access payslips, retrieve tax documents, and manage their bank information. With support for direct bank payments and detailed reporting, workPlacePay simplifies payroll processes, improves accuracy, and saves valuable time.
