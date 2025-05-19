@@ -16,6 +16,7 @@ import { Context } from "../../context";
 
 export const Auth = () => {
   const cookies = new Cookies();
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const { setIsSelectCompaniesModalOpen } = useContext(Context);
@@ -124,15 +125,31 @@ export const Auth = () => {
               onChange={(e) => handleChange(e)}
             />
           </BaseFieldSet>
-          <BaseFieldSet>
+          <BaseFieldSet style={{ position: "relative" }}>
             <Label>Password*</Label>
             <BaseInput
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Enter Password" required
               value={formDetails.password}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+              <span
+                onClick={() => setShowPassword((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  right: "30px",
+                  top: "50%",
+                  transform: "translateY(80%)",
+                  cursor: "pointer",
+                  color: "#4E57BB",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                }}
+              >
+                {showPassword ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseButton type="submit" backgroundcolor={"#4E57BB"}>
             {isLoading ? (

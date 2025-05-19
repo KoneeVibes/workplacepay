@@ -23,6 +23,10 @@ export const GetStarted = () => {
   const cookies = new Cookies();
   const otpModalRef = useRef();
   const navigate = useNavigate();
+  const [showPasswordFields, setShowPasswordFields] = useState({
+    password: false,
+    confirmPassword: false,
+  });
 
   const [isOTPEntered, setIsOTPEntered] = useState(false);
   const [step, setStep] = useState(1);
@@ -130,6 +134,13 @@ export const GetStarted = () => {
     return;
   };
 
+  const togglePasswordVisibility = (field) => {
+    setShowPasswordFields((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   return (
     <GetStartedWrapper tocolumn={true}>
       <div className="first-section">
@@ -164,22 +175,58 @@ export const GetStarted = () => {
                 />
               ) : (
                 <Fragment>
-                  <BaseInput
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    required
-                    value={formDetails.password}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <BaseInput
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                    value={formDetails.confirmPassword}
-                    onChange={(e) => handleChange(e)}
-                  />
+                  <div style={{ position: "relative" }}>
+                    <BaseInput
+                      type={showPasswordFields.password ? "text" : "password"}
+                      name="password"
+                      placeholder="Enter Password"
+                      required
+                      value={formDetails.password}
+                      onChange={(e) => handleChange(e)}
+                      style={{ paddingRight: "60px" }}
+                      />
+                      <span
+                        onClick={() => togglePasswordVisibility("password")}
+                        style={{
+                          position: "absolute",
+                          right: "20px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                          color: "#4E57BB",
+                          fontWeight: "bold",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        {showPasswordFields.password ? "Hide" : "Show"}
+                      </span>
+                  </div>
+                  <div style={{ position: "relative", marginTop: "1rem" }}>
+                    <BaseInput
+                      type={showPasswordFields.confirmPassword ? "text" : "password"}
+                      name="confirmPassword"
+                      placeholder="Confirm Password"
+                      required
+                      value={formDetails.confirmPassword}
+                      onChange={(e) => handleChange(e)}
+                      style={{ paddingRight: "60px" }}
+                      />
+                      <span
+                        onClick={() => togglePasswordVisibility("confirmPassword")}
+                        style={{
+                          position: "absolute",
+                          right: "20px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                          color: "#4E57BB",
+                          fontWeight: "bold",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        {showPasswordFields.confirmPassword ? "Hide" : "Show"}
+                      </span>
+                  </div>
                 </Fragment>
               )}
               <BaseButton type="submit" width={"fit-content"}>

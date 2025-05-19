@@ -15,6 +15,11 @@ export const PasswordResetArea = () => {
   const cookies = new Cookies();
   const cookie = cookies.getAll();
   let token = cookie.TOKEN;
+  const [showPasswordFields, setShowPasswordFields] = useState({
+    old: false,
+    new: false,
+    confirm: false,
+  });
 
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -64,6 +69,13 @@ export const PasswordResetArea = () => {
     }
   };
 
+  const togglePasswordVisibility = (field) => {
+    setShowPasswordFields((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   return (
     <Layout id={"passwordReset"} title={"Password Reset"}>
       <PasswordResetAreaWrapper>
@@ -78,38 +90,84 @@ export const PasswordResetArea = () => {
         />
         <H2>RESET PASSWORD</H2>
         <form onSubmit={handleSubmit}>
-          <BaseFieldSet>
+          <BaseFieldSet style={{ position: "relative" }}>
             <Label>Enter Password</Label>
             <BaseInput
-              type="password"
+              type={showPasswordFields.old ? "text" : "password"}
               name="oldPassword"
               placeholder="Enter Old Password"
               required
               value={formDetails.oldPassword}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+            <span
+              onClick={() => togglePasswordVisibility("old")}
+              style={{
+                position: "absolute",
+                right: "30px",
+                top: "50%",
+                transform: "translateY(20%)",
+                cursor: "pointer",
+                color: "#4E57BB",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              {showPasswordFields.old ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Enter New Password</Label>
             <BaseInput
-              type="password"
+              type={showPasswordFields.new ? "text" : "password"}
               name="newPassword"
               placeholder="Enter New Password"
               required
               value={formDetails.newPassword}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+            <span
+              onClick={() => togglePasswordVisibility("new")}
+              style={{
+                position: "absolute",
+                right: "93px",
+                transform: "translateY(100%)",
+                cursor: "pointer",
+                color: "#4E57BB",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              {showPasswordFields.new ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Confirm New Password</Label>
             <BaseInput
-              type="password"
+              type={showPasswordFields.confirm ? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirm New Password"
               required
               value={formDetails.confirmPassword}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+            <span
+              onClick={() => togglePasswordVisibility("confirm")}
+              style={{
+                position: "absolute",
+                right: "93px",
+                transform: "translateY(100%)",
+                cursor: "pointer",
+                color: "#4E57BB",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              {showPasswordFields.confirm ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseButton type="submit">
             {loading ? (
