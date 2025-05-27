@@ -7,6 +7,7 @@ export const EmployerProfileWrapper = styled("div")(() => {
         borderRadius: "1rem",
         padding: "var(--cardPadding)",
         overflow: "hidden",
+        minHeight: "100vh",
         "& input, & select, & textarea": {
             padding: "calc(var(--cardPadding) / 4) var(--cardPadding)",
             outline: "none",
@@ -51,6 +52,60 @@ export const EmployerProfileWrapper = styled("div")(() => {
                 borderRadius: 0,
             }
         },
+        "& .tab-area": {
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            backgroundColor: "#D9D9D9",
+            borderRadius: "5px",
+            zIndex: 1,
+            gap: 0,
+            "& .tab": {
+                cursor: "pointer",
+                overflow: "hidden",
+                userSelect: "none",
+                transition: "background-color 0.3s",
+                "& h2": {
+                    marginBlock: 0,
+                    fontWeight: 500,
+                    fontSize: "24px",
+                    color: "#00000070",
+                    "@media screen and (max-width: 768px)": {
+                        fontSize: "16px",
+                    },
+                },
+            },
+            "@media screen and (max-width: 1024px)": {
+                top: "8.125rem",
+                "& .tab": {
+                    padding: "calc(var(--cardPadding)/4) calc(var(--cardPadding)/2)",
+                }
+            },
+            "@media screen and (min-width: 769px) and (max-width: 1023px)": {
+                top: "9.125rem",
+                "& .tab": {
+                    padding: "calc(var(--cardPadding)/4) calc(var(--cardPadding)* 2)",
+                }
+            },
+            "@media screen and (min-width: 1024px)": {
+                top: "10px",
+                "& .tab": {
+                    padding: "calc(var(--cardPadding)/4) calc(var(--cardPadding)* 2)",
+                }
+            },
+            "@media screen and (max-width: 363px)": {
+                position: "relative",
+                top: 0,
+            },
+        },
+        "& .upper-section-company-details": {
+            padding: "var(--cardPadding) 0",
+            borderBottom: "4px solid #CCCCCC",
+            "& form": {
+                display: "flex",
+                gap: "calc(var(--flexGap) / 2)",
+            },
+        }
     }
 });
 

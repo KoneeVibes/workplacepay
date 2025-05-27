@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo, PrelimSetup } from "../../../assets";
 import { BaseButton } from "../../../components/button/styled";
 import { BaseFieldSet } from "../../../components/form/fieldset/styled";
@@ -6,19 +6,18 @@ import { BaseInput } from "../../../components/form/input/styled";
 import { BaseSelect } from "../../../components/form/select/styled";
 import { H2, H3, Label, P, Span } from "../../../components/typography/styled";
 import { FieldSetRow, SetUpYourCompanyWrapper } from "./styled";
-import { PaymentModal } from "../../../containers/app/modals/paymentmodal";
-import { Context } from "../../../context";
 import { Row } from "../../../components/flex/styled";
 import { setupCompanyService } from "../../../utils/apis/company/setupCompany";
 import { DotLoader } from "react-spinners";
 import { getAllPlans } from "../../../utils/apis/plansandpricing/getAllPlans";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const SetUpYourCompany = () => {
     const cookies = new Cookies();
     const TOKEN = cookies.getAll().TOKEN;
 
-    const { setIsPaymentFormModalOpen } = useContext(Context);
+    const navigate = useNavigate();
 
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +31,6 @@ export const SetUpYourCompany = () => {
         companyEmail: "",
         companyPlan: ""
     });
-    const [showPaymentModal, setShowPaymentModal] = useState(false);
 
     useEffect(() => {
         getAllPlans(TOKEN)
@@ -42,7 +40,7 @@ export const SetUpYourCompany = () => {
             .catch((err) => {
                 console.error("Failed to fetch payroll plans:", err);
             });
-    }, [TOKEN])
+    }, [TOKEN]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,10 +48,6 @@ export const SetUpYourCompany = () => {
             ...prev,
             [name]: value
         }));
-    };
-
-    const handleOpenModal = () => {
-        setIsPaymentFormModalOpen(true);
     };
 
     const handleSubmit = async (e) => {
@@ -64,8 +58,7 @@ export const SetUpYourCompany = () => {
             const response = await setupCompanyService(TOKEN, formDetails);
             if (response.status) {
                 setIsLoading(false);
-                setShowPaymentModal(true);
-                handleOpenModal();
+                navigate("/login");
             } else {
                 setIsLoading(false);
                 setError('Setup failed. Please check your credentials and try again.');
@@ -219,7 +212,6 @@ export const SetUpYourCompany = () => {
                     </form>
                 </div>
             </Row>
-            {showPaymentModal && <PaymentModal />}
         </SetUpYourCompanyWrapper >
     )
 }

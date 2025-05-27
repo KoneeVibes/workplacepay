@@ -86,7 +86,7 @@ export const Paye = () => {
   return (
     <Layout
       id={"paye"}
-      title={"Paye Output"}
+      title={"PAYE Report"}
       location={"paye"}
       style={{ textColor: "#4E57BB" }}
       callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}

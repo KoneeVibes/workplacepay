@@ -24,7 +24,8 @@ export const Billing = () => {
     useEffect(() => {
         retrieveAllBilling(TOKEN, filter)
             .then((data) => {
-                setBillings(data ?? []);
+                console.log(data);
+                setBillings(data?.creditPurchases ?? []);
             })
             .catch((err) => {
                 console.error("Failed to fetch billings:", err);

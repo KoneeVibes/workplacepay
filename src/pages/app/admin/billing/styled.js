@@ -73,5 +73,13 @@ export const BillingWrapper = styled("div")(() => {
                 },
             },
         },
+        "@media screen and (max-width: 768px)": {
+            "& fieldset": {
+                flex: 1,
+            },
+            "& .filter": {
+                width: "100%"
+            }
+        }
     }
 });

@@ -11,7 +11,6 @@ export const ContextProvider = ({ children }) => {
     const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false);
     const [isSelectCompaniesModalOpen, setIsSelectCompaniesModalOpen] = useState(false);
     const [isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen] = useState(false);
-    const [isRunPayrollModalOpen, setIsRunPayrollModalOpen] = useState(false);
     const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
     const [isAddDepartmentModalOpen, setIsAddDepartmentModalOpen] = useState(false);
     const [isPlansAndPricingModalOpen, setIsPlansAndPricingModalOpen] = useState(false);
@@ -38,8 +37,6 @@ export const ContextProvider = ({ children }) => {
             setIsSelectCompaniesModalOpen,
             isPayslipDetailsModalOpen,
             setIsPayslipDetailsModalOpen,
-            isRunPayrollModalOpen,
-            setIsRunPayrollModalOpen,
             isPlansAndPricingModalOpen,
             setIsPlansAndPricingModalOpen,
             isAddEmployeeModalOpen,

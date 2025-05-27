@@ -27,7 +27,7 @@ export const SideNavigationWrapper = styled(Column)(({ USERROLE, location }) => 
         right: 0,
         bottom: 0,
         overflowY: "auto",
-        zIndex: 1,
+        zIndex: 2,
         display: isSideNavigationOpen ? "flex" : "none",
         "& a": {
             textDecoration: "none",

@@ -14,12 +14,9 @@ import { runPayrollService } from "../../../../utils/apis/payroll/runPayroll";
 import { retrievePayrollSetup } from "../../../../utils/apis/payroll/retrievePayrollSetup";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
 import { BaseInput } from "../../../../components/form/input/styled";
-import { RunPayrollModal } from "../../../../containers/app/modals/runpayrollmodal";
 import { Context } from "../../../../context";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
-import { ConfirmationModal } from "../../../../containers/app/modals/confirmationmodal";
-import { savePayrollService } from "../../../../utils/apis/payroll/savePayroll";
 import { ManageEmployeePayslipModal } from "../../../../containers/app/modals/manageemployeepayslip";
 import { DotLoader } from "react-spinners";
 import { updatePayrollService } from "../../../../utils/apis/payroll/updatePayroll";
@@ -32,11 +29,9 @@ export const Payroll = () => {
     const TOKEN = cookies.get("TOKEN");
     const COMPANY_ID = cookies.get("COMPANY_ID");
 
-    const { setIsRunPayrollModalOpen, setIsPaymentFormModalOpen, isManageEmployeeModalOpen, setIsManageEmployeeModalOpen } = useContext(Context);
+    const { setIsPaymentFormModalOpen, isManageEmployeeModalOpen, setIsManageEmployeeModalOpen } = useContext(Context);
 
     const [error, setError] = useState(null);
-    const [isRunPayrollWithSaveLoading, setIsRunPayrollWithSaveLoading] = useState(false);
-    const [isRunPayrollWithoutSaveLoading, setIsRunPayrollWithoutSaveLoading] = useState(false);
     const [employees, setEmployees] = useState([]);
     const [payrollTableHeaders, setPayrollTableHeaders] = useState([
         "Employee",
@@ -56,10 +51,9 @@ export const Payroll = () => {
         status: "",
     });
     const [company, setCompany] = useState({});
-    const [flag, setFlag] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isRunPayrollLoading, setIsRunPayrollLoading] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [managedVariables, setManagedVariables] = useState([]);
     const [activePayslipId, setActivePayslipId] = useState(null);
     const [nonVaryingHeaders, setNonVaryingHeaders] = useState({});
@@ -131,7 +125,7 @@ export const Payroll = () => {
             }
         };
         fetchCompanyDetails();
-    }, [TOKEN, COMPANY_ID, isConfirmationModalOpen]);
+    }, [TOKEN, COMPANY_ID]);
 
     useEffect(() => {
         if (!isManageEmployeeModalOpen) {
@@ -154,29 +148,10 @@ export const Payroll = () => {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return setError("Please select a month and year");
-        return setIsRunPayrollModalOpen(true);
-    };
-
     const handleOpenCreditPurchaseModal = (e) => {
         e.preventDefault();
         e.stopPropagation();
         setIsPaymentFormModalOpen(true);
-    };
-
-    const handleFlagState = (e, flag) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setFlag(flag);
-        setIsRunPayrollModalOpen(false);
-        setIsConfirmationModalOpen(true);
-    };
-
-    const handlePersistModal = () => {
-        setError(null);
-        return setIsConfirmationModalOpen(false);
     };
 
     const handlePersistSuccessModal = () => {
@@ -205,7 +180,7 @@ export const Payroll = () => {
         setIsManageEmployeeModalOpen(true);
     };
 
-    const handleRunPayroll = async (e, option) => {
+    const handleRunPayroll = async (e) => {
         e.stopPropagation();
         e.preventDefault();
         setError(null);
@@ -215,45 +190,25 @@ export const Payroll = () => {
             departmentId: "",
             jobTitle: "",
             status: "",
-        })
-        if (!flag.trim()) return;
-        if (option === "callToActionI") {
-            setIsRunPayrollWithSaveLoading(true);
-        } else {
-            setIsRunPayrollWithoutSaveLoading(true);
-        }
-        const transformedPayrollPayload = {
-            ...payrollPayload,
-            includeEmployer: flag === "with-employer" ? true : false
-        }
+        });
+        if (!payrollPayload.month.trim() || !payrollPayload.year.trim()) return setError("Please select a month and year");
+        setIsRunPayrollLoading(true);
         try {
-            const response = await runPayrollService(TOKEN, COMPANY_ID, transformedPayrollPayload);
+            const response = await runPayrollService(TOKEN, COMPANY_ID, payrollPayload);
             if (response) {
-                if (option === "callToActionI") {
-                    await savePayrollService(TOKEN, response.payrollId, COMPANY_ID);
-                };
                 const { employeePayslips, ...rest } = response;
                 setNonVaryingHeaders(rest);
-                setIsRunPayrollWithSaveLoading(false);
-                setIsRunPayrollWithoutSaveLoading(false);
-                setEmployees(response.employeePayslips);
-                setFlag("");
-                return setIsConfirmationModalOpen(false);
+                setIsRunPayrollLoading(false);
+                return setEmployees(response.employeePayslips);
             } else {
-                setIsRunPayrollWithSaveLoading(false);
-                setIsRunPayrollWithoutSaveLoading(false);
-                setFlag("");
-                setError('Run payroll operation failed. Please check your credentials and try again.');
                 console.error("Run payroll operation failed. Please check your credentials and try again.");
-                return setIsConfirmationModalOpen(false);
+                setIsRunPayrollLoading(false);
+                return setError('Run payroll operation failed. Please check your credentials and try again.');
             }
         } catch (error) {
-            setIsRunPayrollWithSaveLoading(false);
-            setIsRunPayrollWithoutSaveLoading(false);
-            setFlag("");
-            setError(`Run payroll operation failed. ${error.message}`);
             console.error('Run payroll operation failed:', error);
-            return setIsConfirmationModalOpen(false);
+            setIsRunPayrollLoading(false);
+            return setError(`Run payroll operation failed. ${error.message}`);
         }
     };
 
@@ -321,7 +276,7 @@ export const Payroll = () => {
                     activePayslipId={activePayslipId}
                 />
                 <form
-                    onSubmit={handleSubmit}
+                    onSubmit={handleRunPayroll}
                 >
                     <BaseFieldSet>
                         <Label>Payment Year</Label>
@@ -366,14 +321,17 @@ export const Payroll = () => {
                     <div
                         className="payroll-button-box"
                     >
-                        <BaseButton>
-                            <Span>
-                                Run Payroll
-                            </Span>
+                        <BaseButton
+                            type="submit"
+                        >
+                            {isRunPayrollLoading ? (
+                                <DotLoader size={20} color="white" className="dotLoader" />
+                            ) : (
+                                <Span>
+                                    Run Payroll
+                                </Span>
+                            )}
                         </BaseButton>
-                        <RunPayrollModal
-                            handleActionItemClick={handleFlagState}
-                        />
                     </div>
                 </form>
                 <div
@@ -470,17 +428,6 @@ export const Payroll = () => {
                     />
                 </div>
                 <PaymentModal />
-                <ConfirmationModal
-                    open={isConfirmationModalOpen}
-                    handleClickOutside={handlePersistModal}
-                    className={"payroll-confirmation-modal"}
-                    title={"Are you sure?"}
-                    callToActionI={"Proceed & Save"}
-                    callToActionII={"Proceed"}
-                    isLoadingI={isRunPayrollWithSaveLoading}
-                    isLoadingII={isRunPayrollWithoutSaveLoading}
-                    handleCallToActionClick={handleRunPayroll}
-                />
             </PayrollWrapper>
         </Layout>
     )

@@ -219,7 +219,7 @@ export const Employees = () => {
         />
         <EditPlanModal
           width={"35%"}
-          height={"240px"}
+          height={"223px"}
           currentPlanId={payrollPlan?.title}
           setFlag={setFlag}
           setIsSuccessModalOpen={setIsSuccessModalOpen}

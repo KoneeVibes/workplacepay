@@ -160,13 +160,9 @@ export const PayrollSettings = () => {
     setFormDetails((prev) => ({
       ...prev,
       payrollVariables: prev.payrollVariables.map((variable) =>
-        ["employer pension contribution", "employee pension contribution"].includes(name)
-          ? ["employer pension contribution", "employee pension contribution"].includes(variable.name)
-            ? { ...variable, isChecked: checked }
-            : variable
-          : variable.name === name
-            ? { ...variable, isChecked: checked }
-            : variable
+        variable.name === name
+          ? { ...variable, isChecked: checked }
+          : variable
       ),
     }));
   };

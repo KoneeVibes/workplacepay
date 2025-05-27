@@ -86,7 +86,7 @@ export const Pension = () => {
   return (
     <Layout
       id={"pension"}
-      title={"Pension Output"}
+      title={"Pension Report"}
       location={"pension"}
       style={{ textColor: "#4E57BB" }}
       callToAction={`CREDIT BALANCE: ${company?.creditBalance}`}
