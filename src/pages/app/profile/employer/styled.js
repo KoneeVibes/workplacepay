@@ -105,7 +105,39 @@ export const EmployerProfileWrapper = styled("div")(() => {
                 display: "flex",
                 gap: "calc(var(--flexGap) / 2)",
             },
-        }
+
+            "& .payroll-plan": {
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "1rem",
+                alignItems: "center",
+
+                "& P": {
+                    fontWeight: 500,
+                }
+            },
+            "& .small-select": {
+                width: "150px",
+                height: "32px",
+                fontSize: "14px",
+                padding: "4px 8px",
+                backgroundColor: "#D3D3D3",
+
+            },
+
+        },
+        "& .lower-section-company-details": {
+            marginTop: "2rem",
+            padding: "3rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.5rem",
+
+            "& Span": {
+                fontWeight: 500,
+            },
+        },
+
     }
 });
 

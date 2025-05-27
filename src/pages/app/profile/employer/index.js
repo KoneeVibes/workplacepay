@@ -20,6 +20,7 @@ import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
 import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 import { Row } from "../../../../components/flex/styled";
+import { ProfilePicture } from "../../../../assets";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
@@ -689,7 +690,8 @@ export const EmployerProfile = () => {
                             className="upper-section-company-details"
                         >
                             <form>
-                                {/* add picture */}
+                                <ProfilePicture/>
+                            
                                 <BaseFieldSet>
                                     <Label>Company Name</Label>
                                     <BaseInput
@@ -721,11 +723,44 @@ export const EmployerProfile = () => {
                                     />
                                 </BaseFieldSet>
                             </form>
-                            {/* add payroll plan dropdown here */}
+
+                            <Row className="payroll-plan">
+                                <P>Payroll Plan:</P>
+                                <BaseSelect className="small-select">
+                                    <option value="" hidden>
+                                        enterprise
+                                    </option>
+                                </BaseSelect>
+                            </Row>
+
                         </div>
                         <div
-                            className="upper-section-company-details"
+                            className="lower-section-company-details"
                         >
+                            <H2>Credit Information</H2>
+
+                            <Row
+                                className="cardRow"
+                                justifycontent={"space-between"}
+                            >
+                                <Span>Available Credits</Span>
+                                <Span>98 credits</Span>
+                            </Row>
+                            <Row
+                                className="cardRow"
+                                justifycontent={"space-between"}
+                            >
+                                <Span>Credit Cost per Employee</Span>
+                                <Span>5 credits</Span>
+                            </Row>
+                            <Row
+                                className="cardRow"
+                                justifycontent={"space-between"}
+                            >
+                                <Span>Credit Naira Value</Span>
+                                <Span>1,470</Span>
+                            </Row>
+
 
                         </div>
                     </Fragment>
