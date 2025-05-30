@@ -17,6 +17,11 @@ export const ResetPasswordModal = ({ height, width }) => {
   const cookies = new Cookies();
   const cookie = cookies.getAll();
   let token = cookie.TOKEN;
+  const [showPasswordFields, setShowPasswordFields] = useState({
+    old: false,
+    new: false,
+    confirm: false,
+  });
 
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -61,6 +66,13 @@ export const ResetPasswordModal = ({ height, width }) => {
     }
   };
 
+  const togglePasswordVisibility = (field) => {
+    setShowPasswordFields((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setMatches(window.screen.availWidth < 425);
@@ -86,29 +98,74 @@ export const ResetPasswordModal = ({ height, width }) => {
           <BaseFieldSet>
             <Label>Enter Password</Label>
             <BaseInput
-              type="password"
+              type={showPasswordFields.old ? "text" : "password"}
               name="oldPassword"
               value={formDetails.oldPassword}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+            <span
+              onClick={() => togglePasswordVisibility("old")}
+              style={{
+                position: "absolute",
+                right: "93px",
+                transform: "translateY(60%)",
+                cursor: "pointer",
+                color: "#4E57BB",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              {showPasswordFields.old ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Enter New Password</Label>
             <BaseInput
-              type="password"
+              type={showPasswordFields.new ? "text" : "password"}
               name="newPassword"
               value={formDetails.newPassword}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+            <span
+              onClick={() => togglePasswordVisibility("new")}
+              style={{
+                position: "absolute",
+                right: "93px",
+                transform: "translateY(60%)",
+                cursor: "pointer",
+                color: "#4E57BB",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              {showPasswordFields.new ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseFieldSet>
             <Label>Confirm New Password</Label>
             <BaseInput
-              type="password"
+              type={showPasswordFields.confirm ? "text" : "password"}
               name="confirmPassword"
               value={formDetails.confirmPassword}
               onChange={(e) => handleChange(e)}
+              style={{ paddingRight: "60px" }} // give space for the toggle text
             />
+            <span
+              onClick={() => togglePasswordVisibility("confirm")}
+              style={{
+                position: "absolute",
+                right: "93px",
+                transform: "translateY(60%)",
+                cursor: "pointer",
+                color: "#4E57BB",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              {showPasswordFields.confirm ? "Hide" : "Show"}
+            </span>
           </BaseFieldSet>
           <BaseButton type="submit" backgroundcolor={"#4E57BB"}>
             {loading ? (
