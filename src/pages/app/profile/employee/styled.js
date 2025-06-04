@@ -52,6 +52,33 @@ export const EmployeeProfileWrapper = styled("div")(() => {
                     gap: "calc(var(--cardPadding) / 4)",
                 }
             }
-        }
+        },
+        "& .employee-headshot": {
+            width: "100%",
+            height: "auto",
+            borderRadius: "50%",
+            "@media screen and (min-width: 280px)": {
+                width: "150px",
+                height: "150px"
+            },
+        },
+        "& .employee-profile-image-area": {
+            padding: "0 0 var(--cardPadding) 0",
+            margin: "0 0 var(--cardPadding) 0",
+            borderBottom: "4px solid #CCCCCC",
+            "& .employer-profile-image-action-area": {
+                alignItems: "center",
+                overflow: "hidden",
+                "@media screen and (min-width: 768px)": {
+                    flexDirection: "row"
+                }
+            },
+        },
+        "& .edit-icon": {
+            position: "relative",
+            top: "-3.5rem",
+            left: "-1rem",
+            cursor: "pointer",
+        },
     };
 });

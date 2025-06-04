@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layout } from "../../../../containers/app/layout";
 import { EmployeeProfileWrapper } from "./styled";
 import { H2, Label, P, Span } from "../../../../components/typography/styled";
-import { Row } from "../../../../components/flex/styled";
+import { Column, Row } from "../../../../components/flex/styled";
 import { ResetPasswordModal } from "../../../../containers/app/modals/resetpasswordmodal";
 import { getUser } from "../../../../utils/apis/user/getUser";
 import Cookies from "universal-cookie";
@@ -15,11 +15,16 @@ import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
 import { BaseSelect } from "../../../../components/form/select/styled";
 import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
+import { EditIcon } from "../../../../assets";
+import defaultHeadshot from "../../../../assets/images/profilebasefavicon.svg";
+import { updateUserProfilePictureService } from "../../../../utils/apis/user/updateUserProfilePhoto";
 
 export const EmployeeProfile = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.getAll().TOKEN;
   const REACT_APP_PAYSTACK_SK = process.env.REACT_APP_PAYSTACK_SK;
+
+  const headshotInputRef = useRef(null);
 
   const [user, setUser] = useState({});
   const [matches, setMatches] = useState(false);
@@ -41,6 +46,12 @@ export const EmployeeProfile = () => {
     phone: "",
   });
   const [banks, setBanks] = useState([]);
+  const [headshotPreview, setHeadshotPreview] = useState(null);
+  const [profilePicture, setProfilePicture] = useState({
+    file: null,
+  })
+  const [employeeProfilePictureUpdateError, setEmployeeProfilePictureUpdateError] = useState(null);
+  const [isEmployeeProfilePictureUpdateLoading, setIsEmployeeProfilePictureUpdateLoading] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -103,7 +114,6 @@ export const EmployeeProfile = () => {
 
   const handlePersistModal = () => {
     return setIsSuccessModalOpen(true);
-
   };
 
   const handleContactDetailsChange = (e) => {
@@ -112,6 +122,30 @@ export const EmployeeProfile = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleHeadshotUploadClick = (e) => {
+    e.stopPropagation()
+    if (headshotInputRef.current) {
+      headshotInputRef.current.click();
+    }
+  };
+
+  const handleHeadshotFileChange = (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          setHeadshotPreview(e.target.result);
+          setProfilePicture((prev) => ({
+            ...prev,
+            file
+          }));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleBankDetailsUpdate = async (e) => {
@@ -137,6 +171,30 @@ export const EmployeeProfile = () => {
       setIsBankDetailsSubmitLoading(false);
       setError(`Update bank details failed. ${error.message}`);
       console.error("Update bank details failed:", error);
+    }
+  };
+
+  const handleEmployerProfilePictureUpdate = async (e) => {
+    e.preventDefault();
+    setIsEmployeeProfilePictureUpdateLoading(true);
+    const formData = new FormData();
+    Object.entries(profilePicture).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    try {
+      const response = await updateUserProfilePictureService(TOKEN, formData);
+      if (response.status) {
+        setIsEmployeeProfilePictureUpdateLoading(false);
+        setHeadshotPreview(null);
+      } else {
+        setIsEmployeeProfilePictureUpdateLoading(false);
+        setEmployeeProfilePictureUpdateError("Profile picture update failed. Please try again.");
+        console.error("Profile picture update failed. Please try again.");
+      }
+    } catch (error) {
+      setIsEmployeeProfilePictureUpdateLoading(false);
+      setEmployeeProfilePictureUpdateError(`Profile picture update failed. ${error.message}`);
+      console.error("Profile picture update failed:", error);
     }
   };
 
@@ -179,6 +237,65 @@ export const EmployeeProfile = () => {
         />
         <div className="details">
           <H2>Personal Details</H2>
+          <div
+            className="employee-profile-image-area"
+          >
+            <Column
+              torow
+              className="employer-profile-image-action-area"
+            >
+              <div>
+                {headshotPreview ? (
+                  <img
+                    src={headshotPreview}
+                    alt="Employer Headshot"
+                    className="employee-headshot"
+                  />
+                ) : (
+                  <img
+                    src={user?.profilePictureUrl || defaultHeadshot}
+                    alt="Employer Headshot"
+                    className="employee-headshot"
+                  />
+                )}
+                <BaseInput
+                  type="file"
+                  name={"profilePicture"}
+                  ref={headshotInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleHeadshotFileChange}
+                />
+                <EditIcon
+                  className="edit-icon"
+                  onClick={(e) => handleHeadshotUploadClick(e)}
+                />
+              </div>
+              {headshotPreview && (
+                <div>
+                  <BaseButton
+                    type="button"
+                    backgroundcolor={"#4E57BB"}
+                    width={matches ? "-webkit-fill-available" : "fit-content"}
+                    onClick={handleEmployerProfilePictureUpdate}
+                  >
+                    {isEmployeeProfilePictureUpdateLoading ? (
+                      <DotLoader
+                        size={20}
+                        color="white"
+                        className="dotLoader"
+                      />
+                    ) : (
+                      <Span>Save Change</Span>
+                    )}
+                  </BaseButton>
+                </div>
+              )}
+            </Column>
+            {employeeProfilePictureUpdateError &&
+              <P style={{ color: "red", marginBlockEnd: 0 }}>                 {employeeProfilePictureUpdateError}
+              </P>
+            }
+          </div>
           <Row>
             <P>First Name</P>
             <P>{user?.fullName?.split(" ")[1] || ""}</P>

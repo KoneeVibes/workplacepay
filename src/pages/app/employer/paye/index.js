@@ -12,7 +12,10 @@ import { months } from "../../../../helpers/retrieveAllMonths";
 import { getCompanyDetails } from "../../../../utils/apis/company/getCompanyDetails";
 import { Context } from "../../../../context";
 import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
-import { Label, P } from "../../../../components/typography/styled";
+import { Label, P, Span } from "../../../../components/typography/styled";
+import { downloadPayeReport } from "../../../../utils/apis/report/downloadPayeReport";
+import { BaseButton } from "../../../../components/button/styled";
+import { DotLoader } from "react-spinners";
 
 export const Paye = () => {
   const startDate = 2020;
@@ -34,6 +37,8 @@ export const Paye = () => {
   const [error, setError] = useState(null);
   const [PayeReport, setPayeReport] = useState([]);
   const [company, setCompany] = useState({});
+  const [matches, setMatches] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setIsPaymentFormModalOpen } = useContext(Context);
 
@@ -69,6 +74,17 @@ export const Paye = () => {
     fetchCompanyDetails();
   }, [TOKEN, COMPANY_ID]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setMatches(window.screen.availWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({
@@ -81,6 +97,28 @@ export const Paye = () => {
     e.preventDefault();
     e.stopPropagation();
     setIsPaymentFormModalOpen(true);
+  };
+
+  const handleExportTable = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const blob = await downloadPayeReport(TOKEN, COMPANY_ID, filter);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      // may have to come back to reset this filename
+      a.download = 'payereport.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url); // Clean up
+      setIsLoading(false);
+      console.log("Successfully exported to an xlsx file");
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Failed to export:", error);
+    }
   };
 
   return (
@@ -166,6 +204,24 @@ export const Paye = () => {
             </BaseSelect>
           </BaseFieldSet>
         </Row>
+        <div className="export-button-area">
+          <div
+            style={{ overflow: "hidden" }}
+          >
+            <BaseButton
+              type="button"
+              backgroundcolor={"#4E57BB"}
+              width={matches ? "-webkit-fill-available" : "fit-content"}
+              onClick={handleExportTable}
+            >
+              {isLoading ? (
+                <DotLoader size={20} color="white" className="dotLoader" />
+              ) : (
+                <Span>Export Table</Span>
+              )}
+            </BaseButton>
+          </div>
+        </div>
         <div className="paye-table">
           <Table
             columnTitles={[

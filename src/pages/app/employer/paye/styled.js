@@ -75,6 +75,9 @@ export const PayeWrapper = styled("div")(() => {
       "& p": {
         marginBlock: 0
       },
+    },
+    "& .export-button-area": {
+      padding: "0 var(--cardPadding) var(--cardPadding)",
     }
   };
 });

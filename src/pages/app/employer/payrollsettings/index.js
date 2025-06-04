@@ -89,7 +89,7 @@ export const PayrollSettings = () => {
           setupVariableId: null,
           name: "paye",
           type: "Deductions",
-          stake: "money",
+          stake: "percent",
           value: null,
           isChecked: true
         },

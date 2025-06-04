@@ -26,8 +26,16 @@ export const EmployerProfileWrapper = styled("div")(() => {
             flex: 1,
             overflow: "hidden",
         },
-        "& .submit-button-box": {
+        "& .employer-profile-submit-button-box": {
             paddingTop: "var(--cardPadding)",
+            overflow: "hidden"
+        },
+        "& .company-profile-submit-button-box": {
+            paddingTop: "calc(var(--cardPadding)/2)",
+            overflow: "hidden",
+            "@media screen and (min-width: 768px)": {
+                marginLeft: "auto",
+            },
         },
         "& .payment-modal": {
             position: "fixed",
@@ -51,6 +59,33 @@ export const EmployerProfileWrapper = styled("div")(() => {
                 transform: "unset",
                 borderRadius: 0,
             }
+        },
+        "& .employer-headshot": {
+            width: "100%",
+            height: "auto",
+            borderRadius: "50%",
+            "@media screen and (min-width: 280px)": {
+                width: "150px",
+                height: "150px"
+            },
+        },
+        "& .employer-profile-image-area": {
+            padding: "0 0 var(--cardPadding) 0",
+            margin: "0 0 var(--cardPadding) 0",
+            borderBottom: "4px solid #CCCCCC",
+            "& .employer-profile-image-action-area": {
+                alignItems: "center",
+                overflow: "hidden",
+                "@media screen and (min-width: 768px)": {
+                    flexDirection: "row"
+                }
+            },
+        },
+        "& .edit-icon": {
+            position: "relative",
+            top: "-3.5rem",
+            left: "-1rem",
+            cursor: "pointer",
         },
         "& .tab-area": {
             position: "absolute",
@@ -96,24 +131,63 @@ export const EmployerProfileWrapper = styled("div")(() => {
             "@media screen and (max-width: 363px)": {
                 position: "relative",
                 top: 0,
+                overflow: "hidden",
             },
         },
         "& .upper-section-company-details": {
             padding: "var(--cardPadding) 0",
             borderBottom: "4px solid #CCCCCC",
+            display: "flex",
+            flexDirection: "column",
             "& form": {
                 display: "flex",
                 gap: "calc(var(--flexGap) / 2)",
+                flexDirection: "column",
+                "& label": {
+                    whiteSpace: "nowrap",
+                },
+                "& .company-logo": {
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: "50%",
+                },
+                "& .edit-icon": {
+                    position: "relative",
+                    top: "-2rem",
+                    left: "2rem",
+                    cursor: "pointer",
+                },
+                "@media screen and (min-width: 768px)": {
+                    flexDirection: "row",
+                    alignItems: "center",
+                    "& .edit-icon": {
+                        position: "relative",
+                        top: "unset",
+                        left: "-2rem",
+                    },
+                },
+                "@media screen and (min-width: 280px)": {
+                    "& .company-logo": {
+                        width: "150px",
+                        height: "150px"
+                    }
+                },
             },
-
             "& .payroll-plan": {
                 display: "flex",
                 justifyContent: "flex-end",
                 gap: "1rem",
                 alignItems: "center",
-
-                "& P": {
+                "& p": {
                     fontWeight: 500,
+                    marginBlock: 0,
+                },
+                "@media screen and (max-width: 600px)": {
+                    justifyContent: "space-between",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "calc(var(--flexGap)/4)",
+                    overflow: "hidden",
                 }
             },
             "& .small-select": {
@@ -122,22 +196,28 @@ export const EmployerProfileWrapper = styled("div")(() => {
                 fontSize: "14px",
                 padding: "4px 8px",
                 backgroundColor: "#D3D3D3",
-
+                "@media screen and (max-width: 600px)": {
+                    width: "100%"
+                }
             },
-
+            "@media screen and (max-width: 600px)": {
+                gap: "calc(var(--flexGap) / 2)",
+            }
         },
         "& .lower-section-company-details": {
-            marginTop: "2rem",
-            padding: "3rem",
+            padding: "2rem 0",
             display: "flex",
             flexDirection: "column",
             gap: "1.5rem",
-
-            "& Span": {
+            "& span": {
                 fontWeight: 500,
             },
+            "@media screen and (max-width: 1024px)": {
+                "& .cardRow": {
+                    gap: 0,
+                },
+            },
         },
-
     }
 });
 

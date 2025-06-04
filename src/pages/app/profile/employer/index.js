@@ -1,7 +1,7 @@
 import Cookies from "universal-cookie";
 import { Layout } from "../../../../containers/app/layout"
 import { EmployerProfileWrapper, ProfileRow } from "./styled"
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { getUser } from "../../../../utils/apis/user/getUser";
 import { H2, Label, P, Span } from "../../../../components/typography/styled";
 import { BaseFieldSet } from "../../../../components/form/fieldset/styled";
@@ -19,8 +19,13 @@ import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
 import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
-import { Row } from "../../../../components/flex/styled";
-import { ProfilePicture } from "../../../../assets";
+import { Column, Row } from "../../../../components/flex/styled";
+import defaultLogo from "../../../../assets/images/profilebasefavicon.svg";
+import defaultHeadshot from "../../../../assets/images/profilebasefavicon.svg";
+import { getAllPlans } from "../../../../utils/apis/plansandpricing/getAllPlans";
+import { EditIcon } from "../../../../assets";
+import { updateCompanyService } from "../../../../utils/apis/company/updateCompany";
+import { updateEmployerProfilePictureService } from "../../../../utils/apis/employer/updateEmployerProfilePicture";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
@@ -42,7 +47,7 @@ export const EmployerProfile = () => {
             jobInfo: {
                 jobPosition: "",
                 dateHired: "",
-                departmentName: null,
+                departmentName: "",
             },
             payrollSetup: {
                 annualGrossPay: "",
@@ -70,26 +75,121 @@ export const EmployerProfile = () => {
         []
     );
     const initialCompanyProfileFormDetails = useMemo(() => ({
-        companyName: "",
-        companyEmail: "",
-        companyPhone: "",
-        companyLogo: "",
+        name: "",
+        email: "",
+        phone: "",
+        companyLogo: null,
+        companyPayrollPlan: " ",
     }), []);
     const { setIsPaymentFormModalOpen } = useContext(Context);
+    const logoInputRef = useRef(null);
+    const headshotInputRef = useRef(null);
 
     const [employerProfile, setEmployerProfile] = useState(initialEmployeeProfileFormDetails);
     const [companyProfile, setCompanyProfile] = useState(initialCompanyProfileFormDetails);
     const [departments, setDepartments] = useState([]);
     const [matches, setMatches] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [isEmployerProfileSubmitLoading, setIsEmployerProfileSubmitLoading] = useState(false);
+    const [isCompanyProfileSubmitLoading, setIsCompanyProfileSubmitLoading] = useState(false);
+    const [employerProfileSubmitError, setEmployerProfileSubmitError] = useState(null);
+    const [companyProfileSubmitError, setCompanyProfileSubmitError] = useState(null);
+    const [employerProfilePictureUpdateError, setEmployerProfilePictureUpdateError] = useState(null);
+    const [isEmployerProfilePictureUpdateLoading, setIsEmployerProfilePictureUpdateLoading] = useState(false);
     const Navigate = useNavigate();
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [company, setCompany] = useState({});
     const [banks, setBanks] = useState([]);
     const [activeTab, setActiveTab] = useState("personal");
+    const [payrollPlans, setPayrollPlans] = useState([]);
+    const [creditInfo, setCreditInfo] = useState({
+        availableCredits: "",
+        creditCostPerEmployee: "",
+        creditNairaValue: "",
+    });
+    const [logoPreview, setLogoPreview] = useState(null);
+    const [headshotPreview, setHeadshotPreview] = useState(null);
+    const [profilePicture, setProfilePicture] = useState({
+        file: null,
+    });
 
-    useEffect(() => console.log(activeTab), [activeTab]);
+    useEffect(() => {
+        getAllPlans(TOKEN)
+            .then((data) => {
+                setPayrollPlans(data ?? []);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch payroll plans:", err);
+            });
+    }, [TOKEN]);
+
+    useEffect(() => {
+        getCompanyDetails(TOKEN, COMPANY_ID)
+            .then((res) => {
+                setCompanyProfile({
+                    name: res?.data?.name || "",
+                    email: res?.data?.email || "",
+                    phone: res?.data?.phone || "",
+                    companyLogo: res?.data?.companyLogoImageUrl || null,
+                    companyPayrollPlan: res?.data?.payrollPlan?.toLowerCase() || "",
+                });
+                setCreditInfo({
+                    availableCredits: res?.data?.creditBalance || "",
+                    creditCostPerEmployee: res?.data?.creditCostPerEmployee || "",
+                    creditNairaValue: res?.data?.creditNairaValue || "",
+                })
+            })
+            .catch((err) => {
+                console.error("Failed to fetch company profile:", err);
+            });
+    }, [TOKEN, COMPANY_ID]);
+
+    const handleLogoUploadClick = (e) => {
+        e.stopPropagation()
+        if (logoInputRef.current) {
+            logoInputRef.current.click();
+        }
+    };
+
+    const handleLogoFileChange = (event) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target?.result) {
+                    setLogoPreview(e.target.result);
+                    setCompanyProfile((prev) => ({
+                        ...prev,
+                        companyLogo: file
+                    }))
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleHeadshotUploadClick = (e) => {
+        e.stopPropagation()
+        if (headshotInputRef.current) {
+            headshotInputRef.current.click();
+        }
+    };
+
+    const handleHeadshotFileChange = (event) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target?.result) {
+                    setHeadshotPreview(e.target.result);
+                    setProfilePicture((prev) => ({
+                        ...prev,
+                        file
+                    }));
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     function formatDateForInput(dateString) {
         if (!dateString) return '';
@@ -134,9 +234,9 @@ export const EmployerProfile = () => {
                 const othername = nameParts[nameParts.length - 1] || '';
                 const firstName = nameParts.length > 2 ?
                     nameParts.slice(1, nameParts.length - 1).join(' ') : '';
-
                 // Map the API response to your state structure
                 const mappedData = {
+                    profilePicture: data.profilePictureUrl || null,
                     personalInfo: {
                         firstName: firstName,
                         surname: surname,
@@ -240,10 +340,38 @@ export const EmployerProfile = () => {
         setIsPaymentFormModalOpen(true);
     };
 
+    const handleEmployerProfilePictureUpdate = async (e) => {
+        e.preventDefault();
+        setIsEmployerProfilePictureUpdateLoading(true);
+        const formData = new FormData();
+        Object.entries(profilePicture).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        try {
+            const response = await updateEmployerProfilePictureService(
+                TOKEN,
+                COMPANY_ID,
+                formData,
+            );
+            if (response.status) {
+                setIsEmployerProfilePictureUpdateLoading(false);
+                setHeadshotPreview(null);
+            } else {
+                setIsEmployerProfilePictureUpdateLoading(false);
+                setEmployerProfilePictureUpdateError("Profile picture update failed. Please try again.");
+                console.error("Profile picture update failed. Please try again.");
+            }
+        } catch (error) {
+            setIsEmployerProfilePictureUpdateLoading(false);
+            setEmployerProfilePictureUpdateError(`Profile picture update failed. ${error.message}`);
+            console.error("Profile picture update failed:", error);
+        }
+    };
+
     const handleEmployerProfileSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
-        setIsLoading(true);
+        setEmployerProfileSubmitError(null);
+        setIsEmployerProfileSubmitLoading(true);
         const formattedFormDetails = {
             ...employerProfile,
             jobInfo: {
@@ -262,11 +390,11 @@ export const EmployerProfile = () => {
                 formattedFormDetails,
             );
             if (response.status) {
-                setIsLoading(false);
+                setIsEmployerProfileSubmitLoading(false);
                 setIsSuccessModalOpen(true);
             } else {
-                setIsLoading(false);
-                setError(
+                setIsEmployerProfileSubmitLoading(false);
+                setEmployerProfileSubmitError(
                     "Profile update failed. Please check your credentials and try again."
                 );
                 console.error(
@@ -274,11 +402,44 @@ export const EmployerProfile = () => {
                 );
             }
         } catch (error) {
-            setIsLoading(false);
-            setError(`Profile update failed. ${error.message}`);
+            setIsEmployerProfileSubmitLoading(false);
+            setEmployerProfileSubmitError(`Profile update failed. ${error.message}`);
             console.error("Profile update failed:", error);
         }
-    }
+    };
+
+    const handleCompanyProfileSubmit = async (e) => {
+        e.preventDefault();
+        setCompanyProfileSubmitError(null);
+        setIsCompanyProfileSubmitLoading(true);
+        const formData = new FormData();
+        Object.entries(companyProfile).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        try {
+            const response = await updateCompanyService(
+                TOKEN,
+                COMPANY_ID,
+                formData,
+            );
+            if (response.status) {
+                setIsCompanyProfileSubmitLoading(false);
+                setIsSuccessModalOpen(true);
+            } else {
+                setIsCompanyProfileSubmitLoading(false);
+                setCompanyProfileSubmitError(
+                    "Profile update failed. Please check your credentials and try again."
+                );
+                console.error(
+                    "Profile update failed. Please check your credentials and try again."
+                );
+            }
+        } catch (error) {
+            setIsCompanyProfileSubmitLoading(false);
+            setCompanyProfileSubmitError(`Profile update failed. ${error.message}`);
+            console.error("Profile update failed:", error);
+        }
+    };
 
     return (
         <Layout
@@ -294,7 +455,7 @@ export const EmployerProfile = () => {
                     handleClickOutside={handlePersistModal}
                     className={"employer-profile-deparrtment-success-modal"}
                     title={"Success"}
-                    message={"Employer profile has been successfully updated"}
+                    message={`${(activeTab === "company") ? "Company" : "Employer"} profile has been successfully updated`}
                     callToAction={"Close"}
                     handleCallToActionClick={handleCloseSuccessModal}
                 />
@@ -329,6 +490,65 @@ export const EmployerProfile = () => {
                         <div>
                             <H2>Personal Details</H2>
                             <P>Update user details</P>
+                        </div>
+                        <div
+                            className="employer-profile-image-area"
+                        >
+                            <Column
+                                torow
+                                className="employer-profile-image-action-area"
+                            >
+                                <div>
+                                    {headshotPreview ? (
+                                        <img
+                                            src={headshotPreview}
+                                            alt="Employer Headshot"
+                                            className="employer-headshot"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={employerProfile?.profilePicture || defaultHeadshot}
+                                            alt="Employer Headshot"
+                                            className="employer-headshot"
+                                        />
+                                    )}
+                                    <BaseInput
+                                        type="file"
+                                        name={"profilePicture"}
+                                        ref={headshotInputRef}
+                                        style={{ display: "none" }}
+                                        onChange={handleHeadshotFileChange}
+                                    />
+                                    <EditIcon
+                                        className="edit-icon"
+                                        onClick={(e) => handleHeadshotUploadClick(e)}
+                                    />
+                                </div>
+                                {headshotPreview && (
+                                    <div>
+                                        <BaseButton
+                                            type="button"
+                                            backgroundcolor={"#4E57BB"}
+                                            width={matches ? "-webkit-fill-available" : "fit-content"}
+                                            onClick={handleEmployerProfilePictureUpdate}
+                                        >
+                                            {isEmployerProfilePictureUpdateLoading ? (
+                                                <DotLoader
+                                                    size={20}
+                                                    color="white"
+                                                    className="dotLoader"
+                                                />
+                                            ) : (
+                                                <Span>Save Change</Span>
+                                            )}
+                                        </BaseButton>
+                                    </div>
+                                )}
+                            </Column>
+                            {employerProfilePictureUpdateError &&
+                                <P style={{ color: "red", marginBlockEnd: 0 }}>                 {employerProfilePictureUpdateError}
+                                </P>
+                            }
                         </div>
                         <form onSubmit={handleEmployerProfileSubmit}>
                             <BaseFieldSet>
@@ -662,14 +882,14 @@ export const EmployerProfile = () => {
                                 />
                             </BaseFieldSet>
                             <div
-                                className="submit-button-box"
+                                className="employer-profile-submit-button-box"
                             >
                                 <BaseButton
                                     type="submit"
                                     backgroundcolor={"#4E57BB"}
                                     width={matches ? "-webkit-fill-available" : "fit-content"}
                                 >
-                                    {isLoading ? (
+                                    {isEmployerProfileSubmitLoading ? (
                                         <DotLoader
                                             size={20}
                                             color="white"
@@ -680,7 +900,7 @@ export const EmployerProfile = () => {
                                     )}
                                 </BaseButton>
                             </div>
-                            {error && <P style={{ color: "red" }}>{error}</P>}
+                            {employerProfileSubmitError && <P style={{ color: "red" }}>{employerProfileSubmitError}</P>}
                         </form>
                     </Fragment>
                 )}
@@ -689,15 +909,57 @@ export const EmployerProfile = () => {
                         <div
                             className="upper-section-company-details"
                         >
+                            <Row className="payroll-plan">
+                                <P>Payroll Plan:</P>
+                                <BaseSelect
+                                    name="companyPayrollPlan"
+                                    className="small-select"
+                                    value={companyProfile.companyPayrollPlan}
+                                    onChange={(e) => handleCompanyProfileUpdate(e)}
+                                >
+                                    <option value="" hidden>Select a Plan</option>
+                                    {payrollPlans?.map((plan, index) => {
+                                        return (
+                                            <option key={index} value={plan?.title}>
+                                                {plan?.title}
+                                            </option>
+                                        );
+                                    })}
+                                </BaseSelect>
+                            </Row>
                             <form>
-                                <ProfilePicture/>
-                            
+                                <Fragment>
+                                    {logoPreview ? (
+                                        <img
+                                            src={logoPreview}
+                                            alt="Company Logo"
+                                            className="company-logo"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={companyProfile?.companyLogo || defaultLogo}
+                                            alt="Company Logo"
+                                            className="company-logo"
+                                        />
+                                    )}
+                                    <BaseInput
+                                        type="file"
+                                        name={"companyLogo"}
+                                        ref={logoInputRef}
+                                        style={{ display: "none" }}
+                                        onChange={handleLogoFileChange}
+                                    />
+                                    <EditIcon
+                                        className="edit-icon"
+                                        onClick={(e) => handleLogoUploadClick(e)}
+                                    />
+                                </Fragment>
                                 <BaseFieldSet>
                                     <Label>Company Name</Label>
                                     <BaseInput
                                         type="text"
-                                        name="companyName"
-                                        value={companyProfile.companyName}
+                                        name="name"
+                                        value={companyProfile.name}
                                         onChange={(e) => handleCompanyProfileUpdate(e)}
                                         required
                                     />
@@ -705,9 +967,9 @@ export const EmployerProfile = () => {
                                 <BaseFieldSet>
                                     <Label>Company Email</Label>
                                     <BaseInput
-                                        type="text"
-                                        name="companyEmail"
-                                        value={companyProfile.companyEmail}
+                                        type="email"
+                                        name="email"
+                                        value={companyProfile.email}
                                         onChange={(e) => handleCompanyProfileUpdate(e)}
                                         required
                                     />
@@ -716,52 +978,65 @@ export const EmployerProfile = () => {
                                     <Label>Company Phone</Label>
                                     <BaseInput
                                         type="text"
-                                        name="companyPhone"
-                                        value={companyProfile.companyPhone}
+                                        name="phone"
+                                        value={companyProfile.phone}
                                         onChange={(e) => handleCompanyProfileUpdate(e)}
                                         required
                                     />
                                 </BaseFieldSet>
                             </form>
-
-                            <Row className="payroll-plan">
-                                <P>Payroll Plan:</P>
-                                <BaseSelect className="small-select">
-                                    <option value="" hidden>
-                                        enterprise
-                                    </option>
-                                </BaseSelect>
+                            <Row>
+                                <div
+                                    className="company-profile-submit-button-box"
+                                >
+                                    <BaseButton
+                                        type="button"
+                                        backgroundcolor={"#4E57BB"}
+                                        width={matches ? "-webkit-fill-available" : "fit-content"}
+                                        onClick={handleCompanyProfileSubmit}
+                                    >
+                                        {isCompanyProfileSubmitLoading ? (
+                                            <DotLoader
+                                                size={20}
+                                                color="white"
+                                                className="dotLoader"
+                                            />
+                                        ) : (
+                                            <Span>Submit</Span>
+                                        )}
+                                    </BaseButton>
+                                </div>
+                                {companyProfileSubmitError && <P style={{ color: "red" }}>{companyProfileSubmitError}</P>}
                             </Row>
-
                         </div>
                         <div
                             className="lower-section-company-details"
                         >
                             <H2>Credit Information</H2>
-
                             <Row
+                                tocolumn
                                 className="cardRow"
                                 justifycontent={"space-between"}
                             >
                                 <Span>Available Credits</Span>
-                                <Span>98 credits</Span>
+                                <Span>{creditInfo.availableCredits} credits</Span>
                             </Row>
                             <Row
+                                tocolumn
                                 className="cardRow"
                                 justifycontent={"space-between"}
                             >
                                 <Span>Credit Cost per Employee</Span>
-                                <Span>5 credits</Span>
+                                <Span>{creditInfo.creditCostPerEmployee} credits</Span>
                             </Row>
                             <Row
+                                tocolumn
                                 className="cardRow"
                                 justifycontent={"space-between"}
                             >
                                 <Span>Credit Naira Value</Span>
-                                <Span>1,470</Span>
+                                <Span>{creditInfo?.creditNairaValue?.toLocaleString()}</Span>
                             </Row>
-
-
                         </div>
                     </Fragment>
                 )}
