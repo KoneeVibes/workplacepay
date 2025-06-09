@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Table } from "../../../../components/table"
-import { H3 } from "../../../../components/typography/styled"
+import { H3, Th } from "../../../../components/typography/styled"
 import { Layout } from "../../../../containers/app/layout"
 import { BillingWrapper } from "./styled"
 import { retrieveAllBilling } from "../../../../utils/apis/billing/retrieveAllBilling"
@@ -80,6 +80,22 @@ export const Billing = () => {
                         </BaseFieldSet>
                     </div>
                 </Row>
+                <div className="billing-summary">
+                    <table>
+                    <thead>
+                        <tr>
+                            <Th>Total Billing</Th>
+                            <Th>Total Credit Utilized</Th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10000</td>
+                            <td>10000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
                 <div className="billing-table">
                     <Table
                         columnTitles={[

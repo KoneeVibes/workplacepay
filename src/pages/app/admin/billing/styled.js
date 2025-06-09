@@ -80,6 +80,18 @@ export const BillingWrapper = styled("div")(() => {
             "& .filter": {
                 width: "100%"
             }
-        }
+        },
+
+        "& .billing-summary": {
+             overflow: "auto",
+             display: "flex",
+             justifyContent: "flex-end",
+             "& th":{
+                 width: "50%",
+                textAlign: "center",
+                fontSize: "20px",
+                padding: "10px", 
+             }
+        },
     }
 });
