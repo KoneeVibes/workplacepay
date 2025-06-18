@@ -9,7 +9,7 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { Column } from "../../../../components/flex/styled";
 
-export const ManageEmployeePayslipModal = ({ activePayslipId, payroll, setPayroll, height, width, variables }) => {
+export const ManageEmployeePayslipModal = ({ activeEmployeeId, employees, setEmployees, height, width, variables }) => {
     const { isManageEmployeeModalOpen, setIsManageEmployeeModalOpen } = useContext(Context);
 
     const [matches, setMatches] = useState(false);
@@ -46,49 +46,54 @@ export const ManageEmployeePayslipModal = ({ activePayslipId, payroll, setPayrol
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // to dismiss any entry that is not a number
-        // from populating the amount field
-        if (name === "amount" && isNaN(value)) {
-            return;
-        };
-        setFormDetails((prev) => {
-            let updatedAmount = "";
-            if (name === "variable" && value.trim()) {
-                const foundPayslip = payroll.find(p => p.payslipId === activePayslipId);
-                if (foundPayslip) {
-                    const foundVariable = foundPayslip.payrollVariables.find(v => v.setupVariableId === Number(value));
-                    if (foundVariable) {
-                        updatedAmount = foundVariable.value || "0";
-                    };
-                };
-            };
-            return {
-                ...prev,
-                [name]: value,
-                ...(name === "variable" ? { amount: updatedAmount } : {}),
-            };
-        });
+        if (name === "amount" && isNaN(value)) return;
+
+        setFormDetails((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
-    const handlePayslipUpdate = (e) => {
+    const handleEmployeeUpdate = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setPayroll(prevPayslips =>
-            prevPayslips.map(payslip => {
-                if (payslip.payslipId === activePayslipId) {
-                    const updatedVariables = payslip.payrollVariables.map(variable => {
-                        if ((Number(variable.setupVariableId) === Number(formDetails.variable))) {
-                            return { ...variable, value: parseFloat(formDetails.amount) };
-                        };
-                        return variable;
+
+        const variableName = formDetails.variable.trim();
+        const amount = formDetails.amount.trim() || "0";
+
+        if (!variableName) return;
+
+        setEmployees((prevEmployees) =>
+            prevEmployees.map((emp) => {
+                const isActive = emp.employeeId === activeEmployeeId;
+                const payrollVariables = Array.isArray(emp.payrollVariables) ? [...emp.payrollVariables] : [];
+
+                const existingVarIndex = payrollVariables.findIndex(
+                    (v) => v.name === variableName
+                );
+
+                if (existingVarIndex !== -1) {
+                    if (isActive) {
+                        payrollVariables[existingVarIndex].value = amount;
+                    }
+                } else {
+                    payrollVariables.push({
+                        name: variableName,
+                        value: isActive ? amount : "0",
                     });
-                    return { ...payslip, payrollVariables: updatedVariables };
+                }
+                return {
+                    ...emp,
+                    payrollVariables,
                 };
-                return payslip;
             })
         );
-        return setIsManageEmployeeModalOpen(false);
+        setFormDetails({ variable: "", amount: "" });
+        setIsManageEmployeeModalOpen(false);
     };
+
+    const capitalizeWords = (str) =>
+        str.replace(/\b\w/g, (char) => char.toUpperCase());
 
     return (
         <BaseModal
@@ -99,7 +104,7 @@ export const ManageEmployeePayslipModal = ({ activePayslipId, payroll, setPayrol
             width={matches ? "auto" : width || "50%"}
         >
             <ManageEmployeePayslipModalWrapper
-                onSubmit={handlePayslipUpdate}
+                onSubmit={handleEmployeeUpdate}
             >
                 <div
                     className="close-modal-button-area"
@@ -130,7 +135,7 @@ export const ManageEmployeePayslipModal = ({ activePayslipId, payroll, setPayrol
                             {variables?.map((variable, index) => (
                                 <option
                                     key={index}
-                                    value={variable.setupVariableId}
+                                    value={capitalizeWords(variable.name)}
                                 >
                                     {variable.name}
                                 </option>

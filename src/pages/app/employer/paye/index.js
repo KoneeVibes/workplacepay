@@ -19,7 +19,7 @@ import { DotLoader } from "react-spinners";
 
 export const Paye = () => {
   const startDate = 2020;
-  const endDate = 2025;
+  const endDate = new Date().getFullYear();
 
   const currentDate = new Date();
   const cookies = new Cookies();

@@ -15,7 +15,7 @@ import { Context } from "../../../../context";
 
 export const Summary = () => {
     const startDate = 2020;
-    const endDate = 2025;
+    const endDate = new Date().getFullYear();
 
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");

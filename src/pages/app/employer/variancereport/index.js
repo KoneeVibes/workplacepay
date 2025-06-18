@@ -19,7 +19,7 @@ import { downloadVarianceReport } from "../../../../utils/apis/report/downloadVa
 
 export const Variance = () => {
   const startDate = 2020;
-  const endDate = 2025;
+  const endDate = new Date().getFullYear();
 
   const currentDate = new Date();
   const cookies = new Cookies();

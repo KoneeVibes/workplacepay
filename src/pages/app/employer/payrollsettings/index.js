@@ -102,6 +102,7 @@ export const PayrollSettings = () => {
           isChecked: false
         },
       ],
+      payeResponsibility: "Employer"
     }),
     []
   );
@@ -137,11 +138,11 @@ export const PayrollSettings = () => {
             // Otherwise, keep the initial variable as is
             return initialVariable;
           });
-
           setFormDetails((prev) => ({
             ...prev,
             payrollSetupId: data?.payrollSetupId ?? initialFormDetails.payrollSetupId,
-            payrollVariables: mergedPayrollVariables
+            payrollVariables: mergedPayrollVariables,
+            payeResponsibility: data?.payeResponsibility ?? initialFormDetails.payeResponsibility
           }));
         } else {
           // If no variables are returned from the API, use the initial variables
@@ -169,7 +170,12 @@ export const PayrollSettings = () => {
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
-    if (type === "checkbox") {
+    if (name === "payeResponsibility") {
+      setFormDetails((prev) => ({
+        ...prev,
+        [name]: value
+      }))
+    } else if (type === "checkbox") {
       handleCheckboxChange(e);
     } else {
       setFormDetails((prev) => ({
@@ -193,7 +199,8 @@ export const PayrollSettings = () => {
         // Filter out items where isChecked is false
         .filter(variable => variable.isChecked)
         // Remove isChecked field from each remaining item
-        .map(({ isChecked, ...rest }) => rest)
+        .map(({ isChecked, ...rest }) => rest),
+      payeResponsibility: formDetails.payeResponsibility
     };
     try {
       const response = await setupPayrollService(TOKEN, formattedFormDetails, COMPANY_ID);
@@ -419,7 +426,7 @@ export const PayrollSettings = () => {
             />
           </BaseFlex>
           <BaseFlex className="field-row" justifycontent={"space-between"}>
-            <Label htmlFor="other deductions">Others</Label>
+            <Label htmlFor="other deductions">Other Deductions</Label>
             <BaseInput
               id="other deductions"
               type="checkbox"
@@ -429,6 +436,29 @@ export const PayrollSettings = () => {
                 formDetails.payrollVariables.find((variable) => variable.name === "other deductions")?.isChecked || ""
               }
             />
+          </BaseFlex>
+          <H3>PAYE Responsibility</H3>
+          <BaseFlex className="field-row">
+            <Label style={{ flex: "unset", cursor: "pointer" }}>
+              Employer
+              <BaseInput
+                type="radio"
+                name="payeResponsibility"
+                value={"Employer"}
+                checked={formDetails.payeResponsibility === "Employer"}
+                onChange={handleChange}
+              />
+            </Label>
+            <Label style={{ flex: "unset", cursor: "pointer" }}>
+              Employee
+              <BaseInput
+                type="radio"
+                name="payeResponsibility"
+                value={"Employee"}
+                checked={formDetails.payeResponsibility === "Employee"}
+                onChange={handleChange}
+              />
+            </Label>
           </BaseFlex>
           <BaseButton
             type="submit"
@@ -449,6 +479,6 @@ export const PayrollSettings = () => {
           {error && <P style={{ color: 'red' }}>{error}</P>}
         </form>
       </PayrollSettingsWrapper>
-    </Layout>
+    </Layout >
   );
 };

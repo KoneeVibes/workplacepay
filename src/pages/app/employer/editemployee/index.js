@@ -51,6 +51,7 @@ export const EditEmployee = () => {
         pensionFirmName: "",
         pensionAccount: "",
         taxNumber: "",
+        optInForPension: true,
       },
       nextofKinInfo: {
         title: "",
@@ -135,6 +136,7 @@ export const EditEmployee = () => {
               data.payrollSetupInformation?.pensionFirmName || "",
             pensionAccount: data.payrollSetupInformation?.pensionAccount || "",
             taxNumber: data.payrollSetupInformation?.taxNumber || "",
+            optInForPension: data.payrollSetupInformation?.optInForPension ?? true,
           },
           nextofKinInfo: {
             title: data.nextOfKinInformation?.title || "",
@@ -204,12 +206,12 @@ export const EditEmployee = () => {
   }, [REACT_APP_PAYSTACK_SK]);
 
   const handleChange = (e, section) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setEmployee((prev) => ({
       ...prev,
       [section]: {
         ...prev[section],
-        [name]: value,
+        [name]: type === "checkbox" ? checked : value,
       },
     }));
   };
@@ -444,6 +446,25 @@ export const EditEmployee = () => {
                   />
                 </BaseFieldSet>
                 <H2>Payroll Setup</H2>
+                <Column
+                  className="switch-column"
+                >
+                  <Label>Opt In For Pension</Label>
+                  <BaseFieldSet
+                    style={{ flex: "unset" }}
+                  >
+                    <Label className="switch">
+                      <BaseInput
+                        type="checkbox"
+                        className="pension-check"
+                        name="optInForPension"
+                        onChange={(e) => handleChange(e, "payrollSetup")}
+                        checked={employee.payrollSetup.optInForPension}
+                      />
+                      <Span className="slider round"></Span>
+                    </Label>
+                  </BaseFieldSet>
+                </Column>
                 <EditEmployeeRow>
                   <BaseFieldSet>
                     <Label>Annual Gross Pay</Label>

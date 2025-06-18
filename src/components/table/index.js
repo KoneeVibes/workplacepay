@@ -104,8 +104,7 @@ export const Table = ({
               {location === "Payroll Table" && (
                 <Fragment>
                   <Td>{capitalizeWords(rowItem?.fullName) || ""}</Td>
-                  <Td>{capitalizeWords(rowItem?.department) || ""}</Td>
-                  <Td>{rowItem?.monthlySalary?.toLocaleString() || ""}</Td>
+                  <Td>{capitalizeWords(rowItem?.jobInformation?.department) || ""}</Td>
                   <Td>
                     <BaseInput
                       type="checkbox"
@@ -114,14 +113,27 @@ export const Table = ({
                         width: "auto",
                         flexShrink: 0,
                       }}
-                      onChange={(e) => handleChange(e, rowItem?.employeeId)}
+                      onChange={(e) => handleChange(e, rowItem?.employeeId, "exemption")}
                     />
                   </Td>
+                  <Td>
+                    <BaseInput
+                      type="number"
+                      min={0}
+                      max={31}
+                      defaultValue={0}
+                      style={{ padding: 0, width: "50px" }}
+                      onChange={(e) => handleChange(e, rowItem?.employeeId, "prorate")}
+                    />
+                  </Td>
+                  {rowItem?.monthlySalary && (
+                    <Td>{rowItem?.monthlySalary?.toLocaleString() || ""}</Td>
+                  )}
                   {rowItem?.payrollVariables?.map((variable, index) => (
                     <Td key={index}>{variable?.value?.toLocaleString()}</Td>
                   ))}
                   <Td
-                    onClick={(e) => handleRowItemClick(e, rowItem?.payslipId)}
+                    onClick={(e) => handleRowItemClick(e, rowItem?.employeeId)}
                   >
                     Manage Employee
                   </Td>

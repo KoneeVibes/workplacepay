@@ -133,13 +133,17 @@ export const PayrollWrapper = styled("div")(() => {
                 borderRadius: "unset"
             }
         },
-        "& .save-payroll-button-container": {
+        "& .payroll-cta-box": {
             padding: "0 calc(var(--cardPadding))",
-            marginBlockEnd: "calc(var(--cardPadding)/2)",
-            display: "flex",
+            marginBlockEnd: "calc(var(--cardPadding))",
             justifyContent: "flex-end",
-            "& .save-payroll-button-box": {
+            gap: "calc(var(--flexGap)/2)",
+            "& .payroll-cta": {
                 overflow: "hidden",
+            },
+            "@media screen and (max-width: 425px)": {
+                flexDirection: "column",
+                justifyContent: "space-between",
             }
         },
         "& .error-box": {

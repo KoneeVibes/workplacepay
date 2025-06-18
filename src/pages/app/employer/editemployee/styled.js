@@ -59,6 +59,63 @@ export const EditEmployeeWrapper = styled("div")(() => {
       borderRadius: "1rem",
       boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
     },
+    "& .switch-column": {
+      gap: "calc(var(--flexGap)/3)",
+      "& .switch": {
+        position: "relative",
+        display: "inline-block",
+        width: "60px",
+        height: "34px",
+      },
+      "& .pension-check": {
+        opacity: 0,
+        width: 0,
+        height: 0,
+      },
+      "& .slider": {
+        position: "absolute",
+        cursor: "pointer",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "#CCCCCC",
+        transition: ".4s",
+      },
+      "& .slider::before": {
+        position: "absolute",
+        content: '""',
+        height: "26px",
+        width: "26px",
+        left: "4px",
+        bottom: "4px",
+        backgroundColor: "white",
+        transition: ".4s",
+      },
+      "& .pension-check:checked + .slider": {
+        backgroundColor: "#4E57BB"
+      },
+      "& .pension-check:focus + .slider": {
+        boxShadow: "0 0 1px #4E57BB"
+      },
+      "& .pension-check:checked + .slider:before": {
+        transform: "translateX(26px)",
+      },
+      "& .slider.round": {
+        borderRadius: "34px"
+      },
+      "& .slider.round::before": {
+        borderRadius: "50%",
+      },
+    },
+    "@media screen and (min-width: 425px)": {
+      "& .switch-column": {
+        gap: "calc(var(--flexGap))",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }
+    },
     "@media screen and (min-width: 768px)": {
       "& .submit-column": {
         flexDirection: "row",

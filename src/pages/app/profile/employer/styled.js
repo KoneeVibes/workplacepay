@@ -76,16 +76,16 @@ export const EmployerProfileWrapper = styled("div")(() => {
             "& .employer-profile-image-action-area": {
                 alignItems: "center",
                 overflow: "hidden",
+                "& .edit-icon": {
+                    position: "relative",
+                    top: "-3.5rem",
+                    left: "-1rem",
+                    cursor: "pointer",
+                },
                 "@media screen and (min-width: 768px)": {
                     flexDirection: "row"
                 }
             },
-        },
-        "& .edit-icon": {
-            position: "relative",
-            top: "-3.5rem",
-            left: "-1rem",
-            cursor: "pointer",
         },
         "& .tab-area": {
             position: "absolute",

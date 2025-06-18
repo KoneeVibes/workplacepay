@@ -100,6 +100,7 @@ export const SetUpYourCompany = () => {
                                     First Name
                                 </Label>
                                 <BaseInput
+                                    required
                                     name="firstName"
                                     placeholder="Enter First Name"
                                     value={formDetails.firstName}
@@ -111,11 +112,11 @@ export const SetUpYourCompany = () => {
                                     Last Name
                                 </Label>
                                 <BaseInput
+                                    required
                                     name="surname"
                                     placeholder="Enter Last Name"
                                     value={formDetails.lastName}
                                     onChange={(e) => handleChange(e)}
-
                                 />
                             </BaseFieldSet>
                             <BaseFieldSet>
@@ -127,7 +128,6 @@ export const SetUpYourCompany = () => {
                                     placeholder="Enter Other Name"
                                     value={formDetails.othername}
                                     onChange={(e) => handleChange(e)}
-
                                 />
                             </BaseFieldSet>
                         </FieldSetRow>
@@ -137,6 +137,7 @@ export const SetUpYourCompany = () => {
                                     Company Name
                                 </Label>
                                 <BaseInput
+                                    required
                                     name="companyName"
                                     placeholder="Enter Company Name"
                                     value={formDetails.companyName}
@@ -148,6 +149,7 @@ export const SetUpYourCompany = () => {
                                     Phone Number
                                 </Label>
                                 <BaseInput
+                                    required
                                     name="companyPhone"
                                     placeholder="Enter Company Phone Number"
                                     value={formDetails.companyPhone}
@@ -161,6 +163,7 @@ export const SetUpYourCompany = () => {
                                     Company Email
                                 </Label>
                                 <BaseInput
+                                    required
                                     type="email"
                                     name="companyEmail"
                                     placeholder="Enter Company Email"
