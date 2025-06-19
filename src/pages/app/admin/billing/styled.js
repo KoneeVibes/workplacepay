@@ -73,25 +73,52 @@ export const BillingWrapper = styled("div")(() => {
                 },
             },
         },
+        "& .billing-summary": {
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "flex-end",
+            margin: "0 var(--cardPadding) var(--cardPadding)",
+            "& th": {
+                width: "50%",
+                textAlign: "center",
+                fontSize: "20px",
+                padding: "10px",
+            }
+        },
+        "& .billing-summary-table": {
+            borderCollapse: "collapse",
+            "& th": {
+                textAlign: "left",
+                textTransform: "capitalize",
+                padding: "calc(var(--cardPadding)/3)",
+                border: "1px solid #000000",
+                minWidth: "150px",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: "#FFFFFF",
+                userSelect: "none",
+            },
+            "& td": {
+                textAlign: "left",
+                border: "1px solid #000000",
+                padding: "calc(var(--cardPadding)/3)",
+                minWidth: "150px",
+                color: "#222222",
+            },
+        },
         "@media screen and (max-width: 768px)": {
             "& fieldset": {
                 flex: 1,
             },
             "& .filter": {
                 width: "100%"
-            }
-        },
-
-        "& .billing-summary": {
-             overflow: "auto",
-             display: "flex",
-             justifyContent: "flex-end",
-             "& th":{
-                 width: "50%",
-                textAlign: "center",
-                fontSize: "20px",
-                padding: "10px", 
-             }
+            },
+            "& .billing-summary": {
+                justifyContent: "flex-start",
+                "& .billing-summary-table": {
+                    width: "100%",
+                }
+            },
         },
     }
 });
