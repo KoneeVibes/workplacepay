@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Table } from "../../../../components/table"
-import { H3 } from "../../../../components/typography/styled"
+import { H3, Th } from "../../../../components/typography/styled"
 import { Layout } from "../../../../containers/app/layout"
 import { BillingWrapper } from "./styled"
 import { retrieveAllBilling } from "../../../../utils/apis/billing/retrieveAllBilling"
@@ -14,7 +14,11 @@ export const Billing = () => {
     const cookies = new Cookies();
     const TOKEN = cookies.get("TOKEN");
 
-    const [billings, setBillings] = useState([]);
+    const [billings, setBillings] = useState({
+        creditPurchases: [],
+        totalCreditAmount: 0,
+        totalCreditCost: 0,
+    });
     const [filter, setFilter] = useState({
         value: "all time",
         companyName: "",
@@ -24,7 +28,7 @@ export const Billing = () => {
     useEffect(() => {
         retrieveAllBilling(TOKEN, filter)
             .then((data) => {
-                setBillings(data?.creditPurchases ?? []);
+                setBillings(data);
             })
             .catch((err) => {
                 console.error("Failed to fetch billings:", err);
@@ -80,6 +84,24 @@ export const Billing = () => {
                         </BaseFieldSet>
                     </div>
                 </Row>
+                <div className="billing-summary">
+                    <table
+                        className="billing-summary-table"
+                    >
+                        <thead>
+                            <tr>
+                                <Th>Total Credit Purchased</Th>
+                                <Th>Total Credit Amount</Th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{billings?.totalCreditAmount.toLocaleString() ?? 0}</td>
+                                <td>{billings?.totalCreditCost.toLocaleString() ?? 0}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div className="billing-table">
                     <Table
                         columnTitles={[
@@ -91,7 +113,7 @@ export const Billing = () => {
                             "Date Completed",
                             "Plan",
                         ]}
-                        rowItems={billings}
+                        rowItems={billings?.creditPurchases ?? []}
                         location={"Billing Table"}
                     />
                 </div>
