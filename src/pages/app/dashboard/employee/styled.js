@@ -70,6 +70,7 @@ export const EmployeeDashboardWrapper = styled("div")(() => {
       backgroundColor: "#FFFFFF",
       borderRadius: "1rem",
       boxShadow: "0px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+      zIndex: 10,
       "@media screen and (max-width: 768px)": {
         top: "0",
         bottom: "0",

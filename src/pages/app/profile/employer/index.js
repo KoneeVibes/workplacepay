@@ -26,6 +26,7 @@ import { getAllPlans } from "../../../../utils/apis/plansandpricing/getAllPlans"
 import { EditIcon } from "../../../../assets";
 import { updateCompanyService } from "../../../../utils/apis/company/updateCompany";
 import { updateEmployerProfilePictureService } from "../../../../utils/apis/employer/updateEmployerProfilePicture";
+import { manageCompanyPlanService } from "../../../../utils/apis/company/manageCompanyPlan";
 
 export const EmployerProfile = () => {
     const cookies = new Cookies();
@@ -417,12 +418,13 @@ export const EmployerProfile = () => {
             formData.append(key, value);
         });
         try {
-            const response = await updateCompanyService(
+            const companyUpdateResponse = await updateCompanyService(
                 TOKEN,
                 COMPANY_ID,
                 formData,
             );
-            if (response.status) {
+            const planUpdateResponse = await manageCompanyPlanService(TOKEN, COMPANY_ID, { title: companyProfile.companyPayrollPlan });
+            if (companyUpdateResponse.status && planUpdateResponse.status) {
                 setIsCompanyProfileSubmitLoading(false);
                 setIsSuccessModalOpen(true);
             } else {

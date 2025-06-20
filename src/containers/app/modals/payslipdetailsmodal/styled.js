@@ -51,11 +51,7 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
             },
             "@media screen and (max-width: 766px)": {
                 "& .button-div": {
-                    display: "block",
-                    marginLeft: "auto",
-                    "& .button": {
-                        display: "block",
-                    }
+                    display: "none",
                 }
             }
         },

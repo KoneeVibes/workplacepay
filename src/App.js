@@ -29,6 +29,7 @@ import { Referral } from "./pages/app/admin/referral";
 import { Companies } from "./pages/app/admin/companies";
 import { Pricing } from "./pages/app/admin/pricing";
 import { Billing } from "./pages/app/admin/billing";
+import { RouteProtector } from "./routeprotector";
 
 function App() {
   return (
@@ -40,29 +41,31 @@ function App() {
         <Route path="/refer" element={<ReferYourEmployer />} />
         <Route path="/setup" element={<SetUpYourCompany />} />
         <Route path="/login" element={<Auth />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/payrollsettings" element={<PayrollSettings />} />
-        <Route path="/payroll" element={<Payroll />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/addnewemployee" element={<AddNewEmployee />} />
-        <Route path="/employees/:id" element={<EditEmployee />} />
-        <Route path="/departments" element={<Department />} />
-        <Route path="/adddepartment" element={<AddDepartment />} />
-        <Route path="/departments/:id" element={<EditDepartment />} />
-        <Route path="/passwordreset" element={<PasswordResetArea />} />
-        <Route path="/reportsummary/variance" element={<Variance />} />
-        <Route path="/reportsummary/general" element={<GeneralReport />} />
-        <Route path="/reportsummary/paye" element={<Paye />} />
-        <Route path="/reportsummary/pension" element={<Pension />} />
-        <Route path="/reportsummary/summary" element={<Summary />} />
-        <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
-        <Route path="/admin/companies/:id" element={<CompanyDetails />} />
-        <Route path="/employee/profile" element={<EmployeeProfile />} />
-        <Route path="/employer/profile" element={<EmployerProfile />} />
-        <Route path="/admin/companies" element={<Companies />} />
-        <Route path="/admin/referral" element={<Referral />} />
-        <Route path="/admin/pricing" element={<Pricing />} />
-        <Route path="/admin/billing" element={<Billing />} />
+        <Route element={<RouteProtector />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/payrollsettings" element={<PayrollSettings />} />
+          <Route path="/payroll" element={<Payroll />} />
+          <Route path="/employees" element={<Employees />} />
+          <Route path="/addnewemployee" element={<AddNewEmployee />} />
+          <Route path="/employees/:id" element={<EditEmployee />} />
+          <Route path="/departments" element={<Department />} />
+          <Route path="/adddepartment" element={<AddDepartment />} />
+          <Route path="/departments/:id" element={<EditDepartment />} />
+          <Route path="/passwordreset" element={<PasswordResetArea />} />
+          <Route path="/reportsummary/variance" element={<Variance />} />
+          <Route path="/reportsummary/general" element={<GeneralReport />} />
+          <Route path="/reportsummary/paye" element={<Paye />} />
+          <Route path="/reportsummary/pension" element={<Pension />} />
+          <Route path="/reportsummary/summary" element={<Summary />} />
+          <Route path="/reportsummary/summary/:id" element={<UserSummary />} />
+          <Route path="/admin/companies/:id" element={<CompanyDetails />} />
+          <Route path="/employee/profile" element={<EmployeeProfile />} />
+          <Route path="/employer/profile" element={<EmployerProfile />} />
+          <Route path="/admin/companies" element={<Companies />} />
+          <Route path="/admin/referral" element={<Referral />} />
+          <Route path="/admin/pricing" element={<Pricing />} />
+          <Route path="/admin/billing" element={<Billing />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

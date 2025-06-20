@@ -29,7 +29,9 @@ export const Companies = () => {
 
   useEffect(() => {
     getAllCompanies(TOKEN, filter)
-      .then((data) => setCompanies(data))
+      .then((data) => {
+        setCompanies(data)
+      })
       .catch((err) => {
         console.error("Failed to fetch companies:", err);
       });
