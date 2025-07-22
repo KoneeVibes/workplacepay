@@ -7,10 +7,11 @@ import { EmployeeDashboard } from "./employee";
 import { AddEmployeeModal } from "../../../containers/app/modals/addemployeemodal";
 import { Fragment, useContext } from "react";
 import { Context } from "../../../context";
+import { getBulkEmployeeUploadTemplate } from "../../../utils/apis/employee/bulkUploadTemplate";
 
 export const Dashboard = () => {
   const cookie = new Cookies();
-  const { ROLE } = cookie.getAll() ?? {};
+  const { ROLE, TOKEN } = cookie.getAll() ?? {};
 
   const navigate = useNavigate();
   const { setIsAddEmployeeModalOpen, setIsEmployeeBulkUploadModalOpen } = useContext(Context);
@@ -25,24 +26,38 @@ export const Dashboard = () => {
     setIsAddEmployeeModalOpen(true);
   };
 
-  const handleUploadActionItemClick = (e, action) => {
+  const handleDownloadBulkEmployeeTemplate = async () => {
+    try {
+      const blob = await getBulkEmployeeUploadTemplate(TOKEN);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'employee-upload-template.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download template:", error);
+    }
+  };
+
+  const handleUploadActionItemClick = async (e, action) => {
     e.stopPropagation();
     switch (action) {
       case "single-employee-upload":
         navigateToAddNewEmployee(e);
         break;
       case "bulk-upload":
-        setIsAddEmployeeModalOpen(false);
         setIsEmployeeBulkUploadModalOpen(true);
         break;
       case "download-template":
-        // window.open(
-        //   "https://res.cloudinary.com/dqj8v4x2h/raw/upload/v1698236485/Employee_Upload_Template"
-        // );
+        await handleDownloadBulkEmployeeTemplate();
         break;
       default:
         return;
     };
+    setIsAddEmployeeModalOpen(false);
   };
 
   return (

@@ -21,7 +21,6 @@ export const EmployeeDashboard = () => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
 
   const { isPayslipDetailsModalOpen, setIsPayslipDetailsModalOpen } =
@@ -30,18 +29,28 @@ export const EmployeeDashboard = () => {
   const [payslips, setPayslips] = useState([]);
   const [selectedPayslipId, setSelectedPayslipId] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState({});
+  const [filter, setFilter] = useState({
+    month: 0,
+    year: currentYear,
+  });
 
   useEffect(() => {
     const fetchPayslips = async () => {
       try {
         const res = await getEmployeePayslips(TOKEN);
-        return setPayslips(res?.data);
+        let filteredPayslips = res?.data || [];
+        filteredPayslips = filteredPayslips.filter((payslip) => {
+          const matchMonth = filter.month ? payslip.month === Number(filter.month) : true;
+          const matchYear = filter.year ? payslip.year === Number(filter.year) : true;
+          return matchMonth && matchYear;
+        });
+        setPayslips(filteredPayslips);
       } catch (err) {
         console.error("Failed to fetch employee payslips:", err);
       }
     };
     fetchPayslips();
-  }, [TOKEN]);
+  }, [TOKEN, filter]);
 
   useEffect(() => {
     getUser(TOKEN)
@@ -53,16 +62,11 @@ export const EmployeeDashboard = () => {
       })
   }, [TOKEN])
 
-  const [filter, setFilter] = useState({
-    month: currentMonth,
-    year: currentYear,
-  });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: Number(value),
     }));
   };
 
@@ -87,6 +91,7 @@ export const EmployeeDashboard = () => {
             onChange={(e) => handleChange(e, "payroll")}
             value={filter.month}
           >
+            <option value={0}>Select Month</option>
             {months.map((month, index) => {
               return (
                 <option

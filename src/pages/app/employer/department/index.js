@@ -11,6 +11,7 @@ import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { DepartmentBulkUploadModal } from "../../../../containers/app/modals/departmentbulkuploadmodal";
 import { AddDepartmentModal } from "../../../../containers/app/modals/adddepartmentmodal";
 import { Context } from "../../../../context";
+import { getBulkDepartmentUploadTemplate } from "../../../../utils/apis/department/bulkUploadTemplate";
 
 export const Department = () => {
   const cookies = new Cookies();
@@ -121,24 +122,38 @@ export const Department = () => {
     return setActiveDepartmentId(null);
   };
 
-  const handleUploadActionItemClick = (e, action) => {
+  const handleDownloadBulkDepartmentTemplate = async () => {
+    try {
+      const blob = await getBulkDepartmentUploadTemplate(TOKEN);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'department-upload-template.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download template:", error);
+    }
+  };
+
+  const handleUploadActionItemClick = async (e, action) => {
     e.stopPropagation();
     switch (action) {
       case "single-department-upload":
         navigateToAddNewDepartment(e);
         break;
       case "bulk-upload":
-        setIsAddDepartmentModalOpen(false);
         setIsDepartmentBulkUploadModalOpen(true);
         break;
       case "download-template":
-        // window.open(
-        //   "https://res.cloudinary.com/dqj8v4x2h/raw/upload/v1698236485/Employee_Upload_Template"
-        // );
+        await handleDownloadBulkDepartmentTemplate();
         break;
       default:
         return;
     };
+    setIsAddDepartmentModalOpen(false);
   };
 
   return (
