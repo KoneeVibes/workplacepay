@@ -32,7 +32,7 @@ export const Dashboard = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'employee-upload-template.csv';
+      link.download = 'employee-upload-template.xlsx';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

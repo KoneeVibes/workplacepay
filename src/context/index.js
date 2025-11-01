@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import Cookies from "universal-cookie";
 
 export const Context = createContext();
 
@@ -18,6 +19,10 @@ export const ContextProvider = ({ children }) => {
     const [isDepartmentBulkUploadModalOpen, setIsDepartmentBulkUploadModalOpen] = useState(false);
     const [isManageEmployeeModalOpen, setIsManageEmployeeModalOpen] = useState(false);
     const [isEditPlanModalOpen, setIsEditPlanModalOpen] = useState(false);
+      const [activeCompanyId, setActiveCompanyId] = useState(() => {
+    const cookie = new Cookies();
+    return cookie.get("COMPANY_ID") || null;
+  });
 
     return (
         <Context.Provider value={{
@@ -50,7 +55,8 @@ export const ContextProvider = ({ children }) => {
             isManageEmployeeModalOpen,
             setIsManageEmployeeModalOpen,
             isEditPlanModalOpen,
-            setIsEditPlanModalOpen
+            setIsEditPlanModalOpen,
+            activeCompanyId, setActiveCompanyId
         }}>
             {children}
         </Context.Provider>

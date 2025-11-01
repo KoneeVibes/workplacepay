@@ -127,7 +127,7 @@ export const PayslipDetailsModal = ({ height, width, payslipId }) => {
                                     <Span>Pension ID</Span>
                                 </div>
                                 <div>
-                                    <Span className="span">135TL</Span>
+                                    <Span className="span">{payslipDetail.pensionId}</Span>
                                 </div>
                             </Row>
                         </Card>

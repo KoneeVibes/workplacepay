@@ -18,6 +18,7 @@ import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { EmployeeBulkUploadModal } from "../../../../containers/app/modals/employeebulkuploadmodal";
 import { getDashboard } from "../../../../utils/apis/dashboard/getDashboard";
 
+
 export const EmployerDashboard = ({ addEmployeeModal }) => {
   const cookies = new Cookies();
   const TOKEN = cookies.get("TOKEN");

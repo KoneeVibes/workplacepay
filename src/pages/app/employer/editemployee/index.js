@@ -50,6 +50,7 @@ export const EditEmployee = () => {
         salaryBankAccount: "",
         pensionFirmName: "",
         pensionAccount: "",
+        pensionId: "",
         taxNumber: "",
         optInForPension: true,
       },
@@ -135,6 +136,7 @@ export const EditEmployee = () => {
             pensionFirmName:
               data.payrollSetupInformation?.pensionFirmName || "",
             pensionAccount: data.payrollSetupInformation?.pensionAccount || "",
+            pensionId: data.payrollSetupInformation?.pensionId || "",
             taxNumber: data.payrollSetupInformation?.taxNumber || "",
             optInForPension: data.payrollSetupInformation?.optInForPension ?? true,
           },
@@ -536,6 +538,16 @@ export const EditEmployee = () => {
                       required
                     />
                   </BaseFieldSet>
+                    <BaseFieldSet>
+                    <Label>Pension Id</Label>
+                    <BaseInput
+                      type="text"
+                      name="pensionId"
+                      value={employee.payrollSetup.pensionId}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
+                      required
+                    />
+                  </BaseFieldSet>
                   <BaseFieldSet>
                     <Label>Tax Identification Number</Label>
                     <BaseInput
@@ -685,9 +697,10 @@ export const EditEmployee = () => {
                   <BaseFieldSet>
                     <Label>Phone Number</Label>
                     <BaseInput
-                      type="tel"
+                      type="number"
                       name="phone"
                       value={employee.emergencyContactInfo.phone}
+                      pattern="^\+?[0-9]{7,15}$"
                       onChange={(e) => handleChange(e, "emergencyContactInfo")}
                       required
                     />

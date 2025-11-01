@@ -128,7 +128,7 @@ export const Department = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'department-upload-template.csv';
+      link.download = 'department-upload-template.xlsx';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

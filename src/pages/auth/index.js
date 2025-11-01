@@ -119,10 +119,10 @@ export const Auth = () => {
         <form className="auth-form" onSubmit={handleSubmit}>
           <legend>Enter your email and password to continue</legend>
           <BaseFieldSet>
-            <Label>Email/Phone*</Label>
+            <Label>Email*</Label>
             <BaseInput
               name="email"
-              placeholder="Enter Email/Phone"
+              placeholder="Enter Email"
               value={formDetails.email}
               onChange={(e) => handleChange(e)}
             />
@@ -153,6 +153,18 @@ export const Auth = () => {
                 {showPassword ? "Hide" : "Show"}
             </span>
           </BaseFieldSet>
+                    <div style={{ width: "100%" }}>
+            <Span
+              style={{
+              color: "#4E57BB",
+              cursor: "pointer",
+              textDecoration: "underline",
+              }}
+              onClick={() => navigate("/forgot-password")}
+            >
+              Forgot Password?
+           </Span>
+          </div>
           <BaseButton type="submit" backgroundcolor={"#4E57BB"}>
             {isLoading ? (
               <DotLoader size={20} color="white" className="dotLoader" />

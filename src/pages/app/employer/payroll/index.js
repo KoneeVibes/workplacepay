@@ -20,8 +20,8 @@ import { PaymentModal } from "../../../../containers/app/modals/paymentmodal";
 import { ManageEmployeePayslipModal } from "../../../../containers/app/modals/manageemployeepayslip";
 import { DotLoader } from "react-spinners";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
-import { getAllEmployees } from "../../../../utils/apis/employee/getAllEmployees";
 import { savePayrollService } from "../../../../utils/apis/payroll/savePayroll";
+import { getEligibleEmployees } from "../../../../utils/apis/payroll/getEligibleEmployees";
 
 export const Payroll = () => {
     const startDate = 2020;
@@ -210,7 +210,7 @@ export const Payroll = () => {
             return setError("Please select a month and year");
         };
         try {
-            const response = await getAllEmployees(TOKEN, COMPANY_ID, {
+            const response = await getEligibleEmployees(TOKEN, COMPANY_ID, payrollPeriod.month,payrollPeriod.year, {
                 employeeName: "",
                 departmentId: "",
                 jobTitle: "",

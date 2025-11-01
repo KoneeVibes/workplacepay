@@ -43,6 +43,23 @@ export const PasswordResetArea = () => {
     setIsSuccessModalOpen(false);
     return navigate("/login");
   };
+  const validatePassword = (newPassword, confirmPassword) => {
+  const minLength = 8;
+  const hasUppercase = /[A-Z]/.test(newPassword);
+  const hasLowercase = /[a-z]/.test(newPassword);
+  const hasNumber = /[0-9]/.test(newPassword);
+  if (newPassword.length < minLength)
+    return "Password must be at least 8 characters long.";
+  if (!hasUppercase)
+    return "Password must contain at least one uppercase letter.";
+  if (!hasLowercase)
+    return "Password must contain at least one lowercase letter.";
+  if (!hasNumber)
+    return "Password must contain at least one number.";
+  if (newPassword !== confirmPassword)
+    return "Passwords do not match.";
+  return null; 
+};
 
   const handlePersistModal = () => {
     return setIsSuccessModalOpen(true);
@@ -52,6 +69,15 @@ export const PasswordResetArea = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+     const validationError = validatePassword(
+    formDetails.newPassword,
+    formDetails.confirmPassword
+  );
+
+  if (validationError) {
+    setError(validationError);
+    return; 
+  }
     setLoading(true);
     try {
       const response = await passwordReset(token, formDetails);

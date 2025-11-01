@@ -121,12 +121,47 @@ export const GetStarted = () => {
       console.error("Set password failed:", error);
     }
   };
+   
+  const validatePassword = (password, confirmPassword) => {
+  const minLength = 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  // const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  if (password.length < minLength)
+    return "Password must be at least 8 characters long.";
+  if (!hasUppercase)
+    return "Password must contain at least one uppercase letter.";
+  if (!hasLowercase)
+    return "Password must contain at least one lowercase letter.";
+  if (!hasNumber)
+    return "Password must contain at least one number.";
+  // if (!hasSpecial)
+  //   return "Password must contain at least one special character (!@#$%^&*).";
+  if (password !== confirmPassword)
+    return "Passwords do not match.";
+  return null; 
+};
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (step === 1) {
       return await handleVerifyEmail();
     }
+    const passwordError = validatePassword(
+    formDetails.password,
+    formDetails.confirmPassword
+  );
+   if (passwordError) {
+    setError(passwordError);
+    return; 
+   }
+  //   if (formDetails.password !== formDetails.confirmPassword) {
+  //   setError("Passwords do not match.");
+  //   return;
+  // }
     setError(null);
     setIsLoading(true);
     await handleSetPassword();
@@ -186,7 +221,7 @@ export const GetStarted = () => {
                       required
                       value={formDetails.password}
                       onChange={(e) => handleChange(e)}
-                      style={{ paddingRight: "60px" }}
+                      style={{ paddingRight: "60px",  borderColor:error && error.toLowerCase().includes("password") ? "red" : "#ccc", }}
                       />
                       <span
                         onClick={() => togglePasswordVisibility("password")}

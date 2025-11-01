@@ -10,7 +10,7 @@ import { BaseInput } from "../../../../components/form/input/styled";
 import { BaseButton } from "../../../../components/button/styled";
 import { DotLoader } from "react-spinners";
 import { updateBankDetailsService } from "../../../../utils/apis/user/updateBankDetails";
-import { updateContactDetailsService } from "../../../../utils/apis/user/updateContactDetails";
+// import { updateContactDetailsService } from "../../../../utils/apis/user/updateContactDetails";
 import { SuccessModal } from "../../../../containers/app/modals/successmodal";
 import { useNavigate } from "react-router-dom";
 import { BaseSelect } from "../../../../components/form/select/styled";
@@ -18,6 +18,7 @@ import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 import { EditIcon } from "../../../../assets";
 import defaultHeadshot from "../../../../assets/images/profilebasefavicon.svg";
 import { updateUserProfilePictureService } from "../../../../utils/apis/user/updateUserProfilePhoto";
+import { updateEmergencyContactDetailsService } from "../../../../utils/apis/user/updateEmergencyContactDetails";
 
 export const EmployeeProfile = () => {
   const cookies = new Cookies();
@@ -31,6 +32,7 @@ export const EmployeeProfile = () => {
   const [error, setError] = useState(null);
   const Navigate = useNavigate();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
   const [isContactSubmitLoading, setIsContactSubmitLoading] = useState(false);
   const [isBankDetailsSubmitLoading, setIsBankDetailsSubmitLoading] =
     useState(false);
@@ -40,10 +42,12 @@ export const EmployeeProfile = () => {
     pensionFirmName: "",
     pensionAccount: "",
   });
-  const [contactDetails, setContactDetails] = useState({
+  const [emergencyContactDetails, setEmergencyContactDetails] = useState({
+    title: "",
     fullName: "",
-    address: "",
+    relationship:"",
     phone: "",
+    address: "",
   });
   const [banks, setBanks] = useState([]);
   const [headshotPreview, setHeadshotPreview] = useState(null);
@@ -75,11 +79,13 @@ export const EmployeeProfile = () => {
           pensionFirmName: data.payrollSetupInformation?.pensionFirmName,
           pensionAccount: data.payrollSetupInformation?.pensionAccount,
         }));
-        setContactDetails((prev) => ({
+        setEmergencyContactDetails((prev) => ({
           ...prev,
+          title: data.emergencyContactInformation?.title,
           fullName: data.emergencyContactInformation?.fullName,
-          address: data.emergencyContactInformation?.address,
+          relationship: data.emergencyContactInformation?.relationship,
           phone: data.emergencyContactInformation?.phone,
+          address: data.emergencyContactInformation?.address,
         }));
       })
       .catch((err) => {
@@ -116,9 +122,9 @@ export const EmployeeProfile = () => {
     return setIsSuccessModalOpen(true);
   };
 
-  const handleContactDetailsChange = (e) => {
+  const handleEmergencyContactDetailsChange = (e) => {
     const { name, value } = e.target;
-    setContactDetails((prev) => ({
+    setEmergencyContactDetails((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -157,6 +163,7 @@ export const EmployeeProfile = () => {
       if (response.status) {
         setIsBankDetailsSubmitLoading(false);
         setIsSuccessModalOpen(true);
+        setLastUpdate("bank");   
 
       } else {
         setIsBankDetailsSubmitLoading(false);
@@ -198,15 +205,16 @@ export const EmployeeProfile = () => {
     }
   };
 
-  const handleContactDetailsUpdate = async (e) => {
+  const handleEmergencyContactDetailsUpdate = async (e) => {
     e.preventDefault();
     setError(null);
     setIsContactSubmitLoading(true);
     try {
-      const response = await updateContactDetailsService(TOKEN, contactDetails);
+      const response = await updateEmergencyContactDetailsService(TOKEN, emergencyContactDetails);
       if (response.status) {
         setIsContactSubmitLoading(false);
         setIsSuccessModalOpen(true);
+        setLastUpdate("contact");   
       } else {
         setIsContactSubmitLoading(false);
         setError(
@@ -217,7 +225,7 @@ export const EmployeeProfile = () => {
         );
       }
     } catch (error) {
-      setIsBankDetailsSubmitLoading(false);
+      setIsContactSubmitLoading(false);
       setError(`Update contact failed. ${error.message}`);
       console.error("Update contact failed:", error);
     }
@@ -231,7 +239,13 @@ export const EmployeeProfile = () => {
           handleClickOutside={handlePersistModal}
           className={"Update-contact-success-modal"}
           title={"Success"}
-          message={"employee contact updated successfully"}
+          message={
+             lastUpdate === "bank"
+             ? "Bank details updated successfully"
+             : lastUpdate === "contact"
+             ? "Contact details updated successfully"
+              : ""
+          }
           callToAction={"Close"}
           handleCallToActionClick={handleCloseSuccessModal}
         />
@@ -292,7 +306,8 @@ export const EmployeeProfile = () => {
               )}
             </Column>
             {employeeProfilePictureUpdateError &&
-              <P style={{ color: "red", marginBlockEnd: 0 }}>                 {employeeProfilePictureUpdateError}
+              <P style={{ color: "red", marginBlockEnd: 0 }}>                 
+              {employeeProfilePictureUpdateError}
               </P>
             }
           </div>
@@ -434,7 +449,26 @@ export const EmployeeProfile = () => {
           </div>
         </div>
         <div className="details contact-details">
-          <H2>Contact Details</H2>
+          <H2>Emergency Contact Details</H2>
+          <Row>
+            <div className="detail-label">
+              <Label>Title</Label>
+            </div>
+            <div className="detail-field">
+               <BaseSelect
+                  required
+                  name="title"
+                  value={emergencyContactDetails.title}
+                  onChange={handleEmergencyContactDetailsChange}
+              >
+                  <option value="" hidden></option>
+                  <option value="Mr">Mr</option>
+                  <option value="Mrs">Mrs</option>
+                  <option value="Miss">Miss</option>
+                  <option value="Other">Other</option>
+               </BaseSelect>
+            </div>
+          </Row>
           <Row>
             <div className="detail-label">
               <Label>Contact Name</Label>
@@ -443,10 +477,28 @@ export const EmployeeProfile = () => {
               <BaseInput
                 type="text"
                 name="fullName"
-                value={contactDetails.fullName}
-                onChange={handleContactDetailsChange}
+                value={emergencyContactDetails.fullName}
+                onChange={handleEmergencyContactDetailsChange}
                 required
               />
+            </div>
+          </Row>
+            <Row>
+            <div className="detail-label">
+              <Label>Relationship</Label>
+            </div>
+            <div className="detail-field">
+              <BaseSelect
+               required
+               name="relationship"
+               value={emergencyContactDetails.relationship}
+               onChange={handleEmergencyContactDetailsChange}
+              >
+                  <option value="" hidden></option>
+                  <option value="Father">Father</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Other">Other</option>
+              </BaseSelect>
             </div>
           </Row>
           <Row>
@@ -457,8 +509,8 @@ export const EmployeeProfile = () => {
               <BaseInput
                 type="text"
                 name="address"
-                value={contactDetails.address}
-                onChange={handleContactDetailsChange}
+                value={emergencyContactDetails.address}
+                onChange={handleEmergencyContactDetailsChange}
                 required
               />
             </div>
@@ -471,8 +523,8 @@ export const EmployeeProfile = () => {
               <BaseInput
                 type="text"
                 name="phone"
-                value={contactDetails.phone}
-                onChange={handleContactDetailsChange}
+                value={emergencyContactDetails.phone}
+                onChange={handleEmergencyContactDetailsChange}
                 required
               />
             </div>
@@ -488,7 +540,7 @@ export const EmployeeProfile = () => {
             <BaseButton
               backgroundcolor={"#4E57BB"}
               width={"-webkit-fill-available"}
-              onClick={handleContactDetailsUpdate}
+              onClick={handleEmergencyContactDetailsUpdate}
             >
               {isContactSubmitLoading ? (
                 <DotLoader size={20} color="white" className="dotLoader" />

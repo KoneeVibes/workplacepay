@@ -30,6 +30,8 @@ import { Companies } from "./pages/app/admin/companies";
 import { Pricing } from "./pages/app/admin/pricing";
 import { Billing } from "./pages/app/admin/billing";
 import { RouteProtector } from "./routeprotector";
+import { ForgotPassword } from "./pages/forgotpassword";
+import {SetNewPassword} from "./pages/setnewpassword";
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
         <Route path="/refer" element={<ReferYourEmployer />} />
         <Route path="/setup" element={<SetUpYourCompany />} />
         <Route path="/login" element={<Auth />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/user/:userId/setnewpassword" element={<SetNewPassword/>} />
         <Route element={<RouteProtector />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/payrollsettings" element={<PayrollSettings />} />

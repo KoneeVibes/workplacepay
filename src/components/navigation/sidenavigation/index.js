@@ -15,15 +15,16 @@ import { getUser } from "../../../utils/apis/user/getUser";
 
 export const SideNavigation = ({ location, callToAction, handleCallToActionClick }) => {
     const cookie = new Cookies();
-    const { ROLE, TOKEN, COMPANY_ID } = cookie.getAll() ?? {};
+    const { ROLE, TOKEN } = cookie.getAll() ?? {};
 
     const navigate = useNavigate();
-    const { setIsSideNavigationOpen, setIsResetPasswordModalOpen } = useContext(Context);
+    const { setIsSideNavigationOpen, setIsResetPasswordModalOpen,activeCompanyId, setActiveCompanyId } = useContext(Context);
+    
 
     const [matches, setMatches] = useState(false);
     const [isUserProfileDropdownOpen, setIsUserProfileDropdownOpen] = useState(false);
     const [userCompanies, setUserCompanies] = useState([]);
-    const [activeCompanyId, setActiveCompanyId] = useState(COMPANY_ID);
+    // const [activeCompanyId, setActiveCompanyId] = useState(COMPANY_ID);
     const [isUserCompaniesDropdownOpen, setIsUserCompaniesDropdownOpen] = useState(false);
     const [isSubItemsOpen, setIsSubItemsOpen] = useState(true);
     const [loggedInUser, setLoggedInUser] = useState({});
@@ -75,7 +76,9 @@ export const SideNavigation = ({ location, callToAction, handleCallToActionClick
             path: "/",
             maxAge: 1000000,
         });
-        return setActiveCompanyId(id);
+         setActiveCompanyId(id);
+         setIsUserCompaniesDropdownOpen(false);
+         navigate("/dashboard");
     }
 
     useEffect(() => {
@@ -109,6 +112,8 @@ export const SideNavigation = ({ location, callToAction, handleCallToActionClick
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+
 
     return (
         <SideNavigationWrapper

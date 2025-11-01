@@ -37,12 +37,12 @@ export const Pricing = () => {
         };
     }, [isSuccessModalOpen, setIsPlansAndPricingModalOpen]);
 
-    const handleOpenPlanSetupModal = (e) => {
-        e.stopPropagation();
-        setFlag("create");
-        setSelectedPlanId(null);
-        return !isPlansAndPricingModalOpen && setIsPlansAndPricingModalOpen(true)
-    };
+    // const handleOpenPlanSetupModal = (e) => {
+    //     e.stopPropagation();
+    //     setFlag("create");
+    //     setSelectedPlanId(null);
+    //     return !isPlansAndPricingModalOpen && setIsPlansAndPricingModalOpen(true)
+    // };
 
     const handleOpenPlanUpdateModal = (e, planId) => {
         e.stopPropagation();
@@ -66,9 +66,9 @@ export const Pricing = () => {
         <Layout
             id={"pricing"}
             title={"Plans & Pricing"}
-            location={"pricing"}
-            callToAction={"Add new plan"}
-            handleCallToActionClick={handleOpenPlanSetupModal}
+            // location={"pricing"}
+            // callToAction={"Add new plan"}
+            //  handleCallToActionClick={handleOpenPlanSetupModal}
         >
             <PricingWrapper>
                 <SuccessModal

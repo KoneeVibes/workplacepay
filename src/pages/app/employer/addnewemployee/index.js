@@ -25,6 +25,7 @@ import { formatDateToDDMMYYYY } from "../../../../config/app/dateFormatter";
 import { getDepartments } from "../../../../utils/apis/department/getDepartments";
 import { retrieveAllBanks } from "../../../../utils/external/fetchAllBanks";
 
+
 export const AddNewEmployee = () => {
   const cookies = new Cookies();
   const COMPANY_ID = cookies.get("COMPANY_ID");
@@ -54,6 +55,7 @@ export const AddNewEmployee = () => {
         salaryBankAccount: "",
         pensionFirmName: "",
         pensionAccount: "",
+        pensionId: "",
         taxNumber: "",
         optInForPension: true,
       },
@@ -84,6 +86,8 @@ export const AddNewEmployee = () => {
   const [banks, setBanks] = useState([]);
   const [formDetails, setFormDetails] = useState(initialFormDetails);
 
+  
+
   const handleChange = (e, section) => {
     const { name, value, type, checked } = e.target;
     setFormDetails((prev) => ({
@@ -102,11 +106,14 @@ export const AddNewEmployee = () => {
   };
 
   const handleClickNext = async (e, step) => {
+    e.preventDefault();
+    const form = document.querySelector("form");
+    if (form && !form.reportValidity()) {
+    return;
+  }
     if (step === 2) {
       return await handleSubmit(e);
     }
-    // perform form validation here to ensure that all the fields
-    // in step one have been entered
     setStep((prev) => {
       return prev + 1;
     });
@@ -199,6 +206,7 @@ export const AddNewEmployee = () => {
     fetchAllBanks();
   }, [REACT_APP_PAYSTACK_SK]);
 
+
   return (
     <Layout id={"employees"} title={"Add new employee"}>
       <AddNewEmployeeWrapper>
@@ -241,7 +249,7 @@ export const AddNewEmployee = () => {
                     />
                   </BaseFieldSet>
                   <BaseFieldSet>
-                    <Label> Name</Label>
+                    <Label> Other Name</Label>
                     <BaseInput
                       type="text"
                       name="othername"
@@ -376,6 +384,7 @@ export const AddNewEmployee = () => {
                   <BaseFieldSet>
                     <Label>Salary Bank Name</Label>
                     <BaseSelect
+                      required
                       name="salaryBankName"
                       value={formDetails.payrollSetup.salaryBankName}
                       onChange={(e) => handleChange(e, "payrollSetup")}
@@ -406,6 +415,7 @@ export const AddNewEmployee = () => {
                   <BaseFieldSet>
                     <Label>Pension Firm Name</Label>
                     <BaseSelect
+                      required
                       name="pensionFirmName"
                       value={formDetails.payrollSetup.pensionFirmName}
                       onChange={(e) => handleChange(e, "payrollSetup")}
@@ -429,6 +439,16 @@ export const AddNewEmployee = () => {
                       type="text"
                       name="pensionAccount"
                       value={formDetails.payrollSetup.pensionAccount}
+                      onChange={(e) => handleChange(e, "payrollSetup")}
+                      required
+                    />
+                  </BaseFieldSet>
+                   <BaseFieldSet>
+                    <Label>Pension Id</Label>
+                    <BaseInput
+                      type="text"
+                      name="pensionId"
+                      value={formDetails.payrollSetup.pensionId}
                       onChange={(e) => handleChange(e, "payrollSetup")}
                       required
                     />
@@ -462,6 +482,7 @@ export const AddNewEmployee = () => {
                   <BaseFieldSet>
                     <Label>Next of Kin’s Title</Label>
                     <BaseSelect
+                      required
                       name="title"
                       value={formDetails.nextofKinInfo.title}
                       onChange={(e) => handleChange(e, "nextofKinInfo")}
@@ -522,6 +543,7 @@ export const AddNewEmployee = () => {
                   <BaseFieldSet>
                     <Label>Contact’s Title</Label>
                     <BaseSelect
+                      required
                       name="title"
                       value={formDetails.emergencyContactInfo.title}
                       onChange={(e) => handleChange(e, "emergencyContactInfo")}
@@ -548,6 +570,7 @@ export const AddNewEmployee = () => {
                   <BaseFieldSet>
                     <Label>Relationship</Label>
                     <BaseSelect
+                      required
                       name="relationship"
                       value={formDetails.emergencyContactInfo.relationship}
                       onChange={(e) => handleChange(e, "emergencyContactInfo")}

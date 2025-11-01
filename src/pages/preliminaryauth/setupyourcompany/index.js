@@ -12,6 +12,7 @@ import { DotLoader } from "react-spinners";
 import { getAllPlans } from "../../../utils/apis/plansandpricing/getAllPlans";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../../utils/apis/user/getUser";
 
 export const SetUpYourCompany = () => {
     const cookies = new Cookies();
@@ -41,6 +42,34 @@ export const SetUpYourCompany = () => {
                 console.error("Failed to fetch payroll plans:", err);
             });
     }, [TOKEN]);
+   
+    useEffect(() => {
+    const fetchUser = async () => {
+        try {
+            const userData = await getUser(TOKEN);
+            if (userData && userData.fullName) {
+                const nameParts = userData.fullName.trim().split(" ");
+                const surname = nameParts[0] || "";
+                const firstName = nameParts.length > 1 ? nameParts[1] : "";
+                const othername = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
+                setFormDetails((prev) => ({
+                    ...prev,
+                    firstName,
+                    surname,
+                    othername,
+                }));
+            }
+        } catch (error) {
+            console.error("Failed to fetch user data:", error);
+        }
+    };
+         if (TOKEN) {
+            fetchUser();
+        }
+    }, [TOKEN]);
+
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,6 +82,10 @@ export const SetUpYourCompany = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+         if (!formDetails.companyPlan) {
+             setError("Please select a payroll plan");
+             return; 
+         }
         setIsLoading(true);
         try {
             const response = await setupCompanyService(TOKEN, formDetails);
@@ -70,6 +103,7 @@ export const SetUpYourCompany = () => {
             console.error('Setup failed:', error);
         }
     };
+
 
     return (
         <SetUpYourCompanyWrapper>
@@ -115,7 +149,7 @@ export const SetUpYourCompany = () => {
                                     required
                                     name="surname"
                                     placeholder="Enter Last Name"
-                                    value={formDetails.lastName}
+                                    value={formDetails.surname}
                                     onChange={(e) => handleChange(e)}
                                 />
                             </BaseFieldSet>
@@ -146,7 +180,7 @@ export const SetUpYourCompany = () => {
                             </BaseFieldSet>
                             <BaseFieldSet>
                                 <Label>
-                                    Phone Number
+                                    Company Phone Number
                                 </Label>
                                 <BaseInput
                                     required

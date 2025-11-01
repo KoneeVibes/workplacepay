@@ -8,6 +8,8 @@ import { BaseButton } from "../../../components/button/styled";
 import { referEmployer } from "../../../utils/apis/referral/referEmployer";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { SuccessModal } from "../../../containers/app/modals/successmodal";
+
 
 export const ReferYourEmployer = () => {
     const navigate = useNavigate();
@@ -20,6 +22,7 @@ export const ReferYourEmployer = () => {
     });
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +40,8 @@ export const ReferYourEmployer = () => {
             const response = await referEmployer(referForm);
             if (response.status === "success") {
                 setIsLoading(false);
-                navigate("/");
+                setIsSuccessModalOpen(true);
+
             } else {
                 setIsLoading(false);
                 setError('Authentication failed. Please check your credentials and try again.');
@@ -48,9 +52,29 @@ export const ReferYourEmployer = () => {
             console.error('Login failed:', error);
         }
     }
+    const handleCloseSuccessModal = () => {
+     setIsSuccessModalOpen(false);
+     navigate("/");
+    };
+    
+    const handlePersistModal = () => {
+        return setIsSuccessModalOpen(true);
+    };
+
 
     return (
+        <>
+        <SuccessModal
+             open={isSuccessModalOpen}
+             handleClickOutside={handlePersistModal}
+             className={"update-plan-success-modal"}
+             title={"Success"}
+             message={"Employer referral submitted successfully"}
+             callToAction={"Close"}
+             handleCallToActionClick={handleCloseSuccessModal}
+         />
         <ReferYourEmployerWrapper tocolumn={true}>
+              
             <div className="refer-text">
                 <div className="logo-box-area">
                     <Logo />
@@ -105,6 +129,7 @@ export const ReferYourEmployer = () => {
                         <BaseFieldSet>
                             <Label>Company Email</Label>
                             <BaseInput
+                                type="email"
                                 name="companyEmail"
                                 placeholder="Company Email"
                                 value={referForm.companyEmail}
@@ -129,6 +154,9 @@ export const ReferYourEmployer = () => {
                     </div>
                 </form>
             </div>
+      
         </ReferYourEmployerWrapper>
+        </>
+
     )
 }
