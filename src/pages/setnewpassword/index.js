@@ -80,7 +80,6 @@ export const SetNewPassword = () => {
       setIsLoading(false);
       return;
         };
-            console.log("Sending token:", finalToken);
     try {
       const response = await setNewPassword(finalToken, payload.newPassword, payload.confirmNewPassword);
         setSuccess(response.message || "Password reset succesfully!");
