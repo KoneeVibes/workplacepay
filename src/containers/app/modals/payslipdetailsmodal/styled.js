@@ -132,6 +132,7 @@ export const PayslipDetailsModalWrapper = styled("div")(() => {
                     display: "none",
                 }
             },
-        }
+        },
+        
     }
 })

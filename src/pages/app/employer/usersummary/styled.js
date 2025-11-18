@@ -87,6 +87,15 @@ export const UserSummaryWrapper = styled("div")(() => {
                     gap: "0",
                 }
             }
-        }
+        },
+             "& .summary-button": {
+                position: "relative",
+                padding: "0 var(--cardPadding) var(--cardPadding)",
+                "& button": {
+                    overflow: "hidden",
+                    // padding: "calc(var(--cardPadding)/4) calc(var(--cardPadding)/4)",  
+                }
+            },
+        
     }
 })

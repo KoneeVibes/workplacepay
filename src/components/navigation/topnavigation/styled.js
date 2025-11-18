@@ -23,7 +23,7 @@ export const TopNavigationWrapper = styled(Row)(({ location }) => {
       },
       "& .add-employee-button": {
         display:
-          location === "dashboard" || location === "employees" || location === "departments" || location === "employer-profile" || location === "payroll" || location === "summary" || location === "variance" || location === "general-report" || location === "paye" || location === "pension" || location === "pricing"
+          location === "dashboard" || location === "employees" || location === "departments" || location === "employer-profile" || location === "payroll" || location === "summary" || location === "variance" || location === "general-report" || location === "paye" || location === "pension" || location === "pricing" || location === "user-summary"
             ? "inline-flex"
             : "none",
         alignItems: "center",
