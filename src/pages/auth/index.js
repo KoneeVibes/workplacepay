@@ -13,6 +13,7 @@ import { signInUser } from "../../utils/apis/authentication/signin";
 import { getCompanies } from "../../utils/apis/company/getCompanies";
 import { SelectCompaniesModal } from "../../containers/app/modals/selectcompaniesmodal";
 import { Context } from "../../context";
+import { AuthContext } from "../../context/auth";
 
 export const Auth = () => {
   const cookies = new Cookies();
@@ -20,6 +21,7 @@ export const Auth = () => {
 
   const navigate = useNavigate();
   const { setIsSelectCompaniesModalOpen } = useContext(Context);
+  const { handleLogin } = useContext(AuthContext);
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,10 +56,7 @@ export const Auth = () => {
       const response = await signInUser(formDetails);
       if (response.status) {
         setIsLoading(false);
-        cookies.set("TOKEN", response.token, {
-          path: "/",
-          maxAge: 1000000,
-        });
+        handleLogin(response.token, response.refreshToken);
         cookies.set("ROLE", response.role, {
           path: "/",
           maxAge: 1000000,

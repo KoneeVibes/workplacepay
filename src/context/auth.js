@@ -4,32 +4,72 @@ import { getRefreshToken } from "../utils/apis/user/refreshToken";
 
 export const AuthContext = createContext();
 
-const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
-const REFRESH_INTERVAL = 4 * 60 * 1000;   
+const INACTIVITY_TIMEOUT = 5 * 60 * 1000; 
+const REFRESH_INTERVAL = 4 * 60 * 1000;  
 
 export const AuthContextProvider = ({ children }) => {
   const cookies = useMemo(() => new Cookies(), []);
-  const TOKEN = cookies.get("TOKEN");
-
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(!!TOKEN);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const lastActivityTimeRef = useRef(Date.now());
+  const lastActivityTimeRef = useRef(null);
   const refreshTimeoutRef = useRef(null);
-  const inactivityIntervalRef = useRef(null);
-
-  const handleRefreshTokenRef = useRef();
-
+  const inactivityTimeoutRef = useRef(null); 
+  const isMountedRef = useRef(true);
+  const hasInitializedRef = useRef(false);
 
   useEffect(() => {
-    handleRefreshTokenRef.current = handleRefreshToken;
-  });
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      if (refreshTimeoutRef.current) {
+        clearTimeout(refreshTimeoutRef.current);
+        refreshTimeoutRef.current = null;
+      }
+      if (inactivityTimeoutRef.current) {
+        clearTimeout(inactivityTimeoutRef.current);
+        inactivityTimeoutRef.current = null;
+      }
+    };
+  }, []);
+
+  const clearTimers = useCallback(() => {
+    if (refreshTimeoutRef.current) {
+      clearTimeout(refreshTimeoutRef.current);
+      refreshTimeoutRef.current = null;
+    }
+    if (inactivityTimeoutRef.current) {
+      clearTimeout(inactivityTimeoutRef.current);
+      inactivityTimeoutRef.current = null;
+    }
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    clearTimers();
+    cookies.remove("TOKEN", { path: "/" });
+    cookies.remove("REFRESH_TOKEN", { path: "/" });
+    lastActivityTimeRef.current = null;
+    hasInitializedRef.current = false;
+    setIsAuthenticated(false);
+    window.location.href = "/login";
+  }, [cookies, clearTimers]);
+
+
+  const scheduleInactivityTimeout = useCallback(() => {
+    if (inactivityTimeoutRef.current) {
+      clearTimeout(inactivityTimeoutRef.current);
+    }
+    inactivityTimeoutRef.current = setTimeout(() => {
+      handleLogout();
+    }, INACTIVITY_TIMEOUT);
+  }, [handleLogout]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
 
     const updateActivity = () => {
       lastActivityTimeRef.current = Date.now();
+      scheduleInactivityTimeout(); 
     };
 
     const events = ["click", "mousemove", "keydown", "scroll"];
@@ -42,102 +82,84 @@ export const AuthContextProvider = ({ children }) => {
         window.removeEventListener(event, updateActivity)
       );
     };
-  }, [isAuthenticated]);
-
-  const handleLogout = useCallback(() => {
-    if (refreshTimeoutRef.current) {
-      clearTimeout(refreshTimeoutRef.current);
-    }
-    if (inactivityIntervalRef.current) {
-      clearInterval(inactivityIntervalRef.current);
-    }
-
-    cookies.remove("TOKEN", { path: "/" });
-    cookies.remove("REFRESH_TOKEN", { path: "/" });
-    setIsAuthenticated(false);
-    window.location.href = "/login";
-  }, [cookies]);
+  }, [isAuthenticated, scheduleInactivityTimeout]);
 
   const scheduleRefresh = useCallback(() => {
     if (refreshTimeoutRef.current) {
       clearTimeout(refreshTimeoutRef.current);
+      refreshTimeoutRef.current = null;
     }
-    refreshTimeoutRef.current = setTimeout(() => {
-      const now = Date.now();
-      const inactivity = now - lastActivityTimeRef.current;
-      if (inactivity >= INACTIVITY_TIMEOUT) {
+
+    refreshTimeoutRef.current = setTimeout(async () => {
+      if (!isMountedRef.current) return;
+
+      try {
+        const refreshToken = cookies.get("REFRESH_TOKEN");
+        if (!refreshToken) throw new Error("No refresh token found");
+
+        const res = await getRefreshToken(refreshToken);
+        const { token, refreshToken: newRefreshToken } = res;
+
+        cookies.set("TOKEN", token, { path: "/", maxAge: 60 * 60 });
+        cookies.set("REFRESH_TOKEN", newRefreshToken, {
+          path: "/",
+          maxAge: 7 * 24 * 60 * 60,
+        });
+
+        if (isMountedRef.current) {
+          scheduleRefresh();
+        }
+      } catch (err) {
+        console.error("Failed to refresh token", err);
         handleLogout();
-        return;
       }
-    
-      handleRefreshTokenRef.current?.();
     }, REFRESH_INTERVAL);
-  }, [handleLogout]);
+  }, [cookies, handleLogout]);
 
-  const handleRefreshToken = useCallback(async () => {
-    try {
-      const refreshToken = cookies.get("REFRESH_TOKEN");
-      if (!refreshToken) throw new Error("No refresh token found");
+  const handleLogin = useCallback((token, refreshToken) => {
+    cookies.set("TOKEN", token, { path: "/", maxAge: 60 * 60 });
+    cookies.set("REFRESH_TOKEN", refreshToken, {
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
 
-      const res = await getRefreshToken(refreshToken);
-      const { token, refreshToken: newRefreshToken } = res;
-
-      cookies.set("TOKEN", token, { path: "/", maxAge: 60 * 60 });
-      cookies.set("REFRESH_TOKEN", newRefreshToken, {
-        path: "/",
-        maxAge: 7 * 24 * 60 * 60,
-      });
-
-      setIsAuthenticated(true);
-      scheduleRefresh();
-    } catch (err) {
-      console.error("Failed to refresh token", err);
-      handleLogout();
-    }
-  }, [cookies, handleLogout, scheduleRefresh]);
+    setIsAuthenticated(true);
+    lastActivityTimeRef.current = Date.now();
+    hasInitializedRef.current = true;
+    scheduleRefresh();
+    scheduleInactivityTimeout(); 
+  }, [cookies, scheduleRefresh, scheduleInactivityTimeout]);
 
   useEffect(() => {
+    if (hasInitializedRef.current) return;
+
     const token = cookies.get("TOKEN");
+    
     if (token) {
       setIsAuthenticated(true);
+      lastActivityTimeRef.current = Date.now();
+      hasInitializedRef.current = true;
       scheduleRefresh();
+      scheduleInactivityTimeout(); 
     } else {
       setIsAuthenticated(false);
     }
-    setTimeout(() => setLoading(false), 300);
-  }, [cookies, scheduleRefresh]);
+    setLoading(false);
+  }, [cookies, scheduleRefresh, scheduleInactivityTimeout]);
 
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-
-    const checkInactivity = () => {
-      const now = Date.now();
-      const inactivity = now - lastActivityTimeRef.current;
-      if (inactivity >= INACTIVITY_TIMEOUT) {
-        handleLogout();
-      }
-    };
-
-    inactivityIntervalRef.current = setInterval(checkInactivity, 60 * 1000); 
-
-    return () => {
-      if (inactivityIntervalRef.current) {
-        clearInterval(inactivityIntervalRef.current);
-      }
-    };
-  }, [isAuthenticated, handleLogout]);
+  const contextValue = useMemo(
+    () => ({
+      isAuthenticated,
+      loading,
+      handleLogout,
+      handleLogin,
+      setIsAuthenticated,
+    }),
+    [isAuthenticated, loading, handleLogout, handleLogin]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated,
-        loading,
-        handleLogout,
-        handleRefreshToken,
-        setIsAuthenticated,
-      }}
-    >
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
