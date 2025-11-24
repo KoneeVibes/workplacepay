@@ -103,8 +103,13 @@ export const SetUpYourCompany = () => {
             console.error('Setup failed:', error);
         }
     };
-
-
+    const isNamePrefilled = () => {
+        return (
+            formDetails.firstName.trim() !== "" ||
+            formDetails.surname.trim() !== "" ||
+            formDetails.othername.trim() !== ""
+        );
+    };
     return (
         <SetUpYourCompanyWrapper>
             <Row
@@ -139,6 +144,7 @@ export const SetUpYourCompany = () => {
                                     placeholder="Enter First Name"
                                     value={formDetails.firstName}
                                     onChange={(e) => handleChange(e)}
+                                    readOnly={isNamePrefilled()}
                                 />
                             </BaseFieldSet>
                             <BaseFieldSet>
@@ -151,6 +157,7 @@ export const SetUpYourCompany = () => {
                                     placeholder="Enter Last Name"
                                     value={formDetails.surname}
                                     onChange={(e) => handleChange(e)}
+                                    readOnly={isNamePrefilled()}
                                 />
                             </BaseFieldSet>
                             <BaseFieldSet>
@@ -162,6 +169,7 @@ export const SetUpYourCompany = () => {
                                     placeholder="Enter Other Name"
                                     value={formDetails.othername}
                                     onChange={(e) => handleChange(e)}
+                                    readOnly={isNamePrefilled()}
                                 />
                             </BaseFieldSet>
                         </FieldSetRow>
