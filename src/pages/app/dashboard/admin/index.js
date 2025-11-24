@@ -12,114 +12,134 @@ import { retrieveCreditToPayrollSummary } from "../../../../utils/apis/analytics
 import { retrieveReferralToConversionSummary } from "../../../../utils/apis/analytics/referralToConversionSummary";
 
 export const AdminDashboard = () => {
-    const cookies = new Cookies();
-    const TOKEN = cookies.get("TOKEN");
+	const lineColors = {
+		payrollRun: "rgb(75, 192, 192)",
+		creditConsumed: "rgb(255, 99, 132)",
+	};
 
-    const [filter, setFilter] = useState("");
-    const [companies, setCompanies] = useState([]);
-    const [payrollRun, setPayrollRun] = useState([]);
-    const [creditConsumed, setCreditConsumed] = useState([]);
-    const [creditToPayrollSummary, setCreditToPayrollSummary] = useState({});
-    const [referralToConversionSummary, setReferralToConversionSummary] = useState({});
+	const cookies = new Cookies();
+	const TOKEN = cookies.get("TOKEN");
 
-    const handleChange = (e) => {
-        const { value } = e.target;
-        setFilter(value);
-    };
+	const [filter, setFilter] = useState("");
+	const [companies, setCompanies] = useState([]);
+	const [payrollRun, setPayrollRun] = useState([]);
+	const [creditConsumed, setCreditConsumed] = useState([]);
+	const [creditToPayrollSummary, setCreditToPayrollSummary] = useState({});
+	const [referralToConversionSummary, setReferralToConversionSummary] =
+		useState({});
 
-    useEffect(() => {
-        retrieveCreditToPayrollAnalysis(TOKEN, filter)
-            .then((data) => {
-                setCompanies(data?.["payrolls"]?.map((payroll) => payroll.companyName));
-                setPayrollRun(data?.["payrolls"]?.map((payroll) => payroll.value));
-                setCreditConsumed(data?.["creditConsumed"]?.map((payroll) => payroll.value));
-            })
-            .catch((err) => {
-                console.error("Failed to fetch credit to payroll analysis:", err);
-            });
-    }, [TOKEN, filter]);
+	const handleChange = (e) => {
+		const { value } = e.target;
+		setFilter(value);
+	};
 
-    useEffect(() => {
-        retrieveCreditToPayrollSummary(TOKEN, filter)
-            .then((data) => {
-                setCreditToPayrollSummary(data)
-            })
-            .catch((err) => {
-                console.error("Failed to fetch credit to payroll summary:", err);
-            });
-    }, [TOKEN, filter]);
+	useEffect(() => {
+		retrieveCreditToPayrollAnalysis(TOKEN, filter)
+			.then((data) => {
+				setCompanies(data?.["payrolls"]?.map((payroll) => payroll.companyName));
+				setPayrollRun(data?.["payrolls"]?.map((payroll) => payroll.value));
+				setCreditConsumed(
+					data?.["creditConsumed"]?.map((payroll) => payroll.value)
+				);
+			})
+			.catch((err) => {
+				console.error("Failed to fetch credit to payroll analysis:", err);
+			});
+	}, [TOKEN, filter]);
 
-    useEffect(() => {
-        retrieveReferralToConversionSummary(TOKEN)
-            .then((data) => {
-                setReferralToConversionSummary(data)
-            })
-            .catch((err) => {
-                console.error("Failed to fetch referral to conversion summary:", err);
-            });
-    }, [TOKEN]);
+	useEffect(() => {
+		retrieveCreditToPayrollSummary(TOKEN, filter)
+			.then((data) => {
+				setCreditToPayrollSummary(data);
+			})
+			.catch((err) => {
+				console.error("Failed to fetch credit to payroll summary:", err);
+			});
+	}, [TOKEN, filter]);
 
-    return (
-        <AdminDashboardWrapper>
-            <div
-                className="filter"
-            >
-                <BaseFieldSet>
-                    <Label>Filter by Period</Label>
-                    <BaseSelect
-                        name="month"
-                        onChange={(e) => handleChange(e)}
-                        value={filter}
-                    >
-                        <option value="">All time</option>
-                        <option value="last day">Last one day</option>
-                        <option value="last week">Last week</option>
-                        <option value="last month">Last month</option>
-                        <option value="last three month">Last three months</option>
-                        <option value="last six month">Last six months</option>
-                        <option value="last year">Last year</option>
-                    </BaseSelect>
-                </BaseFieldSet>
-            </div>
-            <Row
-                className="pie-chart-row"
-            >
-                <div
-                    className="pie-chart-container"
-                >
-                    <PieChart
-                        title={"Credits Utilization"}
-                        labels={["Credit Purchased", "Payroll Run"]}
-                        values={creditToPayrollSummary ? [creditToPayrollSummary?.credits, creditToPayrollSummary?.payroll] : [0, 0]}
-                    />
-                </div>
-                <div
-                    className="pie-chart-container"
-                >
-                    <PieChart
-                        title={"Referrals Conversion"}
-                        labels={["Total Referrals", "Total Enrolled"]}
-                        values={referralToConversionSummary ? [referralToConversionSummary?.totalRefferedCompanies, referralToConversionSummary?.totalEnrolledCompanies] : [0, 0]}
-                    />
-                </div>
-            </Row>
-            <div>
-                <LineGraph
-                    title={"Company Performance Graph"}
-                    labels={companies}
-                    datasets={[
-                        {
-                            label: "Payroll Run",
-                            data: payrollRun
-                        },
-                        {
-                            label: "Credit Consumed",
-                            data: creditConsumed
-                        },
-                    ]}
-                    bgColor={"#D9D9D9"}
-                />
-            </div>
-        </AdminDashboardWrapper>
-    )
-}
+	useEffect(() => {
+		retrieveReferralToConversionSummary(TOKEN)
+			.then((data) => {
+				setReferralToConversionSummary(data);
+			})
+			.catch((err) => {
+				console.error("Failed to fetch referral to conversion summary:", err);
+			});
+	}, [TOKEN]);
+
+	return (
+		<AdminDashboardWrapper>
+			<div className="filter">
+				<BaseFieldSet>
+					<Label>Filter by Period</Label>
+					<BaseSelect
+						name="month"
+						onChange={(e) => handleChange(e)}
+						value={filter}
+					>
+						<option value="">All time</option>
+						<option value="last day">Last one day</option>
+						<option value="last week">Last week</option>
+						<option value="last month">Last month</option>
+						<option value="last three month">Last three months</option>
+						<option value="last six month">Last six months</option>
+						<option value="last year">Last year</option>
+					</BaseSelect>
+				</BaseFieldSet>
+			</div>
+			<Row className="pie-chart-row">
+				<div className="pie-chart-container">
+					<PieChart
+						title={"Credits Utilization"}
+						labels={["Credit Purchased", "Payroll Run"]}
+						values={
+							creditToPayrollSummary
+								? [
+										creditToPayrollSummary?.credits,
+										creditToPayrollSummary?.payroll,
+								  ]
+								: [0, 0]
+						}
+					/>
+				</div>
+				<div className="pie-chart-container">
+					<PieChart
+						title={"Referrals Conversion"}
+						labels={["Total Referrals", "Total Enrolled"]}
+						values={
+							referralToConversionSummary
+								? [
+										referralToConversionSummary?.totalRefferedCompanies,
+										referralToConversionSummary?.totalEnrolledCompanies,
+								  ]
+								: [0, 0]
+						}
+					/>
+				</div>
+			</Row>
+			<div>
+				<LineGraph
+					title={"Company Performance Graph"}
+					labels={companies}
+					datasets={[
+						{
+							label: "Payroll Run",
+							data: payrollRun,
+							borderColor: lineColors.payrollRun,
+							backgroundColor: "rgba(75, 192, 192, 0.5)",
+							tension: 0.1,
+						},
+						{
+							label: "Credit Consumed",
+							data: creditConsumed,
+							borderColor: lineColors.creditConsumed,
+							backgroundColor: "rgba(255, 99, 132, 0.5)",
+							tension: 0.1,
+						},
+					]}
+					bgColor={"#D9D9D9"}
+				/>
+			</div>
+		</AdminDashboardWrapper>
+	);
+};
